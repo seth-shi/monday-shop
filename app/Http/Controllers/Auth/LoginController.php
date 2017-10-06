@@ -2,38 +2,52 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\StoreLoginPost;
+use App\Repositories\UserRepository;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    protected $userRepository;
 
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
-        $this->middleware('guest')->except('logout');
+        $this->userRepository = $userRepository;
     }
+
+
+    public function create()
+    {
+        return view('auth.login');
+    }
+
+
+    public function store(StoreLoginPost $request)
+    {
+        $user = $this->userRepository->login($request->input('account'), $request->input('password'));
+
+        // 登录成功
+        if ($user) {
+
+            if (! $this->userRepository->isActive($user))
+            {
+                // 跳回登录页面提示错误信息
+                return back()->withInput()->with('account', '账号未激活');
+            }
+
+            session(['user' => $user->username]);
+
+            // 判断是否有回调 URL
+            $route = $request->input('redirect_url') ?? '/';
+
+            return redirect($route);
+
+        } else {
+
+            // 跳回登录页面提示错误信息
+            return back()->withInput()->withErrors(['account' => '账号或者密码错误']);
+        }
+    }
+
 }

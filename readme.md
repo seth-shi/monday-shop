@@ -16,13 +16,18 @@
 ```shell
 git clone / download zip
 ```
+以下操作均在根目录下执行：
+安装依赖
+```shell
+composer install
+```
 **修改数据库等配置**
 
-在根目录下执行数据库迁移生成表
+执行数据库迁移生成表
 ```shell
 php artisan migrate
 ```
-在根目录下执行数据库填充生成数据
+执行数据库填充生成数据
 ```shell
 php artisan db:seed
 
