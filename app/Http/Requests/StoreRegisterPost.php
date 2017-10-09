@@ -24,6 +24,15 @@ class StoreRegisterPost extends FormRequest
     public function rules()
     {
         return [
+            'captcha' => 'required|captcha'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'captcha.required' => '验证码不能为空',
+            'captcha.captcha'  => '验证码不正确'
         ];
     }
 }

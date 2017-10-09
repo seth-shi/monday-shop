@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends BaseController
 {
@@ -20,6 +21,7 @@ class UserController extends BaseController
 
     public function getUserByAccount(Request $request)
     {
+        Storage::disk();
         // 获取用户信息
         $user = $this->userRepository->getUserByAccount($request->input('account'));
 
