@@ -2,74 +2,70 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\StoreRegisterPost;
-use App\Models\User;
-use App\Repositories\UserRepository;
-use Illuminate\Http\Request;
+use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
-    protected $userRepository;
+    /*
+    |--------------------------------------------------------------------------
+    | Register Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles the registration of new users as well as their
+    | validation and creation. By default this controller uses a trait to
+    | provide this functionality without requiring any additional code.
+    |
+    */
 
-    public function __construct(UserRepository $userRepository)
+    use RegistersUsers;
+
+    /**
+     * Where to redirect users after registration.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/home';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        $this->userRepository = $userRepository;
-    }
-
-    public function create()
-    {
-        return view('auth.register');
-    }
-
-
-    public function store(StoreRegisterPost $request)
-    {
-        //
-        dd($request->all());
-    }
-
-
-    public function getUserByAccount(Request $request)
-    {
-        $user = $this->userRepository->getUserByAccount($request->input('account'));
-
-
+        $this->middleware('guest');
     }
 
     /**
-     * Display the specified resource.
+     * Get a validator for an incoming registration request.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
      */
-    public function show(User $user)
+    protected function validator(array $data)
     {
-        //
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Create a new user instance after a valid registration.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  array  $data
+     * @return \App\User
      */
-    public function edit(User $user)
+    protected function create(array $data)
     {
-        //
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-
 }
