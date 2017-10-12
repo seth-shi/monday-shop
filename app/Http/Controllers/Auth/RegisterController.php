@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -40,18 +42,43 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+
     /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * 核心注册方法
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        // 不要直接登录
+        // $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
+    /**
+     * 注册之后的事件 （发送邮件）
+     * @param Request $request
+     * @param $user
+     */
+    protected function registered(Request $request, $user)
+    {
+        // 注册成功后发送邮件
+        // TODO
+    }
+
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => 'required|string|max:50|unique:users',
             'email' => 'required|string|email|max:50|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:5|confirmed',
         ], [
             'name.unique' => '用户名已经被占用',
             'email.unique' => '邮箱已经被占用',
@@ -60,12 +87,6 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array $data
-     * @return \App\Models\User
-     */
     protected function create(array $data)
     {
         // 邮箱激活的 token, 用户头像

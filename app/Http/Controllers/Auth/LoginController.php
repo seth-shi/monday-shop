@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -29,18 +31,20 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
+    protected $userRepository;
+
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * LoginController constructor.
+     * @param UserRepository $userRepository
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
         $this->middleware('guest')->except('logout');
+
+        // UserRepository
+        $this->userRepository = $userRepository;
     }
 
-
-    // TODO 重写 login方法， 使之可以验证 is_active
     /**
      * 重写 login 方法
      * @param Request $request
@@ -50,18 +54,27 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        /**
-         * 多次登录失败上锁
-         */
+        // 多次登录失败上锁
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
         }
 
-
         // 试图登录
         if ($this->attemptLogin($request)) {
+
+            // 获取当前登录用户
+            $user = $this->guard()->user();
+
+            // 如果用户没有激活
+            if (! $this->userRepository->isActive($user))
+            {
+                // 退出登录
+                Auth::logout();
+
+                return back()->withInput()->withErrors([$this->username() => '账户未激活']);
+            }
 
             return $this->sendLoginResponse($request);
         }
@@ -72,6 +85,17 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    /**
+     * 登录之后（增加登录此时）
+     * @param Request $request
+     * @param $user
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        //
+        $user->increment('login_count');
     }
 
 

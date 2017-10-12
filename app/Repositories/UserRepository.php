@@ -7,13 +7,15 @@ use App\Models\User;
 
 class UserRepository
 {
+    /**
+     * 判断用户是否验证
+     * @param User $user
+     * @return bool
+     */
     public function isActive(User $user)
     {
-
+        return $user->is_active == 1;
     }
 
-    public function getUser($name, $password)
-    {
-        User::where(['name' => $name, 'password' => $password])->first();
-    }
+
 }

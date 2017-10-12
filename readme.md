@@ -17,6 +17,7 @@
 git clone git@github.com:WaitMoonMan/monday-shop.git master
 ```
 或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
+
 **修改数据库等配置**
 
 在根目录下执行数据库迁移生成表
