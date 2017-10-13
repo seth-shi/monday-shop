@@ -81,6 +81,8 @@
             var _url = "{{ url('api/register/again/send') }}";
 
             $.get(_url, {account:_name, password:_pwd}, function(res){
+                console.log(res);
+
                 alert(res.msg);
             });
         });
