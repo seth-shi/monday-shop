@@ -11,13 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+use App\Mail\UserRegister;
+
+
+
+Route::get('/user/success', function(){
+    return view('home');
 });
+
+
 
 Auth::routes();
+/**********  用户邮件验证  **********/
+Route::get('register/active/{token}', 'Auth\UserController@activeAccount');
 
+
+
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/user/success', function(){
-   return view('home');
-});

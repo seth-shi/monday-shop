@@ -12,11 +12,10 @@
 1. Laravel 5.5.13
 
 ## Installation
-通过`git`下载源码或者直接下载压缩包
+通过`git`下载源码或者直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
 ```shell
 git clone git@github.com:WaitMoonMan/monday-shop.git master
 ```
-或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
 
 **修改数据库等配置**
 
@@ -27,7 +26,10 @@ php artisan migrate
 在根目录下执行数据库填充生成数据
 ```shell
 php artisan db:seed
-
+```
+监听队列（发送邮件在队列中）
+```shell
+php artisan queue:work
 ```
 
 ## Usage

@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// 发送激活邮件
+Route::get('register/again/send', 'Api\UserController@sendActiveMail');

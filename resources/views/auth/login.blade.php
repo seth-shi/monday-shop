@@ -55,6 +55,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
+                                <button type="button" id="sendActiveMailBtn" class="btn btn-primary">
+                                    发送激活邮件
+                                </button>
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
@@ -67,4 +70,19 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    <script>
+        $('#sendActiveMailBtn').click(function(){
+            var _name = $('input[name=account]').val();
+            var _pwd = $('input[name=password]').val();
+
+            var _url = "{{ url('api/register/again/send') }}";
+
+            $.get(_url, {account:_name, password:_pwd}, function(res){
+                alert(res.msg);
+            });
+        });
+    </script>
 @endsection

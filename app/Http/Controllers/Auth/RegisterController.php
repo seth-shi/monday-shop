@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserRegister;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -68,8 +70,9 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        // 注册成功后发送邮件
-        // TODO
+        // 注册成功发送邮件加入队列
+        Mail::to($user->email)
+            ->queue(new UserRegister($user));
     }
 
 
