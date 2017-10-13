@@ -82,11 +82,14 @@ class RegisterController extends Controller
             'name' => 'required|string|max:50|unique:users',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => 'required|string|min:5|confirmed',
+            'captcha' => 'required|captcha',
         ], [
             'name.unique' => '用户名已经被占用',
             'email.unique' => '邮箱已经被占用',
             'password.min' => '密码最少六位数',
-            'password.confirmed' => '两次密码不一致'
+            'password.confirmed' => '两次密码不一致',
+            'captcha.required' => '验证码不能为空',
+            'captcha.captcha' => '验证码不正确',
         ]);
     }
 
