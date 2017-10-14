@@ -22,8 +22,18 @@ class CreateUsersTable extends Migration
 
             // 用户信息
             $table->string('avatar')->comment('用户的头像');
-            $table->string('provider_name')->default('app')->comment('第三方登录服务商名');
-            $table->string('nickname')->default('noname')->comment('用户第三方的用户名');
+
+            // 第三方登录
+            $table->integer('github_id')->nullable()->index()->comment('github第三方登录的ID');
+            $table->string('github_name')->nullable()->comment('github第三方登录的用户名');
+            $table->string('wechat_id')->nullable()->index();
+            $table->string('wechat_name')->nullable();
+            $table->string('qq_id')->nullable()->index();
+            $table->string('qq_name')->nullable();
+            $table->string('weibo_id')->nullable()->index();
+            $table->string('weibo_name')->nullable();
+
+
             $table->integer('login_count')->default(0)->comment('登录次数');
 
             // 用户激活所需信息

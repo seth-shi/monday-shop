@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f3ebb73ab2d0b30ad3df12f5fa57477",
+    "content-hash": "edc3ef2e6719fa07c165d869f8055055",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1346,6 +1346,102 @@
                 "php"
             ],
             "time": "2017-09-02T17:10:46+00:00"
+        },
+        {
+            "name": "overtrue/laravel-socialite",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-socialite.git",
+                "reference": "df18aedf8c9d2a489575af624c2073199c621bd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/laravel-socialite/df18aedf8c9d2a489575af624c2073199c621bd5.zip",
+                "reference": "df18aedf8c9d2a489575af624c2073199c621bd5",
+                "shasum": ""
+            },
+            "require": {
+                "overtrue/socialite": "~1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelSocialite\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Socialite": "Overtrue\\LaravelSocialite\\Socialite"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelSocialite\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "Social OAuth authentication for Laravel 5.",
+            "time": "2017-07-03T00:16:03+00:00"
+        },
+        {
+            "name": "overtrue/socialite",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/socialite.git",
+                "reference": "fda55f0acef43a144799b1957a8f93d9f5deffce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/socialite/fda55f0acef43a144799b1957a8f93d9f5deffce.zip",
+                "reference": "fda55f0acef43a144799b1957a8f93d9f5deffce",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~5.0|~6.0",
+                "php": ">=5.4.0",
+                "symfony/http-foundation": "~2.6|~2.7|~2.8|~3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\Socialite\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "A collection of OAuth 2 packages that extracts from laravel/socialite.",
+            "keywords": [
+                "login",
+                "oauth",
+                "qq",
+                "social",
+                "wechat",
+                "weibo"
+            ],
+            "time": "2017-08-04T06:28:22+00:00"
         },
         {
             "name": "paragonie/random_compat",

@@ -5,7 +5,7 @@
         <div class="page-container ptb-60">
             <div class="container">
                 <section class="sign-area panel p-40">
-                    <h3 class="sign-title">登  录 <small>Or <a href="#" class="color-green">注  册</a></small></h3>
+                    <h3 class="sign-title">登  录 <small>Or <a href="{{ route('register') }}" class="color-green">注  册</a></small></h3>
                     <div class="row row-rl-0">
                         <div class="col-sm-6 col-md-7 col-left">
                             <form class="p-40 form-horizontal" method="POST" action="{{ route('login') }}">
@@ -48,7 +48,7 @@
                         <div class="col-sm-6 col-md-5 col-right">
                             <div class="social-login p-40">
                                 <div class="mb-20">
-                                    <button class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa  fa-github"></i>登录 Github</button>
+                                    <a href="{{ url('/auth/github') }}" class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa  fa-github"></i>登录 Github</a>
                                 </div>
                                 <div class="mb-20">
                                     <button class="btn btn-lg btn-block btn-social btn-twitter disabled"><i class="fa fa-twitter"></i>登录  Twitter</button>
@@ -61,7 +61,7 @@
                                     <label class="color-mid" for="remember">保持登录状态</label>
                                 </div>
                                 <div class="text-center color-mid">
-                                    需要一个账户 ? <a href="signup.html" class="color-green">创建账户</a>
+                                    需要一个账户 ? <a href="{{ route('register') }}" class="color-green">创建账户</a>
                                 </div>
                             </div>
                         </div>

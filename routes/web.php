@@ -15,17 +15,22 @@ use App\Mail\UserRegister;
 
 
 
-Route::get('/user/success', function(){
-    return view('home');
-});
-
-
 
 Auth::routes();
-/**********  用户邮件验证  **********/
-Route::get('register/active/{token}', 'Auth\UserController@activeAccount');
-// 发送激活邮件链接
-Route::get('register/again/send/{id}', 'Auth\UserController@sendActiveMail');
+Route::view('singin', 'auth.singin');
+
+Route::group(['namespace' => 'Auth'], function(){
+    // 激活用户账户
+    Route::get('/register/active/{token}', 'UserController@activeAccount');
+    // 重新发送激活邮件链接
+    Route::get('/register/again/send/{id}', 'UserController@sendActiveMail');
+    // github登录
+    Route::get('/auth/github', 'AuthLoginController@redirectToGithub');
+
+    // 第三方登录统一回调
+    Route::get('/auth/callback', 'AuthLoginController@handleProviderCallback');
+});
+
 
 
 

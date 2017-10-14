@@ -46,5 +46,33 @@ class UserRepository
         return User::find($id);
     }
 
+    public function getUserByEmail($email)
+    {
+        return User::where('email', $email)->first();
+    }
+
+
+    public function getUserByName($username)
+    {
+        return User::where('name', $username)->first();
+    }
+
+    public function getUserByProviderId($field, $providerId)
+    {
+        $providers = [
+            'github_id',
+            'wechat_id',
+            'weibo_id',
+            'qq_id'
+        ];
+
+        if (! in_array($field, $providers)) {
+            return fasle;
+        }
+
+
+        return User::where($field, $providerId)->first();
+    }
+
 
 }
