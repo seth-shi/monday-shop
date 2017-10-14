@@ -34,4 +34,21 @@ class UserController extends Controller
             return view('hint.error', ['msg' => '无效的token']);
         }
     }
+
+    public function sendActiveMail($id)
+    {
+        // 查找到用户密码
+        $user = $this->userRepository->getUserById($id);
+
+        if (! $user) {
+
+            return view('hint.error', ['msg' => '用户名或者密码错误']);
+        }
+
+        // 注册成功发送邮件加入队列
+        Mail::to($user->email)
+            ->queue(new UserRegister($user));
+
+        return view('hint.success', ['msg' => '发送邮件成功', 'url' => route('login')]);
+    }
 }

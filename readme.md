@@ -3,9 +3,9 @@
 ![开发图](http://or2pofbfh.bkt.clouddn.com/monday-shopmvc.png)
 ## Feture
 * `Model` : 仅当成`Eloquent class`
-* `Repository` : 辅助`model`，处理数据库逻辑，然後注入到`service`
-* `Service` : 辅助`controller`，处理程序逻辑，然後注入到`controller`
-* `Controller` : 接收`HTTP request`調用其他`service`
+* `Repository` : 辅助`model`，处理数据库逻辑，然后注入到`controller`
+* `Service` : 辅助`controller`，处理程序逻辑，然后注入到`controller`
+* `Controller` : 接收`HTTP request`调用其他`service`
 * `Presenter` : 处理显示逻辑，然後注入到`view`
 * `View` : 使用`blade`將数据`binding`到`HTML`
 ## Requirement

@@ -24,6 +24,8 @@ Route::get('/user/success', function(){
 Auth::routes();
 /**********  用户邮件验证  **********/
 Route::get('register/active/{token}', 'Auth\UserController@activeAccount');
+// 发送激活邮件链接
+Route::get('register/again/send/{id}', 'Auth\UserController@sendActiveMail');
 
 
 

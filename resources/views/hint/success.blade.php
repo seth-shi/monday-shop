@@ -5,8 +5,13 @@
     <title>跳转提示</title>
     <style type="text/css">
         * { padding: 0; margin: 0; }
-        body { background: #fff; font-family: '微软雅黑'; color: #333; font-size: 16px; }
-        .system-message { position:absolute; top:50%; left:50%; margin:-150px 0 0 -150px; width:300px; height:300px; text-align:center; } .system-message h1 { font-size: 120px; font-weight: normal; }
+        body { background: #fff; font-family: '微软雅黑'; color: #333; font-size: 16px; text-align: center;}
+        .system-message {position: absolute;top:50%;left: 50%;padding: 20px;
+            transform:translate(-50%, -50%);
+            -webkit-transform:translate(-50%, -50%);
+            -ms-transform:translate(-50%, -50%);
+        }
+        .system-message h1 { font-size: 120px; font-weight: normal; }
         .system-message .jump { padding-top: 10px }
         .system-message .jump a { color: #09C; text-decoration:none }
         .system-message .success, .system-message .error { line-height: 1.8em; font-size: 36px }

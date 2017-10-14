@@ -41,5 +41,10 @@ class UserRepository
         return false;
     }
 
+    public function getUserById($id)
+    {
+        return User::find($id);
+    }
+
 
 }

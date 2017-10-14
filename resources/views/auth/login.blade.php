@@ -1,90 +1,73 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
+@section('main')
+    <main id="mainContent" class="main-content">
+        <div class="page-container ptb-60">
+            <div class="container">
+                <section class="sign-area panel p-40">
+                    <h3 class="sign-title">登  录 <small>Or <a href="#" class="color-green">注  册</a></small></h3>
+                    <div class="row row-rl-0">
+                        <div class="col-sm-6 col-md-7 col-left">
+                            <form class="p-40 form-horizontal" method="POST" action="{{ route('login') }}">
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
-                        {{ csrf_field() }}
+                                {{ csrf_field() }}
 
-                        <input type="text" name="redirect_url" value="/user/success">
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                                <!-- 把回传页也提交 -->
+                                <input type="hidden" name="redirect_url" value="{{ request()->input('redirect_url') ?? '/' }}">
 
-                            <div class="col-md-6">
-                                <input id="email" type="text" class="form-control" name="account" value="{{ old('account') }}" required autofocus>
+                                <div class="form-group {{ $errors->has('account') ? ' has-error' : '' }}">
+                                    <label class="sr-only">用户名/邮箱</label>
+                                    <input type="text" class="form-control input-lg" name="account" value="{{ old('account') }}" placeholder="用户名 / 邮箱" required autofocus>
+                                    @if ($errors->has('account'))
+                                        <span class="help-block">
+                                            <strong>{!! $errors->first('account') !!}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
+                                    <label class="sr-only">Password</label>
+                                    <input type="password" class="form-control input-lg" name="password" placeholder="密码" required>
+                                    @if ($errors->has('password'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                        </span>
+                                    @endif
 
-                                @if ($errors->has('account'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('account') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                                </div>
+                                <div class="form-group">
+                                    <a href="#" class="forgot-pass-link color-green">忘记密码 ?</a>
+                                </div>
+                                <div class="custom-checkbox mb-20">
+                                    <input type="checkbox" id="remember_account" checked>
+                                    <label class="color-mid" for="remember_account">保持登录状态</label>
+                                </div>
+                                <button type="submit" class="btn btn-block btn-lg">登  录</button>
+                            </form>
+                            <span class="or">Or</span>
                         </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
+                        <div class="col-sm-6 col-md-5 col-right">
+                            <div class="social-login p-40">
+                                <div class="mb-20">
+                                    <button class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa  fa-github"></i>登录 Github</button>
+                                </div>
+                                <div class="mb-20">
+                                    <button class="btn btn-lg btn-block btn-social btn-twitter disabled"><i class="fa fa-twitter"></i>登录  Twitter</button>
+                                </div>
+                                <div class="mb-20">
+                                    <button class="btn btn-lg btn-block btn-social btn-google-plus disabled"><i class="fa fa-google-plus"></i>登录  Google</button>
+                                </div>
+                                <div class="custom-checkbox mb-20">
+                                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="color-mid" for="remember">保持登录状态</label>
+                                </div>
+                                <div class="text-center color-mid">
+                                    需要一个账户 ? <a href="signup.html" class="color-green">创建账户</a>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-                                <button type="button" id="sendActiveMailBtn" class="btn btn-primary">
-                                    发送激活邮件
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </section>
             </div>
         </div>
-    </div>
-</div>
-@endsection
-
-@section('script')
-    <script>
-        $('#sendActiveMailBtn').click(function(){
-            var _name = $('input[name=account]').val();
-            var _pwd = $('input[name=password]').val();
-
-            var _url = "{{ url('api/register/again/send') }}";
-
-            $.get(_url, {account:_name, password:_pwd}, function(res){
-                console.log(res);
-
-                alert(res.msg);
-            });
-        });
-    </script>
+    </main>
 @endsection

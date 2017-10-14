@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Services\UserService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,17 +33,19 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     protected $userRepository;
+    protected $userService;
 
     /**
      * LoginController constructor.
      * @param UserRepository $userRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, UserService $userService)
     {
         $this->middleware('guest')->except('logout');
 
         // UserRepository
         $this->userRepository = $userRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -73,7 +76,9 @@ class LoginController extends Controller
                 // 退出登录
                 Auth::logout();
 
-                return back()->withInput()->withErrors([$this->username() => '账户未激活']);
+                // 获取激活链接并提醒
+                $link = $this->userService->getActiveLink($user);
+                return back()->withInput()->withErrors([$this->username() => $link]);
             }
 
             return $this->sendLoginResponse($request);
