@@ -24,11 +24,14 @@ Route::group(['namespace' => 'Auth'], function(){
     Route::get('/register/active/{token}', 'UserController@activeAccount');
     // 重新发送激活邮件链接
     Route::get('/register/again/send/{id}', 'UserController@sendActiveMail');
-    // github登录
-    Route::get('/auth/github', 'AuthLoginController@redirectToGithub');
 
-    // 第三方登录统一回调
-    Route::get('/auth/callback', 'AuthLoginController@handleProviderCallback');
+    // 第三方登录
+    Route::get('/auth/github', 'AuthLoginController@redirectToGithub');
+    Route::get('/auth/github/callback', 'AuthLoginController@handleGithubCallback');
+    Route::get('/auth/qq', 'AuthLoginController@redirectToQQ');
+    Route::get('/auth/qq/callback', 'AuthLoginController@handleQQCallback');
+
+
 });
 
 

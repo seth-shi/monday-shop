@@ -7,4 +7,9 @@ return [
         'client_secret' => env('OAUTH_GITHUB_SECRET'),
         'redirect'      => env('OAUTH_GITHUB_REDIRECT'),
     ],
+    'qq' => [
+        'client_id'     => env('OAUTH_QQ_ID'),
+        'client_secret' => env('OAUTH_QQ_SECRET'),
+        'redirect'      => env('OAUTH_QQ_REDIRECT'),
+    ],
 ];

@@ -67,7 +67,7 @@ class UserRepository
         ];
 
         if (! in_array($field, $providers)) {
-            return fasle;
+            return false;
         }
 
 

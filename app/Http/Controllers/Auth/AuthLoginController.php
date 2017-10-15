@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Overtrue\LaravelSocialite\Socialite;
 use Overtrue\Socialite\UserInterface;
+
 
 class AuthLoginController extends Controller
 {
@@ -19,7 +20,7 @@ class AuthLoginController extends Controller
         'weibo',
         'qq'
     ];
-    
+
     protected $userRepository;
 
     public function __construct(UserRepository $userRepository)
@@ -27,29 +28,45 @@ class AuthLoginController extends Controller
         $this->userRepository = $userRepository;
     }
 
-
     public function redirectToGithub()
     {
         return Socialite::driver('github')->redirect();
     }
 
-    public function handleProviderCallback()
+    public function handleGithubCallback()
     {
         $socialite = Socialite::driver('github')->user();
 
+        return $this->handleProviderCallback($socialite);
+    }
+
+
+    public function redirectToQQ()
+    {
+        return Socialite::driver('qq')->redirect();
+    }
+
+    public function handleQQCallback()
+    {
+        $socialite = Socialite::driver('qq')->user();
+
+        return $this->handleProviderCallback($socialite);
+    }
+
+    private function handleProviderCallback($socialite)
+    {
         if (! $socialite) {
 
             return view('hint.error', ['msg' => '第三方登录出错']);
         }
 
         // 获取第三方服务
-        $provider_name = strtolower($socialite->getProviderName());
-        $provider = $this->formatProvider($provider_name);
+        $providerType = $this->formatProvider($socialite['provider']);
 
+        // 先去查询数据库是否有用户， 如果已经存在就登录， 不存在就创建, 传入 第三方的 ID
+        if (! $user = $this->userRepository->getUserByProviderId($providerType[0], $socialite['id'])) {
 
-        // 先去查询数据库是否有用户， 如果已经存在就登录， 不存在就创建
-        if (! $user = $this->userRepository->getUserByProviderId($provider['id'], $socialite['id'])) {
-            $user = $this->createUserByProvider($socialite, $provider_name);
+            $user = $this->createUserByProvider($socialite, $providerType);
         }
 
         // 登录用户
@@ -67,10 +84,10 @@ class AuthLoginController extends Controller
     {
         $provider = strtolower($provider);
 
-        // 如 github => ['id']
+        // 如 github => ['github_id', 'github_name']
         return [
-            'id' => $provider . '_id',
-            'name' => $provider . '_name'
+            $provider . '_id',
+            $provider . '_name'
         ];
     }
 
@@ -79,25 +96,17 @@ class AuthLoginController extends Controller
      * @param UserInterface $provider
      * @return User
      */
-    public function createUserByProvider(UserInterface $provider, $providerType)
+    public function createUserByProvider(UserInterface $provider, array $providerType)
     {
-
-        if (! in_array($providerType, $this->providerType)) {
-            throw new Exception('不允许的第三方服务');
-        }
-
-        // 拼接成对应数据库的字段如github登录则是  github_id,  github_name
-        $provider_id = $providerType . '_id';
-        $provider_name = $providerType . '_name';
-
+        list($providerId, $providerName) = $providerType;
 
         // 如果此邮件已经存在，则就直接绑定账户，方便下次登录
         $user = $this->userRepository->getUserByEmail($provider['email']);
 
         if ($user) {
             // 绑定账号
-            $user->$provider_id = $provider['id'];
-            $user->$provider_name = $provider['nickname'];
+            $user->$providerId = $provider['id'];
+            $user->$providerName = $provider['nickname'];
         } else {
 
             $user = new User();
@@ -115,9 +124,14 @@ class AuthLoginController extends Controller
                 $user->avatar = mt_rand(1, 9) . '.png';
             }
 
-            $user->github_id = $provider['id'];
-            $user->email = $provider['email'];
-            $user->github_name = $provider['nickname'];
+            if (is_null($provider['email'])) {
+                $user->email = '0';
+            } else {
+                $user->email = $provider['email'];
+            }
+
+            $user->$providerId = $provider['id'];
+            $user->$providerName = $provider['nickname'];
             $user->password = bcrypt('123456');
             $user->active_token = str_random(60);
         }

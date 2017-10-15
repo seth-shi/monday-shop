@@ -51,7 +51,7 @@
                                     <a href="{{ url('/auth/github') }}" class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa  fa-github"></i>登录 Github</a>
                                 </div>
                                 <div class="mb-20">
-                                    <button class="btn btn-lg btn-block btn-social btn-twitter disabled"><i class="fa fa-twitter"></i>登录  Twitter</button>
+                                    <a href="{{ url('/auth/qq') }}" class="btn btn-lg btn-block btn-social btn-twitter"><i class="fa fa-qq"></i>登录  QQ</a>
                                 </div>
                                 <div class="mb-20">
                                     <button class="btn btn-lg btn-block btn-social btn-google-plus disabled"><i class="fa fa-google-plus"></i>登录  Google</button>
