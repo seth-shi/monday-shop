@@ -30,6 +30,8 @@ Route::group(['namespace' => 'Auth'], function(){
     Route::get('/auth/github/callback', 'AuthLoginController@handleGithubCallback');
     Route::get('/auth/qq', 'AuthLoginController@redirectToQQ');
     Route::get('/auth/qq/callback', 'AuthLoginController@handleQQCallback');
+    Route::get('/auth/weibo', 'AuthLoginController@redirectToWeibo');
+    Route::get('/auth/weibo/callback', 'AuthLoginController@handleWeiboCallback');
 
 
 });

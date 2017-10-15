@@ -12,4 +12,9 @@ return [
         'client_secret' => env('OAUTH_QQ_SECRET'),
         'redirect'      => env('OAUTH_QQ_REDIRECT'),
     ],
+    'weibo' => [
+        'client_id'     => env('OAUTH_WEIBO_ID'),
+        'client_secret' => env('OAUTH_WEIBO_SECRET'),
+        'redirect'      => env('OAUTH_WEIBO_REDIRECT'),
+    ],
 ];

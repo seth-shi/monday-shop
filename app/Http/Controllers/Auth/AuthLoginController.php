@@ -53,6 +53,19 @@ class AuthLoginController extends Controller
         return $this->handleProviderCallback($socialite);
     }
 
+
+    public function redirectToWeibo()
+    {
+        return Socialite::driver('weibo')->redirect();
+    }
+
+    public function handleWeiboCallback()
+    {
+        $socialite = Socialite::driver('weibo')->user();
+
+        return $this->handleProviderCallback($socialite);
+    }
+
     private function handleProviderCallback($socialite)
     {
         if (! $socialite) {
