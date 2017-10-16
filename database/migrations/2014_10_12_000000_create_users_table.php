@@ -30,8 +30,6 @@ class CreateUsersTable extends Migration
             $table->string('wechat_name')->nullable();
             $table->string('qq_id')->nullable()->index();
             $table->string('qq_name')->nullable();
-            $table->string('weibo_id')->nullable()->index();
-            $table->string('weibo_name')->nullable();
 
 
             $table->integer('login_count')->default(0)->comment('登录次数');

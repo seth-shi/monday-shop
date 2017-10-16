@@ -54,7 +54,7 @@
                                     <a href="{{ url('/auth/qq') }}" class="btn btn-lg btn-block btn-social btn-twitter"><i class="fa fa-qq"></i>登录  QQ</a>
                                 </div>
                                 <div class="mb-20">
-                                    <button class="btn btn-lg btn-block btn-social btn-google-plus disabled"><i class="fa fa-weibo"></i>登录  微博</button>
+                                    <button class="btn btn-lg btn-block btn-social btn-google-plus disabled"><i class="fa fa-wechat"></i>登录  微信</button>
                                 </div>
                                 <div class="custom-checkbox mb-20">
                                     <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
