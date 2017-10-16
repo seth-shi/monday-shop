@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name', 50)->unique();
-            $table->string('email', 50)->unique();
+            $table->string('email', 50);
             $table->string('password', 60);
 
             // 用户信息
@@ -28,8 +28,8 @@ class CreateUsersTable extends Migration
             $table->string('github_name')->nullable()->comment('github第三方登录的用户名');
             $table->string('wechat_id')->nullable()->index();
             $table->string('wechat_name')->nullable();
-            $table->string('qq_id')->nullable()->index();
-            $table->string('qq_name')->nullable();
+            $table->string('weibo_id')->nullable()->index();
+            $table->string('weibo_name')->nullable();
 
 
             $table->integer('login_count')->default(0)->comment('登录次数');

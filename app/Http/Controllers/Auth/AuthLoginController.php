@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use Exception;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -14,13 +12,6 @@ use Overtrue\Socialite\UserInterface;
 
 class AuthLoginController extends Controller
 {
-    protected $providerType = [
-        'github',
-        'wechat',
-        'weibo',
-        'qq'
-    ];
-
     protected $userRepository;
 
     public function __construct(UserRepository $userRepository)
@@ -28,11 +19,19 @@ class AuthLoginController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * Third party GitHub authorization
+     * @return mixed
+     */
     public function redirectToGithub()
     {
         return Socialite::driver('github')->redirect();
     }
 
+    /**
+     * handle authorization callback
+     * @return mixed
+     */
     public function handleGithubCallback()
     {
         $socialite = Socialite::driver('github')->user();
@@ -66,6 +65,12 @@ class AuthLoginController extends Controller
         return $this->handleProviderCallback($socialite);
     }
 
+    /**
+     * Processing third party login callback
+     * @param $socialite
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse
+     *     |\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     private function handleProviderCallback($socialite)
     {
         if (! $socialite) {
@@ -73,23 +78,23 @@ class AuthLoginController extends Controller
             return view('hint.error', ['msg' => '第三方登录出错']);
         }
 
-        // 获取第三方服务
+        // Access to third party services
         $providerType = $this->formatProvider($socialite['provider']);
 
-        // 先去查询数据库是否有用户， 如果已经存在就登录， 不存在就创建, 传入 第三方的 ID
+        // First query the database whether there is a user, if it already exists, log on
         if (! $user = $this->userRepository->getUserByProviderId($providerType[0], $socialite['id'])) {
 
             $user = $this->createUserByProvider($socialite, $providerType);
         }
 
-        // 登录用户
         Auth::login($user, true);
 
+        // Do you need to jump to other places? gps:
         return redirect('/');
     }
 
     /**
-     * 转换成数据库的字段
+     * Fields converted into third party services in a database
      * @param $provider
      * @return array
      */
@@ -97,7 +102,7 @@ class AuthLoginController extends Controller
     {
         $provider = strtolower($provider);
 
-        // 如 github => ['github_id', 'github_name']
+        // for instance: github => ['github_id', 'github_name']
         return [
             $provider . '_id',
             $provider . '_name'
@@ -105,7 +110,7 @@ class AuthLoginController extends Controller
     }
 
     /**
-     * 通过第三方服务登录创建用户
+     * Create user through third party service login
      * @param UserInterface $provider
      * @return User
      */
@@ -113,44 +118,58 @@ class AuthLoginController extends Controller
     {
         list($providerId, $providerName) = $providerType;
 
-        // 如果此邮件已经存在，则就直接绑定账户，方便下次登录
+        // by email find user Is there
         $user = $this->userRepository->getUserByEmail($provider['email']);
 
         if ($user) {
-            // 绑定账号
+            // if user already exists, bind the account only
             $user->$providerId = $provider['id'];
             $user->$providerName = $provider['nickname'];
+            $user->save();
+
         } else {
-
-            $user = new User();
-
-            // 用户名已经存在 则跳转到注册页面
-            if ($this->userRepository->getUserByName($provider['nickname'])) {
-                $user->name = str_random(5);
-            } else {
-                $user->name = $provider['nickname'];
-            }
-
-            if (isset($provider['avatar'])) {
-                $user->avatar = $provider['avatar'];
-            } else {
-                $user->avatar = mt_rand(1, 9) . '.png';
-            }
-
-            if (is_null($provider['email'])) {
-                $user->email = '0';
-            } else {
-                $user->email = $provider['email'];
-            }
-
-            $user->$providerId = $provider['id'];
-            $user->$providerName = $provider['nickname'];
-            $user->password = bcrypt('123456');
-            $user->active_token = str_random(60);
+            $data = $this->getFormatFiledData($provider, $providerId, $providerName);
+            $user = User::create($data);
         }
-        $user->save();
 
         return $user;
+    }
+
+    /**
+     * Formats the data returned by the third party into a database field
+     * $providerId possible is github_id || qq_id ...
+     * @param $provider
+     * @param $providerId
+     * @param $providerName
+     * @return array
+     */
+    public function getFormatFiledData($provider, $providerId, $providerName)
+    {
+        $data = [
+            'name' => str_random(5),
+            'avatar' => mt_rand(1, 9) . '.png',
+            'email' => '0',
+        ];
+
+
+        if (! $this->userRepository->getUserByName($provider['nickname'])) {
+            $data['name'] = $provider['nickname'];
+        }
+
+        if (isset($provider['avatar'])) {
+            $data['avatar'] = $provider['avatar'];
+        }
+
+        if (! is_null($provider['email'])) {
+            $data['email'] = $provider['email'];
+        }
+
+        $data[$providerId] = $provider['id'];
+        $data[$providerName] = $provider['nickname'];
+        $data['password'] = bcrypt('123456');
+        $data['active_token'] = str_random(60);
+
+        return $data;
     }
 
 }
