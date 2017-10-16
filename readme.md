@@ -36,8 +36,6 @@ php artisan gps:install
 php artisan queue:work
 ```
 
-## Support
-
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
 ## License
