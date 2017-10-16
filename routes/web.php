@@ -19,6 +19,6 @@ Route::group(['namespace' => 'Auth'], function(){
 
 
 });
-
+Route::get('test', 'Auth\AuthLoginController@test');
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');

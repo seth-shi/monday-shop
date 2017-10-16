@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
+
 use Illuminate\Support\Facades\Auth;
 use Overtrue\LaravelSocialite\Socialite;
 use Overtrue\Socialite\UserInterface;
-
+use Faker\Factory;
 
 class AuthLoginController extends Controller
 {
@@ -73,7 +74,7 @@ class AuthLoginController extends Controller
      */
     private function handleProviderCallback($socialite)
     {
-        if (! $socialite) {
+        if (!$socialite) {
 
             return view('hint.error', ['msg' => '第三方登录出错']);
         }
@@ -82,7 +83,7 @@ class AuthLoginController extends Controller
         $providerType = $this->formatProvider($socialite['provider']);
 
         // First query the database whether there is a user, if it already exists, log on
-        if (! $user = $this->userRepository->getUserByProviderId($providerType[0], $socialite['id'])) {
+        if (!$user = $this->userRepository->getUserByProviderId($providerType[0], $socialite['id'])) {
 
             $user = $this->createUserByProvider($socialite, $providerType);
         }
@@ -145,11 +146,15 @@ class AuthLoginController extends Controller
      */
     public function getFormatFiledData($provider, $providerId, $providerName)
     {
+        // 数据库填充对象
+        $faker = Factory::create();
+
         $data = [
-            'name' => str_random(5),
-            'avatar' => mt_rand(1, 9) . '.png',
+            'name' => $faker->uuid,
+            'avatar' => $faker->imageUrl(120, 120),
             'email' => '0',
         ];
+
 
 
         if (! $this->userRepository->getUserByName($provider['nickname'])) {
