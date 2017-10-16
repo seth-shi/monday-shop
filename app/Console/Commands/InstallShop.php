@@ -42,7 +42,7 @@ class InstallShop extends BaseCommand
         $this->execShellWithPrint('php artisan migrate');
         // 数据库填充
         $this->execShellWithPrint('php artisan db:seed');
-        // 监听队列 TODO 这里需要常驻运行监听
-        $this->execShellWithPrint('php artisan queue:work');
+        // 监听队列 三次失败后加入失败队列表
+        $this->execShellWithPrint('php artisan queue:work --tries=3');
     }
 }

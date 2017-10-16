@@ -38,6 +38,11 @@ php artisan queue:work
 
 ## Support
 
+## Errors
+* 监听队列如果长时间没反应，或者一直重复任务
+    * 数据库没配置好，导致队列任务表连接不上
+    * 邮件配置出错，导致发送邮件一直失败
+
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
 ## License
