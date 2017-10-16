@@ -12,28 +12,29 @@
 1. Laravel 5.5.13
 
 ## Installation
-通过`git`下载源码或者直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
+1. 获取源代码
+* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
+* 或者`git`克隆源代码
 ```shell
 git clone git@github.com:WaitMoonMan/monday-shop.git master
 ```
-
-**修改数据库等配置**
-
-在根目录下执行数据库迁移生成表
+2. 安装依赖扩展包
 ```shell
-php artisan migrate
+composer install
 ```
-在根目录下执行数据库填充生成数据
+3. 生成配置文件(修改其中的配置选项:数据库的一定要修改)
 ```shell
-php artisan db:seed
+cp .env.example .env
 ```
-监听队列（发送邮件在队列中）
+4. 使用安装命令(会执行执行数据库迁移，填充，监听队列)
+```shell
+php artisan gps:install
+```
+## Usage
+1 监听队列（执行`php artisan gps:install`后会自动执行监听队列，无需重复）
 ```shell
 php artisan queue:work
 ```
-
-## Usage
-
 
 ## Support
 
