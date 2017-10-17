@@ -36,8 +36,20 @@ php artisan gps:install
 php artisan queue:work
 ```
 
-## Support
+## Optimize
 
+```shell
+
+```
+
+* 使用`redis`或者`memcache`存储会话
+```shell
+config/session.php
+```
+* 使用`redis`或者`memcache`做缓存驱动
+```shell
+config/cache.php
+```
 ## Errors
 * 监听队列如果长时间没反应，或者一直重复任务
     * 数据库没配置好，导致队列任务表连接不上
@@ -45,5 +57,6 @@ php artisan queue:work
 
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
+* [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
 ## License
 MIT
