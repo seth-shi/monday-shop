@@ -6,9 +6,10 @@ return [
 
     'default'   => [
         'length'    => 4,
-        'width'     => 120,
-        'height'    => 36,
+        'width'     => 160,
+        'height'    => 46,
         'quality'   => 90,
+        'bgColor'   => '#ecf2f4',
     ],
 
     'flat'   => [

@@ -173,6 +173,8 @@ class AuthLoginController extends Controller
         $data[$providerName] = $provider['nickname'];
         $data['password'] = bcrypt('123456');
         $data['active_token'] = str_random(60);
+        // Default activation by using third party login
+        $data['is_active'] = 1;
 
         return $data;
     }

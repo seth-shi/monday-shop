@@ -38,8 +38,8 @@
                                     <a href="{{ route('password.request') }}" class="forgot-pass-link color-green">忘记密码 ?</a>
                                 </div>
                                 <div class="custom-checkbox mb-20">
-                                    <input type="checkbox" id="remember_account" checked>
-                                    <label class="color-mid" for="remember_account">保持登录状态</label>
+                                    <input type="checkbox" name="remember" id="remember" checked>
+                                    <label class="color-mid" for="remember">保持登录状态</label>
                                 </div>
                                 <button type="submit" class="btn btn-block btn-lg">登  录</button>
                             </form>
@@ -56,9 +56,7 @@
                                 <div class="mb-20">
                                     <a href="{{ url('/auth/weibo') }}" class="btn btn-lg btn-block btn-social btn-google-plus"><i class="fa fa-weibo"></i>登录  微博</a>
                                 </div>
-                                <div class="custom-checkbox mb-20">
-                                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                </div>
+
                                 <div class="text-center color-mid">
                                     需要一个账户 ? <a href="{{ route('register') }}" class="color-green">创建账户</a>
                                 </div>
