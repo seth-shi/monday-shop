@@ -37,11 +37,14 @@ php artisan queue:work
 ```
 
 ## Optimize
-
+* 执行缓存（缓存配置，路由，类映射）
 ```shell
-
+php artisan gps:cache
 ```
-
+* 清除缓存
+```shell
+php artisan gps:clear
+```
 * 使用`redis`或者`memcache`存储会话
 ```shell
 config/session.php

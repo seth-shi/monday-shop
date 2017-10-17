@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Mail\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -27,4 +29,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /**
+     * rewrite send reset password email
+     * @param string $token
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        Mail::to($this->email)
+            ->queue(new ResetPassword($token));
+    }
 }

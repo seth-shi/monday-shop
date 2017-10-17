@@ -49,7 +49,7 @@ class LoginController extends Controller
     }
 
     /**
-     * 重写 login 方法
+     * rewrite login method
      * @param Request $request
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|void
      */
@@ -57,26 +57,25 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        // 多次登录失败上锁
+        // Multiple logon failed lock
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
             return $this->sendLockoutResponse($request);
         }
 
-        // 试图登录
+        // auth user
         if ($this->attemptLogin($request)) {
 
-            // 获取当前登录用户
+            // Gets the currently logged in user
             $user = $this->guard()->user();
 
-            // 如果用户没有激活
+            // If the user is not activated
             if (! $this->userRepository->isActive($user))
             {
-                // 退出登录
                 Auth::logout();
 
-                // 获取激活链接并提醒
+                // Get activation link and alert
                 $link = $this->userService->getActiveLink($user);
                 return back()->withInput()->withErrors([$this->username() => $link]);
             }
@@ -84,16 +83,16 @@ class LoginController extends Controller
             return $this->sendLoginResponse($request);
         }
 
-        // 如果登录尝试不成功，我们将增加次数
-        // 登录并将用户重定向到登录表单。当然，当这
-        // 用户超过他们的尝试，他们将被锁定的最大数量。
+        // if the login attempt is not successful, we will increase the number of
+        // login and redirect users to the login form. Of course, when this
+        // users who exceed their maximum number of attempts, they will be locked.
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
     }
 
     /**
-     * 登录之后（增加登录此时）
+     * After login (increase login time)
      * @param Request $request
      * @param $user
      */
@@ -105,7 +104,7 @@ class LoginController extends Controller
 
 
     /**
-     * 登录前是否有跳转的 URL
+     * Is there a jump URL before login
      * @return string
      */
     public function redirectTo()
@@ -114,7 +113,7 @@ class LoginController extends Controller
     }
 
     /**
-     * 重写此方法，以达到可以用户名或者邮箱登录
+     * rewrite credentials, Enable login by mail or user name
      * @param Request $request
      * @return array
      */

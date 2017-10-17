@@ -1,8 +1,11 @@
 <?php
 
-Auth::routes();
-Route::view('singin', 'auth.singin');
+// home page
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 
+// user auth
+Auth::routes();
 Route::group(['namespace' => 'Auth'], function(){
     // 激活用户账户
     Route::get('/register/active/{token}', 'UserController@activeAccount');
@@ -19,6 +22,3 @@ Route::group(['namespace' => 'Auth'], function(){
 
 
 });
-Route::get('test', 'Auth\AuthLoginController@test');
-Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index')->name('home');

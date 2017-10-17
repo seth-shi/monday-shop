@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\UserRegister;
 use App\Models\User;
+use Faker\Factory;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -64,7 +65,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * 注册之后的事件 （发送邮件）
+     * registered event (send email)
      * @param Request $request
      * @param $user
      */
@@ -95,13 +96,15 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        // 邮箱激活的 token, 用户头像
+        $faker = Factory::create();
+
+        // email_active,
         return  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'active_token' => str_random(60),
-            'avatar' => mt_rand(1, 9) . '.png'
+            'avatar' => $faker->imageUrl(120, 120)
         ]);
 
     }

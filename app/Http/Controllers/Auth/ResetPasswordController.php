@@ -36,4 +36,16 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    public function validationErrorMessages()
+    {
+        return [
+            'token.required' => '重置密码的token不是对应这个邮箱',
+            'email.required' => '邮件地址不正确',
+            'email.email' => '邮件地址不正确',
+            'password.required' => '密码不能为空',
+            'password.confirmed' => '两次密码不一致',
+            'password.min' => '密码不能少于六位数',
+        ];
+    }
 }

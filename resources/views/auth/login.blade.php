@@ -35,7 +35,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <a href="#" class="forgot-pass-link color-green">忘记密码 ?</a>
+                                    <a href="{{ route('password.request') }}" class="forgot-pass-link color-green">忘记密码 ?</a>
                                 </div>
                                 <div class="custom-checkbox mb-20">
                                     <input type="checkbox" id="remember_account" checked>
