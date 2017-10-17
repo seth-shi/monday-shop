@@ -50,5 +50,4 @@ $status = $kernel->handle(
 
 $kernel->terminate($input, $status);
 
-// todo
 exit($status);
