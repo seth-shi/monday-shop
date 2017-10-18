@@ -34,7 +34,7 @@
             <div class="row row-rl-0 row-tb-20 row-md-cell">
                 <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
                     <a href="#" class="logo">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="" width="250">
+                        <img src="{{ asset('assets/shop/images/logo.png') }}" alt="" width="250">
                     </a>
                 </div>
                 <div class="header-search col-md-9">
@@ -117,7 +117,7 @@
                                         </ul>
                                     </div>
                                     <div class="col-md-3">
-                                        <figure class="deal-thumbnail embed-responsive embed-responsive-4by3" data-bg-img="assets/images/deals/deal_03.jpg">
+                                        <figure class="deal-thumbnail embed-responsive embed-responsive-4by3" data-bg-img="assets/shop/images/deals/deal_03.jpg">
                                             <div class="label-discount top-10 right-10">-15%</div>
                                             <div class="deal-about p-10 pos-a bottom-0 left-0">
                                                 <div class="rating mb-10">
@@ -136,7 +136,7 @@
                                         </figure>
                                     </div>
                                     <div class="col-md-3">
-                                        <figure class="deal-thumbnail embed-responsive embed-responsive-4by3" data-bg-img="assets/images/deals/deal_04.jpg">
+                                        <figure class="deal-thumbnail embed-responsive embed-responsive-4by3" data-bg-img="assets/shop/images/deals/deal_04.jpg">
                                             <div class="label-discount top-10 right-10">-60%</div>
                                             <div class="deal-about p-10 pos-a bottom-0 left-0">
                                                 <div class="rating mb-10">
@@ -155,7 +155,7 @@
                                         </figure>
                                     </div>
                                     <div class="col-md-3">
-                                        <figure class="deal-thumbnail embed-responsive embed-responsive-4by3" data-bg-img="assets/images/deals/deal_05.jpg">
+                                        <figure class="deal-thumbnail embed-responsive embed-responsive-4by3" data-bg-img="assets/shop/images/deals/deal_05.jpg">
                                             <div class="label-discount top-10 right-10">-60%</div>
                                             <div class="deal-about p-10 pos-a bottom-0 left-0">
                                                 <div class="rating mb-10">

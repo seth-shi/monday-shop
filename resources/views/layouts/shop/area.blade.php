@@ -5,7 +5,7 @@
                 <div class="row row-tb-20">
                     <div class="footer-col col-sm-6">
                         <div class="footer-about">
-                            <img class="mb-40" src="{{ asset('assets/images/logo_light.png') }}" width="250" alt="">
+                            <img class="mb-40" src="{{ asset('assets/shop/images/logo_light.png') }}" width="250" alt="">
                             <p class="color-light">乱数假文悲哀坐特,  伊洛尼莫减体.</p>
                         </div>
                     </div>
@@ -52,32 +52,32 @@
 
 
                                 <div class="instagram-widget__item col-xs-4">
-                                    <img src="{{ asset('assets/images/instagram/instagram_01.jpg') }}" alt="">
+                                    <img src="{{ asset('assets/shop/images/instagram/instagram_01.jpg') }}" alt="">
                                 </div>
 
 
                                 <div class="instagram-widget__item col-xs-4">
-                                    <img src="{{ asset('assets/images/instagram/instagram_02.jpg') }}" alt="">
+                                    <img src="{{ asset('assets/shop/images/instagram/instagram_02.jpg') }}" alt="">
                                 </div>
 
 
                                 <div class="instagram-widget__item col-xs-4">
-                                    <img src="{{ asset('assets/images/instagram/instagram_03.jpg') }}" alt="">
+                                    <img src="{{ asset('assets/shop/images/instagram/instagram_03.jpg') }}" alt="">
                                 </div>
 
 
                                 <div class="instagram-widget__item col-xs-4">
-                                    <img src="{{ asset('assets/images/instagram/instagram_04.jpg') }}" alt="">
+                                    <img src="{{ asset('assets/shop/images/instagram/instagram_04.jpg') }}" alt="">
                                 </div>
 
 
                                 <div class="instagram-widget__item col-xs-4">
-                                    <img src="{{ asset('assets/images/instagram/instagram_05.jpg') }}" alt="">
+                                    <img src="{{ asset('assets/shop/images/instagram/instagram_05.jpg') }}" alt="">
                                 </div>
 
 
                                 <div class="instagram-widget__item col-xs-4">
-                                    <img src="{{ asset('assets/images/instagram/instagram_06.jpg') }}" alt="">
+                                    <img src="{{ asset('assets/shop/images/instagram/instagram_06.jpg') }}" alt="">
                                 </div>
 
 
@@ -88,11 +88,11 @@
             </div>
             <div class="col-xs-12">
                 <div class="payment-methods t-center">
-                    <span><img src="{{ asset('assets/images/icons/payment/paypal.jpg') }}" alt=""></span>
-                    <span><img src="{{ asset('assets/images/icons/payment/visa.jpg') }}" alt=""></span>
-                    <span><img src="{{ asset('assets/images/icons/payment/mastercard.jpg') }}" alt=""></span>
-                    <span><img src="{{ asset('assets/images/icons/payment/discover.jpg') }}" alt=""></span>
-                    <span><img src="{{ asset('assets/images/icons/payment/american.jpg') }}" alt=""></span>
+                    <span><img src="{{ asset('assets/shop/images/icons/payment/paypal.jpg') }}" alt=""></span>
+                    <span><img src="{{ asset('assets/shop/images/icons/payment/visa.jpg') }}" alt=""></span>
+                    <span><img src="{{ asset('assets/shop/images/icons/payment/mastercard.jpg') }}" alt=""></span>
+                    <span><img src="{{ asset('assets/shop/images/icons/payment/discover.jpg') }}" alt=""></span>
+                    <span><img src="{{ asset('assets/shop/images/icons/payment/american.jpg') }}" alt=""></span>
                 </div>
             </div>
         </div>

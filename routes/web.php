@@ -22,3 +22,7 @@ Route::group(['namespace' => 'Auth'], function(){
 
 
 });
+
+
+/**********  admin  **********/
+Route::view('admin/login' ,'admin.auth.login');

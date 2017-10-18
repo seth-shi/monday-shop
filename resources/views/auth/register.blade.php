@@ -1,4 +1,4 @@
-@extends('layouts.auth')
+@extends('layouts.shop.auth')
 
 @section('style')
 
