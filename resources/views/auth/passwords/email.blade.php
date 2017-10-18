@@ -1,47 +1,54 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+@section('main')
+    <main id="mainContent" class="main-content">
+        <div class="page-container ptb-60">
+            <div class="container">
+                <section class="sign-area panel p-40">
+                    <h3 class="sign-title">找回密码</h3>
+                    <div class="row row-rl-0">
+                        <div class="col-sm-6 col-md-7 col-left">
+                            <form class="p-40 form-horizontal" method="POST" action="{{ route('login') }}">
 
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
+                                {{ csrf_field() }}
+
+                                <!-- 把回传页也提交 -->
+                                <input type="hidden" name="redirect_url" value="{{ request()->input('redirect_url') ?? '/' }}">
+
+                                <div class="form-group {{ $errors->has('account') ? ' has-error' : '' }}">
+                                    <label class="sr-only">用户名/邮箱</label>
+                                    <input type="text" class="form-control input-lg" name="account" value="{{ old('account') }}" placeholder="用户名 / 邮箱" required autofocus>
+                                    @if ($errors->has('account'))
+                                        <span class="help-block">
+                                            <strong>{!! $errors->first('account') !!}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <button type="submit" class="btn btn-block btn-lg">发送激活邮件</button>
+                            </form>
+                            <span class="or">Or</span>
                         </div>
-                    @endif
+                        <div class="col-sm-6 col-md-5 col-right">
+                            <div class="social-login p-40">
+                                <div class="mb-20">
+                                    <a href="{{ url('/auth/github') }}" class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa  fa-github"></i>登录 Github</a>
+                                </div>
+                                <div class="mb-20">
+                                    <a href="{{ url('/auth/qq') }}" class="btn btn-lg btn-block btn-social btn-twitter"><i class="fa fa-qq"></i>登录  QQ</a>
+                                </div>
+                                <div class="mb-20">
+                                    <a href="{{ url('/auth/weibo') }}" class="btn btn-lg btn-block btn-social btn-google-plus"><i class="fa fa-weibo"></i>登录  微博</a>
+                                </div>
 
-                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                                <div class="text-center color-mid">
+                                    需要一个账户 ? <a href="{{ route('register') }}" class="color-green">创建账户</a>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </section>
             </div>
         </div>
-    </div>
-</div>
+    </main>
 @endsection
