@@ -8,6 +8,14 @@
     <main id="mainContent" class="main-content">
         <div class="page-container ptb-60">
             <div class="container">
+
+                @if (session()->has('msg'))
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ session('msg') }}
+                    </div>
+                @endif
+
                 <section class="sign-area panel p-40">
                     <h3 class="sign-title">注册 <small>Or <a href="{{ route('login') }}" class="color-green">登录</a></small></h3>
                     <div class="row row-rl-0">

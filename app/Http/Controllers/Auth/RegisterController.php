@@ -61,7 +61,7 @@ class RegisterController extends Controller
         // $this->guard()->login($user);
 
         return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+            ?: redirect($this->redirectPath())->with('msg', '注册成功');
     }
 
     /**
@@ -112,6 +112,11 @@ class RegisterController extends Controller
             'avatar' => $faker->imageUrl(120, 120)
         ]);
 
+    }
+
+    protected function redirectTo()
+    {
+        return 'register';
     }
 
 

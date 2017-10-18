@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
@@ -47,5 +50,28 @@ class ResetPasswordController extends Controller
             'password.confirmed' => '两次密码不一致',
             'password.min' => '密码不能少于六位数',
         ];
+    }
+
+    /**
+     * rewrite Illuminate\Foundation\Auth\ResetsPasswords::resetPassword not login
+     * @param $user
+     * @param $password
+     */
+    public function resetPassword($user, $password)
+    {
+        $user->password = Hash::make($password);
+
+        $user->setRememberToken(Str::random(60));
+
+        $user->save();
+
+        event(new PasswordReset($user));
+
+        // $this->guard()->login($user);
+    }
+
+    public function redirectTo()
+    {
+        return 'password/reset';
     }
 }

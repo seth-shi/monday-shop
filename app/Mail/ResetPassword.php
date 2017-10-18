@@ -12,6 +12,8 @@ class ResetPassword extends Mailable
     use Queueable, SerializesModels;
 
     protected $token;
+
+    public $subject = '重置密码';
     /**
      * Create a new message instance.
      *

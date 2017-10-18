@@ -141,7 +141,7 @@
                         </span><br>
                         <span class="font_gray"></span></p>
                     <div class="line">如果你链接不能跳转，请复制
-                        <span id="yzm" style="border-bottom: 1px dashed rgb(204, 204, 204); z-index: 1; position: static;">{{ url('register/active') }}/{{ $user->active_token }}</span>到浏览器中
+                        <span id="yzm" style="border-bottom: 1px dashed rgb(204, 204, 204); z-index: 1; position: static;"><pre>{{ url('register/active') }}/{{ $user->active_token }}</pre></span>到浏览器中
                     </div>
                 </div>
             </div>

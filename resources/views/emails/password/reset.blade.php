@@ -29,7 +29,7 @@
 
         .qmbox .title {
             margin: 0 auto;
-            background: url() #CCC repeat-x;
+            background:  #CCC repeat-x;
             height: 30px;
             text-align: center;
             font-weight: bold;
@@ -137,7 +137,7 @@
                         </span><br>
                         <span class="font_gray"></span></p>
                     <div class="line">如果你链接不能跳转，请复制
-                        <span id="yzm" style="border-bottom: 1px dashed rgb(204, 204, 204); z-index: 1; position: static;">{{ $url }}</span>到浏览器中
+                        <span id="yzm" style="border-bottom: 1px dashed rgb(204, 204, 204); z-index: 1; position: static;"><pre>{{ $url }}</pre></span>到浏览器中
                     </div>
                 </div>
             </div>
