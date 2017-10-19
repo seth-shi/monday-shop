@@ -127,10 +127,18 @@ class LoginController extends Controller
         ];
     }
 
-    /**
-     * 判断是用户名还是密码登录
-     * @return string
-     */
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ], [
+            $this->username() . '.required' => '账号不能为空',
+            $this->username() . '.string' => '账号必须是正确的字符串',
+            'password.required' => '密码不能为空'
+        ]);
+    }
+
     public function username()
     {
         return 'account';

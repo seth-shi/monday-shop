@@ -24,7 +24,7 @@
 <div class="system-message">
     <h1>×</h1>
     <p class="error"></p>
-    <p class="detail">{{ $msg }}</p>
+    <p class="detail">{{ $status }}</p>
     <p class="jump">页面自动
         <a id="href" href="{{ $url or url('/') }}">跳转</a>等待时间：
         <b id="wait">3</b></p>

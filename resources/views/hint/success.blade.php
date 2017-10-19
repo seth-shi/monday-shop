@@ -24,7 +24,7 @@
 <body>
 <div class="system-message">
     <h1>√</h1>
-    <p class="success">{{ $msg }}</p>
+    <p class="success">{{ $status }}</p>
     <p class="detail"></p>
     <p class="jump">页面自动
         <a id="href" href="{{ $url or url('/') }}">跳转</a>等待时间：

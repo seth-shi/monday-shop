@@ -25,4 +25,11 @@ Route::group(['namespace' => 'Auth'], function(){
 
 
 /**********  admin  **********/
-Route::view('admin/login' ,'admin.auth.login');
+Route::get('admin/login' ,'Admin\Auth\LoginController@showLoginForm')->name('admin.signin');
+Route::post('admin/login', 'Admin\Auth\LoginController@login');
+Route::middleware([])->prefix('admin')->namespace('Admin')->group(function(){
+
+    Route::get('/', 'HomeController@index');
+    Route::post('logout', 'Auth\LoginController@logout')->name('admin.logout');
+
+});

@@ -1,39 +1,52 @@
 ﻿@extends('layouts.admin')
 
+@section('style')
+    <link href="{{ asset('assets/shop/css/bootstrap.min.css') }}" rel="stylesheet">
+@endsection
+
 @section('main')
     <input type="hidden" id="TenantId" name="TenantId" value="" />
     <div class="header"></div>
     <div class="loginWraper">
+
+        @if (session()->has('status'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ session('status') }}
+            </div>
+        @endif
+
         <div id="loginform" class="loginBox">
-            <form class="form form-horizontal" action="index.html" method="post">
+            <form class="form form-horizontal" action="{{ url('admin/login') }}" method="post">
+                {{ csrf_field() }}
+
                 <div class="row cl">
                     <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                     <div class="formControls col-xs-8">
-                        <input id="" name="" type="text" placeholder="账户" class="input-text size-L">
+                        <input id="" name="account" type="text" placeholder="账户" class="input-text size-L">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
                     <div class="formControls col-xs-8">
-                        <input id="" name="" type="password" placeholder="密码" class="input-text size-L">
+                        <input id="" name="password" type="password" placeholder="密码" class="input-text size-L">
                     </div>
                 </div>
                 <div class="row cl">
-                    <div class="formControls col-xs-8 col-xs-offset-3">
-                        <input class="input-text size-L" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">
-                        <img src=""> <a id="kanbuq" href="javascript:;">看不清，换一张</a> </div>
-                </div>
-                <div class="row cl">
-                    <div class="formControls col-xs-8 col-xs-offset-3">
-                        <label for="online">
-                            <input type="checkbox" name="online" id="online" value="">
-                            使我保持登录状态</label>
+                    <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe725;</i></label>
+                    <div class="formControls col-xs-8">
+                        <div style="position: relative;">
+                            <input name="captcha" type="text" placeholder="验证码" class="input-text size-L">
+                            <img style="position: absolute;top: 0; right: 0; cursor: pointer;height: 41px;" src="{{captcha_src()}}" onclick="this.src='{{ url("captcha/default") }}?'+Math.random()" alt="验证码" >
+                        </div>
+
                     </div>
                 </div>
+
                 <div class="row cl">
                     <div class="formControls col-xs-8 col-xs-offset-3">
-                        <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
-                        <input name="" type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
+                        <input type="submit" class="btn btn-success radius size-L" style="width: 100%" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+
                     </div>
                 </div>
             </form>

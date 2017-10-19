@@ -61,7 +61,7 @@ class RegisterController extends Controller
         // $this->guard()->login($user);
 
         return $this->registered($request, $user)
-            ?: redirect($this->redirectPath())->with('msg', '注册成功');
+            ?: redirect($this->redirectPath())->with('status', '注册成功');
     }
 
     /**

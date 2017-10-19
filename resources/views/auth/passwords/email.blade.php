@@ -49,7 +49,7 @@
                                 </div>
 
                                 <div class="text-center color-mid">
-                                    需要一个账户 ? <a href="{{ route('register') }}" class="color-green">创建账户</a>
+                                    重置密码成功？ <a href="{{ route('login') }}" class="color-green">去登录</a>
                                 </div>
                             </div>
                         </div>

@@ -23,12 +23,12 @@ class UserRepository
         return User::where('active_token', $token)->first();
     }
 
-    public function getUserByNameAndPassword($username, $password)
+    public function getUserByNameAndPassword($account, $password)
     {
         // 获取字段类型
-        $field = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $field = filter_var($account, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
-        $user = User::where($field, $username)->first();
+        $user = User::where($field, $account)->first();
 
         if ($user) {
             if (Hash::check($password, $user->password)) {

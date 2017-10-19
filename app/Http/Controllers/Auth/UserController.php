@@ -29,9 +29,9 @@ class UserController extends Controller
             $user->active_token = str_random(60);
             $user->save();
 
-            return view('hint.success', ['msg' => "{$user->name} 账户激活成功！", 'url' => url('login')]);
+            return view('hint.success', ['status' => "{$user->name} 账户激活成功！", 'url' => url('login')]);
         } else {
-            return view('hint.error', ['msg' => '无效的token']);
+            return view('hint.error', ['status' => '无效的token']);
         }
     }
 
@@ -42,13 +42,13 @@ class UserController extends Controller
 
         if (! $user) {
 
-            return view('hint.error', ['msg' => '用户名或者密码错误']);
+            return view('hint.error', ['status' => '用户名或者密码错误']);
         }
 
         // 注册成功发送邮件加入队列
         Mail::to($user->email)
             ->queue(new UserRegister($user));
 
-        return view('hint.success', ['msg' => '发送邮件成功', 'url' => route('login')]);
+        return view('hint.success', ['status' => '发送邮件成功', 'url' => route('login')]);
     }
 }
