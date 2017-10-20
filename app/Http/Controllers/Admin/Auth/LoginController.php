@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
+use App\Http\Requests\StoreAdminPost;
+use App\Repositories\AdminRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,11 +12,11 @@ use Spatie\Permission\Models\Role;
 
 class LoginController extends Controller
 {
-    protected $userRepository;
+    protected $adminRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(AdminRepository $adminRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->adminRepository = $adminRepository;
     }
 
     public function showLoginForm()
@@ -22,20 +24,26 @@ class LoginController extends Controller
         return view('admin.auth.login');
     }
 
-    public function login(Request $request)
+    public function login(StoreAdminPost $request)
     {
+        list($account, $password) = array_values($request->only(['account', 'password']));
 
-        if ($this->guard()->attempt(['name' => 'admin', 'password' => 'admin'])) {
-            echo '登录陈工';
+        if ($admin = $this->adminRepository->getUserByNameAndPassword($account, $password)) {
+
+            session(['admin' => $admin->name]);
+            return redirect('admin');
         } else {
-            echo '登录失败';
+
+            return back()->withInput()->withErrors(['account' => '账号或者密码错误']);
         }
 
-        return redirect('admin');
     }
 
-    protected function guard($name = 'admin')
+    public function logout(Request $request)
     {
-        return Auth::guard($name);
+        $request->session()->forget('admin');
+
+        return back();
     }
+
 }

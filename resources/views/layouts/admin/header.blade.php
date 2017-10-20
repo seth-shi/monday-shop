@@ -4,9 +4,9 @@
 
 			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 				<ul class="cl">
-					@role('admin', 'admin')
+					@if (session()->has('admin'))
 						<li>超级管理员</li>
-						<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">{{ Auth::guard('admin')->user()->name }} <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">{{ session('admin') }} <i class="Hui-iconfont">&#xe6d5;</i></a>
 							<ul class="dropDown-menu menu radius box-shadow">
 								<li><a href="#">个人信息</a></li>
 								<li><a href="#">切换账户</a></li>
@@ -14,7 +14,7 @@
 										<a href="{{ route('admin.logout') }}"
 										   onclick="event.preventDefault();
 															 document.getElementById('logout-form').submit();">
-											Logout
+											注销
 										</a>
 
 										<form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
@@ -37,7 +37,7 @@
 						</li>
 					@else
 						<li>游客</li>
-					@endrole
+					@endif
 				</ul>
 			</nav>
 		</div>

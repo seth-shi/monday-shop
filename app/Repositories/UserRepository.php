@@ -25,7 +25,6 @@ class UserRepository
 
     public function getUserByNameAndPassword($account, $password)
     {
-        // 获取字段类型
         $field = filter_var($account, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
         $user = User::where($field, $account)->first();

@@ -13,19 +13,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // dd(Role::create(['name' => 'warehouse']), Permission::create(['name' => 'edit_product']));
+        return view('admin.index');
+    }
 
-        // $user = User::where('name', 'waitmoonman')->first();
-
-        // 分配角色
-        // dd($user->assignRole('admin'));
-
-        // 分配权限
-        // dd($user->givePermissionTo('edit_product'));
-
-
-        // dd($user->hasRole('warehouse'));
-
-        dd(Auth::guard('admin')->user());
+    public function welcome()
+    {
+        return view('admin.welcome');
     }
 }
