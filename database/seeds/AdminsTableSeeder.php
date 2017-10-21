@@ -16,14 +16,12 @@ class AdminsTableSeeder extends Seeder
         Admin::create([
                 'name' => 'admin',
                 'password' => bcrypt('admin'),
-                'email' => '1033404553@qq.com',
                 'avatar' => $faker->imageUrl(120, 120)
         ]);
 
         Admin::create([
             'name' => 'guest',
             'password' => bcrypt('guest'),
-            'email' => $faker->email,
             'avatar' => $faker->imageUrl(120, 120)
         ]);
     }

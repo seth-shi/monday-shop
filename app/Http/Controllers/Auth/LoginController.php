@@ -49,9 +49,8 @@ class LoginController extends Controller
     }
 
     /**
-     * rewrite login method
      * @param Request $request
-     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|void
+     * @return $this|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|void
      */
     public function login(Request $request)
     {

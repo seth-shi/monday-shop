@@ -24,7 +24,7 @@ class StoreAdminPost extends FormRequest
     public function rules()
     {
         return [
-            'account' => 'required|min:5',
+            'name' => 'required|min:5',
             'password' => 'required|min:5',
             'captcha' => 'required|captcha',
         ];
@@ -33,8 +33,8 @@ class StoreAdminPost extends FormRequest
     public function messages()
     {
         return [
-          'account.required' => '用户名不能为空',
-          'account.min' => '用户名不能少于五位',
+          'name.required' => '用户名不能为空',
+          'name.min' => '用户名不能少于五位',
           'password.required' => '密码不能少于五位',
           'password.min' => '密码不能少于五位',
           'captcha.required' => '验证码不能为空',

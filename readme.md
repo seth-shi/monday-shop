@@ -67,5 +67,7 @@ config/cache.php
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
+## TODO
+* 数据库填充注释了部分代码，上线前记得开启
 ## License
 MIT

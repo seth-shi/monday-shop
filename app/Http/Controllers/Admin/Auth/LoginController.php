@@ -4,21 +4,12 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Requests\StoreAdminPost;
 use App\Repositories\AdminRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
 
 class LoginController extends Controller
 {
-    protected $adminRepository;
-
-    public function __construct(AdminRepository $adminRepository)
-    {
-        $this->adminRepository = $adminRepository;
-    }
-
     public function showLoginForm()
     {
         return view('admin.auth.login');
@@ -26,24 +17,25 @@ class LoginController extends Controller
 
     public function login(StoreAdminPost $request)
     {
-        list($account, $password) = array_values($request->only(['account', 'password']));
+        $fields = $request->only(['name', 'password']);
 
-        if ($admin = $this->adminRepository->getUserByNameAndPassword($account, $password)) {
-
-            session(['admin' => $admin->name]);
+        if ($this->guard()->attempt($fields, true)) {
             return redirect('admin');
-        } else {
-
-            return back()->withInput()->withErrors(['account' => '账号或者密码错误']);
         }
 
+        return back()->withInput()->withErrors(['account' => '账号或者密码错误']);
     }
 
     public function logout(Request $request)
     {
-        $request->session()->forget('admin');
+        $this->guard()->logout();
 
-        return back();
+        return redirect()->route('admin.login');
+    }
+
+    public function guard($name = 'admin')
+    {
+        return Auth::guard($name);
     }
 
 }

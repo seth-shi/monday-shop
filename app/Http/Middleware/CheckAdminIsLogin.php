@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class CheckAdminIsLogin
 {
@@ -15,7 +16,7 @@ class CheckAdminIsLogin
      */
     public function handle($request, Closure $next)
     {
-        if (! session()->has('admin')) {
+        if (! Auth::guard('admin')->check()) {
 
             return redirect()->route('admin.login')->with('status', '请登录账号再操作');
         }

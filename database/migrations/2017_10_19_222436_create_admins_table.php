@@ -17,11 +17,11 @@ class CreateAdminsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('password');
-            $table->string('email');
             $table->string('avatar');
 
             $table->string('last_ip')->nullable();
 
+            $table->rememberToken()->comment('laravel中的记住我');
             $table->timestamps();
         });
     }

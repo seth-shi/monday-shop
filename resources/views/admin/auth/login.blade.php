@@ -24,7 +24,7 @@
                 <div class="row cl {{ $errors->has('account') ? ' has-error' : '' }}">
                     <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                     <div class="formControls col-xs-8">
-                        <input id="" name="account" type="text" placeholder="账户" class="input-text size-L" value="{{ old('account') }}">
+                        <input id="" name="name" type="text" placeholder="账号" class="input-text size-L" value="{{ old('name') }}">
                         @if ($errors->has('account'))
                             <span class="help-block">
                                 <strong>{!! $errors->first('account') !!}</strong>
