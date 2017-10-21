@@ -32,4 +32,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
 
     Route::get('/', 'HomeController@index');
     Route::get('/welcome', 'HomeController@welcome')->name('admin.welcome');
+
+
+    Route::resource('category', 'CategoryController');
 });
