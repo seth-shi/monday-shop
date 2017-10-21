@@ -7,7 +7,6 @@
     "require": {
         "php": ">=7.0.0",
         "barryvdh/laravel-ide-helper": "^2.4",
-        "baum/baum": "~1.1",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",

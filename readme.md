@@ -63,7 +63,7 @@ config/cache.php
 |[mews/captcha](https://github.com/mewebstudio/captcha)|生成验证集一体的验证码包|登录注册功能使用验证码验证|
 |[overtrue/laravel-socialite](https://github.com/overtrue/laravel-socialite)|第三方登录包|用户登录可以使用Github,QQ,新浪微博|
 |[spatie/laravel-permission](https://github.com/spatie/laravel-permission)|权限管理包|后台管理员操作权限|  
-|[etrepat/baum](https://github.com/etrepat/baum)|无限分类包|商品类型的无限级分类|  
+|[etrepat/baum](https://github.com/etrepat/baum)|无限分类包|递归效率很低,快速让你的数据模型支持无限极树状层级结构，并且兼顾效率。|  
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
