@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Baum\Node;
 
-class Category extends Model
+/**
+* Category
+*/
+class Category extends Node
 {
-    protected $table = 'categorys';
-    protected $fillable = ['name', 'pid'];
+
+  protected $table = 'categories';
+
+  protected $guarded = array('id', 'parent_id', 'lft', 'rgt', 'depth');
 
 }

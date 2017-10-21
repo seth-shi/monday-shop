@@ -3,7 +3,7 @@
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
-class CategorysTableSeeder extends Seeder
+class CategoriesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -7,12 +7,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 // user auth
 Auth::routes();
 Route::group(['namespace' => 'Auth'], function(){
-    // 激活用户账户
+    // account active link
     Route::get('/register/active/{token}', 'UserController@activeAccount');
-    // 重新发送激活邮件链接
+    // again send active link
     Route::get('/register/again/send/{id}', 'UserController@sendActiveMail');
 
-    // 第三方登录
+    // github,qq,weibo authorize login
     Route::get('/auth/github', 'AuthLoginController@redirectToGithub');
     Route::get('/auth/github/callback', 'AuthLoginController@handleGithubCallback');
     Route::get('/auth/qq', 'AuthLoginController@redirectToQQ');
@@ -34,5 +34,6 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::get('/welcome', 'HomeController@welcome')->name('admin.welcome');
 
 
-    Route::resource('category', 'CategoryController');
+    Route::resource('categorys', 'CategoryController');
+    // Route::resource('categorys', 'CategoryController', ['only' => ['index', 'show']]);
 });

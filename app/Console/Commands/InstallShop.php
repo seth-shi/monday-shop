@@ -36,13 +36,13 @@ class InstallShop extends BaseCommand
      */
     public function handle()
     {
-        // 重新生成密钥
+        // Compatibility of processing laravel5.5 packages
+        $this->execShellWithPrint('php artisan gps:compatible');
+
         $this->execShellWithPrint('php artisan key:generate');
-        // 数据库迁移
         $this->execShellWithPrint('php artisan migrate');
-        // 数据库填充
         $this->execShellWithPrint('php artisan db:seed');
-        // 监听队列 三次失败后加入失败队列表
+        // Join queue of failed teams after three failed monitoring queues
         $this->execShellWithPrint('php artisan queue:work --tries=3');
     }
 }
