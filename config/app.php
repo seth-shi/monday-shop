@@ -169,7 +169,6 @@ return [
          */
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
-        Baum\Providers\BaumServiceProvider::class,
 
 
         /*

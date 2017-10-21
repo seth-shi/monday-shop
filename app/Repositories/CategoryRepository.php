@@ -3,10 +3,7 @@
 namespace App\Repositories;
 
 
-use App\Models\Admin;
 use App\Models\Category;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class CategoryRepository
 {

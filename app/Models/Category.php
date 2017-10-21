@@ -2,16 +2,8 @@
 
 namespace App\Models;
 
-use Baum\Node;
-
-/**
-* Category
-*/
-class Category extends Node
+class Category extends Model
 {
-
-  protected $table = 'categories';
-
-  protected $guarded = array('id', 'parent_id', 'lft', 'rgt', 'depth');
+    protected $table = 'categories';
 
 }

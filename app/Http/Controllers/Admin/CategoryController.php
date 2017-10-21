@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,8 +17,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categorys = Category::find(2)->getDescendants()->dd();
-
+        $categorys = $this->categoryRepository->getAll();
 
         return view('admin.category.index', compact('categorys'));
     }
