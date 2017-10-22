@@ -30,5 +30,4 @@
 
 	@include('layouts.admin.footer')
     <!-- 此处 footer 仅是 引入js -->
-    @include('layouts.admin.js')
 @endsection
