@@ -12,18 +12,9 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    protected $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
     public function activeAccount($token)
     {
-        $user = $this->userRepository->getUserByActiveToken($token);
-
-        if ($user) {
+        if ($user = User::where('active_token', $token)->first()) {
             $user->is_active = 1;
             // 重新生成激活token
             $user->active_token = str_random(60);
@@ -37,18 +28,15 @@ class UserController extends Controller
 
     public function sendActiveMail($id)
     {
-        // 查找到用户密码
-        $user = $this->userRepository->getUserById($id);
+        if ($user = User::find($id)) {
+            //  again send active link, join queue
+            Mail::to($user->email)
+                ->queue(new UserRegister($user));
 
-        if (! $user) {
+            return view('hint.success', ['status' => '发送邮件成功', 'url' => route('login')]);
 
-            return view('hint.error', ['status' => '用户名或者密码错误']);
         }
 
-        // 注册成功发送邮件加入队列
-        Mail::to($user->email)
-            ->queue(new UserRegister($user));
-
-        return view('hint.success', ['status' => '发送邮件成功', 'url' => route('login')]);
+        return view('hint.error', ['status' => '用户名或者密码错误']);
     }
 }

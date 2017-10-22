@@ -24,10 +24,17 @@ class StoreCategoryPost extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required|unique:categories',
             'parent_id' => Rule::notIn(['-1'])
         ];
+
+        if ($this->request->get('_method') == 'PUT') {
+
+            $rules['name'] = 'required';
+        }
+
+        return $rules;
     }
 
     public function messages()

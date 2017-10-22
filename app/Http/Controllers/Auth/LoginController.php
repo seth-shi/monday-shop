@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Repositories\UserRepository;
 use App\Services\UserService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -32,19 +31,16 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
-    protected $userRepository;
     protected $userService;
 
     /**
      * LoginController constructor.
-     * @param UserRepository $userRepository
+     * @param UserService $userService
      */
-    public function __construct(UserRepository $userRepository, UserService $userService)
+    public function __construct(UserService $userService)
     {
-        $this->middleware('guest')->except('logout');
+//        $this->middleware('guest')->except('logout');
 
-        // UserRepository
-        $this->userRepository = $userRepository;
         $this->userService = $userService;
     }
 
@@ -70,13 +66,13 @@ class LoginController extends Controller
             $user = $this->guard()->user();
 
             // If the user is not activated
-            if (! $this->userRepository->isActive($user))
+            if ($user->is_active != 1)
             {
                 Auth::logout();
 
                 // Get activation link and alert
                 $link = $this->userService->getActiveLink($user);
-                return back()->withInput()->withErrors([$this->username() => $link]);
+                return redirect('login')->withInput()->withErrors([$this->username() => $link]);
             }
 
             return $this->sendLoginResponse($request);
@@ -118,7 +114,7 @@ class LoginController extends Controller
      */
     protected function credentials(Request $request)
     {
-        $field = filter_var($this->username(), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $field = filter_var($request->input($this->username()), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
         return [
             $field => $request->input($this->username()),

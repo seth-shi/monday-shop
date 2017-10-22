@@ -6,7 +6,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // user auth
 Auth::routes();
-Route::group(['namespace' => 'Auth'], function(){
+Route::namespace('Auth')->group(function(){
     // account active link
     Route::get('/register/active/{token}', 'UserController@activeAccount');
     // again send active link
@@ -30,6 +30,7 @@ Route::post('/admin/login', 'Admin\Auth\LoginController@login');
 Route::post('/admin/logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
 Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(function(){
 
+    // admin home page
     Route::get('/', 'HomeController@index');
     Route::get('/welcome', 'HomeController@welcome')->name('admin.welcome');
 

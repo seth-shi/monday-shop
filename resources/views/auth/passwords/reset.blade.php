@@ -60,7 +60,6 @@
                                 <div class="mb-20">
                                     <a href="{{ url('/auth/weibo') }}" class="btn btn-lg btn-block btn-social btn-google-plus"><i class="fa fa-weibo"></i>登录  微博</a>
                                 </div>
-1111111
                                 <div class="text-center color-mid">
                                    <a href="{{ route('login') }}" class="color-green">登录</a>
                                 </div>

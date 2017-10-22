@@ -5,86 +5,65 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\StoreCategoryPost;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
-    protected $categoryRepository;
-
-    public function __construct(CategoryRepository $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
     public function index()
     {
-        $categorys = $this->categoryRepository->getAllWithDepath();
+        $categorys = Category::defaultOrder()->withDepth()->get();
 
         return view('admin.category.index', compact('categorys'));
     }
 
     public function create()
     {
-        $categorys = $this->categoryRepository->getAllWithDepath();
+        $categorys = Category::defaultOrder()->withDepth()->get();
 
-        return view('admin.category.add', compact('categorys'));
+        return view('admin.category.create', compact('categorys'));
     }
 
     public function store(StoreCategoryPost $request)
     {
-        $fileds = $request->only(['parent_id', 'name', 'description']);
+        $parent_id = $request->input('parent_id');
 
-        if ($this->categoryRepository->create($fileds)) {
-            return back()->with('status', '创建分类成功');
+        // create a root tree
+        if ($request->input('parent_id') == '0') {
+            Category::create($request->all());
         } else {
-            return back()->withInput()->with('status', '服务器忙，请稍后再试');
+            Category::find($parent_id)->children()->create($request->all());
+        }
+
+        return back()->with('status', '创建分类成功');
+    }
+
+    public function show(Category $category)
+    {
+        return view('admin.category.show', compact('category'));
+    }
+
+    public function edit(Category $category)
+    {
+        $categorys = Category::defaultOrder()->withDepth()->get();
+
+        return view('admin.category.edit', compact('category', 'categorys'));
+    }
+
+    public function update(StoreCategoryPost $request, Category $category)
+    {
+        $category->parent_id = $request->input('parent_id');
+        $category->name = $request->input('name');
+        $category->description = $request->input('description');
+        if ($category->save()) {
+            return back()->with('status', '修改成功');
+        } else {
+            return back()->with('status', '服务器出错，请稍后再试');
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function destroy(Category $category)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        if ($this->categoryRepository->find($id)->delete()) {
+        if ($category->delete()) {
             return back()->with('status', '删除成功');
         }
 

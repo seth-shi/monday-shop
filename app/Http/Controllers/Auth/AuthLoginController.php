@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Repositories\UserRepository;
-
-
 use Illuminate\Support\Facades\Auth;
 use Overtrue\LaravelSocialite\Socialite;
 use Overtrue\Socialite\UserInterface;
@@ -14,13 +11,6 @@ use Faker\Factory;
 
 class AuthLoginController extends Controller
 {
-    protected $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
     /**
      * Third party GitHub authorization
      * @return mixed
@@ -81,10 +71,10 @@ class AuthLoginController extends Controller
         }
 
         // Access to third party services
-        $providerType = $this->formatProvider($socialite['provider']);
+        list($providerId, $providerName) = $providerType = $this->formatProvider($socialite['provider']);
 
         // First query the database whether there is a user, if it already exists, log on
-        if (!$user = $this->userRepository->getUserByProviderId($providerType[0], $socialite['id'])) {
+        if (!$user = User::where($providerId, $socialite['id'])->first()) {
 
             $user = $this->createUserByProvider($socialite, $providerType);
         }
@@ -121,9 +111,7 @@ class AuthLoginController extends Controller
         list($providerId, $providerName) = $providerType;
 
         // by email find user Is there
-        $user = $this->userRepository->getUserByEmail($provider['email']);
-
-        if ($user) {
+        if ($user = User::where('name', $provider['email'])->first()) {
             // if user already exists, bind the account only
             $user->$providerId = $provider['id'];
             $user->$providerName = $provider['nickname'];
@@ -158,7 +146,7 @@ class AuthLoginController extends Controller
 
 
 
-        if (! $this->userRepository->getUserByName($provider['nickname'])) {
+        if (! User::where('name', $provider['nickname'])->first()) {
             $data['name'] = $provider['nickname'];
         }
 
