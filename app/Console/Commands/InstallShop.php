@@ -36,9 +36,6 @@ class InstallShop extends BaseCommand
      */
     public function handle()
     {
-        // Compatibility of processing laravel5.5 packages
-        $this->execShellWithPrint('php artisan gps:compatible');
-
         $this->execShellWithPrint('php artisan key:generate');
         $this->execShellWithPrint('php artisan migrate');
         $this->execShellWithPrint('php artisan db:seed');
