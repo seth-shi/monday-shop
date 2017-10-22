@@ -1,7 +1,6 @@
 ﻿@extends('layouts.admin')
 
 @section('style')
-    <link href="{{ asset('assets/shop/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/static/h-ui.admin/css/H-ui.login.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 

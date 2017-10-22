@@ -4,8 +4,8 @@
 			<dt><i class="Hui-iconfont">&#xe616;</i> 分类管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="{{ url('admin/categorys') }}" data-title="分类列表" href="javascript:void(0)">分类列表</a></li>
-					<li><a data-href="{{ url('admin/categorys/create') }}" data-title="分类添加" href="javascript:void(0)">分类添加</a></li>
+					<li><a data-href="{{ url('admin/categories') }}" data-title="分类列表" href="javascript:void(0)">分类列表</a></li>
+					<li><a data-href="{{ url('admin/categories/create') }}" data-title="分类添加" href="javascript:void(0)">分类添加</a></li>
 				</ul>
 			</dd>
 		</dl>

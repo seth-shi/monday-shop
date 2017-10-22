@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StoreCategoryPost;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
@@ -25,18 +26,20 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('admin.category.add');
+        $categorys = $this->categoryRepository->getAllWithDepath();
+
+        return view('admin.category.add', compact('categorys'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreCategoryPost $request)
     {
-        //
+        $fileds = $request->only(['parent_id', 'name', 'description']);
+
+        if ($this->categoryRepository->create($fileds)) {
+            return back()->with('status', '创建分类成功');
+        } else {
+            return back()->withInput()->with('status', '服务器忙，请稍后再试');
+        }
     }
 
     /**

@@ -4,45 +4,32 @@ namespace App\Repositories;
 
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CategoryRepository
 {
-
-    public function getTree()
-    {
-        return Category::get()->toTree();
-    }
 
     public function getAllWithDepath()
     {
         return Category::defaultOrder()->withDepth()->get();
     }
 
-    public function traverseTreeToArr($prefix = '-')
+    public function find($id)
     {
-        $nodes = $this->getTree();
-
-        return $this->traverseTree($nodes, $prefix);
+        return Category::find($id);
     }
 
-    protected function traverseTree($nodes, $prefix = '-')
+    public function create(array $fileds)
     {
-        $fix_prefix = $prefix;
-        $data = [];
+        if (is_null($fileds['parent_id']) || empty($fileds['parent_id'])) {
+            return Category::create($fileds);
+        }
 
-        $traverse = function ($nodes, $prefix = '-') use (&$traverse, $fix_prefix, &$data) {
-
-            foreach ($nodes as $node) {
-
-                $data[$node->id] = $prefix.' '.$node->name;
-
-                $traverse($node->children, $fix_prefix.$prefix);
-            }
-        };
-
-        $traverse($nodes, $prefix);
-
-        return $data;
+        try {
+            return Category::findOrFail($fileds['parent_id'])->children()->create($fileds);
+        } catch (ModelNotFoundException $e) {
+            return false;
+        }
     }
 
 }

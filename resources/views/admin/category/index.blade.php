@@ -25,8 +25,6 @@
 				</tr>
 				</thead>
 				<tbody>
-
-					@inject('categoryPresenter', 'App\Presenters\CategoryPresenter')
 				    @foreach ($categorys as $category)
 						<tr class="text-c">
 							<td><input name="" type="checkbox" value="{{ $category->id }}"></td>

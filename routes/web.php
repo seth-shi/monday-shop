@@ -34,6 +34,5 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::get('/welcome', 'HomeController@welcome')->name('admin.welcome');
 
 
-    Route::resource('categorys', 'CategoryController');
-    // Route::resource('categorys', 'CategoryController', ['only' => ['index', 'show']]);
+    Route::resource('categories', 'CategoryController');
 });

@@ -26,7 +26,10 @@ class CategoriesTableSeeder extends Seeder
                 [
                     'name' => 'VIVO手机',
                     'children' => [
-                        [ 'name' => 'vivo x6' ],
+                        [
+                            'name' => 'vivo x6',
+                            'children' => ['name' => 'vivo x6d']
+                        ],
                     ],
                 ],
             ],
