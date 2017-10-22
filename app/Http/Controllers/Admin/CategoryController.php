@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categorys = $this->categoryRepository->getAll();
+        $categorys = $this->categoryRepository->getAllWithDepath();
 
         return view('admin.category.index', compact('categorys'));
     }

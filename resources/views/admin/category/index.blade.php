@@ -16,25 +16,29 @@
 				<thead>
 				<tr class="text-c">
 					<th width="40"><input name="" type="checkbox" value=""></th>
-					<th width="80">ID</th>
+					<th width="50">ID</th>
 					<th width="100">分类名称</th>
-					<th width="100">分类描述</th>
+					<th width="200">父级分类</th>
 					<th width="150">创建时间</th>
 					<th width="150">更新时间</th>
 					<th width="100">操作</th>
 				</tr>
 				</thead>
 				<tbody>
+
+					@inject('categoryPresenter', 'App\Presenters\CategoryPresenter')
 				    @foreach ($categorys as $category)
-                        <tr class="text-c">
-                            <td><input name="" type="checkbox" value="{{ $category->id }}"></td>
-                            <td>{{ $category->id }}</td>
-                            <td>{{ $category->name }}</td>
-                            <td>{{ $category->description }}</td>
-                            <td>{{ $category->created_at }}</td>
-                            <td>{{ $category->updated_at }}</td>
-                            <td class="td-manage"><a style="text-decoration:none" onClick="picture_stop(this,'10001')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a> <a style="text-decoration:none" class="ml-5" onClick="picture_edit('图库编辑','picture-add.html','10001')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="picture_del(this,'10001')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-                        </tr>
+						<tr class="text-c">
+							<td><input name="" type="checkbox" value="{{ $category->id }}"></td>
+							<td>{{ $category->id }}</td>
+							<td class="text-l">
+                                {!!  str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth)  !!}{{ $category->ancestors->count() ? '┣━━' : '' }} {{ $category->name }}
+                            </td>
+							<td class="text-l">{{ $category->isRoot() ? '一级分类' : implode(' ➤ ', $category->ancestors->pluck('name')->toArray()) }}</td>
+							<td>{{ $category->created_at }}</td>
+							<td>{{ $category->updated_at }}</td>
+							<td class="td-manage"><a style="text-decoration:none" onClick="picture_stop(this,'10001')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a> <a style="text-decoration:none" class="ml-5" onClick="picture_edit('图库编辑','picture-add.html','10001')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="picture_del(this,'10001')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+						</tr>
                     @endforeach
 				</tbody>
 			</table>

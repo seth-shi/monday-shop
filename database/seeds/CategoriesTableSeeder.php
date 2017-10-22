@@ -12,20 +12,24 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        Category::create(
-            ['name' => '手机数码']
-        );
 
-        Category::create(
-            ['name' => '男装']
-        );
+        Category::create([
+            'name' => '男装',
+            'children' => [
+                ['name' => '艾斯玛']
+            ],
+        ]);
 
-        Category::create(
-            ['name' => '家居']
-        );
-
-        Category::create(
-            ['name' => '箱包']
-        );
+        Category::create([
+            'name' => '手机数码',
+            'children' => [
+                [
+                    'name' => 'VIVO手机',
+                    'children' => [
+                        [ 'name' => 'vivo x6' ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

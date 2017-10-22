@@ -167,8 +167,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Mews\Captcha\CaptchaServiceProvider::class,
 
 
         /*
