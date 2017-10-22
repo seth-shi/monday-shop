@@ -11,7 +11,7 @@
 
     @yield('main')
 
-
+    @include('layouts.admin.js')
     @yield('script')
 </body>
 </html>

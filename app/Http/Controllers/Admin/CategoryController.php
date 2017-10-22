@@ -84,6 +84,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if ($this->categoryRepository->find($id)->delete()) {
+            return back()->with('status', '删除成功');
+        }
+
+        return back()->with('status', '删除失败');
     }
 }
