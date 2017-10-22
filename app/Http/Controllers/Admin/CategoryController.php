@@ -63,10 +63,17 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        $response = ['errno' => 1, 'errmsg' => '删除失败'];
+
         if ($category->delete()) {
-            return back()->with('status', '删除成功');
+            $response['errno'] = 0;
+            $response['errmsg'] = "{$category->name} 删除成功";
         }
 
-        return back()->with('status', '删除失败');
+        if(request()->ajax()) {
+            return $response;
+        }
+
+        return back()->with('status', $response['errmsg']);
     }
 }

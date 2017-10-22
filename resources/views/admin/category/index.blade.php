@@ -7,7 +7,20 @@
             <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>{{ session('status') }}</div>
         @endif
 
-		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> </span> <span class="r">共有数据：<strong>{{ $categorys->count() }}</strong> 条</span> </div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20">
+            <span class="l">
+                <a href="javascript:;" id="batch_delete_btn" class="btn btn-danger radius">
+                    <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
+                </a>
+            </span>
+            <span class="l" style="margin-left: 10px;">
+                <a class="btn btn-success radius r"  href="javascript:location.reload();" title="刷新" >
+                    <i class="Hui-iconfont">&#xe68f;</i>
+                </a>
+            </span>
+
+            <span class="r">共有数据：<strong>{{ $categorys->count() }}</strong> 条</span>
+        </div>
 		<div class="mt-20">
 			<table class="table table-border table-bordered table-bg table-hover table-sort">
 				<thead>
@@ -24,7 +37,7 @@
 				<tbody>
 				    @foreach ($categorys as $category)
 						<tr class="text-c">
-							<td><input name="" type="checkbox" value="{{ $category->id }}"></td>
+							<td><input name="catetory_id" type="checkbox" value="{{ $category->id }}"></td>
 							<!-- <td>{{ $category->id }}</td> -->
 							<td class="text-l">
                                 {!!  str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth)  !!}{{ $category->ancestors->count() ? '┣━━' : '' }} {{ $category->name }}
@@ -61,6 +74,20 @@
             $('#delete_form').attr('action', url);
 
             $('#delete_form').submit();
+        });
+
+        $('#batch_delete_btn').click(function(){
+            $('input[name=catetory_id]:checked').each(function (index,element) {
+
+                var url = $('#delete_form').attr('action') + '/' + $(this).val();
+
+                $.post(url, {_token:'{{ csrf_token() }}', _method:'DELETE'}, function(res){
+                    if (res.errno == 0) {
+                        layer.msg(res.errmsg + '  请刷新数据');
+                    }
+                });
+            });
+
         });
     </script>
 @endsection
