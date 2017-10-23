@@ -65,5 +65,6 @@ config/cache.php
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
 ## TODO
 * 数据库填充注释了部分代码，上线前记得开启
+* 分类列表的分类加上排序
 ## License
 MIT

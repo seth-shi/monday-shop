@@ -15,6 +15,14 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->unique();
+            $table->decimal('price', 6, 2)->comment('商品的价格');
+            $table->tinyInteger('is_hot')->default(0)->comment('是否热卖商品');
+            $table->tinyInteger('is_alive')->default(1)->comment('是否上架');
+
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories');
+
             $table->timestamps();
         });
     }

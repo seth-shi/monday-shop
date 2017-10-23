@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
+
     public function index()
     {
         $categorys = Category::defaultOrder()->withDepth()->get();
