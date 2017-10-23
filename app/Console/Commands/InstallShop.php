@@ -39,7 +39,5 @@ class InstallShop extends BaseCommand
         $this->execShellWithPrint('php artisan key:generate');
         $this->execShellWithPrint('php artisan migrate');
         $this->execShellWithPrint('php artisan db:seed');
-        // Join queue of failed teams after three failed monitoring queues
-        $this->execShellWithPrint('php artisan queue:work --tries=3');
     }
 }

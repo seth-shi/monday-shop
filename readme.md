@@ -1,9 +1,7 @@
 # WaitMoonMan/monday-shop
 
-![开发图](http://or2pofbfh.bkt.clouddn.com/monday-shopmvc.png)
 ## Feture
 * `Model` : 仅当成`Eloquent class`
-* `Repository` : 辅助`model`，处理数据库逻辑，然后注入到`controller`
 * `Service` : 辅助`controller`，处理程序逻辑，然后注入到`controller`
 * `Controller` : 接收`HTTP request`调用其他`service`
 * `Presenter` : 处理显示逻辑，然後注入到`view`
@@ -30,12 +28,10 @@ cp .env.example .env
 ```shell
 php artisan gps:install
 ```
-## Usage
-1 监听队列（执行`php artisan gps:install`后会自动执行监听队列，无需重复）
+5. 监听队列
 ```shell
-php artisan queue:work
+php artisan queue:work --tries=3
 ```
-
 ## Optimize
 * 执行缓存（缓存配置，路由，类映射）
 ```shell
