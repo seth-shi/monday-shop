@@ -16,20 +16,18 @@ class CategoriesTableSeeder extends Seeder
         Category::create([
             'name' => '男装',
             'children' => [
-                ['name' => '艾斯玛']
+                ['name' => '阿斯玛']
             ],
         ]);
 
         Category::create([
             'name' => '手机数码',
+
             'children' => [
                 [
-                    'name' => 'VIVO手机',
+                    'name' => 'VIVO',
                     'children' => [
-                        [
-                            'name' => 'vivo x6',
-                            'children' => ['name' => 'vivo x6d']
-                        ],
+                        [ 'name' => 'vivo 系列' ],
                     ],
                 ],
             ],
