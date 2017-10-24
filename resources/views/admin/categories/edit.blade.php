@@ -19,7 +19,7 @@
                     <select name="parent_id" class="select" style="padding-bottom: 5px">
                         <option value="-1">请选择父级分类</option>
                         <option {{ $category->parent_id == 0 ? 'selected=\"selected\"' : ''}} value="0">添加一级分类</option>
-                        @foreach ($categorys as $cate)
+                        @foreach ($categories as $cate)
                             <option {{ $category->parent_id == $cate->id ? 'selected=\"selected\"' : ''}} value="{{ $cate->id }}">
                                 {!!  str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $cate->depth)  !!}{{ $cate->ancestors->count() ? '┣━━' : '' }} {{ $cate->name }}
                             </option>

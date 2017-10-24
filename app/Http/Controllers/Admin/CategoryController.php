@@ -12,16 +12,16 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categorys = Category::defaultOrder()->withDepth()->get();
+        $categories = Category::defaultOrder()->withDepth()->get();
 
-        return view('admin.category.index', compact('categorys'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function create()
     {
-        $categorys = Category::defaultOrder()->withDepth()->get();
+        $categories = Category::defaultOrder()->withDepth()->get();
 
-        return view('admin.category.create', compact('categorys'));
+        return view('admin.categories.create', compact('categories'));
     }
 
     public function store(StoreCategoryPost $request)
@@ -40,14 +40,14 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return view('admin.category.show', compact('category'));
+        return view('admin.categories.show', compact('category'));
     }
 
     public function edit(Category $category)
     {
-        $categorys = Category::defaultOrder()->withDepth()->get();
+        $categories = Category::defaultOrder()->withDepth()->get();
 
-        return view('admin.category.edit', compact('category', 'categorys'));
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     public function update(StoreCategoryPost $request, Category $category)

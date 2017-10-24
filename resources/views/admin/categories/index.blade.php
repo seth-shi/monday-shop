@@ -35,7 +35,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				    @foreach ($categorys as $category)
+				    @foreach ($categories as $category)
 						<tr class="text-c">
 							<td><input name="catetory_id" type="checkbox" value="{{ $category->id }}"></td>
 							<!-- <td>{{ $category->id }}</td> -->

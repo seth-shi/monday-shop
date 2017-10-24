@@ -36,4 +36,5 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
 
 
     Route::resource('categories', 'CategoryController');
+    Route::resource('products', 'ProductController');
 });
