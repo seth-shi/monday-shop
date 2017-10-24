@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductsImageTable extends Migration
+class CreateProductDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateProductsImageTable extends Migration
      */
     public function up()
     {
-        Schema::create('products_image', function (Blueprint $table) {
+        Schema::create('product_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->comment('商品图片名字');
-            $table->tinyInteger('is_default')->default(0)->comment('是否是默认图片');
+
+            $table->integer('count')->comment('商品库存量');
+            $table->string('unit')->comment('商品的单位');
+            $table->longText('description')->comment('商品的描述');
 
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
@@ -32,6 +34,6 @@ class CreateProductsImageTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products_image');
+        Schema::dropIfExists('product_details');
     }
 }

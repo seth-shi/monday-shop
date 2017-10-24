@@ -15,8 +15,13 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('uuid')->comment('商品的uuid号');
             $table->string('name')->unique();
             $table->decimal('price', 6, 2)->comment('商品的价格');
+            $table->decimal('price_original', 6, 2)->comment('商品原本的价格');
+            $table->string('thumb')->comment('商品的缩略图');
+
+            $table->integer('likes')->default(0)->comment('收藏此商品人的数量');
             $table->tinyInteger('is_hot')->default(0)->comment('是否热卖商品');
             $table->tinyInteger('is_alive')->default(1)->comment('是否上架');
 
