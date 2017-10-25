@@ -6,20 +6,21 @@ use App\Http\Requests\StoreCategoryPost;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class CategoryController extends Controller
 {
 
     public function index()
     {
-        $categories = Category::defaultOrder()->withDepth()->get();
+        $categories = $this->getTransformCategories();
 
         return view('admin.categories.index', compact('categories'));
     }
 
     public function create()
     {
-        $categories = Category::defaultOrder()->withDepth()->get();
+        $categories = $this->getTransformCategories();
 
         return view('admin.categories.create', compact('categories'));
     }
@@ -45,7 +46,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        $categories = Category::defaultOrder()->withDepth()->get();
+        $categories = $this->getTransformCategories();
 
         return view('admin.categories.edit', compact('category', 'categories'));
     }
@@ -55,6 +56,7 @@ class CategoryController extends Controller
         $category->parent_id = $request->input('parent_id');
         $category->name = $request->input('name');
         $category->description = $request->input('description');
+
         if ($category->save()) {
             return back()->with('status', '修改成功');
         } else {
@@ -76,5 +78,21 @@ class CategoryController extends Controller
         }
 
         return back()->with('status', $response['errmsg']);
+    }
+
+    private function getTransformCategories()
+    {
+        $categories = Category::defaultOrder()->withDepth()->get();
+
+        $categories->transform(function ($category) {
+
+            $category->className = (str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth)) . ($category->ancestors->count() ? '┣━━ ' : ' ') . $category->name;
+
+            $category->parentClass = $category->isRoot() ? '一级分类' : implode(' ➤ ', $category->ancestors->pluck('name')->toArray());
+
+            return $category;
+        });
+
+        return $categories;
     }
 }

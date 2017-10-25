@@ -19,7 +19,7 @@
                 </a>
             </span>
 
-            <span class="r">共有数据：<strong>{{ $categorys->count() }}</strong> 条</span>
+            <span class="r">共有数据：<strong>{{ $categories->count() }}</strong> 条</span>
         </div>
 		<div class="mt-20">
 			<table class="table table-border table-bordered table-bg table-hover table-sort">
@@ -40,9 +40,9 @@
 							<td><input name="catetory_id" type="checkbox" value="{{ $category->id }}"></td>
 							<!-- <td>{{ $category->id }}</td> -->
 							<td class="text-l">
-                                {!!  str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth)  !!}{{ $category->ancestors->count() ? '┣━━' : '' }} {{ $category->name }}
+                                {!! $category->className !!}
                             </td>
-							<td class="text-l">{{ $category->isRoot() ? '一级分类' : implode(' ➤ ', $category->ancestors->pluck('name')->toArray()) }}</td>
+							<td class="text-l">{{ $category->parentClass }}</td>
 							<td>{{ $category->created_at }}</td>
 							<td>{{ $category->updated_at }}</td>
 							<td class="td-manage">

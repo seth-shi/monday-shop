@@ -19,7 +19,7 @@
                         <option value="-1">请选择父级分类</option>
                         <option value="0">添加一级分类</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{!!  str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth)  !!}{{ $category->ancestors->count() ? '┣━━' : '' }} {{ $category->name }}</option>
+                            <option value="{{ $category->id }}">{!! $category->className !!}}</option>
                         @endforeach
                     </select>
                     @if ($errors->has('parent_id'))
