@@ -82,6 +82,11 @@
                 </div>
             </div>
         </div>
+
+        <div id="hidden_images_container">
+
+        </div>
+
         <hr>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
@@ -102,8 +107,11 @@
         var demoListView = $('#demoList')
             ,uploadListIns = upload.render({
             elem: '#testList'
-            ,url: '/upload/'
-            ,accept: 'file'
+            ,url: "{{ url('products/upload/image') }}"
+            ,data: '{"csrf-token":"{{ csrf_token() }}"}'
+            ,accept: 'images'
+            ,field: 'image'
+            ,size: 1024*2
             ,multiple: true
             ,auto: false
             ,bindAction: '#testListAction'
@@ -142,6 +150,11 @@
                     tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
                     tds.eq(3).html(''); //清空操作
                     delete files[index]; //删除文件队列已经上传成功的文件
+
+                    // 加入隐藏域
+                    var text = "<input type='hidden' name='image[]' value='1' />";
+                    $('#hidden_images_container').append(text);
+
                     return;
                 }
                 this.error(index, upload);
