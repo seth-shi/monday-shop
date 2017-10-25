@@ -11,7 +11,7 @@ class ApiController extends Controller
     protected $msg = '';
     protected $data = [];
 
-    public function setErrno($errno)
+    public function setCode($errno)
     {
         $this->errno = $errno;
 
@@ -29,19 +29,19 @@ class ApiController extends Controller
     {
         $this->data = $data;
 
-        return $data;
+        return $this;
     }
 
     public function formatResponse()
     {
         return [
-            'errno' => $this->errno,
+            'code' => $this->errno,
             'msg' => $this->msg,
             'data' => $this->data
         ];
     }
 
-    public function response()
+    public function toJson()
     {
         return $this->formatResponse();
     }

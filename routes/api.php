@@ -18,5 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 */
 
-// 发送激活邮件
-Route::get('register/again/send', 'Api\UserController@sendActiveMail');
+// send registermail
+Route::namespace('Api')->group(function(){
+    Route::get('register/again/send', 'UserController@sendActiveMail');
+    Route::any('product/upload/images', 'ProductController@upload');
+});

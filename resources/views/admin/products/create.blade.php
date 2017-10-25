@@ -7,6 +7,8 @@
 @section('main')
 <div class="page-container">
     <form action="" method="post" class="form form-horizontal" id="form-article-add">
+        {{ csrf_field() }}
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -107,10 +109,10 @@
         var demoListView = $('#demoList')
             ,uploadListIns = upload.render({
             elem: '#testList'
-            ,url: "{{ url('products/upload/image') }}"
-            ,data: '{"csrf-token":"{{ csrf_token() }}"}'
+            ,url: "{{ url('api/product/upload/images') }}"
+            ,data: '{"_token":"{{ csrf_token() }}"}'
             ,accept: 'images'
-            ,field: 'image'
+            ,field: 'product_image'
             ,size: 1024*2
             ,multiple: true
             ,auto: false
@@ -144,15 +146,15 @@
                 });
             }
             ,done: function(res, index, upload){
-                if(res.code == 0){ //上传成功
+                if(res.code == 200){ //上传成功
                     var tr = demoListView.find('tr#upload-'+ index)
                         ,tds = tr.children();
                     tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
-                    tds.eq(3).html(''); //清空操作
-                    delete files[index]; //删除文件队列已经上传成功的文件
+                    tds.eq(3).html('<img src="/storage/'+ res.data.src +'" />'); //清空操作
+                    // delete files[index]; //删除文件队列已经上传成功的文件
 
                     // 加入隐藏域
-                    var text = "<input type='hidden' name='image[]' value='1' />";
+                    var text = "<input type='hidden' name='image[]' value='"+  res.data.src +"' />";
                     $('#hidden_images_container').append(text);
 
                     return;
@@ -169,5 +171,4 @@
 
     });
 </script>
-
 @endsection
