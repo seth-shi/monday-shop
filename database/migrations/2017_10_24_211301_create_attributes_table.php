@@ -18,6 +18,7 @@ class CreateAttributesTable extends Migration
 
             $table->string('name');
             $table->string('items');
+            $table->decimal('markup', 4, 2)->default(0)->comment('此属性加价多少钱');
 
             $table->timestamps();
         });

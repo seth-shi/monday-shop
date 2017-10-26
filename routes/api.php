@@ -21,5 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // send registermail
 Route::namespace('Api')->group(function(){
     Route::get('register/again/send', 'UserController@sendActiveMail');
-    Route::any('product/upload/images', 'ProductController@upload');
+
+    Route::post('product/upload/images', 'ProductController@upload');
+    Route::post('product/upload/product', 'ProductController@uploadDetailImage');
 });
