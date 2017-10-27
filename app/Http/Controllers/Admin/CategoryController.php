@@ -59,24 +59,28 @@ class CategoryController extends Controller
     }
 
     /**
-     * delete category is ajax delete
+     * single delete is post submit, batch delete is ajax.
      * @param Category $category
-     * @return array
+     * @return array|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Category $category)
     {
-        $response = [];
+        $response = ['code' => 1, 'msg' => '删除失败'];
 
         if ($category->delete()) {
-            $response['errno'] = 0;
-            $response['errmsg'] = "{$category->name} 删除成功";
+            $response['code'] = 0;
+            $response['msg'] = "{$category->name} 删除成功";
         }
 
-        return $response;
+        if(request()->ajax()) {
+            return $response;
+        }
+
+        return back()->with('status', $response['msg']);
     }
 
     /**
-     * get change format after
+     * Indent content has become the conversion classification of the parent
      * @return mixed
      */
     private function getTransformCategories()

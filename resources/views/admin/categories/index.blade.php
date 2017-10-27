@@ -47,7 +47,8 @@
 							<td>{{ $category->updated_at }}</td>
 							<td class="td-manage">
                                 <a style="text-decoration:none" class="ml-5" href="{{ url('admin/categories/'.  $category->id .'/edit')}}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                <a style="text-decoration:none" class="ml-5 delete_category" href="javascript:;" data-id="{{ $category->id }}" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
+
+                                <a href="javascript:;" class="ml-5 delete_category" data-id="{{ $category->id }}" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
                             </td>
 						</tr>
                     @endforeach
@@ -82,8 +83,8 @@
                 var url = $('#delete_form').attr('action') + '/' + $(this).val();
 
                 $.post(url, {_token:'{{ csrf_token() }}', _method:'DELETE'}, function(res){
-                    if (res.errno == 0) {
-                        layer.msg(res.errmsg + '  请刷新数据');
+                    if (res.code == 0) {
+                        layer.msg(res.msg + '  请刷新数据');
                     }
                 });
             });

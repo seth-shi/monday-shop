@@ -25,10 +25,6 @@ class BaseCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * 执行 shell 并显示输出
-     * @param $command
-     */
     public function execShellWithPrint($command)
     {
         $this->info('----------');

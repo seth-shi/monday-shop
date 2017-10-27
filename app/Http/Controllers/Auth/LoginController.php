@@ -44,9 +44,10 @@ class LoginController extends Controller
         $this->userService = $userService;
     }
 
+
     /**
      * @param Request $request
-     * @return $this|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|void
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response|void
      */
     public function login(Request $request)
     {
