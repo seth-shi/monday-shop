@@ -6,7 +6,7 @@
 
 @section('main')
 <div class="page-container">
-    <form action="" method="post" class="form form-horizontal" id="form-article-add">
+    <form action="{{ url('admin/products') }}" method="post" class="form form-horizontal" id="form-article-add">
         {{ csrf_field() }}
 
         <div class="row cl">
@@ -63,7 +63,7 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <div class="uploader-list-container">
                     <div class="layui-upload">
-                        <button title="第一张默认为商品缩略图" type="button" class="layui-btn layui-btn-normal" id="testList">选择商品图片</button>
+                        <button title="第一张默认为商品缩略图" type="button" class="layui-btn" id="testList">选择商品图片</button>
                         <button type="button" class="layui-btn" id="testListAction">开始上传</button>
                         <div class="layui-upload-list">
                             <table class="layui-table">
@@ -89,7 +89,7 @@
         <hr>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                <button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
+                <input type="submit" class="layui-btn layui-btn-normal" value="添加商品">
             </div>
         </div>
     </form>

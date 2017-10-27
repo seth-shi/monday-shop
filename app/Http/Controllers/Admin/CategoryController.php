@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreCategoryPost;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
-use App\Repositories\CategoryRepository;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 
 class CategoryController extends Controller
 {
@@ -25,7 +23,7 @@ class CategoryController extends Controller
         return view('admin.categories.create', compact('categories'));
     }
 
-    public function store(StoreCategoryPost $request)
+    public function store(CategoryRequest $request)
     {
         $parent_id = $request->input('parent_id');
 
@@ -51,35 +49,36 @@ class CategoryController extends Controller
         return view('admin.categories.edit', compact('category', 'categories'));
     }
 
-    public function update(StoreCategoryPost $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $category->parent_id = $request->input('parent_id');
-        $category->name = $request->input('name');
-        $category->description = $request->input('description');
-
-        if ($category->save()) {
+        if ($category->update($request->all())) {
             return back()->with('status', '修改成功');
         } else {
             return back()->with('status', '服务器出错，请稍后再试');
         }
     }
 
+    /**
+     * delete category is ajax delete
+     * @param Category $category
+     * @return array
+     */
     public function destroy(Category $category)
     {
-        $response = ['errno' => 1, 'errmsg' => '删除失败'];
+        $response = [];
 
         if ($category->delete()) {
             $response['errno'] = 0;
             $response['errmsg'] = "{$category->name} 删除成功";
         }
 
-        if(request()->ajax()) {
-            return $response;
-        }
-
-        return back()->with('status', $response['errmsg']);
+        return $response;
     }
 
+    /**
+     * get change format after
+     * @return mixed
+     */
     private function getTransformCategories()
     {
         $categories = Category::defaultOrder()->withDepth()->get();

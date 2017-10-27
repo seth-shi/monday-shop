@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
@@ -24,9 +24,9 @@ class ProductController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     public function show(Product $product)
@@ -40,7 +40,7 @@ class ProductController extends Controller
         //
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         //
     }

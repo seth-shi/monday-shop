@@ -40,11 +40,3 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::post('products/upload/image', 'ProductController@upload');
     Route::resource('products', 'ProductController');
 });
-
-Route::get('test', function(){
-    session()->flash('flash', '123123');
-});
-
-Route::get('test1', function(){
-   dump(session()->has('flash'));
-});

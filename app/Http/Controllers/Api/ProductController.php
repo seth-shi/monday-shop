@@ -55,11 +55,6 @@ class ProductController extends ApiController
     }
 
 
-    protected function uploaded($link)
-    {
-        dispatch(new ResizeProductImage($link));
-    }
-
     protected function validateFile($request, $fieldName)
     {
         if (! $request->hasFile($fieldName)) {
@@ -71,5 +66,10 @@ class ProductController extends ApiController
         }
 
         return true;
+    }
+
+    protected function uploaded($link)
+    {
+        dispatch(new ResizeProductImage($link));
     }
 }
