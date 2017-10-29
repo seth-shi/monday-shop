@@ -2,24 +2,42 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/admin/lib/layui/css/layui.css') }}">
+    <style>
+        .attr_container {
+            margin: 10px auto;
+        }
+        .attr_container:after {clear:both;content:'1111';display:block;width: 0;height: 0;visibility:hidden;}
+    </style>
 @endsection
 
 @section('main')
 <div class="page-container">
+    @if (session()->has('status'))
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ session('status') }}
+        </div>
+    @endif
+
     <form action="{{ url('admin/products') }}" method="post" class="form form-horizontal" id="form-article-add">
         {{ csrf_field() }}
 
-        <div class="row cl">
+        <div class="row cl {{ $errors->first('name') ?? 'has-error' }}">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" placeholder="商品名称" id="" name="name">
+                @if ($errors->has('name'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('name') }}</strong>
+                    </span>
+                @endif
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品分类：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
                     <select name="category_id" class="select" style="padding-bottom: 5px">
-                                <option value="-1">请选择分类</option>
+                                <option value="">请选择分类</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{!!  str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth)  !!}{{ $category->ancestors->count() ? '┣━━' : '' }} {{ $category->name }}</option>
                         @endforeach
@@ -27,10 +45,37 @@
 				</span>
             </div>
         </div>
-        <div class="row cl" id="attrContainer">
-            <label class="form-label col-xs-4 col-sm-2">添加产品属性：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <button type="button" class="layui-btn" id="addAttrBtn">添加产品属性</button>
+        <div class="row cl {{ ($errors->has('attribute.*') || $errors->has('items.*') || $errors->has('markup.*')) ? 'has-error' : '' }}" id="attrContainer">
+            <div class="attr_container">
+                <label class="form-label col-xs-4 col-sm-2">添加产品属性：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <button type="button" class="layui-btn" id="addAttrBtn">添加产品属性</button>
+                    @if ($errors->has('attribute.*'))
+                        <span class="help-block">
+                        <strong>{{ $errors->first('attribute.*') }}</strong>
+                    </span>
+                    @endif
+                    @if ($errors->has('items.*'))
+                        <span class="help-block">
+                        <strong>{{ $errors->first('items.*') }}</strong>
+                    </span>
+                    @endif
+                    @if ($errors->has('markup.*'))
+                        <span class="help-block">
+                        <strong>{{ $errors->first('markup.*') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+            <div class="attr_container">
+                <label class="form-label col-xs-4 col-sm-2">产品属性：</label>
+                <div class="formControls col-xs-8 col-sm-9" >
+                    <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="" class="input-text" style=" width:25%">
+                    ===>
+                    <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="" class="input-text" style=" width:25%">
+                    ===>
+                    <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="" class="input-text" style=" width:25%">
+                </div>
             </div>
         </div>
 
@@ -47,9 +92,15 @@
                 元</div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">产品展示价格：</label>
+            <label class="form-label col-xs-4 col-sm-2">商品展示价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="price_original" id="" placeholder="" value="" class="input-text" style="width:90%">
+                元</div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">库存量：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="count" id="" placeholder="" value="" class="input-text" style="width:90%">
                 元</div>
         </div>
         <div class="row cl">
@@ -58,13 +109,18 @@
                 <textarea name="description" id="description" style="display: none;"></textarea>
             </div>
         </div>
-        <div class="row cl">
+        <div class="row cl {{ $errors->has('image') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">图片上传：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <div class="uploader-list-container">
                     <div class="layui-upload">
                         <button title="第一张默认为商品缩略图" type="button" class="layui-btn" id="testList">选择商品图片</button>
                         <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+                        @if ($errors->has('image'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('image') }}</strong>
+                            </span>
+                        @endif
                         <div class="layui-upload-list">
                             <table class="layui-table">
                                 <thead>
@@ -105,14 +161,14 @@
 
         // 添加产品属性
         $("#addAttrBtn").click(function(){
-            var inputText = '<label class="form-label col-xs-4 col-sm-2">产品属性：</label><div class="formControls col-xs-8 col-sm-9"> <input type="text" name="product_attribute[]" id="" placeholder="产品属性名：如颜色" value="" class="input-text" style=" width:25%">===><input type="text" name="product_items[]" id="" placeholder="产品属性值：对应颜色：红" value="" class="input-text" style=" width:25%">===><input type="text" name="product_markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="" class="input-text" style=" width:25%"></div>';
+            var inputText = '<div class="attr_container"><label class="form-label col-xs-4 col-sm-2 ">产品属性：</label><div class="formControls col-xs-8 col-sm-9"> <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="" class="input-text" style=" width:25%"> ===> <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="" class="input-text" style=" width:25%"> ===> <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="" class="input-text" style=" width:25%"></div></div>';
             $('#attrContainer').append(inputText);
         });
 
         // 富文本编辑器
         layedit.set({
             uploadImage: {
-                url: "{{ url('api/product/upload/product') }}?fieldName=file" //接口url  _token={{ csrf_token() }}
+                url: "{{ url('api/product/upload/product') }}?fieldName=file"
             }
         });
         layedit.build('description');
