@@ -24,14 +24,16 @@ composer install
 ```shell
 cp .env.example .env
 ```
-4. 使用安装命令(会执行执行数据库迁移，填充，监听队列)
+4. 使用安装命令(会执行执行数据库迁移，填充，监听队列 !!! 不需要再监听队列，此命令已包含)
 ```shell
 php artisan gps:install
 ```
-5. 监听队列
+```
+## Usage
+* 监听队列(邮件发送，图片裁剪 !!!)
 ```shell
 php artisan queue:work --tries=3
-```
+
 ## Optimize
 * 执行缓存（缓存配置，路由，类映射）
 ```shell

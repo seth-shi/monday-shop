@@ -27,6 +27,7 @@ class BaseCommand extends Command
 
     public function execShellWithPrint($command)
     {
+
         $this->info('----------');
         $this->info($command);
 

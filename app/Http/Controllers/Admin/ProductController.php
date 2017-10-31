@@ -6,12 +6,14 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 
 class ProductController extends Controller
 {
 
     public function index()
     {
+        dd((new User())->first());
         return 1111;
     }
 

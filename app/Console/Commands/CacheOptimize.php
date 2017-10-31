@@ -37,14 +37,14 @@ class CacheOptimize extends BaseCommand
     public function handle()
     {
         // Optimal configuration loading
-        $this->execShellWithPrint('php artisan config:cache');
+        $this->call('config:cache');
         // Optimized routing loading
-        $this->execShellWithPrint('php artisan route:cache');
+        $this->call('route:cache');
         /**
          * Optimizing class mapping loading
          * This command will run after > php artisan config:cache,
          * Because the optimize command generates files based on configuration information
          */
-        $this->execShellWithPrint('php artisan optimize --force');
+        $this->call('optimize', ['--force']);
     }
 }

@@ -35,11 +35,8 @@ class ClearCache extends BaseCommand
      */
     public function handle()
     {
-        /**
-         * Corresponding App\Console\Commands\CacheOptimize file
-         */
-        $this->execShellWithPrint('php artisan config:clear');
-        $this->execShellWithPrint('php artisan route:clear');
-        $this->execShellWithPrint('php artisan clear-compiled');
+        $this->call('config:clear');
+        $this->call('route:clear');
+        $this->call('clear-compiled');
     }
 }

@@ -36,8 +36,11 @@ class InstallShop extends BaseCommand
      */
     public function handle()
     {
-        $this->execShellWithPrint('php artisan key:generate');
-        $this->execShellWithPrint('php artisan migrate');
-        $this->execShellWithPrint('php artisan db:seed');
+        $this->call('key:generate');
+        $this->call('migrate');
+        $this->call('db:seed');
+
+        // listen queue
+        $this->call('queue:work', ['--tries' => '3']);
     }
 }
