@@ -24,7 +24,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-           /* // products table field
+            // products table field
             "category_id" => "required|exists:categories,id",
             "name" => "required|unique:products",
             "price" => "required",
@@ -33,8 +33,8 @@ class ProductRequest extends FormRequest
             // product_details table field
             "unit" => 'required',
             "count" => 'required',
-            "description" => "required|min10",
-           */
+            "description" => "required|min:10",
+
 
             // attribute table field
             "attribute" => 'required|array',
@@ -53,6 +53,17 @@ class ProductRequest extends FormRequest
     public function messages()
     {
         return [
+            "category_id.required" => "请选择商品分裂",
+            "category_id.exists" => "请选择一个正确的分类",
+            "name.required" => "商品名字不能为空",
+            "name.unique" => "商品名字已经存在",
+            "price.required" => "商品销售价格不能为空",
+            "price_original.required" => "商品展示价格不能为空",
+
+            "unit.required" => '商品计数单位不能为空',
+            "count.required" => '商品库存量不能为空',
+            "description.required" => "商品描述不能为空",
+            "description.min" => "商品描述请在10个字以上",
 
             "attribute.required" => '商品的属性不能为空',
             "attribute.array" => '商品的属性不符合规格',

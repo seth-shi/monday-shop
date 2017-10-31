@@ -22,7 +22,7 @@
     <form action="{{ url('admin/products') }}" method="post" class="form form-horizontal" id="form-article-add">
         {{ csrf_field() }}
 
-        <div class="row cl {{ $errors->first('name') ?? 'has-error' }}">
+        <div class="row cl {{ $errors->has('name') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" placeholder="商品名称" id="" name="name">
@@ -33,9 +33,10 @@
                 @endif
             </div>
         </div>
-        <div class="row cl">
+        <div class="row cl {{ $errors->has('category_id') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品分类：</label>
-            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
                     <select name="category_id" class="select" style="padding-bottom: 5px">
                                 <option value="">请选择分类</option>
                         @foreach ($categories as $category)
@@ -43,6 +44,11 @@
                         @endforeach
                     </select>
 				</span>
+                @if ($errors->has('category_id'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('category_id') }}</strong>
+                </span>
+                @endif
             </div>
         </div>
         <div class="row cl {{ ($errors->has('attribute.*') || $errors->has('items.*') || $errors->has('markup.*')) ? 'has-error' : '' }}" id="attrContainer">
@@ -79,35 +85,67 @@
             </div>
         </div>
 
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">价格计算单位：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="number" name="unit" id="" placeholder="如 件 / 个 / 台" value="" class="input-text" style="width:90%">
-            </div>
-        </div>
-        <div class="row cl">
+        <div class="row cl {{ $errors->has('price') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">销售价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="price" id="" placeholder="" value="" class="input-text" style="width:90%">
-                元</div>
+                元
+                @if ($errors->has('price'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('price') }}</strong>
+                </span>
+                @endif
+            </div>
         </div>
-        <div class="row cl">
+
+        <div class="row cl {{ $errors->has('price_original') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">商品展示价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="price_original" id="" placeholder="" value="" class="input-text" style="width:90%">
-                元</div>
+                元
+                @if ($errors->has('price_original'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('price_original') }}</strong>
+                </span>
+                @endif
+            </div>
         </div>
-        <div class="row cl">
+
+        <div class="row cl {{ $errors->has('count') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">库存量：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" name="count" id="" placeholder="" value="" class="input-text" style="width:90%">
-                元</div>
+                @if ($errors->has('count'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('count') }}</strong>
+                </span>
+                @endif
+            </div>
         </div>
-        <div class="row cl">
+
+        <div class="row cl {{ $errors->has('unit') ? 'has-error' : '' }}">
+            <label class="form-label col-xs-4 col-sm-2">价格计算单位：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="number" name="unit" id="" placeholder="如 件 / 个 / 台" value="" class="input-text" style="width:90%">
+                @if ($errors->has('unit'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('unit') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+
+        <div class="row cl {{ $errors->has('description') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">商品描述：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="description" id="description" style="display: none;"></textarea>
+                @if ($errors->has('description'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('description') }}</strong>
+                </span>
+                @endif
             </div>
+
         </div>
         <div class="row cl {{ $errors->has('image') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">图片上传：</label>
