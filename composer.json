@@ -15,7 +15,8 @@
         "laravel/tinker": "~1.0",
         "mews/captcha": "^2.1",
         "overtrue/laravel-socialite": "~1.0",
-        "spatie/laravel-permission": "^2.7"
+        "spatie/laravel-permission": "^2.7",
+        "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
