@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ProductRequest;
-use App\Models\Category;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Services\CategoryService;
+use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
 
 class ProductController extends Controller
@@ -68,12 +68,16 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
-        //
     }
 
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function changeAlive(Request $request, Product $product)
+    {
+        dd($product, $request->all());
     }
 
     private function getChangeAttrField(array $data)

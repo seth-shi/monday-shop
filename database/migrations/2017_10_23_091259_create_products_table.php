@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('thumb')->comment('商品的缩略图');
 
             $table->integer('likes')->default(0)->comment('收藏此商品人的数量');
+            $table->integer('safe_count')->default(0)->comment('出售的数量');
             $table->tinyInteger('is_hot')->default(0)->comment('是否热卖商品');
             $table->tinyInteger('is_alive')->default(1)->comment('是否上架');
 

@@ -19,7 +19,7 @@ span;
         return $span;
     }
 
-    private function isAlive($status)
+    public function isAlive($status)
     {
         return $status == 1;
     }
