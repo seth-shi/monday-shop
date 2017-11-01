@@ -23,7 +23,6 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        return [];
         return [
             // products table field
             "category_id" => "required|exists:categories,id",
@@ -46,7 +45,7 @@ class ProductRequest extends FormRequest
             "markup.*" => 'required',
 
             // product_images table field
-            "image" => 'required|array',
+            "link" => 'required|array',
 
         ];
     }
@@ -76,8 +75,8 @@ class ProductRequest extends FormRequest
             "items.*.required" => '商品属性的值不能为空',
             "markup.*.required" => '商品价格浮动不能为空',
 
-            "image.required" => '必须上传商品图片',
-            "image.array" => '商品图片不符合规格',
+            "link.required" => '必须上传商品图片',
+            "link.array" => '商品图片不符合规格',
         ];
     }
 }

@@ -18,7 +18,7 @@ class CreateProductAttributesTable extends Migration
 
             $table->string('attribute');
             $table->string('items');
-            $table->decimal('markup', 4, 2)->default(0)->comment('此属性价格浮动多少钱');
+            $table->decimal('markup', 6, 2)->default(0)->comment('此属性价格浮动多少钱');
 
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');

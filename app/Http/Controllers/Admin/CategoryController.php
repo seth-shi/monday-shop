@@ -5,20 +5,27 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
+use App\Services\CategoryService;
 
 class CategoryController extends Controller
 {
+    private $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
 
     public function index()
     {
-        $categories = $this->getTransformCategories();
+        $categories = $this->categoryService->getTransformCategories();
 
         return view('admin.categories.index', compact('categories'));
     }
 
     public function create()
     {
-        $categories = $this->getTransformCategories();
+        $categories = $this->categoryService->getTransformCategories();
 
         return view('admin.categories.create', compact('categories'));
     }
@@ -44,7 +51,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        $categories = $this->getTransformCategories();
+        $categories = $this->categoryService->getTransformCategories();
 
         return view('admin.categories.edit', compact('category', 'categories'));
     }
@@ -77,25 +84,5 @@ class CategoryController extends Controller
         }
 
         return back()->with('status', $response['msg']);
-    }
-
-    /**
-     * Indent content has become the conversion classification of the parent
-     * @return mixed
-     */
-    private function getTransformCategories()
-    {
-        $categories = Category::defaultOrder()->withDepth()->get();
-
-        $categories->transform(function ($category) {
-
-            $category->className = (str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth)) . ($category->ancestors->count() ? '┣━━ ' : ' ') . $category->name;
-
-            $category->parentClass = $category->isRoot() ? '一级分类' : implode(' ➤ ', $category->ancestors->pluck('name')->toArray());
-
-            return $category;
-        });
-
-        return $categories;
     }
 }

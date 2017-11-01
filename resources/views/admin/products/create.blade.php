@@ -2,6 +2,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/admin/lib/layui/css/layui.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         .attr_container {
             margin: 10px auto;
@@ -13,7 +14,7 @@
 @section('main')
 <div class="page-container">
     @if (session()->has('status'))
-        <div class="alert alert-danger alert-dismissible" role="alert">
+        <div class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             {{ session('status') }}
         </div>
@@ -25,7 +26,7 @@
         <div class="row cl {{ $errors->has('name') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" placeholder="商品名称" id="" name="name">
+                <input type="text" class="input-text" placeholder="商品名称" value="{{ old('name') }}" name="name" required>
                 @if ($errors->has('name'))
                     <span class="help-block">
                         <strong>{{ $errors->first('name') }}</strong>
@@ -33,6 +34,7 @@
                 @endif
             </div>
         </div>
+
         <div class="row cl {{ $errors->has('category_id') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品分类：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -40,7 +42,7 @@
                     <select name="category_id" class="select" style="padding-bottom: 5px">
                                 <option value="">请选择分类</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{!!  str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $category->depth)  !!}{{ $category->ancestors->count() ? '┣━━' : '' }} {{ $category->name }}</option>
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{!! $category->className !!}</option>
                         @endforeach
                     </select>
 				</span>
@@ -75,12 +77,13 @@
             </div>
             <div class="attr_container">
                 <label class="form-label col-xs-4 col-sm-2">产品属性：</label>
+
                 <div class="formControls col-xs-8 col-sm-9" >
-                    <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="" class="input-text" style=" width:25%">
+                    <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="{{ old('attribute.0') }}" class="input-text" style=" width:25%" required>
                     ===>
-                    <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="" class="input-text" style=" width:25%">
+                    <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="{{ old('items.0') }}" class="input-text" style=" width:25%" required>
                     ===>
-                    <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="" class="input-text" style=" width:25%">
+                    <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="{{ old('markup.0') }}" class="input-text" style=" width:25%" required>
                 </div>
             </div>
         </div>
@@ -88,7 +91,7 @@
         <div class="row cl {{ $errors->has('price') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">销售价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="price" id="" placeholder="" value="" class="input-text" style="width:90%">
+                <input type="text" name="price" id="" placeholder="" value="{{ old('price') }}" class="input-text" style="width:90%" required>
                 元
                 @if ($errors->has('price'))
                     <span class="help-block">
@@ -101,7 +104,7 @@
         <div class="row cl {{ $errors->has('price_original') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">商品展示价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="price_original" id="" placeholder="" value="" class="input-text" style="width:90%">
+                <input type="text" name="price_original" id="" placeholder="" value="{{ old('price_original') }}" class="input-text" style="width:90%" required>
                 元
                 @if ($errors->has('price_original'))
                     <span class="help-block">
@@ -114,7 +117,7 @@
         <div class="row cl {{ $errors->has('count') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">库存量：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="count" id="" placeholder="" value="" class="input-text" style="width:90%">
+                <input type="text" name="count" id="" placeholder="" value="{{ old('count') }}" class="input-text" style="width:90%" required>
                 @if ($errors->has('count'))
                     <span class="help-block">
                         <strong>{{ $errors->first('count') }}</strong>
@@ -126,7 +129,7 @@
         <div class="row cl {{ $errors->has('unit') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">价格计算单位：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="unit" id="" placeholder="如 件 / 个 / 台" value="" class="input-text" style="width:90%">
+                <input type="text" name="unit" id="" placeholder="如 件 / 个 / 台" value="{{ old('unit') }}" class="input-text" style="width:90%" required>
                 @if ($errors->has('unit'))
                     <span class="help-block">
                         <strong>{{ $errors->first('unit') }}</strong>
@@ -134,11 +137,10 @@
                 @endif
             </div>
         </div>
-
         <div class="row cl {{ $errors->has('description') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">商品描述：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="description" id="description" style="display: none;"></textarea>
+                <textarea name="description" id="description" style="display: none;">{{ old('description') }}</textarea>
                 @if ($errors->has('description'))
                     <span class="help-block">
                         <strong>{{ $errors->first('description') }}</strong>
@@ -167,7 +169,20 @@
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr></thead>
-                                <tbody id="demoList"></tbody>
+                                <tbody id="demoList">
+                                    @if (old('link'))
+                                        @foreach (old('link') as $key => $value)
+                                            <tr>
+                                                <td>未知</td>
+                                                <td>未知</td>
+                                                <td><span style="color: #5FB878;">上传成功</span></td>
+                                                <td>
+                                                    <img src="/storage/{{ $value }}" />
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
                             </table>
                         </div>
 
@@ -175,9 +190,12 @@
                 </div>
             </div>
         </div>
-
         <div id="hidden_images_container">
-
+            @if (old('link'))
+                @foreach (old('link') as $key => $value)
+                        <input type='hidden' name='link[]' value='{{ $value }}' />
+                @endforeach
+            @endif
         </div>
 
         <hr>

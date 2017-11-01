@@ -17,8 +17,8 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('uuid')->comment('商品的uuid号');
             $table->string('name')->unique();
-            $table->decimal('price', 6, 2)->comment('商品的价格');
-            $table->decimal('price_original', 6, 2)->comment('商品原本的价格');
+            $table->decimal('price', 8, 2)->comment('商品的价格');
+            $table->decimal('price_original', 8, 2)->comment('商品原本的价格');
             $table->string('thumb')->comment('商品的缩略图');
 
             $table->integer('likes')->default(0)->comment('收藏此商品人的数量');
