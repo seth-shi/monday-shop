@@ -147,16 +147,16 @@
             </div>
 
         </div>
-        <div class="row cl {{ $errors->has('image') ? 'has-error' : '' }}">
+        <div class="row cl {{ $errors->has('link') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">图片上传：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <div class="uploader-list-container">
                     <div class="layui-upload">
                         <button title="第一张默认为商品缩略图" type="button" class="layui-btn" id="testList">选择商品图片</button>
                         <button type="button" class="layui-btn" id="testListAction">开始上传</button>
-                        @if ($errors->has('image'))
+                        @if ($errors->has('link'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('image') }}</strong>
+                                <strong>{{ $errors->first('link') }}</strong>
                             </span>
                         @endif
                         <div class="layui-upload-list">
@@ -262,7 +262,7 @@
                     // delete files[index]; //删除文件队列已经上传成功的文件
 
                     // 加入隐藏域
-                    var text = "<input type='hidden' name='image[]' value='"+  res.data.src +"' />";
+                    var text = "<input type='hidden' name='link[]' value='"+  res.data.src +"' />";
                     $('#hidden_images_container').append(text);
 
                     return;

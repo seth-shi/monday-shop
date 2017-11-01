@@ -33,12 +33,12 @@ class ProductController extends Controller
         // product table field
         $product_data = $request->only(['category_id', 'name', 'price', 'price_original']);
         // product thumb use image list first
-        $product_data['thumb'] = $request->input('image')[0];
+        $product_data['thumb'] = $request->input('link')[0];
         $product_data['uuid'] = Uuid::generate()->hex;
 
         $product_detail_data = $request->only(['count', 'unit', 'description']);
 
-        $product_images_data = $request->only(['image']);
+        $product_images_data = $request->only(['link']);
         $product_images_data = $this->keyToIndex($product_images_data);
 
         $product_attributes_data = $request->only(['attribute', 'items', 'markup']);
