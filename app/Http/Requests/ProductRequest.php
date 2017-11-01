@@ -23,6 +23,7 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
+        return [];
         return [
             // products table field
             "category_id" => "required|exists:categories,id",

@@ -126,7 +126,7 @@
         <div class="row cl {{ $errors->has('unit') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">价格计算单位：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="number" name="unit" id="" placeholder="如 件 / 个 / 台" value="" class="input-text" style="width:90%">
+                <input type="text" name="unit" id="" placeholder="如 件 / 个 / 台" value="" class="input-text" style="width:90%">
                 @if ($errors->has('unit'))
                     <span class="help-block">
                         <strong>{{ $errors->first('unit') }}</strong>
