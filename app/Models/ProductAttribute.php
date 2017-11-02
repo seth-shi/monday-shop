@@ -10,7 +10,7 @@ class ProductAttribute extends Model
     protected $fillable = ['attribute', 'items', 'markup'];
 
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }

@@ -23,7 +23,7 @@
 				<div style="display:none" class="loading"></div>
 
                 <!-- {{ route('admin.welcome') }} -->
-				<iframe scrolling="yes" frameborder="0" src="{{ url('admin/products') }}"></iframe>
+				<iframe scrolling="yes" frameborder="0" src="{{ url('admin/productImages') }}"></iframe>
 			</div>
 		</div>
 	</section>
