@@ -224,7 +224,7 @@
         // 富文本编辑器
         layedit.set({
             uploadImage: {
-                url: "{{ url('api/product/upload/product') }}?fieldName=file"
+                url: "{{ url('/admin/products/upload/detail') }}?fieldName=file"
             }
         });
         layedit.build('description');
@@ -233,8 +233,7 @@
         var demoListView = $('#demoList')
             ,uploadListIns = upload.render({
             elem: '#testList'
-            ,url: "{{ url('api/product/upload/images') }}"
-            ,data: '{"_token":"{{ csrf_token() }}"}'
+            ,url: "{{ url('/admin/products/upload/images') }}"
             ,accept: 'images'
             ,field: 'product_image'
             ,size: 1024*2

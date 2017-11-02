@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Traits\ProductTrait;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,8 @@ use Webpatser\Uuid\Uuid;
 
 class ProductController extends Controller
 {
+    use ProductTrait;
+
     private $categoryService;
 
     public function __construct(CategoryService $categoryService)
@@ -75,11 +78,21 @@ class ProductController extends Controller
         //
     }
 
+    /**
+     * change product is alive
+     * @param Request $request
+     * @param Product $product
+     */
     public function changeAlive(Request $request, Product $product)
     {
         dd($product, $request->all());
     }
 
+    /**
+     * product attributes format database field
+     * @param array $data
+     * @return array
+     */
     private function getChangeAttrField(array $data)
     {
         $data = collect($data);
@@ -96,6 +109,12 @@ class ProductController extends Controller
         return $collects;
     }
 
+
+    /**
+     * Convert the two-dimensional array into a two-dimensional array index association
+     * @param array $data
+     * @return array
+     */
     private function keyToIndex(array $data)
     {
         $collects = [];

@@ -28,6 +28,8 @@ Route::namespace('Auth')->group(function(){
 Route::get('/admin/login' ,'Admin\Auth\LoginController@showLoginForm')->name('admin.login');
 Route::post('/admin/login', 'Admin\Auth\LoginController@login');
 Route::post('/admin/logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
+
+
 Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(function(){
 
     // admin home page
@@ -38,5 +40,9 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::resource('categories', 'CategoryController');
     // change product Alive or undercarriage
     Route::any('products/change/alive/{product}', 'ProductController@changeAlive');
+    // product image and product list image upload
+    Route::any('products/upload/images', 'ProductController@upload');
+    Route::post('products/upload/detail', 'ProductController@uploadDetailImage');
+
     Route::resource('products', 'ProductController');
 });
