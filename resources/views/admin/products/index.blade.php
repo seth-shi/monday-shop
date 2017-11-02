@@ -44,9 +44,9 @@
                                 @if ($productPresenter->isAlive($product->is_alive))
                                 <a style="text-decoration:none" onClick="product_stop(this, '{{ $product->id }}', 0)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
                                 @else
-                                    <a style="text-decoration:none" onClick="product_stop(this, '{{ $product->id }}', 1)" href="javascript:;" title="上架"><i class="Hui-iconfont">&#xe6dc;</i></a>
+                                    <a style="text-decoration:none" onClick="product_stop(this, '{{ $product->id }}', 1)" href="javascript:;" data-id="{{ $product->id }}" title="上架"><i class="Hui-iconfont">&#xe6dc;</i></a>
                                 @endif
-                                <a style="text-decoration:none" class="ml-5" onClick="product_edit('产品编辑','product-add.html','10001')" href="javascript:;" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
+                                <a style="text-decoration:none" href="{{ url('/admin/products/'.$product->id.'/edit') }}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
                                 <a style="text-decoration:none" class="ml-5" onClick="product_del(this,'10001')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
                             </td>
                         </tr>
@@ -86,26 +86,22 @@
         /*产品-下架*/
         function product_stop(obj,id, status){
 
-            layer.confirm('确认要下架吗？',function(index){
+            layer.confirm('确认要修改吗？',function(index){
+                layer.close(index);
                 var url = "{{ url('/admin/products/change/alive') }}/"+id;
 
                 $.post(url, {is_alive:status,_token:'{{ csrf_token() }}'}, function(res){
-                    console.log(res);
+                   console.log(res);
+                    if (res.code == 200) {
+                        layer.msg(res.msg,{icon: 1,time:1000});
+                    } else {
+                        layer.msg(res.msg,{icon: 2,time:1000});
+                    }
+
                 });
-
-                layer.msg('已下架!',{icon: 5,time:1000});
             });
         }
 
-        /*产品-编辑*/
-        function product_edit(title,url,id){
-            var index = layer.open({
-                type: 2,
-                title: title,
-                content: url
-            });
-            layer.full(index);
-        }
 
         /*产品-删除*/
         function product_del(obj,id){

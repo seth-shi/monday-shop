@@ -12,4 +12,5 @@ class ProductDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
 }

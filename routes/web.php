@@ -41,8 +41,9 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     // change product Alive or undercarriage
     Route::any('products/change/alive/{product}', 'ProductController@changeAlive');
     // product image and product list image upload
-    Route::any('products/upload/images', 'ProductController@upload');
+    Route::post('products/upload/images', 'ProductController@upload');
     Route::post('products/upload/detail', 'ProductController@uploadDetailImage');
+    Route::any('products/delete/images', 'ProductController@deleteImage');
 
     Route::resource('products', 'ProductController');
 });

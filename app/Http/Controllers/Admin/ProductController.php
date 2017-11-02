@@ -6,6 +6,7 @@ use App\Http\Controllers\Traits\ProductTrait;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Models\ProductImage;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
@@ -49,7 +50,7 @@ class ProductController extends Controller
 
         $product = Product::create($product_data);
         // add product details data
-        $product->productDetails()->create($product_detail_data);
+        $product->productDetails()->update($product_detail_data);
         // add product images data
         $product->productImages()->createMany($product_images_data);
         // add product attributes data
@@ -60,17 +61,42 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        //
+        return $product;
     }
 
 
     public function edit(Product $product)
     {
-        //
+        $categories = $this->categoryService->getTransformCategories();
+
+        // attribute only one
+        $product->detail = $product->productDetails()->first();
+        $product->link = $product->productImages()->get();
+        $product->attributes = $product->productAttribute()->get();
+
+        return view('admin/products/edit', compact('product', 'categories'));
     }
 
     public function update(ProductRequest $request, Product $product)
     {
+        list(
+            $product_data,
+            $product_detail_data,
+            $product_images_data,
+            $product_attributes_data
+            ) = $this->getRequestParam($request);
+
+        Product::where('id', $product->id)->update($product_data);
+
+        $product->productDetails()->update($product_detail_data);
+        // delete all add product images data
+        $product->productImages()->delete();
+        $product->productImages()->createMany($product_images_data);
+        // delete all add product attributes data
+        $product->productAttribute()->delete();
+        $product->productAttribute()->createMany($product_attributes_data);
+
+        return back()->with('status', '修改商品成功');
     }
 
     public function destroy(Product $product)
@@ -78,15 +104,7 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * change product is alive
-     * @param Request $request
-     * @param Product $product
-     */
-    public function changeAlive(Request $request, Product $product)
-    {
-        dd($product, $request->all());
-    }
+
 
     /**
      * product attributes format database field

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Traits;
 
 use App\Jobs\ResizeProductImage;
+use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 trait ProductTrait
 {
@@ -73,5 +76,33 @@ trait ProductTrait
     protected function uploaded($link)
     {
         dispatch(new ResizeProductImage($link));
+    }
+
+    /**
+     * change product is alive
+     * @param Request $request
+     * @param Product $product
+     */
+    public function changeAlive(Request $request, Product $product)
+    {
+        $product->is_alive = ! $product->is_alive;
+        if ($product->save()) {
+            return $this->setCode(200)->setMsg('修改成功')->toJson();
+        }
+
+        return $this->setCode(401)->setMsg('服务器异常，请稍后再试')->toJson();
+    }
+
+    public function deleteImage(Request $request)
+    {
+        $productImage = ProductImage::find($request->input('id'));
+        // delete file
+        Storage::drive('public')->delete($productImage->link);
+
+        if ($productImage->delete()) {
+            return $this->setCode(200)->setMsg('删除成功')->toJson();
+        } else {
+            return $this->setCode(401)->setMsg('服务器异常，请稍后再试')->toJson();
+        }
     }
 }

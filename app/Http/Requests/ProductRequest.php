@@ -23,7 +23,7 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             // products table field
             "category_id" => "required|exists:categories,id",
             "name" => "required|unique:products",
@@ -46,8 +46,14 @@ class ProductRequest extends FormRequest
 
             // product_images table field
             "link" => 'required|array',
-
         ];
+
+        if ($this->request->get('_method') == 'PUT') {
+            $rules['name'] = 'required';
+        }
+
+
+        return $rules;
     }
 
     public function messages()
