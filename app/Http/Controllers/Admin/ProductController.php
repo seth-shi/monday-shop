@@ -61,7 +61,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return $product;
+        return redirect('/home/product/'. $product->id);
     }
 
 
@@ -101,7 +101,15 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        //
+        $product->productDetails()->delete();
+        // delete all add product images data
+        $product->productImages()->delete();
+        // delete all add product attributes data
+        $product->productAttribute()->delete();
+
+        $product->delete();
+
+        return back()->with('status', '删除商品成功');
     }
 
 

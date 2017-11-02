@@ -19,8 +19,6 @@ Route::namespace('Auth')->group(function(){
     Route::get('/auth/qq/callback', 'AuthLoginController@handleQQCallback');
     Route::get('/auth/weibo', 'AuthLoginController@redirectToWeibo');
     Route::get('/auth/weibo/callback', 'AuthLoginController@handleWeiboCallback');
-
-
 });
 
 
@@ -46,4 +44,5 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::any('products/delete/images', 'ProductController@deleteImage');
 
     Route::resource('products', 'ProductController');
+    Route::resource('productImages', 'ProductImagesController', ['only' => ['index', 'destroy']]);
 });

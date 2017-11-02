@@ -8,7 +8,7 @@ class ProductDetail extends Model
     protected $fillable = ['count', 'unit', 'description', 'product_id'];
 
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }
