@@ -29,7 +29,7 @@
                     <td>{{ $admin->created_at }}</td>
                     <td>{{ dump($admin->last_ip) }}</td>
                     <td class="td-manage">
-                        <a title="编辑" href="javascript:;"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                        <a title="编辑" href="{{ url('admin/admins/'.  $admin->id .'/edit')}}"  class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                         <a title="删除" href="javascript:;" data-id="{{ $admin->id }}" class="ml-5 delete_admin" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
                 </tr>
                 @endforeach

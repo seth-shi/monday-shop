@@ -71,5 +71,6 @@ config/cache.php
 * 数据库填充注释了部分代码，上线前记得开启
 * 分类列表的分类加上排序
 * 定时删除上传图片中多余的文件
+* libpng warning: iCCP: known incorrect sRGB profile(裁剪图片队列出现的信息)
 ## License
 MIT

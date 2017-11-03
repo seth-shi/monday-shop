@@ -49,9 +49,9 @@
                             </td>
                             <td class="td-manage">
                                 @if ($productPresenter->isAlive($product->is_alive))
-                                <a style="text-decoration:none" onClick="product_stop(this, '{{ $product->id }}', 0)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
+                                <a style="text-decoration:none" onClick="product_stop(this, '{{ $product->id }}', 0)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe63c;</i></a>
                                 @else
-                                    <a style="text-decoration:none" onClick="product_stop(this, '{{ $product->id }}', 1)" href="javascript:;" data-id="{{ $product->id }}" title="上架"><i class="Hui-iconfont">&#xe6dc;</i></a>
+                                    <a style="text-decoration:none" onClick="product_stop(this, '{{ $product->id }}', 1)" href="javascript:;" data-id="{{ $product->id }}" title="上架"><i class="Hui-iconfont">&#xe63c;</i></a>
                                 @endif
                                 <a style="text-decoration:none" href="{{ url('/admin/products/'.$product->id.'/edit') }}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
                                 <a style="text-decoration:none" class="ml-5" onClick="product_del(this,'{{ $product->id }}')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
@@ -96,6 +96,7 @@
         }
 
         /*产品-下架*/
+        var product_status = -1;
         function product_stop(obj,id, status){
 
             layer.confirm('确认要修改吗？',function(index){
@@ -103,7 +104,18 @@
                 var url = "{{ url('/admin/products/change/alive') }}/"+id;
 
                 $.post(url, {is_alive:status,_token:'{{ csrf_token() }}'}, function(res){
-                   console.log(res);
+
+                    product_status = (product_status == 1) ? 0 : 1;
+
+                    console.log(product_status);
+                    if (product_status == 1) {
+                        $(obj).attr('title', '上架');
+                        $(obj).parent().prev().find('.product_status').removeClass('label-success').addClass('label-info').text('下架');
+                    } else {
+                        $(obj).attr('title', '下架');
+                        $(obj).parent().prev().find('.product_status').removeClass('label-info').addClass('label-success').text('上架');
+                    }
+
                     if (res.code == 200) {
                         layer.msg(res.msg,{icon: 1,time:1000});
                     } else {
