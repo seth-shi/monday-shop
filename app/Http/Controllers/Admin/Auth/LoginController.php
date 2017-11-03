@@ -19,10 +19,22 @@ class LoginController extends Controller
         $fields = $request->only(['name', 'password']);
 
         if ($this->guard()->attempt($fields, true)) {
+
+            $this->authenticated($request);
             return redirect('admin');
         }
 
         return back()->withInput()->withErrors(['account' => '账号或者密码错误']);
+    }
+
+
+    public function authenticated($request)
+    {
+        $admin = $this->guard()->user();
+
+        $request->setTrustedProxies(['192.168.0.1']);
+        $admin->last_ip = $request->getClientIp();
+        $admin->save();
     }
 
     public function logout(Request $request)
