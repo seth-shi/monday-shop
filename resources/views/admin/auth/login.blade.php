@@ -19,14 +19,14 @@
         <div id="loginform" class="loginBox">
             <form class="form form-horizontal" action="{{ url('admin/login') }}" method="post">
                 {{ csrf_field() }}
-
-                <div class="row cl {{ $errors->has('account') ? ' has-error' : '' }}">
+                {{ dump($errors->all()) }}
+                <div class="row cl {{ $errors->has('name') ? ' has-error' : '' }}">
                     <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                     <div class="formControls col-xs-8">
                         <input id="" name="name" type="text" placeholder="账号" class="input-text size-L" value="{{ old('name') }}">
-                        @if ($errors->has('account'))
+                        @if ($errors->has('name'))
                             <span class="help-block">
-                                <strong>{!! $errors->first('account') !!}</strong>
+                                <strong>{!! $errors->first('name') !!}</strong>
                             </span>
                         @endif
                     </div>

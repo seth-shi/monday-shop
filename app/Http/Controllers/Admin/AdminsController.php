@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -52,7 +54,15 @@ class AdminsController extends Controller
      */
     public function edit(Admin $admin)
     {
-        dd($admin);
+        if ( $this->guard()->user()->can('edit admin')) {
+
+            return back()->with('status', '权限不足');
+        }
+
+        $roles = Role::where('guard_name', 'admin')->get();
+        $admin->role = $admin->getRoleNames()->first();
+
+        return view('admin.admins.edit', compact('admin', 'roles'));
     }
 
     /**
@@ -62,9 +72,20 @@ class AdminsController extends Controller
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Admin $admin)
+    public function update(AdminRequest $request, Admin $admin)
     {
-        //
+        if ( $this->guard()->user()->can('edit admin')) {
+
+            return back()->with('status', '权限不足');
+        }
+
+        $admin->name = $request->input('name');
+        $admin->password = Hash::make($request->input('password'));
+        $admin->save();
+
+        $admin->syncRoles($request->input('role'));
+
+        return redirect('/admin/admins')->with('status', '修改成功');
     }
 
     /**
