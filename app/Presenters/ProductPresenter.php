@@ -11,7 +11,7 @@ class ProductPresenter
         $status_class = $this->isAlive($status) ? 'label-success' : 'label-info';
 
         $span = <<<span
-<span class="label {$status_class}  radius">
+<span class="label {$status_class}  radius product_status">
 {$status_span}
 </span>
 span;
