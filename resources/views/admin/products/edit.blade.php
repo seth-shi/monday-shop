@@ -24,8 +24,6 @@
         {{ csrf_field() }}
         {{ method_field('PUT') }}
 
-        {{ dump($errors->all()) }}
-
         <div class="row cl {{ $errors->has('name') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -138,6 +136,17 @@
                     <span class="help-block">
                         <strong>{{ $errors->first('unit') }}</strong>
                 </span>
+                @endif
+            </div>
+        </div>
+        <div class="row cl {{ $errors->has('title') ? 'has-error' : '' }}">
+            <label class="form-label col-xs-4 col-sm-2">商品描述：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="title" cols="" rows="" class="textarea valid" placeholder="商品的简单描述，50 个字以内" >{{ $product->title }}</textarea>
+                @if ($errors->has('title'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('title') }}</strong>
+                    </span>
                 @endif
             </div>
         </div>

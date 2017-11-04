@@ -1,8 +1,8 @@
 <?php
 
 // home page
-Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'Home\HomeController@index');
+Route::get('/home', 'Home\HomeController@index')->name('home');
 
 // user auth
 Auth::routes();
