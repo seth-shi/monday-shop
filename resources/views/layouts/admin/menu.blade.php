@@ -40,8 +40,7 @@
 				<ul>
 					<li><a data-href="{{ url('/admin/admins') }}" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
 					<li><a data-href="{{ url('/admin/admins/create') }}" data-title="添加管理员" href="javascript:void(0)">添加管理员</a></li>
-					<li><a data-href="{{ url('/admin/') }}" data-title="角色列表" href="javascript:void(0)">角色列表</a></li>
-					<li><a data-href="" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
+					<li><a data-href="{{ url('/admin/roles') }}" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
 					<li><a data-href="{{ url('/admin/permissions') }}" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
 				</ul>
 			</dd>

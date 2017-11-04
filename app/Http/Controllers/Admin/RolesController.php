@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
@@ -12,7 +14,9 @@ class RolesController extends Controller
 
     public function index()
     {
-        return view('admin.roles.index');
+        $roles = Role::where('guard_name', 'admin')->get();
+
+        return view('admin.roles.index', compact('roles'));
     }
 
     public function create()
@@ -28,20 +32,24 @@ class RolesController extends Controller
 
     public function show(Role $role)
     {
-        //
-        dd($role);
+        return $role;
     }
 
 
     public function edit(Role $role)
     {
-        //
+        $permissions = Permission::where('guard_name', 'admin')->get();
+        return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
 
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
-        //
+        $role->update($request->only('name'));
+
+        $role->syncPermissions($request->input('permission'));
+
+        return back()->with('status', '修改角色成功');
     }
 
 

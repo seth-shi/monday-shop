@@ -7,6 +7,11 @@
 
 @section('main')
 	<article class="page-container">
+
+        @if (session()->has('status'))
+            <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>{{ session('status') }}</div>
+        @endif
+
 		<form class="form form-horizontal layui-form" id="form-admin-add" method="post" action='{{ url("/admin/admins") }}'>
 
 			{{ csrf_field() }}

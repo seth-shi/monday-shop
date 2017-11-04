@@ -72,5 +72,6 @@ config/cache.php
 * 分类列表的分类加上排序
 * 定时删除上传图片中多余的文件
 * libpng warning: iCCP: known incorrect sRGB profile(裁剪图片队列出现的信息)
+* 上传文件的路径写入 config 方便配置
 ## License
 MIT
