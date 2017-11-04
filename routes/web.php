@@ -47,4 +47,6 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::resource('productImages', 'ProductImagesController', ['only' => ['index', 'destroy']]);
     Route::resource('users', 'UsersController', ['only' => ['index']]);
     Route::resource('admins', 'AdminsController');
+    Route::resource('roles', 'RolesController');
+    Route::resource('permissions', 'PermissionsController');
 });
