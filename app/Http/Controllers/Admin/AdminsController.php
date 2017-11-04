@@ -32,7 +32,7 @@ class AdminsController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -54,13 +54,9 @@ class AdminsController extends Controller
      */
     public function edit(Admin $admin)
     {
-        if ( $this->guard()->user()->can('edit admin')) {
-
-            return back()->with('status', '权限不足');
-        }
+        $this->checkPermission('edit admin');
 
         $roles = Role::where('guard_name', 'admin')->get();
-        $admin->role = $admin->getRoleNames()->first();
 
         return view('admin.admins.edit', compact('admin', 'roles'));
     }
@@ -74,16 +70,12 @@ class AdminsController extends Controller
      */
     public function update(AdminRequest $request, Admin $admin)
     {
-        if ( $this->guard()->user()->can('edit admin')) {
+        $this->checkPermission('edit admin');
 
-            return back()->with('status', '权限不足');
-        }
+        list($adminData, $roles) = $this->getUpdateFormRequest($request);
 
-        $admin->name = $request->input('name');
-        $admin->password = Hash::make($request->input('password'));
-        $admin->save();
-
-        $admin->syncRoles($request->input('role'));
+        $admin->update($adminData);
+        $admin->syncRoles($roles);
 
         return redirect('/admin/admins')->with('status', '修改成功');
     }
@@ -96,14 +88,36 @@ class AdminsController extends Controller
      */
     public function destroy(Admin $admin)
     {
-        // $this->guard()->user()->givePermissionTo('delete admin');
-        if (! $this->guard()->user()->can('delete admin')) {
-
-            return back()->with('status', '权限不足');
-        }
+        $this->checkPermission('delete admin');
 
         $admin->delete();
         return back()->with('status', '删除成功');
+    }
+
+
+
+
+    private function getUpdateFormRequest($request)
+    {
+        $admin['name'] = $request->input('name');
+
+        // exists and not null
+        if ($request->input('password')) {
+
+            $admin['password'] = Hash::make($request->input('password'));
+        }
+
+        $roles = array_values($request->input('roles'));
+
+        return [$admin, $roles];
+    }
+
+    private function checkPermission($permission)
+    {
+        if (! $this->guard()->user()->can($permission)) {
+
+            return back()->with('status', '权限不足');
+        }
     }
 
     public function guard()

@@ -1,8 +1,13 @@
 @extends('layouts.admin')
 
+
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/admin/lib/layui/css/layui.css') }}">
+@endsection
+
 @section('main')
 	<article class="page-container">
-		<form class="form form-horizontal" id="form-admin-add" method="post" action='{{ url("/admin/admins/{$admin->id}") }}'>
+		<form class="form form-horizontal layui-form" id="form-admin-add" method="post" action='{{ url("/admin/admins/{$admin->id}") }}'>
 
 			{{ csrf_field() }}
 			{{ method_field('PUT') }}
@@ -43,19 +48,20 @@
 			<div class="row cl {{ $errors->has('role') ? 'has-error' : '' }}">
 				<label class="form-label col-xs-4 col-sm-3">角色：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<span class="select-box" style="width:150px;">
-						<select class="select" name="role" size="1">
-							@foreach ($roles as $role)
-								<option value="{{ $role->name }}" {{ $admin->role == $role->name ? 'selected' : '' }}>{{ $role->name }}</option>
-							@endforeach
-						</select>
-						@if ($errors->has('role'))
-							<span class="help-block">
+                    <!-- multiple="multiple" -->
+                    <div class="layui-form-item">
+                            @foreach ($roles as $role)
+                                <input type="checkbox" name="roles[][role]" value="{{ $role->name }}" title="{{ $role->name }}" {{ $admin->hasRole($role->name) ? 'checked' : '' }}>
+                            @endforeach
+
+                    </div>
+
+                    @if ($errors->has('role'))
+                        <span class="help-block">
                             <strong>{!! $errors->first('role') !!}</strong>
                         </span>
-						@endif
-					</span>
-				</div>
+                    @endif
+                </div>
 			</div>
 			<div class="row cl">
 				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
@@ -67,5 +73,10 @@
 @endsection
 
 @section('script')
-
+	<script src="{{ asset('assets/admin/lib/layui/layui.js') }}"></script>
+	<script>
+        layui.use(['form'], function() {
+            var form = layui.form;
+        });
+	</script>
 @endsection
