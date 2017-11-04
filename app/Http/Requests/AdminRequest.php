@@ -26,11 +26,12 @@ class AdminRequest extends FormRequest
         $rules = [
             'name' => 'required|unique:admins',
             'password' => 'required|min:6|confirmed',
-            'role' => 'required|exists:roles,name'
+            'roles' => 'required|array'
         ];
 
         if ($this->input('_method') == 'PUT') {
             $rules['name'] = 'required';
+            $rules['password'] = '';
         }
 
         return $rules;
@@ -44,8 +45,8 @@ class AdminRequest extends FormRequest
             'password.required' => '密码不能为空',
             'password.min' => '密码最少六位',
             'password.confirmed' => '两次密码不相同',
-            'role.required' => '角色不能为空',
-            'role.exists' => '不存在这个角色',
+            'roles.required' => '角色不能为空',
+            'roles.array' => '角色不符合规范',
         ];
     }
 }
