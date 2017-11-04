@@ -27,12 +27,12 @@ class ProductRequest extends FormRequest
             // products table field
             "category_id" => "required|exists:categories,id",
             "name" => "required|unique:products",
-            "price" => "required",
-            "price_original" => "required",
+            "price" => "required|numeric",
+            "price_original" => "required|numeric",
 
             // product_details table field
             "unit" => 'required',
-            "count" => 'required',
+            "count" => 'required|numeric',
             "description" => "required|min:10",
 
 
@@ -42,7 +42,7 @@ class ProductRequest extends FormRequest
             "items" => 'required|array',
             "items.*" => 'required',
             "markup" => 'required|array',
-            "markup.*" => 'required',
+            "markup.*" => 'required|numeric',
 
             // product_images table field
             "link" => 'required|array',
@@ -64,10 +64,13 @@ class ProductRequest extends FormRequest
             "name.required" => "商品名字不能为空",
             "name.unique" => "商品名字已经存在",
             "price.required" => "商品销售价格不能为空",
+            "price.numeric" => "商品销售价格必须是数字",
             "price_original.required" => "商品展示价格不能为空",
+            "price_original.numeric" => "商品展示价格必须是数字",
 
             "unit.required" => '商品计数单位不能为空',
             "count.required" => '商品库存量不能为空',
+            "count.numeric" => '商品库存量必须是数字',
             "description.required" => "商品描述不能为空",
             "description.min" => "商品描述请在10个字以上",
 
@@ -80,6 +83,7 @@ class ProductRequest extends FormRequest
             "attribute.*.required" => '商品属性不能为空',
             "items.*.required" => '商品属性的值不能为空',
             "markup.*.required" => '商品价格浮动不能为空',
+            "markup.*.numeric" => '商品价格浮动必须是数字',
 
             "link.required" => '必须上传商品图片',
             "link.array" => '商品图片不符合规格',
