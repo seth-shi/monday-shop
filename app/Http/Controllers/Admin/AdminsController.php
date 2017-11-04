@@ -13,11 +13,6 @@ use Spatie\Permission\Models\Role;
 
 class AdminsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $admins = Admin::orderBy('created_at', 'desc')->get();
@@ -25,33 +20,28 @@ class AdminsController extends Controller
         return view('admin.admins.index', compact('admins'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
+        $this->checkPermission('create admin');
+        $roles = Role::where('guard_name', 'admin')->get();
 
+        return view('admin.admins.create', compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(AdminRequest $request)
     {
+        $this->checkPermission('create admin');
 
+        list($adminData, $roles) = $this->getFormParam($request);
+
+        $admin = Admin::create($adminData);
+        $admin->assignRole($roles);
+
+        return redirect('/admin/admins')->with('status', '创建成功');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Admin $admin)
     {
         $this->checkPermission('edit admin');
@@ -61,18 +51,12 @@ class AdminsController extends Controller
         return view('admin.admins.edit', compact('admin', 'roles'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(AdminRequest $request, Admin $admin)
     {
         $this->checkPermission('edit admin');
 
-        list($adminData, $roles) = $this->getUpdateFormRequest($request);
+        list($adminData, $roles) = $this->getFormParam($request);
 
         $admin->update($adminData);
         $admin->syncRoles($roles);
@@ -80,12 +64,12 @@ class AdminsController extends Controller
         return redirect('/admin/admins')->with('status', '修改成功');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
+    public function show(Admin $admin)
+    {
+        return $admin;
+    }
+
+
     public function destroy(Admin $admin)
     {
         $this->checkPermission('delete admin');
@@ -97,7 +81,7 @@ class AdminsController extends Controller
 
 
 
-    private function getUpdateFormRequest($request)
+    private function getFormParam($request)
     {
         $admin['name'] = $request->input('name');
 
@@ -107,7 +91,7 @@ class AdminsController extends Controller
             $admin['password'] = Hash::make($request->input('password'));
         }
 
-        $roles = array_values($request->input('roles'));
+        $roles = array_column($request->input('roles'), 'role');
 
         return [$admin, $roles];
     }

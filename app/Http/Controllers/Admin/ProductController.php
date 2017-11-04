@@ -6,9 +6,8 @@ use App\Http\Controllers\Traits\ProductTrait;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
-use App\Models\ProductImage;
 use App\Services\CategoryService;
-use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Webpatser\Uuid\Uuid;
 
 class ProductController extends Controller

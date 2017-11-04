@@ -25,7 +25,7 @@
             @foreach ($admins as $admin)
                 <tr class="text-c">
                     <td>{{ $admin->name }}</td>
-                    <td>{{ $admin->name }} 权限</td>
+                    <td>{!! implode('&nbsp;&nbsp;', $admin->getRoleNames()->toArray()) !!}</td>
                     <td>{{ $admin->created_at }}</td>
                     <td>{{ dump($admin->last_ip) }}</td>
                     <td class="td-manage">
