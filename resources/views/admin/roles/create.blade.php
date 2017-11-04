@@ -7,18 +7,22 @@
             <div class="Huialert Huialert-info"><i class="Hui-iconfont">&#xe6a6;</i>{{ session('status') }}</div>
         @endif
 
-		<form action="{{ url("/admin/roles/{$role->id}") }}" method="post" class="form form-horizontal" id="form-admin-role-add">
+		<form action="{{ url("/admin/roles") }}" method="post" class="form form-horizontal" id="form-admin-role-add">
 
             {{ csrf_field() }}
-            {{ method_field('PUT') }}
 
-			<div class="row cl">
+			<div class="row cl {{ $errors->has('name') ? 'has-error' : '' }}">
 				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="{{ $role->name }}" placeholder="" id="roleName" name="name">
+					<input type="text" class="input-text" value="{{ old('name') }}" placeholder="" id="roleName" name="name">
+					@if ($errors->has('name'))
+						<span class="help-block">
+											<strong>{!! $errors->first('name') !!}</strong>
+										</span>
+					@endif
 				</div>
 			</div>
-			<div class="row cl">
+			<div class="row cl {{ $errors->has('permission') ? 'has-error' : '' }}">
 				<label class="form-label col-xs-4 col-sm-3">网站角色权限：</label>
 				<div class="formControls col-xs-8 col-sm-9">
 					<dl class="permission-list">
@@ -32,8 +36,13 @@
 								<dd>
 									@foreach ($permissions as $permission)
                                         <label class="">
-                                            <input type="checkbox" value="{{ $permission->name }}" {{ $role->hasPermissionTo($permission->name) ? 'checked' : ''}} name="permission[][name]">{{ $permission->name }}</label>
+                                            <input type="checkbox" value="{{ $permission->name }}" name="permission[][name]">{{ $permission->name }}</label>
                                     @endforeach
+									@if ($errors->has('permission'))
+										<span class="help-block">
+											<strong>{!! $errors->first('permission') !!}</strong>
+										</span>
+									@endif
 								</dd>
 							</dl>
 						</dd>
