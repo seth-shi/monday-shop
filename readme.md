@@ -28,12 +28,15 @@ cp .env.example .env
 ```shell
 php artisan gps:install
 ```
-```
 ## Usage
 * 监听队列(邮件发送，图片裁剪 !!!)
 ```shell
 php artisan queue:work --tries=3
-
+```
+* 卸载网站(清空数据库，缓存，路由)
+```shell
+php artisan gps:uninstall
+```
 ## Optimize
 * 执行缓存（缓存配置，路由，类映射）
 ```shell
