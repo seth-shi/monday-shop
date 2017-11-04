@@ -2,6 +2,7 @@
 
 @section('style')
     <link href="{{ asset('assets/admin/static/h-ui.admin/css/H-ui.login.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
 @section('main')

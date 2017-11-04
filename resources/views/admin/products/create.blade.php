@@ -137,8 +137,19 @@
                 @endif
             </div>
         </div>
-        <div class="row cl {{ $errors->has('description') ? 'has-error' : '' }}">
+        <div class="row cl {{ $errors->has('title') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">商品描述：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="title" cols="" rows="" class="textarea valid" placeholder="商品的简单描述，50 个字以内" >{{ old('title') }}</textarea>
+                @if ($errors->has('title'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('title') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+        <div class="row cl {{ $errors->has('description') ? 'has-error' : '' }}">
+            <label class="form-label col-xs-4 col-sm-2">商品详情：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="description" id="description" style="display: none;">{{ old('description') }}</textarea>
                 @if ($errors->has('description'))

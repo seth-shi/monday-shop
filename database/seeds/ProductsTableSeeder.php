@@ -21,7 +21,7 @@ class ProductsTableSeeder extends Seeder
             // product images
             ProductImage::create(['link' => $faker->imageUrl(800, 400), 'product_id' => $id]);
             // product detail
-            ProductDetail::create(['count' => mt_rand(100, 1000), 'unit' => '件', 'description' => $faker->text, 'product_id' => $id]);
+            ProductDetail::create(['count' => mt_rand(100, 1000), 'unit' => '件', 'description' => $faker->randomHtml(), 'product_id' => $id]);
             // product attribute
             ProductAttribute::create(['attribute' => '颜色', 'items' => '白色', 'markup' => 10, 'product_id' => $id]);
             ProductAttribute::create(['attribute' => '颜色', 'items' => '红色', 'markup' => 5, 'product_id' => $id]);

@@ -46,7 +46,6 @@ class ProductController extends Controller
             $product_attributes_data
             ) = $this->getRequestParam($request);
 
-
         $product = Product::create($product_data);
         // add product details data
         $product->productDetails()->create($product_detail_data);
@@ -163,7 +162,7 @@ class ProductController extends Controller
     private function getRequestParam(ProductRequest $request)
     {
         // product table field
-        $product_data = $request->only(['category_id', 'name', 'price', 'price_original']);
+        $product_data = $request->only(['category_id', 'name', 'price', 'price_original', 'title']);
         // product thumb use image list first
         $product_data['thumb'] = $request->input('link')[0];
         $product_data['uuid'] = Uuid::generate()->hex;
