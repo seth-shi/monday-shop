@@ -75,6 +75,8 @@ class CategoryController extends Controller
         $response = ['code' => 1, 'msg' => '删除失败'];
 
         if ($category->delete()) {
+
+            // delete products
             $response['code'] = 0;
             $response['msg'] = "{$category->name} 删除成功";
         }

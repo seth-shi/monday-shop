@@ -26,7 +26,7 @@ trait ProductTrait
         }
 
         // move file to public
-        if ($link = $request->file($fieldName)->store('uploads/product/list', 'public')) {
+        if ($link = $request->file($fieldName)->store(config('web.upload.detail'), 'public')) {
 
             // upload after event
             $this->uploaded($link);
@@ -51,7 +51,7 @@ trait ProductTrait
         }
 
         // move file to public
-        if ($link = $request->file($fieldName)->store('uploads/product/description', 'public')) {
+        if ($link = $request->file($fieldName)->store(config('web.upload.detail'), 'public')) {
 
             return $this->setMsg('文件上传成功')->setCode(0)->setData(['src' => '/storage/' . $link])->toJson();
         }

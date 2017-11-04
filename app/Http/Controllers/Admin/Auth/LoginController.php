@@ -24,7 +24,7 @@ class LoginController extends Controller
             return redirect('admin');
         }
 
-        return back()->withInput()->withErrors(['account' => '账号或者密码错误']);
+        return back()->withInput()->withErrors(['name' => '账号或者密码错误']);
     }
 
 

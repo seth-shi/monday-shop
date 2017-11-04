@@ -37,7 +37,7 @@
                                 <a onClick="product_show('{{ $product->name }}','{{ url('/admin/products') }}/{{ $product->id }}')" href="javascript:;">{{ $product->name }}</a>
                             </td>
                             <td class="text-l">
-                                <img style="height: 90px;width:auto;" title="{{ $product->name }}" src="/storage/{{ $product->thumb }}">
+                                <img style="height: 90px;width:auto;" title="{{ $product->name }}" src="{{ $productPresenter->getThumbLink($product->thumb) }}">
                             </td>
                             <td>
                                 {{ $product->price }} / {{ $product->price_original }}

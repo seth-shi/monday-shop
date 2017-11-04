@@ -1,0 +1,11 @@
+[04-Nov-2017 13:39:40 PRC] PHP Fatal error:  Cannot declare class App\Console\Commands\InstallShop, because the name is already in use in F:\phpStudy\WWW\MondayShop\app\Console\Commands\UninstallShop.php on line 45
+[04-Nov-2017 13:39:40 PRC] PHP Stack trace:
+[04-Nov-2017 13:39:40 PRC] PHP   1. {main}() F:\phpStudy\WWW\MondayShop\artisan:0
+[04-Nov-2017 13:39:40 PRC] PHP   2. App\Console\Kernel->handle() F:\phpStudy\WWW\MondayShop\artisan:37
+[04-Nov-2017 13:39:40 PRC] PHP   3. App\Console\Kernel->bootstrap() F:\phpStudy\WWW\MondayShop\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:119
+[04-Nov-2017 13:39:40 PRC] PHP   4. App\Console\Kernel->commands() F:\phpStudy\WWW\MondayShop\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:302
+[04-Nov-2017 13:39:40 PRC] PHP   5. App\Console\Kernel->load() F:\phpStudy\WWW\MondayShop\app\Console\Kernel.php:38
+[04-Nov-2017 13:39:40 PRC] PHP   6. is_subclass_of() F:\phpStudy\WWW\MondayShop\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:217
+[04-Nov-2017 13:39:40 PRC] PHP   7. spl_autoload_call() F:\phpStudy\WWW\MondayShop\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:217
+[04-Nov-2017 13:39:40 PRC] PHP   8. Composer\Autoload\ClassLoader->loadClass() F:\phpStudy\WWW\MondayShop\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:217
+[04-Nov-2017 13:39:40 PRC] PHP   9. Composer\Autoload\includeFile() F:\phpStudy\WWW\MondayShop\vendor\composer\ClassLoader.php:322

@@ -19,6 +19,11 @@ span;
         return $span;
     }
 
+    public function getThumbLink($link)
+    {
+        return starts_with($link, 'http') ? $link : "/storage/{$link}";
+    }
+
     public function isAlive($status)
     {
         return $status == 1;
