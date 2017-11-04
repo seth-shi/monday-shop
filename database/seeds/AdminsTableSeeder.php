@@ -15,14 +15,12 @@ class AdminsTableSeeder extends Seeder
     {
         Admin::create([
                 'name' => 'admin',
-                'password' => bcrypt('admin'),
-                'avatar' => $faker->imageUrl(120, 120)
+                'password' => bcrypt('admin')
         ]);
 
         Admin::create([
             'name' => 'guest',
-            'password' => bcrypt('guest'),
-            'avatar' => $faker->imageUrl(120, 120)
+            'password' => bcrypt('guest')
         ]);
     }
 }

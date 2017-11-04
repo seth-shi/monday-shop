@@ -8,18 +8,18 @@
     <input type="hidden" id="TenantId" name="TenantId" value="" />
     <div class="header"></div>
     <div class="loginWraper">
-
-        @if (session()->has('status'))
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                {{ session('status') }}
-            </div>
-        @endif
-
         <div id="loginform" class="loginBox">
+
+            @if (session()->has('status'))
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ session('status') }}
+                </div>
+            @endif
+
             <form class="form form-horizontal" action="{{ url('admin/login') }}" method="post">
                 {{ csrf_field() }}
-                {{ dump($errors->all()) }}
+
                 <div class="row cl {{ $errors->has('name') ? ' has-error' : '' }}">
                     <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                     <div class="formControls col-xs-8">

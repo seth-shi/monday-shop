@@ -25,6 +25,7 @@ class BaseCommand extends Command
         parent::__construct();
     }
 
+
     public function execShellWithPrint($command)
     {
 
