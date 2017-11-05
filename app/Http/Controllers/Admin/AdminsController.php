@@ -15,7 +15,7 @@ class AdminsController extends Controller
 {
     public function index()
     {
-        $admins = Admin::orderBy('created_at', 'desc')->get();
+        $admins = Admin::latest()->get();
 
         return view('admin.admins.index', compact('admins'));
     }

@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         $categories = Category::orderBy('parent_id', 'desc')->take(9)->get();
         $hotProducts = Product::orderBy('likes', 'desc')->take(3)->get();
-        $latestProducts = Product::orderBy('created_at', 'desc')->take(9)->get();
+        $latestProducts = Product::latest()->take(9)->get();
         $users = User::orderBy('login_count', 'desc')->take(10)->get(['name', 'avatar']);
 
         return view('home.index', compact('categories', 'hotProducts', 'latestProducts', 'users'));

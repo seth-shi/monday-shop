@@ -14,7 +14,9 @@
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "mews/captcha": "^2.1",
+        "overtrue/laravel-pinyin": "~3.0",
         "overtrue/laravel-socialite": "~1.0",
+        "renatomarinho/laravel-page-speed": "^1.8",
         "spatie/laravel-permission": "^2.7",
         "webpatser/laravel-uuid": "^3.0"
     },
