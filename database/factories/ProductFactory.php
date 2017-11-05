@@ -24,6 +24,7 @@ $factory->define(\App\Models\Product::class, function (Faker $faker) {
         'price' => $price,
         'price_original' => $price * 1.2,
         'thumb' => $faker->imageUrl(800, 600),
-        'category_id' => mt_rand(1, 5)
+        // random by category select one data
+        'category_id' => \App\Models\Category::inRandomOrder()->first()->id
     ];
 });
