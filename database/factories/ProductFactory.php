@@ -20,7 +20,7 @@ $factory->define(\App\Models\Product::class, function (Faker $faker) {
     return [
         'uuid' => $faker->uuid,
         'name' => $faker->unique()->colorName,
-        'title' => $faker->text,
+        'title' => str_limit($faker->text, 50),
         'price' => $price,
         'price_original' => $price * 1.2,
         'thumb' => $faker->imageUrl(800, 600),

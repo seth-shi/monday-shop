@@ -41,6 +41,7 @@ class InstallShop extends BaseCommand
         $this->call('db:seed');
 
         // listen queue
+        $this->info('队列启动中，请勿关闭窗口');
         $this->call('queue:work', ['--tries' => '3']);
     }
 }

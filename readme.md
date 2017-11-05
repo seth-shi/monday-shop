@@ -8,6 +8,7 @@
 * `View` : 使用`blade`將数据`binding`到`HTML`
 ## Requirement
 1. Laravel 5.5.13
+2. PHP ^7.1
 
 ## Installation
 1. 获取源代码

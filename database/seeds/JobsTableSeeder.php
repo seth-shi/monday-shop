@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\InstallShopWarn;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class JobsTableSeeder extends Seeder
@@ -12,9 +13,16 @@ class JobsTableSeeder extends Seeder
      */
     public function run()
     {
-        $time = date('Y-m-d H:i:s');
-        $msg = '网站已启动 启动时间: ' . $time;
+        $user = User::create([
+            'name' => 'waitmoonman',
+            'email' => '1033404553@qq.com',
+            'password' => bcrypt('123456'),
+            'avatar' => 'https://avatars2.githubusercontent.com/u/28035971',
+            'active_token' => str_random(60),
+            'is_active' => 1,
+            'remember_token' => str_random(10),
+        ]);
         // Add a task to the queue to remind the user that the queue has started
-        dispatch(new InstallShopWarn($msg));
+        dispatch(new InstallShopWarn($user));
     }
 }
