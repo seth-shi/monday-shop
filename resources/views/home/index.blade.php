@@ -1,4 +1,4 @@
-@extends('layouts.shop')
+@extends('layouts.home')
 
 
 @section('main')
@@ -12,7 +12,7 @@
                             <ul class="nav-coupon-category panel">
                                 @foreach ($categories as $category)
                                     <li>
-                                        <a href="#">
+                                        <a href='{{ url("/home/categories/{$category->id}") }}'>
                                             <i class="fa fa-shopping-cart"></i>{{ $category->name }}
                                             <span>{{ $category->products->count() }}</span>
                                         </a>

@@ -285,7 +285,7 @@
 .page-pagination li {
   display: inline;
 }
-.page-pagination a.page-numbers,
+.page-pagination .page-numbers,
 .page-pagination .page-numbers.current {
   display: inline-block;
   margin: 0 2px;
@@ -299,12 +299,12 @@
   -o-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
 }
-.page-pagination a.page-numbers {
+.page-pagination .page-numbers {
   border-color: #d3d9dd;
   color: #576366;
 }
 .page-pagination .page-numbers.current,
-.page-pagination a.page-numbers:hover {
+.page-pagination .page-numbers:hover {
   border-color: #2ed87b;
   background-color: #2ed87b;
   color: #fff;

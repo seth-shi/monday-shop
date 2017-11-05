@@ -1,11 +1,8 @@
 <?php
 
-// home page
-Route::get('/', 'Home\HomeController@index');
-Route::get('/home', 'Home\HomeController@index')->name('home');
-
-// user auth
+/**********  auth  **********/
 Auth::routes();
+
 Route::namespace('Auth')->group(function(){
     // account active link
     Route::get('/register/active/{token}', 'UserController@activeAccount');
@@ -21,12 +18,21 @@ Route::namespace('Auth')->group(function(){
     Route::get('/auth/weibo/callback', 'AuthLoginController@handleWeiboCallback');
 });
 
+/**********  home  **********/
+Route::get('/', 'Home\HomeController@index');
+
+Route::prefix('home')->namespace('Home')->group(function(){
+    Route::get('/', 'HomeController@index');
+
+    Route::get('/categories', 'CategoryController@index');
+    Route::get('/categories/{category}', 'CategoryController@show');
+});
+
 
 /**********  admin  **********/
 Route::get('/admin/login' ,'Admin\Auth\LoginController@showLoginForm')->name('admin.login');
 Route::post('/admin/login', 'Admin\Auth\LoginController@login');
 Route::post('/admin/logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
-
 
 Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(function(){
 
@@ -34,8 +40,6 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::get('/', 'HomeController@index');
     Route::get('/welcome', 'HomeController@welcome')->name('admin.welcome');
 
-
-    Route::resource('categories', 'CategoryController');
     // change product Alive or undercarriage
     Route::any('products/change/alive/{product}', 'ProductController@changeAlive');
     // product image and product list image upload
@@ -43,6 +47,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::post('products/upload/detail', 'ProductController@uploadDetailImage');
     Route::any('products/delete/images', 'ProductController@deleteImage');
 
+    Route::resource('categories', 'CategoryController');
     Route::resource('products', 'ProductController');
     Route::resource('productImages', 'ProductImagesController', ['only' => ['index', 'destroy']]);
     Route::resource('users', 'UsersController', ['only' => ['index']]);
