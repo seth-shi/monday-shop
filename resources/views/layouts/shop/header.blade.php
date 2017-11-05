@@ -14,15 +14,28 @@
                 </div>
                 <div class="col-sm-12 col-md-8">
                     <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
-                        <li>
-                            <a href="#"><i class="fa fa-flag-checkered"></i>游客</a>
-                        </li>
-                        <li><a href="{{ url('login') }}"><i class="fa fa-lock"></i>登录</a>
-                        </li>
-                        <li><a href="{{ url('register') }}"><i class="fa fa-user"></i>注册</a>
-                        </li>
+                        @auth
+                            <li>
+                                <a href="#"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="fa fa-lock"></i>注销</a>
+                            </li>
+                        @endauth
+                        @guest
+                            <li><a href="#"><i class="fa fa-user"></i>游客</a></li>
+                            <li><a href="{{ url('login') }}"><i class="fa fa-lock"></i>登录</a>
+                            </li>
+                            <li><a href="{{ url('register') }}"><i class="fa fa-user"></i>注册</a>
+                            </li>
+                        @endguest
+
                     </ul>
                 </div>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
             </div>
         </div>
     </div>

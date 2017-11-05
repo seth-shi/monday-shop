@@ -57,9 +57,6 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        // 不要直接登录
-        // $this->guard()->login($user);
-
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath())->with('status', '注册成功');
     }
@@ -71,7 +68,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        // 注册成功发送邮件加入队列
         Mail::to($user->email)
             ->queue(new UserRegister($user));
     }
