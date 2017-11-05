@@ -228,4 +228,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
     ],
 
+
+    // Fill in data to Chinese
+    'faker_locale' => 'zh_CN',
+
 ];
