@@ -50,20 +50,10 @@
     <!-- Font Awesome -->
     <link href="{{ asset('assets/shop/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 
-    <!-- Linearicons -->
-    <link href="{{ asset('assets/shop/vendors/linearicons/css/linearicons.css') }}" rel="stylesheet">
-
-    <!-- Owl Carousel -->
-    <link href="{{ asset('assets/shop/vendors/owl-carousel/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/shop/vendors/owl-carousel/owl.theme.min.css') }}" rel="stylesheet">
-
-    <!-- Flex Slider -->
-    <link href="{{ asset('assets/shop/vendors/flexslider/flexslider.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('assets/shop/css/base.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/shop/css/style.css') }}" rel="stylesheet">
-
     @yield('style')
 </head>
 

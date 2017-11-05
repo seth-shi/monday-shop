@@ -2016,3 +2016,15 @@
 .checkout-widget .table tr + tr > td {
   border-top: 1px solid #eee;
 }
+@media screen and (max-width: 420px) {
+  #captcha {
+    width: 100px;
+    height: 46px;
+  }
+}
+@media screen and (max-width: 320px) {
+  #captcha {
+    width: 60px;
+    height: 46px;
+  }
+}

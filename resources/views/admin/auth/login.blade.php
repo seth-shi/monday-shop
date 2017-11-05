@@ -49,7 +49,7 @@
                     <div class="formControls col-xs-8">
                         <div style="position: relative;">
                             <input name="captcha" type="text" placeholder="验证码" class="input-text size-L">
-                            <img style="position: absolute;top: 0; right: 42px; cursor: pointer;height: 41px;" src="{{captcha_src()}}" onclick="this.src='{{ url("captcha/default") }}?'+Math.random()" alt="验证码" >
+                            <img style="position: absolute;top: 0; right: 42px; cursor: pointer;height: 41px;" src="{{captcha_src()}}" onclick="this.src='{{ url("captcha/default") }}?'+Math.random()" alt="验证码"  id="captcha">
 
                             @if ($errors->has('captcha'))
                                 <span class="help-block">
