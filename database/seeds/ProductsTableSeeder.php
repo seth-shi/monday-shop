@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductDetail;
 use App\Models\ProductImage;
@@ -17,7 +18,7 @@ class ProductsTableSeeder extends Seeder
     public function run(Faker $faker)
     {
         for ($i = 0; $i < 10; ++$i) {
-            $id = factory(\App\Models\Product::class)->create()->id;
+            $id = factory(Product::class)->create()->id;
             // product images
             ProductImage::create(['link' => $faker->imageUrl(800, 400), 'product_id' => $id]);
             // product detail
