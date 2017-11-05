@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Home;
 
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        //
+        $categories = Category::groupBy('pinyin');
+
+            dd($categories);
+        return view('home.categories.index');
     }
 
     public function show(Category $category)

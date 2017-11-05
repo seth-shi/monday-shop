@@ -19,7 +19,7 @@
                                     </li>
                                 @endforeach
                                 <li class="all-cat">
-                                    <a class="font-14" href="#"></a>
+                                    <a class="font-14" href="{{ url('/home/categories') }}">查看所有分类</a>
                                 </li>
                             </ul>
                         </aside>

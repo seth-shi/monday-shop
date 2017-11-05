@@ -6,6 +6,9 @@ use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use App\Services\CategoryService;
+use Illuminate\Http\Request;
+use Pinyin;
+
 
 class CategoryController extends Controller
 {
@@ -34,11 +37,14 @@ class CategoryController extends Controller
     {
         $parent_id = $request->input('parent_id');
 
+        $data = $this->getRequestForm($request);
+
         // create a root tree
         if ($request->input('parent_id') == '0') {
-            Category::create($request->all());
+            Category::create($data);
         } else {
-            Category::find($parent_id)->children()->create($request->all());
+
+            Category::find($parent_id)->children()->create($data);
         }
 
         return back()->with('status', '创建分类成功');
@@ -58,7 +64,9 @@ class CategoryController extends Controller
 
     public function update(CategoryRequest $request, Category $category)
     {
-        if ($category->update($request->all())) {
+        $data = $this->getRequestForm($request->all());
+
+        if ($category->update($data)) {
             return back()->with('status', '修改成功');
         } else {
             return back()->with('status', '服务器出错，请稍后再试');
@@ -86,5 +94,17 @@ class CategoryController extends Controller
         }
 
         return back()->with('status', $response['msg']);
+    }
+
+    private function getRequestForm(Request $request)
+    {
+        // add category pinyin
+        $data = $request->all();
+
+        if ($request->has('name')) {
+            $data['pinyin'] = Pinyin::permalink($request->input('name'));
+        }
+
+        return $data;
     }
 }

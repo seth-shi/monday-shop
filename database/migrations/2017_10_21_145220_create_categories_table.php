@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration {
         // Add needed columns here (f.ex: name, slug, path, etc.)
         $table->string('name')->unique();
         $table->tinyInteger('order_lv')->default(1);
+        $table->string('pinyin')->nullable()->comment('分类的拼音');
         $table->string('description')->nullable()->comment('分类的描述');
 
         $table->timestamps();
