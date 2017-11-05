@@ -17,7 +17,7 @@ class ProductsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for ($i = 0; $i < 10; ++$i) {
+        for ($i = 0; $i < 50; ++$i) {
             $id = factory(Product::class)->create()->id;
             // product images
             ProductImage::create(['link' => $faker->imageUrl(800, 400), 'product_id' => $id]);
