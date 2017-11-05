@@ -112,7 +112,7 @@ class AuthLoginController extends Controller
         list($providerId, $providerName) = $providerType;
 
         // by email find user Is there
-        if ($user = User::where('name', $provider['email'])->first()) {
+        if ($user = User::where('email', $provider['email'])->first()) {
             // if user already exists, bind the account only
             $user->$providerId = $provider['id'];
             $user->$providerName = $provider['nickname'];
@@ -155,8 +155,12 @@ class AuthLoginController extends Controller
             $data['avatar'] = $provider['avatar'];
         }
 
-        if (! is_null($provider['email'])) {
+        if (isset($provider['email'])) {
             $data['email'] = $provider['email'];
+        }
+
+        if (isset($provider['sex'])) {
+            $data['sex'] = $provider['sex'];
         }
 
         $data[$providerId] = $provider['id'];
