@@ -15,23 +15,32 @@ class CategoriesTableSeeder extends Seeder
 
         Category::create([
             'name' => '男装',
-            'order_lv' => 2,
+            'order_lv' => 1,
             'children' => [
-                ['name' => '阿斯玛', 'order_lv' => 4]
+                [
+                    'name' => '花花公子',
+                    'children' => [
+                        [ 'name' => '花花女子' ],
+                    ],
+                ],
             ],
         ]);
 
         Category::create([
             'name' => '手机数码',
-            'order_lv' => 1,
+            'order_lv' => 2,
             'children' => [
                 [
-                    'name' => 'VIVO',
+                    'name' => '智能手机',
                     'children' => [
-                        [ 'name' => 'vivo 系列' ],
+                        [ 'name' => 'VIVO手机' ],
                     ],
                 ],
             ],
         ]);
+
+        Category::create(['name' => '美食零食',]);
+        Category::create(['name' => '鲜花园艺',]);
+        Category::create(['name' => '品质汽车',]);
     }
 }
