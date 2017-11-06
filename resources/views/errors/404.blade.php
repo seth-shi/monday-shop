@@ -80,15 +80,17 @@
                         </div>
                         <div class="error-page-footer">
                             <h5 class="color-mid mb-5">Oops !</h5>
-                            <h2 class="t-uppercase m-10 color-green">不好意思</h2>
+                            <h2 class="t-uppercase m-10 color-green">
+                                {{ $exception->getMessage()  ? $exception->getMessage() : '您访问的页面不存在~ '}}
+                            </h2>
                             <p class="color-muted mb-30 font-15">
-                                您访问的页面不存在~
+                                不好意思
                             </p>
                         </div>
                         <a  href="javascript:;" onclick="history.go(-1)" class="btn btn-rounded">返回上一页</a>
 
                         <!-- 判断当前路由是否是后台的 -->
-                        <a href="{{ str_contains(url()->current(), 'admin') ? url('admin') : url('/') }}" class="btn btn-rounded">去首页</a>
+                        <a href="{{ str_contains(url()->current(), 'admin') ? url('/admin/welcome') : url('/') }}" class="btn btn-rounded">去首页</a>
                     </div>
                 </div>
             </section>

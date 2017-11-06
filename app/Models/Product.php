@@ -5,7 +5,7 @@ namespace App\Models;
 class Product extends Model
 {
     protected $table = 'products';
-    protected $fillable = ['category_id', 'name', 'price', 'price_original', 'thumb', 'uuid', 'title'];
+    protected $fillable = ['category_id', 'name', 'price', 'pinyin', 'first_pinyin', 'price_original', 'thumb', 'uuid', 'title'];
 
 
 

@@ -100,7 +100,7 @@ class AdminsController extends Controller
     {
         if (! $this->guard()->user()->can($permission)) {
 
-            return back()->with('status', '权限不足');
+            abort(404, '权限不足');
         }
     }
 

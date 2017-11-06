@@ -166,6 +166,8 @@ class ProductController extends Controller
         // product thumb use image list first
         $product_data['thumb'] = $request->input('link')[0];
         $product_data['uuid'] = Uuid::generate()->hex;
+        $product_data['pinyin'] = pinyin_permalink($product_data['name']);
+        $product_data['first_pinyin'] = substr($product_data['pinyin'], 0, 1);
 
         $product_detail_data = $request->only(['count', 'unit', 'description']);
 
