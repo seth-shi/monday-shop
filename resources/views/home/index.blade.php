@@ -32,28 +32,28 @@
                             @inject('productPresenter', 'App\Presenters\ProductPresenter')
                             @foreach ($hotProducts as $hotProduct)
                                 <div class="deal-single panel item">
-                                    <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $productPresenter->getThumbLink($hotProduct->thumb) }}">
-                                        <div class="label-discount top-10 right-10" style="width: auto;">
-                                            {{ $hotProduct->price }} ￥
-                                        </div>
-                                        <ul class="deal-actions top-10 left-10">
-                                            <li class="like-deal" data-id="{{ $hotProduct->id }}">
-                                                <span>
-                                                    <i class="fa fa-heart"></i>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                        <div class="deal-about p-20 pos-a bottom-0 left-0">
-                                            <div class="mb-10">
-                                                收藏人数 <span class="rating-count rating">{{ $hotProduct->likes }}</span>
+                                    <a href="{{ url("/home/products/{$hotProduct->id}") }}">
+                                        <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $productPresenter->getThumbLink($hotProduct->thumb) }}">
+                                            <div class="label-discount top-10 right-10" style="width: auto;">
+                                                {{ $hotProduct->price }} ￥
                                             </div>
-                                            <h3 class="deal-title mb-10 ">
-                                                <a href="{{ url("/home/products/{$hotProduct->id}") }}" class="color-light color-h-lighter">
-                                                    {{ $hotProduct->name }}
-                                                </a>
-                                            </h3>
+                                            <ul class="deal-actions top-10 left-10">
+                                                <li class="like-deal" data-id="{{ $hotProduct->id }}">
+                                                    <span>
+                                                        <i class="fa fa-heart"></i>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </figure>
+                                    </a>
+                                    <div class="deal-about p-20 pos-a bottom-0 left-0">
+                                        <div class="mb-10">
+                                            收藏人数 <span class="rating-count rating">{{ $hotProduct->likes }}</span>
                                         </div>
-                                    </figure>
+                                        <h3 class="deal-title mb-10 ">
+                                                {{ $hotProduct->name }}
+                                        </h3>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
@@ -67,7 +67,7 @@
                         <div class="item panel prl-15 ptb-20">
                             <div class="row row-rl-5 row-xs-cell">
                                 <div class="col-xs-4 valign-middle">
-                                    <img class="pr-10" src="assets/images/icons/tablet.png" alt="">
+                                    <img class="pr-10" src="#" alt="">
                                 </div>
                                 <div class="col-xs-8">
                                     <h5 class="mb-10 pt-5">电脑</h5>
@@ -80,7 +80,7 @@
                         <div class="item panel prl-15 ptb-20">
                             <div class="row row-rl-5 row-xs-cell">
                                 <div class="col-xs-4 valign-middle">
-                                    <img class="pr-10" src="assets/images/icons/tablet.png" alt="">
+                                    <img class="pr-10" src="#" alt="">
                                 </div>
                                 <div class="col-xs-8">
                                     <h5 class="mb-10 pt-5">电脑</h5>
@@ -93,7 +93,7 @@
                         <div class="item panel prl-15 ptb-20">
                             <div class="row row-rl-5 row-xs-cell">
                                 <div class="col-xs-4 valign-middle">
-                                    <img class="pr-10" src="assets/images/icons/tablet.png" alt="">
+                                    <img class="pr-10" src="#" alt="">
                                 </div>
                                 <div class="col-xs-8">
                                     <h5 class="mb-10 pt-5">电脑</h5>
@@ -115,15 +115,17 @@
                     @foreach ($latestProducts as $latestProduct)
                         <div class="col-sm-6 col-lg-4">
                             <div class="deal-single panel">
-                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $productPresenter->getThumbLink($latestProduct->thumb) }}">
-                                    <ul class="deal-actions top-15 right-20">
-                                        <li class="like-deal">
-                                            <span>
-                                                <i class="fa fa-heart"></i>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </figure>
+                                <a href="{{ url("/home/products/$latestProduct->id") }}">
+                                    <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $productPresenter->getThumbLink($latestProduct->thumb) }}">
+                                        <ul class="deal-actions top-15 right-20">
+                                            <li class="like-deal">
+                                                <span>
+                                                    <i class="fa fa-heart"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </figure>
+                                </a>
                                 <div class="bg-white pt-20 pl-20 pr-15">
                                     <div class="pr-md-10">
                                         <div class="mb-10">

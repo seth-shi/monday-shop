@@ -5,7 +5,6 @@ use App\Models\ProductAttribute;
 use App\Models\ProductDetail;
 use App\Models\ProductImage;
 use Illuminate\Database\Seeder;
-
 use Faker\Generator as Faker;
 
 class ProductsTableSeeder extends Seeder
@@ -15,17 +14,20 @@ class ProductsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run()
     {
-        for ($i = 0; $i < 100; ++$i) {
-            $id = factory(Product::class)->create()->id;
+        factory(Product::class, 100)->create()->each(function ($p) {
+
             // product images
-            ProductImage::create(['link' => $faker->imageUrl(800, 400), 'product_id' => $id]);
+            $count = mt_rand(3, 5);
+            factory(ProductImage::class, $count)->create(['product_id' => $p->id]);
+
             // product detail
-            ProductDetail::create(['count' => mt_rand(100, 1000), 'unit' => '件', 'description' => $faker->randomHtml(), 'product_id' => $id]);
+            factory(ProductDetail::class, 1)->create(['product_id' =>  $p->id]);
+
             // product attribute
-            ProductAttribute::create(['attribute' => '颜色', 'items' => '白色', 'markup' => 10, 'product_id' => $id]);
-            ProductAttribute::create(['attribute' => '颜色', 'items' => '红色', 'markup' => 5, 'product_id' => $id]);
-        }
+            $count = mt_rand(1, 3);
+            factory(ProductAttribute::class, $count)->create(['product_id' =>  $p->id]);
+        });
     }
 }

@@ -10,11 +10,10 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::groupBy('pinyin')->get(['pinyin']);
+        $categories = Category::latest()->paginate(30);
 
-        // TODO 怎么按首字母查询
-        dd($categories);
-        return view('home.categories.index');
+
+        return view('home.categories.index', compact('categories'));
     }
 
     public function show(Category $category)

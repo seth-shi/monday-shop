@@ -24,8 +24,8 @@ Route::get('/', 'Home\HomeController@index');
 Route::prefix('home')->namespace('Home')->group(function(){
     Route::get('/', 'HomeController@index');
 
-    Route::get('/categories', 'CategoryController@index');
-    Route::get('/categories/{category}', 'CategoryController@show');
+    Route::resource('/categories', 'CategoryController', ['only' => ['index', 'show']]);
+    Route::resource('/products', 'ProductController', ['only' => ['index', 'show']]);
 });
 
 
