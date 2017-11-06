@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-
+use Webpatser\Uuid\Uuid;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -16,13 +16,14 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Models\Product::class, function (Faker $faker) {
     $price = mt_rand(100, 10000);
+    $override = mt_rand(12, 18) / 10;
 
     return [
-        'uuid' => $faker->uuid,
+        'uuid' => Uuid::generate()->hex,
         'name' => $faker->unique()->company,
         'title' => $faker->catchPhrase,
         'price' => $price,
-        'price_original' => $price * 1.2,
+        'price_original' => $price * $override,
         'thumb' => $faker->imageUrl(800, 600),
         // random by category select one data
         'category_id' => \App\Models\Category::inRandomOrder()->first()->id

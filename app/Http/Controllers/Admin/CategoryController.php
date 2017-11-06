@@ -101,10 +101,6 @@ class CategoryController extends Controller
         // add category pinyin
         $data = $request->all();
 
-        if ($request->has('name')) {
-            $data['pinyin'] = Pinyin::permalink($request->input('name'));
-        }
-
         return $data;
     }
 }
