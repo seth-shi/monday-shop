@@ -15,16 +15,23 @@ use Webpatser\Uuid\Uuid;
 
 
 $factory->define(\App\Models\Product::class, function (Faker $faker) {
+    $name = $faker->unique()->company;
     $price = mt_rand(100, 10000);
-    $override = mt_rand(12, 18) / 10;
+    $price_original = $price * (mt_rand(12, 18) / 10);
+    $pinyin = pinyin_permalink($name);
+    $first_pinyin = substr($pinyin, 0, 1);
 
     return [
         'uuid' => Uuid::generate()->hex,
-        'name' => $faker->unique()->company,
+        'name' => $name,
         'title' => $faker->catchPhrase,
         'price' => $price,
-        'price_original' => $price * $override,
+        'price_original' => $price_original,
         'thumb' => $faker->imageUrl(800, 600),
+
+        'pinyin' => $pinyin,
+        'first_pinyin' => $first_pinyin,
+
         // random by category select one data
         'category_id' => \App\Models\Category::inRandomOrder()->first()->id
     ];
