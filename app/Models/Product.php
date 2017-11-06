@@ -15,16 +15,17 @@ class Product extends Model
     }
 
 
+
+    public function productDetail()
+    {
+        return $this->hasOne(ProductDetail::class);
+    }
+
     public function productImages()
     {
         return $this->hasMany(ProductImage::class);
     }
 
-
-    public function productDetails()
-    {
-        return $this->hasMany(ProductDetail::class);
-    }
 
     public function productAttribute()
     {

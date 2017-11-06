@@ -5,6 +5,40 @@
     <main id="mainContent" class="main-content">
         <div class="page-container ptb-10">
             <div class="container">
+
+                @inject("categoryPresenter", 'App\Presenters\ProductPresenter')
+                <section class="store-header-area panel t-xs-center t-sm-left">
+                    <div class="row row-rl-10">
+                        <div class="col-sm-3 col-md-2 t-center">
+                            <figure class="pt-20 pl-10">
+                                <img src="{{ $categoryPresenter->getThumbLink($category->thumb) }}" alt="{{ $category->name }}">
+                            </figure>
+                        </div>
+
+                        <div class="col-sm-5 col-md-6">
+                            <div class="store-about ptb-30">
+                                <h3 class="mb-10">{{ $category->name }}</h3>
+                                <p class="mb-15">
+                                    {{ $category->description }}
+                                </p>
+                                <button class="btn btn-info">好看</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="store-splitter-left">
+                                <div class="left-splitter-header prl-10 ptb-20 bg-lighter">
+                                    <div class="row">
+                                        <div class="col-xs-12 t-center">
+                                            <h2>{{ $category->products()->count() }}</h2>
+                                            <p>商品</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="section deals-area ptb-30">
 
                     <!-- Page Control -->
@@ -12,41 +46,39 @@
 
                         <!-- List Control View -->
                         <ul class="list-control-view list-inline">
-                            <li><a href="deals_list.html"><i class="fa fa-bars"></i></a>
-                            </li>
-                            <li><a href="deals_grid.html"><i class="fa fa-th"></i></a>
+                            <li><a href="{{ url('/home/categories') }}"><i class="fa fa-reply"></i></a>
                             </li>
                         </ul>
                         <!-- End List Control View -->
                         <div class="right-10 pos-tb-center">
                             <select class="form-control input-sm">
-                                <option>SORT BY</option>
-                                <option>Newest items</option>
-                                <option>Best sellers</option>
-                                <option>Best rated</option>
-                                <option>Price: low to high</option>
-                                <option>Price: high to low</option>
+                                <option>排序</option>
+                                <option>最新的</option>
+                                <option>最受欢迎</option>
+                                <option>价格</option>
                             </select>
                         </div>
                     </header>
                     <!-- End Page Control -->
                     <div class="row row-masnory row-tb-20">
-                        @inject('productPresenter', 'App\Presenters\ProductPresenter')
+
                         @foreach ($categoryProducts as $product)
                             <div class="col-xs-12">
                                 <div class="deal-single panel">
                                     <div class="row row-rl-0 row-sm-cell">
                                         <div class="col-sm-5">
-                                            <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $productPresenter->getThumbLink($product->thumb) }}">
-                                                <div class="label-discount left-20 top-15">-50%</div>
-                                                <ul class="deal-actions top-15 right-20">
-                                                    <li class="like-deal" data-id="{{ $product->id }}">
-                                                                <span>
-                                                                    <i class="fa fa-heart"></i>
-                                                                </span>
-                                                    </li>
-                                                </ul>
-                                            </figure>
+                                            <a href="{{ url("/home/products/{$category->id}") }}">
+                                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $categoryPresenter->getThumbLink($product->thumb) }}">
+                                                    <div class="label-discount left-20 top-15">-50%</div>
+                                                    <ul class="deal-actions top-15 right-20">
+                                                        <li  class="like-deal" data-id="{{ $product->id }}">
+                                                            <span>
+                                                                <i class="fa fa-heart"></i>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </figure>
+                                            </a>
                                         </div>
                                         <div class="col-sm-7">
                                             <div class="bg-white pt-20 pl-20 pr-15">
@@ -57,7 +89,7 @@
                                                         </div>
                                                     </div>
                                                     <h3 class="deal-title mb-10">
-                                                        <a href="deal_single.html">
+                                                        <a href="{{ url("/home/products/{$category->id}") }}">
                                                             {{ $product->name }}
                                                         </a>
                                                     </h3>
@@ -96,4 +128,24 @@
 
 
     </main>
+@endsection
+
+
+@section('script')
+    <script>
+        $('.like-deal').click(function(){
+            var id = $(this).data('id');
+
+            alert('收藏商品ID ' + id);
+
+            // 不传递父级点击事件
+            return false;
+        });
+
+        $('.like-deal').hover(function(){
+            $(this).find('i').css('color', 'red');
+        }, function(){
+            $(this).find('i').css('color', '#fff');
+        });
+    </script>
 @endsection
