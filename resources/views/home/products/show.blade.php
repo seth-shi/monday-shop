@@ -39,7 +39,19 @@
 
                                         详情：{{ $product->productDetail->description }}
                                     </div>
+
                                 </div>
+
+                                <div class="buy-now mb-40">
+                                    <a href="#" target="_blank" class="btn btn-block btn-warning btn-lg">
+                                        <i class="fa fa-shopping-cart font-16 mr-10"></i> 加入购物车
+                                    </a>
+
+                                    <a href="#" target="_blank" class="btn btn-block btn-lg">
+                                        <i class="fa fa-shopping-bag font-16 mr-10"></i> 马上&nbsp;&nbsp;购买
+                                    </a>
+                                </div>
+
                             </div>
                             <div class="col-xs-12">
                                 <div class="posted-review panel p-30">
@@ -113,7 +125,7 @@
                                             </div>
                                             <div class="buy-now mb-40">
                                                 <a href="#" target="_blank" class="btn btn-block btn-lg">
-                                                    <i class="fa fa-shopping-cart font-16 mr-10"></i> 购买
+                                                    <i class="fa fa-shopping-bag font-16 mr-10"></i> 购买
                                                 </a>
                                             </div>
                                         </div>

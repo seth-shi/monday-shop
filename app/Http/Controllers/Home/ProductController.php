@@ -18,6 +18,12 @@ class ProductController extends Controller
         return view('home.products.index', compact('products', 'productPinyins'));
     }
 
+
+    /**
+     * ajax get products by pinyin first char
+     * @param $pinyin
+     * @return mixed
+     */
     public function getProductsByPinyin($pinyin)
     {
         $products = Product::where('first_pinyin', $pinyin)->get(['id', 'name'])->split(3);
@@ -26,6 +32,13 @@ class ProductController extends Controller
     }
 
 
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword', '');
+        $products = Product::where('name', 'like', "%{$keyword}%")->paginate(10);
+
+        return view('home.products.search', compact('products'));
+    }
 
 
     public function show(Product $product)
@@ -35,20 +48,5 @@ class ProductController extends Controller
         return view('home.products.show', compact('product', 'recommendProducts'));
     }
 
-    public function edit(Product $product)
-    {
-        //
-    }
 
-
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
-
-
-    public function destroy(Product $product)
-    {
-        //
-    }
 }

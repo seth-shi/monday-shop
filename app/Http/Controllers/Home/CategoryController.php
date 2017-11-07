@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Models\Category;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 
 class CategoryController extends Controller
@@ -16,9 +17,11 @@ class CategoryController extends Controller
         return view('home.categories.index', compact('categories'));
     }
 
-    public function show(Category $category)
+    public function show(Request $request, Category $category)
     {
-        $categoryProducts = $category->products()->paginate(10);
+        $orderBy = $request->input('orderBy', 'created_at');
+        $categoryProducts = $category->products()->orderBy($orderBy, 'desc')->paginate(10);
+
 
         return view('home.categories.show', compact('category', 'categoryProducts'));
     }

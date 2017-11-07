@@ -53,17 +53,11 @@
                 <div class="header-search col-md-9">
                     <div class="row row-tb-10 ">
                         <div class="col-sm-8">
-                            <form class="search-form">
+                            <form class="search-form" method="get" action="{{ url('/home/products/search') }}">
                                 <div class="input-group">
-                                    <input type="text" class="form-control input-lg search-input" placeholder="输入关键字 ..." required="required">
+                                    <input type="text" name="keyword" class="form-control input-lg search-input" placeholder="输入关键字 ..." required="required">
                                     <div class="input-group-btn">
                                         <div class="input-group">
-                                            <select class="form-control input-lg search-select">
-                                                <option>选择分类</option>
-                                                <option>科  技</option>
-                                                <option>家  居</option>
-                                                <option>食  品</option>
-                                            </select>
                                             <div class="input-group-btn">
                                                 <button type="submit" class="btn btn-lg btn-search btn-block">
                                                     <i class="fa fa-search font-16"></i>
