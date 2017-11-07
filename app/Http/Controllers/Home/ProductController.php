@@ -9,9 +9,20 @@ use App\Http\Controllers\Controller;
 class ProductController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('home.products.index');
+        $products = Product::inRandomOrder()->take(9)->get(['id', 'name'])->split(3);
+
+        $productPinyins = Product::groupBy('first_pinyin')->get(['first_pinyin']);
+
+        return view('home.products.index', compact('products', 'productPinyins'));
+    }
+
+    public function getProductsByPinyin($pinyin)
+    {
+        $products = Product::where('first_pinyin', $pinyin)->get(['id', 'name'])->split(3);
+
+        return $products;
     }
 
 

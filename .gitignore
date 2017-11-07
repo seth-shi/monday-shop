@@ -2,7 +2,9 @@
 /public/hot
 /public/storage
 /resources/views/templates
+/storage/app/public
 /storage/*.key
+/storage/*.log
 /vendor
 /.idea
 /.vagrant

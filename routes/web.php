@@ -25,6 +25,7 @@ Route::prefix('home')->namespace('Home')->group(function(){
     Route::get('/', 'HomeController@index');
 
     Route::resource('/categories', 'CategoryController', ['only' => ['index', 'show']]);
+    Route::get('/products/pinyin/{pinyin}', 'ProductController@getProductsByPinyin');
     Route::resource('/products', 'ProductController', ['only' => ['index', 'show']]);
 });
 
