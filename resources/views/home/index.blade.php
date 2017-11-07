@@ -13,7 +13,7 @@
                                 @foreach ($categories as $category)
                                     <li>
                                         <a href='{{ url("/home/categories/{$category->id}") }}'>
-                                            <i class="fa fa-shopping-cart"></i>{{ $category->name }}
+                                            <i class="fa fa-product-hunt"></i>{{ $category->name }}
                                             <span>{{ $category->products->count() }}</span>
                                         </a>
                                     </li>
@@ -167,7 +167,7 @@
                             <a href="#" class="panel is-block">
                                 <div class="embed-responsive embed-responsive-4by3">
                                     <div class="store-logo">
-                                        <img src="{{ $userPresenter->getThumbLink($user->avatar) }}" alt="{{ $user->name }}">
+                                        <img class="user-avatar" data-original="{{ $userPresenter->getThumbLink($user->avatar) }}" alt="{{ $user->name }}">
                                     </div>
                                 </div>
                                 <h6 class="store-name ptb-10">{{ $userPresenter->getHiddenPartName($user->name) }}</h6>
@@ -197,4 +197,14 @@
 
 
     </main>
+@endsection
+
+
+@section('script')
+    <script src="{{ asset('assets/admin/lib/lazyload/lazyload.js') }}"></script>
+    <script>
+        $(function() {
+            $(".user-avatar").lazyload()
+        });
+    </script>
 @endsection
