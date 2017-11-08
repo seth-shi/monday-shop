@@ -28,7 +28,7 @@ class RoleRequest extends FormRequest
             'permission' => 'required|array'
         ];
 
-        if ($this->request->get('_method') == 'PUT') {
+        if ($this->method() == 'PUT') {
             $rules['name'] = 'required';
         }
 

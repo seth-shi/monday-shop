@@ -29,7 +29,7 @@ class AdminRequest extends FormRequest
             'roles' => 'required|array'
         ];
 
-        if ($this->input('_method') == 'PUT') {
+        if ($this->method() == 'PUT') {
             $rules['name'] = 'required';
             $rules['password'] = '';
         }
