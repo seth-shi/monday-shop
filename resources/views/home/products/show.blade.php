@@ -43,7 +43,7 @@
                                 </div>
 
                                 <div class="buy-now mb-40">
-                                    <a href="#" target="_blank" class="btn btn-block btn-warning btn-lg">
+                                    <a href="#" target="_blank" data-id="{{ $product->id }}" id="addCar" class="btn btn-block btn-warning btn-lg">
                                         <i class="fa fa-shopping-cart font-16 mr-10"></i> 加入购物车
                                     </a>
 
@@ -196,4 +196,38 @@
 
 
     </main>
+@endsection
+
+@section('script')
+    <script src="{{ asset('js/addCar.js') }}"></script>
+    <script>
+        var offset = $('#end').offset(), flyer = $('<img class="u-flyer" src="ogLaVp_data/profile-80_1.jpg"/>');
+        $('#addCar').click(function(){
+            alert($(this).data('id'));
+
+            flyer.fly({
+
+                start: {
+
+                    left: event.pageX,
+
+                    top: event.pageY
+
+                },
+
+                end: {
+
+                    left: offset.left,
+
+                    top: offset.top,
+
+                    width: 20,
+
+                    height: 20
+
+                }
+
+            });
+        });
+    </script>
 @endsection
