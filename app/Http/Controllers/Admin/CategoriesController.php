@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Pinyin;
 
 
-class CategoryController extends Controller
+class CategoriesController extends Controller
 {
     private $categoryService;
 
@@ -35,16 +35,21 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        $parent_id = $request->input('parent_id');
+        // move file to public
+        if (! $link = $request->file('thumb')->store(config('web.upload.category'), 'public')) {
+
+            return back()->withErrors(['thumb' => '文件上传失败']);
+        }
 
         $data = $this->getRequestForm($request);
+        $data['thumb'] = $link;
 
         // create a root tree
-        if ($request->input('parent_id') == '0') {
+        if ($data['parent_id'] == '0') {
             Category::create($data);
         } else {
 
-            Category::find($parent_id)->children()->create($data);
+            Category::find($data['parent_id'])->children()->create($data);
         }
 
         return back()->with('status', '创建分类成功');
@@ -99,7 +104,7 @@ class CategoryController extends Controller
     private function getRequestForm(Request $request)
     {
         // add category pinyin
-        $data = $request->all();
+        $data = $request->only(['name', 'description', 'parent_id']);
 
         return $data;
     }

@@ -2,7 +2,8 @@
 
     return [
         'upload' => [
-            'list' => 'uploads/product/list',
-            'detail' => 'uploads/product/description',
+            'list' => 'uploads/products/list',
+            'detail' => 'uploads/products/description',
+            'category' => 'uploads/categories',
         ]
     ];

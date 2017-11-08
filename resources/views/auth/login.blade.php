@@ -1,4 +1,4 @@
-@extends('layouts.shop.auth')
+@extends('common.home..auth')
 
 @section('main')
     <main id="mainContent" class="main-content">

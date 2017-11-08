@@ -97,7 +97,7 @@
 
 @include('layouts.shop.area')
 <!-- –––––––––––––––[ FOOTER ]––––––––––––––– -->
-@include('layouts.shop.footer')
+@include('common.home.footer')
 <!-- –––––––––––––––[ END FOOTER ]––––––––––––––– -->
 
 </div>

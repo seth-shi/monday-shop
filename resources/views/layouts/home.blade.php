@@ -100,16 +100,16 @@
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <div id="pageWrapper" class="page-wrapper">
     <!-- –––––––––––––––[ HEADER ]––––––––––––––– -->
-    @include('layouts.shop.header')
+    @include('common.home.header')
     <!-- –––––––––––––––[ HEADER ]––––––––––––––– -->
 
         <!-- –––––––––––––––[ PAGE CONTENT ]––––––––––––––– -->
     @yield('main')
     <!-- –––––––––––––––[ END PAGE CONTENT ]––––––––––––––– -->
 
-    @include('layouts.shop.area')
+    @include('common.home.area')
     <!-- –––––––––––––––[ FOOTER ]––––––––––––––– -->
-    @include('layouts.shop.footer')
+    @include('common.home.footer')
     <!-- –––––––––––––––[ END FOOTER ]––––––––––––––– -->
 
 </div>

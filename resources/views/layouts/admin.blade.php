@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    @include('layouts.admin.meta')
+    @include('common.admin.meta')
 
     <title>@yield('title', 'MondayShop')</title>
     @yield('style')
@@ -11,7 +11,7 @@
 
     @yield('main')
 
-    @include('layouts.admin.js')
+    @include('common.admin.js')
     @yield('script')
 </body>
 </html>

@@ -10,7 +10,7 @@ use App\Services\CategoryService;
 use Spatie\Permission\Models\Role;
 use Webpatser\Uuid\Uuid;
 
-class ProductController extends Controller
+class ProductsController extends Controller
 {
     use ProductTrait;
 

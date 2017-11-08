@@ -3,9 +3,9 @@
 
 @section('main')
 
-	@include('layouts.admin.header')
+	@include('common.admin.header')
 
-	@include('layouts.admin.menu')
+	@include('common.admin.menu')
 
 	<section class="Hui-article-box">
 		<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
@@ -28,6 +28,6 @@
 		</div>
 	</section>
 
-	@include('layouts.admin.footer')
+	@include('common.admin.footer')
     <!-- 此处 footer 仅是 引入js -->
 @endsection
