@@ -95,7 +95,7 @@
 @yield('main')
 <!-- –––––––––––––––[ END PAGE CONTENT ]––––––––––––––– -->
 
-@include('layouts.shop.area')
+@include('common.home.area')
 <!-- –––––––––––––––[ FOOTER ]––––––––––––––– -->
 @include('common.home.footer')
 <!-- –––––––––––––––[ END FOOTER ]––––––––––––––– -->

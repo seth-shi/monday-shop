@@ -49,7 +49,7 @@ class ProductRequest extends FormRequest
             "link" => 'required|array',
         ];
 
-        if ($this->request->get('_method') == 'PUT') {
+        if ($this->method() == 'PUT') {
             $rules['name'] = 'required';
         }
 

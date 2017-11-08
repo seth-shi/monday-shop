@@ -31,9 +31,9 @@ class CategoryRequest extends FormRequest
             'description' => 'required|min:10',
         ];
 
-        if ($this->request->get('_method') == 'PUT') {
-
+        if ($this->method() == 'PUT') {
             $rules['name'] = 'required';
+            $rules['thumb'] = '';
         }
 
         return $rules;

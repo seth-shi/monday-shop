@@ -69,7 +69,7 @@ class CategoriesController extends Controller
 
     public function update(CategoryRequest $request, Category $category)
     {
-        $data = $this->getRequestForm($request->all());
+        $data = $this->getRequestForm($request);
 
         if ($category->update($data)) {
             return back()->with('status', '修改成功');

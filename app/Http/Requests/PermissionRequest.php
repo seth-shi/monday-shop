@@ -27,7 +27,7 @@ class PermissionRequest extends FormRequest
             'name' => 'required|unique:permissions,name'
         ];
 
-        if ($this->request->get('_method') == 'PUT') {
+        if ($this->method() == 'PUT') {
             $rules['name'] = 'required';
         }
 
