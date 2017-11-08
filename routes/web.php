@@ -44,14 +44,14 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::get('/welcome', 'HomeController@welcome')->name('admin.welcome');
 
     // change product Alive or undercarriage
-    Route::any('products/change/alive/{product}', 'ProductController@changeAlive');
+    Route::any('products/change/alive/{product}', 'ProductsController@changeAlive');
     // product image and product list image upload
-    Route::post('products/upload/images', 'ProductController@upload');
-    Route::post('products/upload/detail', 'ProductController@uploadDetailImage');
-    Route::any('products/delete/images', 'ProductController@deleteImage');
+    Route::post('products/upload/images', 'ProductsController@upload');
+    Route::post('products/upload/detail', 'ProductsController@uploadDetailImage');
+    Route::any('products/delete/images', 'ProductsController@deleteImage');
 
-    Route::resource('categories', 'CategoryController');
-    Route::resource('products', 'ProductController');
+    Route::resource('categories', 'CategoriesController');
+    Route::resource('products', 'ProductsController');
     Route::resource('productImages', 'ProductImagesController', ['only' => ['index', 'destroy']]);
     Route::resource('users', 'UsersController', ['only' => ['index']]);
     Route::resource('admins', 'AdminsController');

@@ -13,12 +13,15 @@
 		</div>
 		<div class="portfolio-content">
 			<ul class="cl portfolio-area">
+				@inject("categoryPersenter", 'App\Presenters\CategoryPresenter')
 				@foreach ($productImages as $image)
 					<li class="item">
 						<div class="portfoliobox">
 							<input class="checkbox" name="image_input" type="checkbox" value="{{ $image->id }}">
 							<div class="picbox">
-								<a href="/storage/{{ $image->link }}" data-lightbox="gallery" data-title="{{ $image->product->name }}"><img src="/storage/{{ $image->link }}"></a>
+								<a href="{{ $categoryPersenter->getThumbLink($image->link) }}" data-lightbox="gallery" data-title="{{ $image->product->name }}">
+									<img class="thumb" src="{{ $categoryPersenter->getThumbLink($image->link) }}">
+								</a>
 							</div>
 							<div class="textbox">{{ $image->product->name }}</div>
 						</div>
@@ -49,7 +52,6 @@
                 $.post(url, data, function(res){
 
                     if (res.code == 200) {
-                        // 移除 dom
                         that.parent().parent().remove();
                     }
 
