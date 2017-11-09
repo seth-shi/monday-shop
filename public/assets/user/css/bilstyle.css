@@ -1,0 +1,33 @@
+/*交易时间*/
+.order-time{padding:10px 5px ;}
+.form-label{width: 80px;float: left;margin-top:10px;}
+.am-selected-list li{font-size:12px ;}
+
+tbody tr{position: relative;height:70px;}
+td{border-bottom: 1px solid #eee;padding:25px 5px 0px;vertical-align:top}
+td.time {position: absolute;padding:5px 5px;left: 0px;border-bottom:none ;}
+td.time p{display: inline-block;}
+
+td.img,th.memo{width:15%;text-align: center;}
+td.img img{width:100%;max-width:50px ;border-radius: 50px;}
+td.title.name{width:60%;}
+td.amount,th.amount{width: 15%;}
+td.operation,th.action{width:10% ;}
+
+thead th{display: none;}
+@media only screen and (min-width: 640px){
+.order-time{padding:15px 15px ;}	
+tbody tr{height:60px;}
+thead th{display:table-cell;}	
+td{padding:10px 0px;}
+td.time{position: static;padding:10px 0px;border-bottom: 1px solid #eee;width: 15%;}	
+td.time p{display:block;}
+td.title.name,th.name{width:45%;}
+td.operation,th.action{width:15% ;}	
+	}
+
+@media only screen and (min-width:1025px){
+td.title.name,th.name{width:40%;}
+td.operation,th.action{width:20%;}
+	
+	}

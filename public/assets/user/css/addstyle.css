@@ -1,0 +1,73 @@
+@charset "utf-8";
+/* CSS Document */
+[class*="am-u-"] {padding-left:0px; padding-right:0px;}
+.am-thumbnails > li {padding: 0 .5rem 0 .5rem;}
+.am-form textarea,.am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="tel"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field,.am-btn{ font-size:14px;}
+.user-address {font-size:12px ;}
+.am-thumbnails {margin:0px 0px ;margin-bottom: 50px;}
+.user-address li.user-addresslist {float: none;min-height:80px ;position: relative;border-bottom:1px solid #eee ;padding:15px 10px;}
+.new-tit {padding-bottom:7px ;font-size: 14px; position:relative;}
+.new-txt {padding-left:15px;background: url(../images/addicon1.png) 1px 2px no-repeat;color: #6E6E6E;}
+.new-txt-rd2 {padding-left: 20px;color: #A40000;}
+
+/*地址操作*/
+.am-padding form{margin:0px 10px ;}
+.new-mu_l2a{padding:6px 15px 8px; display:block;background: url(../images/addicon.png) 1px 9px no-repeat;}
+.new-mu_l2cw {font-size: 12px;color: #6E6E6E;}
+.new-addr-btn {color: #282828;text-align: right;}
+.new-addr-bar {padding: 0px 10px;vertical-align: top;}
+.new-addr-btn i{color: #d4d4d4;font-size:14px ;padding-right:10px ;}
+a.new-abtn-type{display: block;padding: 8px; overflow:hidden; border-radius: 2px; background-color: #C00;font-size: 14px; color:#FFF;text-align: center;position: fixed;bottom: 0px;width:100% ;cursor: pointer;}
+
+.new-option-r {position: absolute;z-index: 999;cursor: pointer;bottom:15px ;}
+.new-option-r i{color: #d4d4d4;padding-right: 5px;font-size:14px ;}
+.user-address li.user-addresslist.defaultAddr .new-option-r i{color: #ee3495;}
+
+/*地址增加*/
+.am-modal{background: #fff;width: 100%;margin: 0px 0px !important;left: 0;top:0 ;height: 100%;}
+.am-form-content.address select{ float: left;width:32% ;margin-left:1% ;}
+.am-selected {width: 32.3%;max-width: 200px;float: left;margin-left:1%;}
+.address li{font-size:12px ;}
+.am-close{width:auto ;line-height:1.2;opacity: .8;text-shadow:none;color:#fff !important ;}
+.footer{display: none;}
+@media only screen and (min-width:640px) 
+{		
+.new-tit {border:none;}
+a.new-abtn-type{display: none;}
+.user-address li{width:100%;}
+
+.new-txt-rd2{background: url(../images/addicon2.png) 1px 10px no-repeat;padding-left:15px;padding-top: 8px;}
+.am-form-content {margin-left: 105px;}
+.new-option-r {position: absolute; top: 7px;right:10px;bottom: auto;}
+.footer{display:block;}
+
+/*地址增加*/
+
+}
+
+@media only screen and (min-width:1025px) 
+{
+
+.new-mu_l2cw {height:55px;}
+.new-addr-btn{padding-right:12px;padding-bottom:10px ;}
+.new-tit {padding:8px 12px 0px 0px;}
+.user-address li.user-addresslist{overflow:hidden;border:none;display:block;width:255px;height:150px;float: left;background: url(../images/peraddbg.png)no-repeat scroll 0% 0%;margin-right:10px ;}
+.user-address li.user-addresslist.defaultAddr{background: url(../images/peraddressbg.png)no-repeat scroll 0% 0%;}
+.user-address li{width:255px; margin-right:20px;}
+
+.new-option-r {position: absolute;top: 0px;right:3px;padding:0px 5px;border-radius: 0 0 5px 5px;color:#fff;}
+.new-option-r i{display: none;}
+/*一些操作*/
+.user-addresslist .new-option-r {position: absolute;top: -18px;background: #f974ba;}
+.user-addresslist.defaultAddr .new-option-r {top: 0px;background: #ee3495}
+.user-addresslist .new-addr-btn{display: none;}
+.user-addresslist.defaultAddr .new-addr-btn,.user-addresslist:hover .new-addr-btn,.user-addresslist.active .new-addr-btn{display: block;}
+.user-addresslist:hover .new-option-r,.user-addresslist.active .new-option-r  {position: absolute;top: 0px;}
+
+}
+
+
+
+
+
+

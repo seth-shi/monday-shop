@@ -1,0 +1,49 @@
+
+/*新鲜事*/
+.user-news .s-msg-item {display: block;width:100%;background: #fff;}
+.s-msg-item {border: 1px solid #E4EAEE;position: relative; width:100%;}
+.i-msg-downup-wrap {overflow: hidden;position: relative;margin-top:30px}
+.s-msg-temp img {width:100%;}
+.am-nav-tabs > li > a {text-align: center;}
+/*标题*/
+.s-name {font-size: 14px;position: absolute;top:7px;left:7px;}
+.i-btn-forkout{position:absolute; top:7px; right:7px;}
+.s-main-content{font-size: 14px;font-weight:600 ;padding:10px 5px;}
+.s-row.s-main-content{border-top:1px solid #E4EAEE ;}
+.s-row.s-main-content i{float: right;}
+.goods-date{margin-bottom:10px ;}
+/*物流*/
+.item{width:100%;overflow: hidden;padding:10px 0px;}
+.item-pic {width: 80px;height: 80px;border: 1px solid #EEE;float: left;overflow: hidden;margin:5px;}	
+.item-info{margin-left:90px;height:90px;overflow: hidden;padding:5px 0px ;font-size: 14px ;line-height:20px ;}
+
+
+.item-info .item-comment{height:60px;overflow: hidden;}
+
+	
+@media only screen and (min-width:640px) 
+{
+.user-news .s-msg-item {display: block;width:50%;float: left;}
+}
+	
+	
+	
+@media only screen and (min-width:1025px) 
+{
+.user-news .s-msg-item {display: block;width:33.33%;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

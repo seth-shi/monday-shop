@@ -1,0 +1,83 @@
+.coupon-items {max-width: 860px;}
+.coupon-items .coupon-item {width:100%;float: left;margin-bottom:10px ;}
+.coupon-list{padding: 10px 10px;height:60px;position: relative;color: #fff;} 
+
+
+/*布局*/
+.am-margin { margin: 0 auto;}
+.c-msg{display: none;}
+.c-class{position: absolute;top:10;left:10;font-size:16px ;line-height:18px ;}
+.c-time{position: absolute;top:35px;left:10;font-size:10px;}
+.c-price{position: absolute;top:10px;left:70%;font-size:18px ;}
+.c-limit {position: absolute;top:35px;left:70%;font-size:10px;}
+.coupon-item-yf .c-price{font-size:14px ;}
+
+/*字体颜色 背景色*/
+.coupon-item-d .coupon-list{background-color: #74d2d4;}
+.coupon-item-yf .coupon-list {background-color: #7ea7ce;}
+.coupon-item-d .c-type .c-time {color: #31aaad;}
+.coupon-item-yf .c-type .c-time {color: #417ab0;}
+
+/*过期*/
+.td-usestatus {position: absolute;right:0; top:-5%;width: 20%;}
+.td-usestatus img {width: 100%;}
+
+@media only screen and (min-width:640px) 
+{
+.c-msg{display: block;}
+.coupon-list{height: auto;padding:0px 0px;}
+.c-class,.c-price,.c-limit,.c-time{position: static;font-size:12px ;border-left: none;}
+.coupon-item .c-type {position: relative;padding: 40px 0 0;overflow: hidden;color: #fff;text-align: center;}
+
+.coupon-item-d .c-type {background-color: #74d2d4;}
+.coupon-item-d .c-price span,.c-time span,.coupon-item-yf .c-price{display: none;}
+.coupon-item-yf .c-type {background-color: #7ea7ce;}
+	
+.coupon-item .range-item .txt{max-width:100px;} 
+.coupon-items .coupon-item {width:33.33%;}
+.coupon-list{margin: 5px 5px;} 
+.coupon-item .c-msg {padding:5px 0 0;background: #faf9f9;overflow: hidden;}
+
+
+/*价格*/
+.coupon-item .c-price strong,.coupon-item .c-class strong{font-family: Arial;font-size: 36px;line-height: 36px;font-weight: 400;}
+.coupon-item-yf .c-class strong{line-height: 36px;font-size: 24px;}
+.coupon-item .c-limit {margin: 0 0 8px;}
+.coupon-item-d .c-type .c-time {color: #31aaad;}
+.coupon-item-yf .c-type .c-time {color: #417ab0;}
+.c-type .c-time {margin-bottom:12px;}
+.coupon-item-d .c-class {display: none;}
+
+/*文字说明*/
+.range-all{margin: 0px auto;}
+.coupon-item .c-msg {background: #faf9f9;overflow: hidden;}
+.coupon-item .range-item {display: block;overflow: hidden;margin:10px 10px;}
+.coupon-item .range-item .txt {float:left;white-space: nowrap;text-overflow: ellipsis;color: #999;max-width:80px ;}
+.coupon-item .range-item .label {float: left;width: 60px;display: inline;text-align: right;color: #999;}
+
+/*过期*/
+.td-usestatus {position: absolute;right:-5%; top:-5%;width: 50%;}
+.c-class span{display: none;}
+
+/*装饰*/
+.coupon-item .c-type .c-type-top {display:block;position: absolute;width: 46px;height: 15px;top: 0;left: 50%;margin-left: -23px;background: url(../images/coupon20150805.png) 0 -271px no-repeat;}
+.coupon-item .c-type .c-type-bottom {position: absolute;width: 100%;height: 5px;bottom: 0;left: 0;background: url(//misc.360buyimg.com/user/myjd-2015/css/i/coupon20150805.png) -3px -296px no-repeat;}
+.coupon-item-d .c-type .c-type-bottom {background-position: -3px -311px;}
+.coupon-item-yf .c-type .c-type-bottom {background-position: -3px -326px;}
+
+/*布局*/
+.c-type,.c-msg{float:none;width:100%;}
+/*按钮*/
+.coupon-item .op-btns {margin:8px auto;text-align: center;}
+.op-btns .btn {display: inline-block;width: 119px;height: 31px;line-height: 31px;border: 1px solid #74d2d4;color: #74d2d4;
+-webkit-border-radius: 15px;-moz-border-radius: 15px;border-radius: 15px;vertical-align: middle;}
+
+
+
+	}
+	
+@media only screen and (min-width:1025px) 
+{
+.coupon-items .coupon-item {width:25%;}	
+.coupon-item .op-btns {margin:20px auto;}
+	}

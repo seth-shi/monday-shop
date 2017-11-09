@@ -1,0 +1,90 @@
+
+/*标题*/
+.ebill-section .ebill-title-section {background-color: #4ABAE1;color: #FFF;position: relative;padding:8px 15px;}
+.ebill-section .section-title  {font-size: 20px;font-weight: 700;color: #FFF;}
+.ebill-section .section-title .desc {font-size: 14px;font-weight: 400;}
+.ebill-section .section-title a {color: #08C;cursor: pointer;}
+
+.trade-circle-select {position: absolute;right: 60px;top: 0px;height: 42px;z-index: 999;display:none;}
+.trade-circle-select a{color: #FCFCFC;}
+.current-circle {font-size: 14px;color: #FFF;text-decoration: none;display: block;padding: 10px 0px 2px;}
+.ebill-section span.title-tag {background-repeat: no-repeat;display: block;width: 42px;height:43px;z-index: 999;position: absolute;top: -6px;right: 10px;font-size: 14px;padding-top: 10px;font-weight: 400;overflow: hidden;background: url(../images/3CoOkxrFOP.png);background-position: -1734px -102px;}
+.ebill-section span.title-tag i.num {font-size: 16px;text-align: center;padding-left:5px ;}
+
+/*内容*/
+.income-slider{overflow: hidden;position: relative;}
+/*支出*/
+.module-income {overflow: hidden;background-color: #F2F9FB;width:100%;position: relative;}
+.module-income .block-income {width:100%;overflow: hidden;float: left;background-color: #FFF;padding: 20px 15px;}
+
+/*金额*/
+h3.block-title {font-size:20px; font-weight: 400;color: #555; height: 39px;}
+h3.block-title span.num { color: #FD8608;padding-left: 10px;}
+span.desc {font-size: 12px; padding-left:10px;}
+
+/*明细*/
+.module-income .catatory-details {overflow:hidden;background-color: #EEE;padding: 22px 18px;font-size: 12px;height:205px ;}
+.fn-left {float: left;}
+.catatory-details .catatory-chart {width:35%;}
+.catatory-details .catatory-detail {width:63%;}
+.catatory-chart ul{margin-top: 20px;padding-right: 10px; border-right: 1px solid #939578;min-height:125px;}
+li.am-btn am-btn-danger anniu.ng-scope{display: block;width:100%;overflow: hidden;}
+
+/*明细类型*/
+.catatory-details .catatory-detail ul {margin-top: 20px; padding-left: 10px;}
+.emoji-span {white-space: nowrap;text-overflow: ellipsis;overflow: hidden;max-width:90px;display: inline-block;}
+/*明细商品*/
+.catatory-details .catatory-detail ul a {display: block;color: #000;position: relative;width:100%;}
+.catatory-detail ul a .amount {float: none;position: absolute;right:0px;}
+span.catatory.fn-left.ng-binding{height: 19px; line-height:19px ;}
+
+/*收入*/
+.module-income .block-expense {display:none;width:25%;overflow: hidden;height:284px;background-color: #F2F9FB;background-repeat: no-repeat;padding-left: 80px;position: relative;float: left;background-position: -7px center;background-image:url(../images/YXARdXxj5.png);}
+.slide-button {position: absolute;top:50%;margin-top:-20px;left: 29px;height: 40px;width: 38px;background: url(../images/3CoOkxrFOP.png) no-repeat;background-position: -1817px -103px;}
+.slide-button.right{cursor:pointer}
+
+.block-hidetitle {margin-top: 120px;font-size:20px;font-weight: 400;color: #555;}
+.block-hidetitle .num {color: #FD8608;font-size:16px;}
+h3.expense.income-title.block-title{display: block; background:#fff ;padding:0px 15px ;}
+
+/*消费走势*/
+.inner-module {padding: 17px 17px 0px;background:#fff ;border-top: 2px solid #53B5D8;height:200px ;}
+.inner-module .module-title {font-size: 14px;color: #606060;font-weight: 700;}
+
+/*银行卡*/
+.module-card .cards-carousel .mask {position: relative;overflow: hidden;height: 100px;list-style: outside none none;margin:15px 10px 0 0 ;}
+.cards-carousel .mask .bac {background-repeat: no-repeat;width: 267px;height: 89px;margin-top: 6px;
+background-position: -887px -102px;background-image: url("../images/3CoOkxrFOP.png");}
+.cards-carousel .mask .bank{position: absolute;margin-top: 10px;padding: 5px 10px;top: 15px;left: 15px;font-size: 16px;text-indent: -9999em;
+width: 126px;height:36px;background-repeat: no-repeat;background-color: #FFF;background-position: 5px center;}
+.module-card .cards-carousel .details {position: absolute;top: 83px;right:3% ;cursor: pointer;}
+.cards-details{display: none;}
+
+/*银行卡详情*/
+.module-card {position: relative;}
+.cards-details {position: absolute;overflow: hidden;border: 1px solid #98D3E8;border-radius: 7px;font-size: 13px;top: 54px;margin:0px 17px 0px 0px;}
+.module-card .cards-details .bank-name {height: 30px;background-color: #FFF;}
+.module-card .cards-details .bank-name .name {height: 30px;width: 130px;background-position: center center;}
+.fn-right{float: right;}
+.module-card .cards-details .close {position: absolute;width: 10px;height: 13px;top: 9px;right: 8px;cursor:pointer ;}
+.module-card .cards-details .bank-detail {background-color: #B9E9FA;padding: 5px 2px;font-size: 12px;overflow: hidden;}
+.module-card .cards-details .bank-detail div {width: 50%;padding: 1px 19px;}
+
+@media only screen and (min-width:1025px) 
+{	
+.trade-circle-select,.module-income .block-expense{display: block;}
+.module-income .block-income {width: 75%;}
+.emoji-span {max-width:150px;}
+.ebill-section{margin-bottom: 20px;width:98%;margin-left:1% ;}
+
+/*支出定位*/
+h3.expense.income-title.block-title {background:none;position: absolute;top:50%;margin-top: -38px;text-align: center;height: auto;left:75%;margin-left:100px ;padding:0px ;}
+h3.expense.income-title.block-title span{display: block;padding-left: 0;}
+
+.inner-module{width:50%;float: left;}
+
+
+}
+
+
+

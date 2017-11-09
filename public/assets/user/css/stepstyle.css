@@ -1,0 +1,40 @@
+.m-progress {margin: 0 auto 25px;height: 60px;width: 80%;max-width: 700px;margin-top:60px ;}
+.m-progress-list{height: 66px;font-size: 0;text-align: justify;}
+/*步骤背景*/
+.m-progress-list .step {display: inline-block;width: 80px;text-align: center;color: #999;letter-spacing: -5px;}
+.m-progress-list .stage-name {padding-top: 10px;font-size: 12px;line-height: 14px;
+letter-spacing: normal;word-spacing: normal;}
+.u-progress-stage-bg {position: relative;display: inline-block;background-image: url(../images/sprite.png);
+background-position: -45px -135px;width: 29px;height: 29px;}
+/*变换的背景*/
+.u-stage-icon-inner .bg {position: absolute;left: 0px;top: 0px;}
+.step-1 .u-stage-icon-inner .bg {background-image: url(../images/sprite.png);background-position: -79px -135px;width: 19px;height: 19px;}
+.step-2 .u-stage-icon-inner .bg {opacity:0;background-image: url(../images/sprite.png);background-position: -103px -135px;width: 19px;height: 19px;}
+
+.u-stage-icon-inner {position: relative;z-index: 20;display: inline-block;width: 19px;height: 19px;line-height: 19px;
+vertical-align: top;margin-top: 5px;margin-left: -24px;color: #b5b5b5;font-size: 12px;letter-spacing: normal;word-spacing: normal;}
+.u-progress-placeholder {display: inline-block;width: 100%;height: 0;font-size: 0;line-height: 0;overflow: hidden;}
+
+
+.u-progress-bar {margin: -56px 40px 0;background-color: #dcdcdc;height: 5px;font-size: 0;padding: 2px 0;}
+.u-progress-bar-inner {position: relative;z-index: 10;height: 5px;width: 0;transition: width 1s .5s linear;background-color: #23c279;}
+
+/*内容*/
+.am-form{margin: 0px auto;width:90%;max-width: 600px;margin-bottom:20px ;}
+.am-form-group.bind label{padding-top: 0;}
+.am-form-group.bind span,.am-selected-list {font-size:14px;}
+.am-form-group.code {position: relative;}
+.am-form-group.code .am-form-content {margin-right:80px;}
+.am-form-group.code a.btn{position:absolute;right: 0;top: 0;}
+.am-form-group.select .am-selected {width:100% ;font-size: 14px;}
+.am-form-group.select .am-selected-status{color:#b5b5b5;}
+.info-btn{text-align: center;padding-bottom: 10px;}
+
+
+
+@media only screen and (min-width: 640px){
+.am-form-label { width:70px; }
+.am-form{width:70%;}
+	
+}
+
