@@ -31,6 +31,11 @@ Route::prefix('home')->namespace('Home')->group(function(){
     Route::resource('/products', 'ProductController', ['only' => ['index', 'show']]);
 });
 
+/**********  user  **********/
+Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(function(){
+
+    Route::get('/', 'UsersController@index');
+});
 
 /**********  admin  **********/
 Route::get('/admin/login' ,'Admin\Auth\LoginController@showLoginForm')->name('admin.login');

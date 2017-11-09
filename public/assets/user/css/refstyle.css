@@ -1,0 +1,94 @@
+@charset "utf-8";
+/* CSS Document */
+.refund-main{width: 100%;padding:0px 10px;}
+
+/*进度条*/
+.m-progress {margin: 0 auto 25px;height: 60px;max-width: 700px;margin-top:40px ;}
+.m-progress-list{height: 66px;font-size: 0;text-align: justify;}
+/*步骤背景*/
+.m-progress-list .step {display: inline-block;width:70px;text-align: center;color: #999;letter-spacing: -5px;}
+.m-progress-list .stage-name {padding-top: 10px;font-size: 12px;line-height: 14px;
+letter-spacing: normal;word-spacing: normal;}
+.u-progress-stage-bg {position: relative;display: inline-block;background-image: url(../images/sprite.png);
+background-position: -45px -135px;width: 29px;height: 29px;}
+/*变换的背景*/
+.u-stage-icon-inner .bg {position: absolute;left: 0px;top: 0px;}
+.step-1 .u-stage-icon-inner .bg {background-image: url(../images/sprite.png);background-position: -79px -135px;width: 19px;height: 19px;}
+.step-3 .u-stage-icon-inner .bg {opacity:0;background-image: url(../images/sprite.png);background-position: -103px -135px;width: 19px;height: 19px;}
+
+.u-stage-icon-inner {position: relative;z-index: 20;display: inline-block;width: 19px;height: 19px;line-height: 19px;
+vertical-align: top;margin-top: 5px;margin-left: -24px;color: #b5b5b5;font-size: 12px;letter-spacing: normal;word-spacing: normal;}
+.u-progress-placeholder {display: inline-block;width: 100%;height: 0;font-size: 0;line-height: 0;overflow: hidden;}
+
+
+.u-progress-bar {margin: -56px 40px 0;background-color: #dcdcdc;height: 5px;font-size: 0;padding: 2px 0;}
+.u-progress-bar-inner {position: relative;z-index: 10;height: 5px;width: 0;transition: width 1s .5s linear;background-color: #23c279;}
+
+
+
+/*布局*/
+.am-form-label {float: none;width: auto;font-size: 14px;font-weight: 600;margin: 10px auto;}
+.am-form-content {margin-left: 0px;width:100% ;font-size: 14px;}
+.am-form-content .am-selected,.am-form-content input{width: 100%;min-height:32px ;border:1px solid #e6e6e6;}
+.am-form-content textarea {width: 100%;min-height:105px ;border:1px solid #e6e6e6; padding: 0.5em 0.7em;}
+.info-btn{text-align: center;padding-bottom: 10px;}
+.am-form-content li{font-size:14px ;}
+.am-form-group {margin-bottom:0px;}
+.am-form-group input{padding: 0.5em 0.7em;} 
+.am-btn {border:none ;}
+/*上传*/
+.filePic {width:100px;padding:10px 10px;position: relative;overflow: hidden;}
+.inputPic {cursor: pointer;opacity: 0;width: 100%;height: 100%;position: absolute;top: 0;left: 0;}
+img{width:100% ;}
+.refund-tip{position: relative;border:1px dashed #e6e6e6 ;margin:10px auto ;}
+.refund-tip .desc{position: absolute;right:10px;top:45px ;}
+
+.refund-aside{display:none ;padding: 10px;}
+.am-form-group:after { content:"."; display:block; height:0; visibility:hidden; clear:both; }
+
+
+/*钱款去向*/
+.record-aside{display: none;}
+.record-main .detail-list{padding:10px;border-bottom:1px solid #e6e6e6 ;overflow: hidden;}
+.record-main .fund-tool{float: left;font-size:14px;}
+.record-main .money{float:right;font-size:14px;}
+.record-main .m-progress{margin-top:20px ;}
+
+@media only screen and (min-width: 640px){
+.comment-list{overflow: hidden;margin:0px auto;padding:0px 20px;}
+.refund-main,.refund-aside{border:1px solid #e6e6e6;margin-bottom: 10px;}
+/*布局*/
+.am-form-label {float:left;width: auto;font-size: 14px;font-weight: 600;margin:7px auto;}
+.am-form-content {margin-left:80px;width:auto;font-size: 14px;}
+label span{display: none;}
+.am-form-group{margin:10px 0px ;}
+
+/*订单信息*/
+.refund-aside{display:block;overflow: hidden;}
+.item-pic{width:150px ;float:left;margin-right: 10px;}
+.item-name{font-size: 14px;font-weight: 600;margin-bottom:5px ;}
+.item-info{margin-top: 10px;}
+
+/*钱款去向*/
+.record-aside{display:block;}
+.record-aside .item-pic{width: 100px;}
+}
+@media only screen and (min-width:1025px){
+.refund-main,.refund-aside{float: left;height:420px ;}
+.refund-main{width:70%;padding-right:60px ;}
+.refund-aside{max-width:300px;width:30%;border-right: none;padding:15px;}
+.item-title:after { content:"."; display:block; height:0; visibility:hidden; clear:both; }
+.item-pic{width: 60px;}
+.item-info div{margin: 5px auto;}
+.item-info .info-title{width:80px ;display: inline-block;}
+
+/*钱款去向*/
+.record-aside {max-width:800px;margin: 10px auto;}
+.record-aside .item-title:after {clear:none;}
+.record-main{max-width: 900px;border:1px solid #eee ;margin: 0px auto;}
+
+}
+
+
+
+

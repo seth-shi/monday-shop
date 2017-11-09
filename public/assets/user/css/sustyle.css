@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+h2, #success-pay h2 {font-size: 14px;height: 40px;line-height: 40px;margin-top:0px;}
+.successInfo {display: inline-block;margin-left: -46px;padding:5px 0px;max-width: 547px;}
+.successInfo em{color:#f00; font-weight:700; margin-left:5px;}
+.take-delivery li {line-height: 28px;height:28px;}
+
+.status .option { margin: 13px 0 25px 0px;}
+.status .option .info {margin-right: 10px;}
+
+.successInfo a span{font-size: 13px; margin: 0 10px 0 10px;color: #f00;}
+.take-delivery {background: url(../images/T13iv.XiFdXXa94Hfd-32-32.png) no-repeat scroll 10px 30px transparent;padding: 27px 0 27px 60px;color: #333;
+width:100% ;max-width:1000px;margin:0px auto;margin-top: 50px;}
+
+.successInfo li{font-size:18px;}
+.footer{max-width:1000px; margin:0px auto; margin-top:10px;}
+.user-info p{ font-size:14px; padding:3px 0px;margin:0px 0px ;}
+
+ @media only screen and (min-width:640px) 
+{
+.take-delivery{background: url(../images/T13iv.XiFdXXa94Hfd-32-32.png) no-repeat scroll 30px 30px transparent;padding: 27px 0 27px 76px;border: 1px solid #e5e5e5;margin-top: 10px;border: none;}
+.user-info{border:1px solid #F00}
+.successInfo {padding: 0 65px 0 56px;}
+.user-info p{ font-size:14px; padding:10px;}
+
+}
+
+

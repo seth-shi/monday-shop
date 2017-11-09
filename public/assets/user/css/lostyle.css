@@ -1,0 +1,22 @@
+.item-pic,.item-info{float:left;margin-right:10px ;}
+.package-title{padding-left:20px ;padding-top: 10px;margin:0px auto;margin-top:10px ;max-width: 900px;}
+.package-status {padding: 18px 0px 0px;margin:0px auto;margin-bottom:10px ;max-width: 900px;}
+
+.status-list {margin-left:15px ;font-size: 12px;}
+.status-list li{border-bottom: 1px #e5e5e5 dotted;padding: 10px 10px;}
+.status-list li .text,.item-info .log-status{font-size:15px ;}
+.item-info p{margin-bottom: 5px ;}
+.week{visibility: hidden;}
+.status-list li.first{border:none ;}
+
+
+@media only screen and (min-width:640px) 
+{
+.status-list {margin: -9px 0px 0px 12px;font-size: 12px;}
+.week{visibility:visible;}
+.hidden {visibility: hidden;}
+.time-list{display: inline;}
+.status-list li{border: none;position: relative;font-size:14px ;}
+.status-list li p.text{position: absolute;left:180px;font-size:14px ;}
+
+}

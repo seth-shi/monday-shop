@@ -1,0 +1,133 @@
+@charset "utf-8";
+/* CSS Document */
+[class*="am-u-"] {padding-left:0;padding-right:0;}
+.user-infoPic{ overflow:hidden; position:relative;margin:0px 10px ;padding:0px 5px 0px 0px;border-bottom:1px solid #E4EAEE;}
+.filePic{position: relative;width:60px;text-align: center;float:right; }
+.inputPic{ cursor:pointer;opacity:0;ilter:alpha(opacity=0);width:100%;height:100%;position: absolute;top: 0;left: 0;z-index: 9;}
+p.am-form-help{ font-size:14px;font-weight: 600; margin:0px auto; position:absolute; top:25px;color: #000000;}
+.am-selected-list {font-size:14px; }
+.am-img-thumbnail {padding:0px;margin:2px ;}
+.info-m{ display:none;}
+
+/*修改信息*/
+.info-main{max-width:800px;padding:0px 10px ;}
+.am-form-group{margin:10px 0px ;border-bottom:1px solid #E4EAEE;height:34px ;}
+.am-form-horizontal .am-form-label{padding-top:8px ;text-align:left ;}
+.am-form textarea,.am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="tel"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field,.am-btn{ font-size:14px;}
+.birth-select,.birth-select2 {float:left; margin-right:5px; vertical-align:middle;}
+.birth-select select{float:left; width:60px;background: none;border:none ;padding-top:9px ;}
+.birth-select2 select{float:left; width:40px;background: none;border: none;padding-top:9px ;}
+
+.birth button{border:none}
+.birth .am-selected-icon::before{opacity: 0;}
+.user-info{width:100%; max-width:900px;overflow:hidden;}
+.user-safety{width:100%; max-width:900px;overflow:hidden;}
+
+/*按钮*/
+.info-btn{text-align: center;}
+.fore3 .am-btn-secondary {color: #000;background-color:transparent;border:none;}
+
+/*地址*/
+.am-form-content.address a,.am-form-group.safety a{width:80%;float: right;text-align: right;padding-right:5px;}
+p.new-mu_l2cw{margin: 0px;}
+p.new-mu_l2cw span{height:17px;line-height:17px ;}
+
+/*性别*/
+.sex .am-ucheck-icons{top:8px;}
+/*安全设置*/
+.user-safety .check {max-width:900px;}
+.user-safety .check li{overflow:hidden; margin:5px 10px; padding:8px 0px; border-bottom:1px solid #E4EAEE;}
+.user-safety .check .m-left{float: left;}
+.user-safety .check .fore1 {width:80px;font-size: 14px; font-weight:600; line-height:21px;padding-top:5px ;}
+.user-safety .check .fore2 { display:none;text-align:left;font-size: 12px; line-height:21px;}
+.user-safety .check .fore3 {text-align:center;font-size: 12px; float:right; line-height:21px;}
+.am-btn{ padding:5px;}
+.user-safety .check i{margin-left:10px}
+.user-safety .fore3 .am-btn{width:70px;}
+
+
+/*表单配置*/
+.am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="tel"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"]{background:none ;border: none;}
+input::-webkit-input-placeholder{text-align:right;}
+input{text-align: right;}
+.am-form-label{font-size:14px ;font-weight: 600;width: auto;}
+.sex,.birth{float: right;padding-right: 5px;margin-left:0 ;}
+
+.am-form-content small{display: none;}
+.am-selected{width: auto;}
+
+@media only screen and (min-width:640px) 
+{
+.am-form-group.address,.am-form-group.safety,.am-form-help{display: none;}
+.sex, .birth {float:none;margin-left: 85px;}
+.am-radio-inline input[type="radio"]{margin-left: 0px;}
+input::-webkit-input-placeholder,input{text-align:left;}	
+.info-main{margin:0% 5%;}
+.user-infoPic,.am-form-group{border:none;}
+.am-form-group {margin: 20px 0px;}
+.am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="tel"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"],.birth-select select,.birth-select2 select {
+border:1px solid #E4EAEE;}
+input {text-align: left;}
+.am-form-group{height:50px ;}
+.am-form-horizontal .am-form-label {padding-top:8px;}
+.am-form-content small{display:block;margin: 5px 5px;color: #ccc;}
+/*生日*/
+
+.birth-select select,.birth-select2 select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  -webkit-border-radius: 0;
+  background: #ffffff url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+') no-repeat 100% center;
+}
+
+.birth-select{width:38%;margin-right:0 ;position: relative;height:32px ;line-height:32px;}
+.birth-select2{width:30%;margin-right:0 ;margin-left: 1%;position: relative;height:32px ;line-height: 32px;}
+.birth-select select,.birth-select2 select{width:90%;}
+.birth-select em,.birth-select2 em{position: absolute;right:0px ;}
+.birth-select .am-selected,.birth-select2 .am-selected {width:auto;position: absolute ;left:0px;right:20px;}
+.birth button{border:1px solid #E4EAEE}
+.birth .am-selected-icon::before{opacity: 1;margin:5px 0px 5px -10px;}
+.birth .am-selected-status{padding-top:3px;}
+/*头像、安全评分*/
+.user-infoPic{position: relative;margin:20px 5% 50px ;height:130px;border-bottom:1px solid #eee ;}
+.filePic{width:100px; float:left;margin-left:15px;margin-top:15px ;}	
+.info-m{ display:block;float:left;overflow: hidden;line-height: 24px;position: absolute;left:6%;top:25px;margin-left: 120px;}
+.safeText{display: block;color: #fff;position: relative;text-align:left ;}
+.progressBar{width: 190px;height: 8px;background:url(../images/icon_bar.png) no-repeat;position: relative;overflow: hidden;border-radius: 5px;margin-top:5px ;}
+.progress {width: 190px;height: 8px;position: absolute;top: 0;background-color: #ffeb68;border-radius: 5px;}
+/*会员*/
+.vip {margin-top:15px ;}
+.vip span{display: block;width: 51px;height: 22px;background: url(../images/icon_progress_24.png) no-repeat 0 0;float:left;margin-right:5px ;}	
+.user-info{overflow:hidden; margin-bottom:15px;}
+/*安全设置*/
+.user-safety .check li{padding:15px 0px;position: relative;border: none;}
+.user-safety .check .fore2 { display:block;}
+.user-safety .check .fore1 {width:100px;font-size: 16px;}
+/*小图标*/
+.user-safety .check i{left:0;display: inline-block;vertical-align:middle;background-image: url("../images/sprite.png");
+width: 40px;height: 40px;position: absolute;margin-top:5px ;}
+.i-safety-lock {background-position: -90px -45px;}
+.i-safety-wallet {background-position: 0px -135px;}
+.i-safety-iphone{background-position: -45px 0px;}
+.i-safety-mail {background-position: 0px -90px}
+.i-safety-idcard {background-position: -90px -90px;}
+.i-safety-security {background-position: -135px -45px;}
+
+.user-safety .check .m-left{margin-left:70px;}
+.user-safety .check .fore3{margin-top:10px;}
+/*按钮*/
+.fore3 .am-btn-secondary {color: #fff;background-color: #3bb4f2;border:1px solid #3bb4f2;}
+	}
+	
+@media only screen and (min-width:1025px) 
+{
+.info-main {margin:0% 10%;}
+.user-safety .check ul{margin:0 5% ;}
+
+
+}
+@media only screen and (min-width:1260px) 
+{
+	
+}
+

@@ -1,0 +1,94 @@
+@charset "utf-8";
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+body{font:12px/180% microsoft yahei;}
+a{text-decoration:none;cursor:pointer}
+.clear{clear: both;}
+/* input */
+input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
+.ipt{border:solid 1px #d2d2d2;border-left-color:#ccc;border-top-color:#ccc;border-radius:2px;box-shadow:inset 0 1px 0 #f8f8f8;background-color:#fff;padding:4px 6px;height:21px;line-height:21px;color:#555;width:180px;vertical-align:baseline;}
+.ipt:focus{border-color:#95C8F1;box-shadow:0 0 4px #95C8F1;}
+.theme-login,.item-props-can{cursor: pointer;}
+
+.theme-popover-mask{z-index:10000000;position:fixed;left:0;top:0;width:100%;height:100%;background:#000;opacity:0.5;filter:alpha(opacity=50);-moz-opacity:0.5;display:none;}
+.theme-popover{z-index:10000009;position:fixed;bottom:0;left:0;width:100%;display:none;}
+.theme-poptit{padding:12px;position:relative;overflow: hidden;background:#fff ;height:80px ;}
+.theme-poptit .close{float:right;color:#999;padding:5px;margin:-2px -5px -5px;font:bold 14px/14px simsun;text-shadow:0 1px 0 #ddd}
+.theme-poptit .close:hover{color:#444;}
+
+/*内容布局*/
+
+.theme-popover .theme-poptit h3,.btn.close,i.theme-login{display:none}
+.theme-span{width:100%;background:transparent;height: 15px;}
+.theme-popbod.dform{background:#fff;}
+/*商品信息*/
+.heme-signin{position:relative;}
+.theme-signin-right {background:#fff;overflow: visible;}
+.theme-signin-right .img-info{position: absolute;top:0;left:10px;background:#fff;border-radius:5px;border:1px solid #f5f5f5;}
+.theme-signin-right .img-info img{margin:5px 5px ;width:80px;height:80px ;}
+.theme-signin-right .text-info{position:absolute;left:110px;top:20px ;}
+.text-info .price-now{display:block;font-size:16px ;color:#f50;}
+.text-info span#Stock{font-size:14px ;}
+
+/*可选规格*/
+.theme-signin-left{padding-bottom:30px;max-height:250px ;overflow-y: scroll;background: #fff;}
+.theme-options{display: block;overflow: hidden;padding-left: 10px;padding-right:10px ;}
+.theme-signin-left .cart-title{font-size:14px ;font-weight: 600;}
+.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:5px ; background:#f5f5f5 ;padding:5px;}
+.theme-signin-left .sku-line.selected{background:#f50;color: #fff;}
+
+.theme-signin .btn{width:100%;font-size: 16px;padding:5px ;}
+.btn-op{position:fixed;left:0;bottom: 0;width:100% ;}
+.iteminfo_parameter dt.theme-login {text-align: left;margin-left:-30px ;width:100% ;}
+.theme-login .cart-title{float: left;margin-right:10px ;}
+
+.theme-options dd{margin:10px 0px ;}
+
+
+@media only screen and (min-width:640px) 
+ {
+.theme-span{height:0px;background:#fff ;}
+.theme-popover{box-shadow:0 0 10px #666;position:absolute;top:20%;left:20%;width:auto;bottom:auto;border:solid 2px #e4e4e4;border-radius:5px;}
+.theme-poptit{display: none;}
+
+
+/*商品规格*/
+.theme-signin-left{padding-top:10px ;float: left;max-width:300px;max-height: none;overflow: visible;}
+.theme-options .cart-title{margin-top:10px ;}
+.theme-options ul{float: left;}
+
+.theme-signin-left .sku-line {background: none;border-radius:0 ;margin:5px;padding:3px;border:2px solid #F5F5F5 ;color:#000 ;}
+.theme-signin-left .sku-line.selected {background:none;color:#000;border: 2px solid #BE0106;}
+
+/*选中样式*/
+.sku-line{position: relative;}
+.theme-options li a:hover{ border:2px solid #e4393c; padding:0 5px; text-decoration:none;}
+.theme-options li i{ position:absolute; width:10px; height:10px; font-size:0; line-height:0; right:0px; bottom:0px; background:url(../images/sys_item_selected.gif) no-repeat right bottom; z-index:99; display:none;}
+.theme-options li.selected a{ border:2px solid #e4393c; padding:0 5px;}
+.theme-options li.selected i{ display:block;} 
+
+/*商品信息*/
+.theme-signin-right{display: none;}
+.text-info .price-now{float: left;margin-right:10px ;}
+.text-info span#Stock {float:left;font-size: 12px;}
+
+/*操作*/
+.btn-op{overflow: hidden;padding:10px ;margin-left:45px ;position: static;}
+.theme-signin .btn {width:auto;float: left;font-size:12px ;padding:5px 15px ;border-radius:0 ;margin-right: 10px;}
+.btn.close {display:block;float: left;position: static;}
+i.theme-login{display: inline-block;}
+}
+
+@media only screen and (min-width:1025px) 
+ {
+ i.theme-login{display: none;}	
+.theme-signin-left{padding-top:15px ;float: left;max-width:none;padding-bottom:0px ;}
+.theme-signin-right{float: left;display:block;overflow: hidden;padding: 10px;}
+.theme-signin-right .img-info,.theme-signin-right .text-info{position: static;}
+.theme-signin-right .img-info img{width:120px;height:120px ;}
+ 
+ 	
+ }
+
+
+
