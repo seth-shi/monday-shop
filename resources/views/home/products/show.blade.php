@@ -139,7 +139,7 @@
                                             <div class="store-about mb-20">
                                                 <h3 class="mb-10">喜欢这款商品吗？</h3>
                                                 <div class="mb-10">
-                                                    收藏人数 <span class="rating-count rating">{{ $product->likes }}</span>
+                                                    收藏人数 <span class="rating-count rating">{{ $product->users->count() }}</span>
                                                 </div>
                                                 <button class="btn btn-info">收藏</button>
                                             </div>

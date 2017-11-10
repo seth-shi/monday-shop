@@ -48,7 +48,7 @@
                                     </a>
                                     <div class="deal-about p-20 pos-a bottom-0 left-0">
                                         <div class="mb-10">
-                                            收藏人数 <span class="rating-count rating">{{ $hotProduct->likes }}</span>
+                                            收藏人数 <span class="rating-count rating">{{ $hotProduct->users->count() }}</span>
                                         </div>
                                         <h3 class="deal-title mb-10 ">
                                                 {{ $hotProduct->name }}
@@ -129,7 +129,7 @@
                                 <div class="bg-white pt-20 pl-20 pr-15">
                                     <div class="pr-md-10">
                                         <div class="mb-10">
-                                            收藏人数 <span class="rating-count rating">{{ $latestProduct->likes }}</span>
+                                            收藏人数 <span class="rating-count rating">{{ $latestProduct->users->count() }}</span>
                                         </div>
                                         <h3 class="deal-title mb-10">
                                             <a href="{{ url("/home/products/$latestProduct->id") }}">

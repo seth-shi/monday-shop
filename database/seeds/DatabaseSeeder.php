@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsTableSeeder::class);
         // Assign role permissions
         $this->call(PermissionsRolesTableSeeder::class);
+
+
+        $this->call(LikesProductsTableSeeder::class);
     }
 }
