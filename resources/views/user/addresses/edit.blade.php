@@ -19,7 +19,9 @@
 
                 @foreach ($addresses as $add)
                     <li class="user-addresslist {{ $add->is_default ? 'defaultAddr' : '' }}">
-                        <span class="new-option-r"><i class="am-icon-check-circle"></i>默认地址</span>
+                         <span class="new-option-r default_addr" data-id="{{ $address->id }}">
+                            <i class="am-icon-check-circle"></i>默认地址
+                        </span>
                         <p class="new-tit new-p-re">
                             <span class="new-txt">{{ $add->name }}</span>
                             <span class="new-txt-rd2">{{ $add->phone }}</span>
@@ -168,6 +170,20 @@
             $.post(_url, {_token:'{{ csrf_token() }}', _method:'DELETE'}, function(res){
                 if (res.code == 0) {
                     that.parent().parent().remove();
+                }
+
+                layer.msg(res.msg);
+            });
+        });
+    </script>
+    <script>
+        $('.default_addr').click(function(){
+            var id = $(this).data('id');
+            var _url = "{{ url('/user/addresses/default') }}/" + id;
+
+            $.post(_url, {_token:'{{ csrf_token() }}'}, function(res){
+                if (res.code == 0) {
+
                 }
 
                 layer.msg(res.msg);
