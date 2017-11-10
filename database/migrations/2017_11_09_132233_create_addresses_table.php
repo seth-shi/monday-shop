@@ -23,6 +23,7 @@ class CreateAddressesTable extends Migration
             $table->string('city')->nullable()->comment('城市');
             $table->string('region')->nullable()->comment('区域');
             $table->string('detail_address')->comment('详细的收货地址');
+            $table->tinyInteger('is_default')->default(0)->comment('是否是默认收货地址');
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

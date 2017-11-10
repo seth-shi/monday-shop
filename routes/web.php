@@ -35,6 +35,9 @@ Route::prefix('home')->namespace('Home')->group(function(){
 Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(function(){
 
     Route::get('/', 'UsersController@index');
+
+    Route::post('addresses/default/{address}', 'AddressesController@setDefaultAddress');
+    Route::resource('addresses', 'AddressesController');
 });
 
 /**********  admin  **********/
