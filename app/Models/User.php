@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->hasMany(Address::class);
     }
 
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'likes_products');
+    }
+
     /**
      * rewrite send reset password email
      * @param string $token

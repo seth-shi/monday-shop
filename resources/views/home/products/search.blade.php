@@ -53,7 +53,7 @@
                                                 <div class="pr-md-10">
                                                     <div class="rating mb-10">
                                                         <div class="mb-10">
-                                                            收藏人数 <span class="rating-count rating">{{ $product->likes }}</span>
+                                                            收藏人数 <span class="rating-count rating">{{ $product->users->count() }}</span>
                                                         </div>
                                                     </div>
                                                     <h3 class="deal-title mb-10">

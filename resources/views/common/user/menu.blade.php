@@ -1,12 +1,12 @@
 <aside class="menu">
     <ul>
         <li class="person active">
-            <a href="index.html">个人中心</a>
+            <a href="{{ url('/user') }}">个人中心</a>
         </li>
         <li class="person">
-            <a href="#">个人资料</a>
+            <a href="{{ url('/user') }}">个人资料</a>
             <ul>
-                <li> <a href="information.html">个人信息</a></li>
+                <li> <a href="{{ url('/user') }}">个人信息</a></li>
                 <li> <a href="safety.html">安全设置</a></li>
                 <li> <a href="address.html">收货地址</a></li>
             </ul>
