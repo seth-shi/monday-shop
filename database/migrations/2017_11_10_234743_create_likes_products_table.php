@@ -14,13 +14,11 @@ class CreateLikesProductsTable extends Migration
     public function up()
     {
         Schema::create('likes_products', function (Blueprint $table) {
-
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
-
         });
     }
 
@@ -31,6 +29,6 @@ class CreateLikesProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('likes_product');
+        Schema::dropIfExists('likes_products');
     }
 }
