@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call(LikesProductsTableSeeder::class);
+        $this->call(CarsTableSeeder::class);
     }
 }
