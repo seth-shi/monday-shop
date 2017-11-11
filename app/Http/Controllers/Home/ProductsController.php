@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Home;
 
 use App\Models\Product;
+use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ProductController extends Controller
+class ProductsController extends Controller
 {
 
     public function index(Request $request)
@@ -48,5 +49,8 @@ class ProductController extends Controller
         return view('home.products.show', compact('product', 'recommendProducts'));
     }
 
-
+    protected function guard()
+    {
+        return Auth::guard();
+    }
 }

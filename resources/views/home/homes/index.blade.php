@@ -37,13 +37,6 @@
                                             <div class="label-discount top-10 right-10" style="width: auto;">
                                                 {{ $hotProduct->price }} ￥
                                             </div>
-                                            <ul class="deal-actions top-10 left-10">
-                                                <li class="like-deal" data-id="{{ $hotProduct->id }}">
-                                                    <span>
-                                                        <i class="fa fa-heart"></i>
-                                                    </span>
-                                                </li>
-                                            </ul>
                                         </figure>
                                     </a>
                                     <div class="deal-about p-20 pos-a bottom-0 left-0">
@@ -117,13 +110,7 @@
                             <div class="deal-single panel">
                                 <a href="{{ url("/home/products/$latestProduct->id") }}">
                                     <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $productPresenter->getThumbLink($latestProduct->thumb) }}">
-                                        <ul class="deal-actions top-15 right-20">
-                                            <li class="like-deal">
-                                                <span>
-                                                    <i class="fa fa-heart"></i>
-                                                </span>
-                                            </li>
-                                        </ul>
+
                                     </figure>
                                 </a>
                                 <div class="bg-white pt-20 pl-20 pr-15">

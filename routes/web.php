@@ -24,11 +24,11 @@ Route::get('/', 'Home\HomeController@index');
 Route::prefix('home')->namespace('Home')->group(function(){
     Route::get('/', 'HomeController@index');
 
-    Route::get('/products/pinyin/{pinyin}', 'ProductController@getProductsByPinyin');
-    Route::get('/products/search', 'ProductController@search');
+    Route::get('/products/pinyin/{pinyin}', 'ProductsController@getProductsByPinyin');
+    Route::get('/products/search', 'ProductsController@search');
 
-    Route::resource('/categories', 'CategoryController', ['only' => ['index', 'show']]);
-    Route::resource('/products', 'ProductController', ['only' => ['index', 'show']]);
+    Route::resource('/categories', 'CategoriesController', ['only' => ['index', 'show']]);
+    Route::resource('/products', 'ProductsController', ['only' => ['index', 'show']]);
 });
 
 /**********  user  **********/
@@ -38,6 +38,9 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
 
     Route::post('addresses/default/{address}', 'AddressesController@setDefaultAddress');
     Route::resource('addresses', 'AddressesController');
+
+    Route::get('likes', 'LikesController@index');
+    Route::match(['post', 'delete'], 'likes/{id}', 'LikesController@toggle');
 });
 
 /**********  admin  **********/
