@@ -35,7 +35,7 @@
                             </a>
                         </div>
                         <div class="header-wishlist ml-20">
-                            <a href="wishlist.html">
+                            <a href="{{ url('/user/likes') }}">
                                 <span class="icon lnr lnr-heart font-30"></span>
                                 <span class="title">收藏列表</span>
                             </a>

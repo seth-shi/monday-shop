@@ -3,7 +3,6 @@
 
 @section('main')
     <main id="mainContent" class="main-content">
-
         @inject('productPresenter', 'App\Presenters\ProductPresenter')
         <!-- Page Container -->
         <div class="page-container ptb-60">
@@ -43,9 +42,11 @@
                                 </div>
 
                                 <div class="buy-now mb-40">
-                                    <a href="#" target="_blank" data-id="{{ $product->id }}" id="addCar" class="btn btn-block btn-warning btn-lg">
+                                    <a href="#" target="_blank" id="addCar" class="btn btn-block btn-warning btn-lg">
                                         <i class="fa fa-shopping-cart font-16 mr-10"></i> 加入购物车
                                     </a>
+
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                                     <a href="#" target="_blank" class="btn btn-block btn-lg">
                                         <i class="fa fa-shopping-bag font-16 mr-10"></i> 马上&nbsp;&nbsp;购买
@@ -139,9 +140,21 @@
                                             <div class="store-about mb-20">
                                                 <h3 class="mb-10">喜欢这款商品吗？</h3>
                                                 <div class="mb-10">
-                                                    收藏人数 <span class="rating-count rating">{{ $product->users->count() }}</span>
+                                                    收藏人数 <span class="rating-count rating" id="likes_count">{{ $product->users->count() }}</span>
                                                 </div>
-                                                <button class="btn btn-info">收藏</button>
+                                                @auth
+                                                    @if ($product->users()->where('user_id', \Auth::user()->id)->count() > 0)
+                                                    <button class="btn btn-success" style="display: none" id="likes_btn">收藏</button>
+                                                    <button class="btn btn-info" id="de_likes_btn">取消收藏</button>
+                                                    @else
+                                                    <button class="btn btn-success" id="likes_btn">收藏</button>
+                                                    <button class="btn btn-info" style="display: none" id="de_likes_btn">取消收藏</button>
+                                                    @endif
+                                                @endauth
+
+                                                @guest
+                                                <button class="btn btn-success" id="likes_btn">收藏</button>
+                                                @endguest
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +176,7 @@
                                                     </div>
                                                     <div class="media-body">
                                                         <h6 class="mb-5">
-                                                            <a href="#">{{ $recommendProduct->name }}</a>
+                                                            <a href="{{ url("/home/products/{$recommendProduct->id}") }}">{{ $recommendProduct->name }}</a>
                                                         </h6>
                                                         <h4 class="price font-16">￥ {{ $recommendProduct->price }} <span class="price-sale color-muted">￥ {{ $product->price_original }}</span></h4>
                                                     </div>
@@ -199,11 +212,46 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
     <script src="{{ asset('js/addCar.js') }}"></script>
+    <script>
+        var product_id = $('input[name=product_id]').val();
+        var _url = "{{ url("/user/likes") }}/" + product_id;
+        var token = "{{ csrf_token() }}";
+        var likes_nums = $('#likes_count');
+
+        $('#likes_btn').click(function(){
+            var that = $(this);
+
+            $.post(_url, {_token:token}, function(res){
+                layer.msg(res.msg);
+
+                if (res.code == 301) {
+                    return;
+                }
+
+                that.hide().next().show();
+                likes_nums.text(parseInt(likes_nums.text()) + 1);
+            });
+        });
+        $('#de_likes_btn').click(function(){
+            var that = $(this);
+
+            $.post(_url, {_token:token,_method:'DELETE'}, function(res){
+                layer.msg(res.msg);
+
+                if (res.code == 301) {
+                    return;
+                }
+
+                that.hide().prev().show();
+                likes_nums.text(parseInt(likes_nums.text()) - 1);
+            });
+        });
+    </script>
     <script>
         var offset = $('#end').offset(), flyer = $('<img class="u-flyer" src="ogLaVp_data/profile-80_1.jpg"/>');
         $('#addCar').click(function(){
-            alert($(this).data('id'));
 
             flyer.fly({
 
