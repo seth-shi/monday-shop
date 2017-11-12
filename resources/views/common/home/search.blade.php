@@ -27,11 +27,12 @@
                     </div>
                     <div class="col-sm-4 t-xs-center t-md-right">
                         <div class="header-cart">
-                            <a href="cart.html">
-                                <span class="icon lnr lnr-cart"></span>
-                                <div><span class="cart-number">0</span>
+                            <a href="{{ url('/home/cars') }}">
+                                <span id="car_icon" class="icon lnr lnr-cart"></span>
+                                <div>
+                                    <span id="cart-number" class="cart-number">0</span>
                                 </div>
-                                <span class="title">Cart</span>
+                                <span class="title" id="car_title">购物车</span>
                             </a>
                         </div>
                         <div class="header-wishlist ml-20">
@@ -47,3 +48,12 @@
     </div>
 </div>
 <!-- End Header Header -->
+
+<script>
+    var car_nums_span = document.getElementById('cart-number');
+    var car_nums = localStorage.length;
+    @auth
+        car_nums += parseInt("{{ Auth::user()->cars->count() }}");
+    @endauth
+    car_nums_span.innerText = car_nums;
+</script>

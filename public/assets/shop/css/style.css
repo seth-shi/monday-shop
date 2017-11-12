@@ -646,6 +646,10 @@
   width: 35px;
   line-height: 1.6;
 }
+.header-cart #car_title {
+    width: auto;
+}
+
 .header-cart .cart-number,
 .header-wishlist .cart-number {
   display: inline-block;

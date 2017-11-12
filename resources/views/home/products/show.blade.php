@@ -27,7 +27,7 @@
                                             <ul class="slides">
                                                 @foreach ($product->productImages as $image)
                                                     <li>
-                                                        <img alt="" src="{{ $productPresenter->getThumbLink($image->link) }}">
+                                                        <img alt="{{ $product->name }}" src="{{ $productPresenter->getThumbLink($image->link) }}">
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -42,9 +42,9 @@
                                 </div>
 
                                 <div class="buy-now mb-40">
-                                    <a href="#" target="_blank" id="addCar" class="btn btn-block btn-warning btn-lg">
+                                    <button id="addCar" class="btn btn-block btn-warning btn-lg">
                                         <i class="fa fa-shopping-cart font-16 mr-10"></i> 加入购物车
-                                    </a>
+                                    </button>
 
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
 
@@ -213,7 +213,7 @@
 
 @section('script')
     <script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
-    <script src="{{ asset('js/addCar.js') }}"></script>
+    <script src="{{ asset('js/jquery-addShopping.js') }}"></script>
     <script>
         var product_id = $('input[name=product_id]').val();
         var _url = "{{ url("/user/likes") }}/" + product_id;
@@ -248,34 +248,41 @@
                 likes_nums.text(parseInt(likes_nums.text()) - 1);
             });
         });
-    </script>
-    <script>
-        var offset = $('#end').offset(), flyer = $('<img class="u-flyer" src="ogLaVp_data/profile-80_1.jpg"/>');
-        $('#addCar').click(function(){
 
-            flyer.fly({
+        var Car = {
+            addProduct:function(product_id) {
 
-                start: {
-
-                    left: event.pageX,
-
-                    top: event.pageY
-
-                },
-
-                end: {
-
-                    left: offset.left,
-
-                    top: offset.top,
-
-                    width: 20,
-
-                    height: 20
-
+                if (! localStorage.getItem(product_id)) {
+                    var product = {name:"{{ $product->name }}", numbers:1, price:"{{ $product->price }}"};
+                } else {
+                    var product = $.parseJSON(localStorage.getItem(product_id));
+                    product.numbers += 1;
                 }
+                localStorage.setItem(product_id, JSON.stringify(product))
+            }
+        };
 
-            });
-        });
+        var car_nums = $('#cart-number');
+        $('#addCar').shoping({
+            endElement:"#car_icon",
+            iconCSS: "",
+            iconImg: $('#product_slider_nav img').attr('src'),
+            endFunction:function(element){
+
+                var data = {product_id:"{{ $product->id }}",_token:token};
+                var url = "{{ url('/home/cars') }}";
+                $.post(url, data, function(res){
+                    console.log(res);
+
+                    if (res.code = 302) {
+                        Car.addProduct(product_id);
+                    }
+
+                    console.log(localStorage);
+                    layer.msg('加入购物车成功');
+                });
+                car_nums.text(parseInt(car_nums.text())+1);
+            }
+        })
     </script>
 @endsection

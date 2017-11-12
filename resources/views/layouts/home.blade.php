@@ -64,6 +64,11 @@
     <link href="{{ asset('assets/shop/css/base.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/shop/css/style.css') }}" rel="stylesheet">
 
+    <!-- ––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- Initialize jQuery library                 -->
+    <!-- ––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="{{ asset('assets/shop/js/jquery-1.12.3.min.js') }}"></script>
+
     @yield('style')
 </head>
 
@@ -132,11 +137,6 @@
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 
 <!-- (!) Placed at the end of the document so the pages load faster -->
-
-<!-- ––––––––––––––––––––––––––––––––––––––––– -->
-<!-- Initialize jQuery library                 -->
-<!-- ––––––––––––––––––––––––––––––––––––––––– -->
-<script src="{{ asset('assets/shop/js/jquery-1.12.3.min.js') }}"></script>
 
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <!-- Latest compiled and minified Bootstrap    -->
