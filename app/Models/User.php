@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->hasMany(Address::class);
     }
 
+    public function cars()
+    {
+        return $this->hasMany(Cars::class);
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'likes_products');

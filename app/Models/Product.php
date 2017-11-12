@@ -14,6 +14,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function cars()
+    {
+        return $this->hasMany(Cars::class);
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'likes_products');

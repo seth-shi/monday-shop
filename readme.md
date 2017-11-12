@@ -6,6 +6,8 @@
 * `Controller` : 接收`HTTP request`调用其他`service`
 * `Presenter` : 处理显示逻辑，然後注入到`view`
 * `View` : 使用`blade`將数据`binding`到`HTML`
+
+* 购物车使用 H5 本地存储 + 数据库持久化存储
 ## Requirement
 1. Laravel 5.5.13
 2. PHP ^7.1
