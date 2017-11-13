@@ -38,7 +38,7 @@ class DeleteFile extends BaseCommand
      */
     public function handle()
     {
-        Storage::deleteDirectory('public/uploads/product');
+        Storage::deleteDirectory('public' . DIRECTORY_SEPARATOR . config('web.upload.list'));
         $this->info('delete file success');
     }
 }

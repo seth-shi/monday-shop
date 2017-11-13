@@ -48,7 +48,7 @@ class ProductsController extends Controller
 
         $product = Product::create($product_data);
         // add product details data
-        $product->productDetails()->create($product_detail_data);
+        $product->productDetail()->create($product_detail_data);
         // add product images data
         $product->productImages()->createMany($product_images_data);
         // add product attributes data
