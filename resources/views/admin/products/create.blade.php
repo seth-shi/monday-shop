@@ -79,10 +79,10 @@
                 <label class="form-label col-xs-4 col-sm-2">产品属性：</label>
 
                 <div class="formControls col-xs-8 col-sm-9" >
-                    <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="{{ old('attribute.0') }}" class="input-text" style=" width:25%" required>
-                    ===>
+                    <input type="text" name="attribute[]"  placeholder="产品属性名：如颜色" value="{{ old('attribute.0') }}" class="input-text" style=" width:25%" required>
+                    ===&gt;
                     <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="{{ old('items.0') }}" class="input-text" style=" width:25%" required>
-                    ===>
+                    ===&gt;
                     <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="{{ old('markup.0') }}" class="input-text" style=" width:25%" required>
                 </div>
             </div>
@@ -227,7 +227,7 @@
             , layedit = layui.layedit;
 
         $("#addAttrBtn").click(function(){
-            var inputText = '<div class="attr_container"><label class="form-label col-xs-4 col-sm-2 ">产品属性：</label><div class="formControls col-xs-8 col-sm-9"> <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="" class="input-text" style=" width:25%"> ===> <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="" class="input-text" style=" width:25%"> ===> <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="" class="input-text" style=" width:25%"></div></div>';
+            var inputText = '<div class="attr_container"><label class="form-label col-xs-4 col-sm-2 ">产品属性：</label><div class="formControls col-xs-8 col-sm-9"> <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="" class="input-text" style=" width:25%"> ===&gt; <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="" class="input-text" style=" width:25%"> ===&gt; <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="" class="input-text" style=" width:25%"></div></div>';
             $('#attrContainer').append(inputText);
         });
 
