@@ -25,7 +25,7 @@ class ProductsTableSeeder extends Seeder
             $product = $this->makeProduct($product_data);
 
             ProductImage::create([
-                'link' => $product_data['thumb'],
+                'link' => 'uploads/products/list/' . $product_data['thumb'],
                 'product_id' => $product->id
             ]);
             // product images
@@ -33,8 +33,12 @@ class ProductsTableSeeder extends Seeder
             factory(ProductImage::class, $count)->create(['product_id' => $product->id]);
 
             // product attribute
-            $count = mt_rand(1, 4);
             factory(ProductDetail::class, 1)->create(['product_id' =>  $product->id]);
+
+            // product attr
+            $count = mt_rand(1, 4);
+            factory(ProductAttribute::class, $count)->create(['product_id' =>  $product->id]);
+
         }
 
     }

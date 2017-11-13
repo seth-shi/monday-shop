@@ -76,14 +76,14 @@
                     @endif
                 </div>
             </div>
-            @foreach ($product->attributes as $attribute)
+            @foreach ($product->productAttributes as $attribute)
                 <div class="attr_container">
                     <label class="form-label col-xs-4 col-sm-2">产品属性：</label>
                     <div class="formControls col-xs-8 col-sm-9" >
                         <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="{{ $attribute->attribute }}" class="input-text" style=" width:25%" required>
-                        ===>
+                        ===&gt;
                         <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="{{ $attribute->items }}" class="input-text" style=" width:25%" required>
-                        ===>
+                        ===&gt;
                         <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="{{ $attribute->markup }}" class="input-text" style=" width:25%" required>
                     </div>
                 </div>
@@ -115,11 +115,11 @@
                 @endif
             </div>
         </div>
-
+        
         <div class="row cl {{ $errors->has('count') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">库存量：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="count" id="" placeholder="" value="{{ $product->detail->count }}" class="input-text" style="width:90%" required>
+                <input type="text" name="count" id="" placeholder="" value="{{ $product->productDetail->count }}" class="input-text" style="width:90%" required>
                 @if ($errors->has('count'))
                     <span class="help-block">
                         <strong>{{ $errors->first('count') }}</strong>
@@ -131,7 +131,7 @@
         <div class="row cl {{ $errors->has('unit') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">价格计算单位：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" name="unit" id="" placeholder="如 件 / 个 / 台" value="{{ $product->detail->unit }}" class="input-text" style="width:90%" required>
+                <input type="text" name="unit" id="" placeholder="如 件 / 个 / 台" value="{{ $product->productDetail->unit }}" class="input-text" style="width:90%" required>
                 @if ($errors->has('unit'))
                     <span class="help-block">
                         <strong>{{ $errors->first('unit') }}</strong>
@@ -139,6 +139,8 @@
                 @endif
             </div>
         </div>
+
+
         <div class="row cl {{ $errors->has('title') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">商品描述：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -153,7 +155,7 @@
         <div class="row cl {{ $errors->has('description') ? 'has-error' : '' }}">
             <label class="form-label col-xs-4 col-sm-2">商品描述：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="description" id="description" style="display: none;">{{ $product->detail->description }}</textarea>
+                <textarea name="description" id="description" style="display: none;">{{ $product->productDetail->description }}</textarea>
                 @if ($errors->has('description'))
                     <span class="help-block">
                         <strong>{{ $errors->first('description') }}</strong>
@@ -183,8 +185,8 @@
                                     <th>操作</th>
                                 </tr></thead>
                                 <tbody id="demoList">
-                                    @if ($product->link)
-                                        @foreach ($product->link as $key => $value)
+                                    @if ($product->productImages)
+                                        @foreach ($product->productImages as $key => $value)
                                             <tr>
                                                 <td>未知</td>
                                                 <td>未知</td>
@@ -206,7 +208,7 @@
         </div>
         <div id="hidden_images_container">
 
-            @foreach ($product->link as $key => $value)
+            @foreach ($product->productImages as $key => $value)
                     <input type='hidden' name='link[]' data-id="{{ $value->id }}" value='{{ $value->link }}' />
             @endforeach
         </div>
@@ -228,13 +230,11 @@
             , upload = layui.upload
             , layedit = layui.layedit;
 
-        // 添加产品属性
         $("#addAttrBtn").click(function(){
-            var inputText = '<div class="attr_container"><label class="form-label col-xs-4 col-sm-2 ">产品属性：</label><div class="formControls col-xs-8 col-sm-9"> <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="" class="input-text" style=" width:25%"> ===> <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="" class="input-text" style=" width:25%"> ===> <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="" class="input-text" style=" width:25%"></div></div>';
+            var inputText = '<div class="attr_container"><label class="form-label col-xs-4 col-sm-2 ">产品属性：</label><div class="formControls col-xs-8 col-sm-9"> <input type="text" name="attribute[]" id="" placeholder="产品属性名：如颜色" value="" class="input-text" style=" width:25%"> ===&gt; <input type="text" name="items[]" id="" placeholder="产品属性值：对应颜色：红" value="" class="input-text" style=" width:25%"> ===&gt; <input type="text" name="markup[]" id="" placeholder="浮动价格，如白色的比较贵10￥" value="" class="input-text" style=" width:25%"></div></div>';
             $('#attrContainer').append(inputText);
         });
 
-        // 富文本编辑器
         layedit.set({
             uploadImage: {
                 url: "{{ url('/admin/products/upload/detail') }}?fieldName=file"
@@ -242,7 +242,6 @@
         });
         layedit.build('description');
 
-        //多文件列表示例
         var demoListView = $('#demoList')
             ,uploadListIns = upload.render({
             elem: '#testList'
@@ -255,8 +254,7 @@
             ,bindAction: '#testListAction'
             ,choose: function(obj){
 
-                var files = obj.pushFile(); //将每次选择的文件追加到文件队列
-                //读取本地文件
+                var files = obj.pushFile();
                 obj.preview(function(index, file, result){
                     var tr = $(['<tr id="upload-'+ index +'">'
                         ,'<td>'+ file.name +'</td>'
@@ -268,14 +266,14 @@
                         ,'</td>'
                         ,'</tr>'].join(''));
 
-                    //单个重传
+
                     tr.find('.demo-reload').on('click', function(){
                         obj.upload(index, file);
                     });
 
-                    //删除
+
                     tr.find('.demo-delete').on('click', function(){
-                        delete files[index]; //删除对应的文件
+                        delete files[index];
                         tr.remove();
                     });
 
@@ -284,14 +282,12 @@
             }
             ,done: function(res, index, upload){
 
-                if(res.code == 0){ //上传成功
+                if(res.code == 0){
                     var tr = demoListView.find('tr#upload-'+ index)
                         ,tds = tr.children();
                     tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
-                    tds.eq(3).html('<img src="/storage/'+ res.data.src +'" />'); //清空操作
-                    // delete files[index]; //删除文件队列已经上传成功的文件
+                    tds.eq(3).html('<img src="/storage/'+ res.data.src +'" />');
 
-                    // 加入隐藏域
                     var text = "<input type='hidden' name='link[]' value='"+  res.data.src +"' />";
                     $('#hidden_images_container').append(text);
 
@@ -305,24 +301,20 @@
                 var tr = demoListView.find('tr#upload-'+ index)
                     ,tds = tr.children();
                 tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
-                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide');
             }
 
         });
 
-        // 删除图片
         $('.link_delte_btn').click(function () {
             var _id = $(this).data('id');
 
             var hidden_text = $('input[data-id='+ _id +']');
             var that = $(this);
 
-            // 删除图片
             $.post('{{ url('/admin/products/delete/images/') }}', {id:_id}, function(res){
                 if (res.code == 200) {
-                    // 移除掉隐藏域
                     hidden_text.remove();
-                    // 移除掉图片
                     that.parent().parent().remove();
                 }
 

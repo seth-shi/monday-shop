@@ -59,7 +59,7 @@ class ProductsController extends Controller
 
     public function show(Product $product)
     {
-        return redirect('/home/product/'. $product->id);
+        return redirect('/home/products/'. $product->id);
     }
 
 
@@ -67,10 +67,6 @@ class ProductsController extends Controller
     {
         $categories = $this->categoryService->getTransformCategories();
 
-        // attribute only one
-        $product->detail = $product->productDetails()->first();
-        $product->link = $product->productImages()->get();
-        $product->attributes = $product->productAttribute()->get();
 
         return view('admin/products/edit', compact('product', 'categories'));
     }
@@ -86,7 +82,7 @@ class ProductsController extends Controller
 
         Product::where('id', $product->id)->update($product_data);
 
-        $product->productDetails()->update($product_detail_data);
+        $product->productDetail()->update($product_detail_data);
         // delete all add product images data
         $product->productImages()->delete();
         $product->productImages()->createMany($product_images_data);
@@ -99,7 +95,7 @@ class ProductsController extends Controller
 
     public function destroy(Product $product)
     {
-        $product->productDetails()->delete();
+        $product->productDetail()->delete();
         // delete all add product images data
         $product->productImages()->delete();
         // delete all add product attributes data
