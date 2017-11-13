@@ -40,6 +40,9 @@ class InstallShop extends BaseCommand
         $this->call('migrate');
         $this->call('db:seed');
 
+        // copy products image
+        $this->call('gps:copy');
+
         // listen queue
         $this->info('queue starting please don`t close cmd windows!!!');
         $this->call('queue:work', ['--tries' => '3']);
