@@ -44,13 +44,15 @@ class CarsController extends Controller
 
 
 
-    public function destroy(Car $car)
+    public function destroy($id)
     {
-        if (! $this->guard()->check()) {
+        if ($car = Car::find($id)) {
+            $car->delete();
+        } else {
             return $this->response;
         }
 
-        dd($car);
+        return $this->response = ['code' => 0, 'msg' => '删除成功'];
     }
 
     private function getFormData($request)
