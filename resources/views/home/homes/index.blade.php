@@ -80,7 +80,7 @@
                                             </a>
                                         </h3>
                                         <p class="text-muted mb-20">
-                                            {{ $latestProduct->title }}
+                                            {!! $latestProduct->title !!}
                                         </p>
                                     </div>
                                     <div class="deal-price pos-r mb-15">
