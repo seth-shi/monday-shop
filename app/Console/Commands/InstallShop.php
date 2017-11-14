@@ -42,6 +42,7 @@ class InstallShop extends BaseCommand
 
         // copy products image
         $this->call('gps:copy');
+        $this->call('storage:link');
 
         // listen queue
         $this->info('queue starting please don`t close cmd windows!!!');
