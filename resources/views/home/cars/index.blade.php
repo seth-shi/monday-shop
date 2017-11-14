@@ -90,12 +90,12 @@
             for (var i in cars) {
                 var product = $.parseJSON(cars[i]);
 
-                var data = {product_id:i, numbers:product.numbers, _token:token};
+                var data = {product_id: i, numbers: product.numbers, _token: token};
                 var url = "{{ url('/home/cars') }}";
                 console.log(product);
 
-                $.post(url, data, function(res){
-                    layer.msg('同步本地购物车成功');
+                $.post(url, data, function (res) {
+                    layer.msg('同步购物车成功，请刷新查看');
                 });
             }
 
