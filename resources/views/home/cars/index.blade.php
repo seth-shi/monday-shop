@@ -31,13 +31,13 @@
                                             </h6>
                                         </div>
                                     </td>
-                                    <td>{{ $car->product->price }}</td>
+                                    <td class="prices">{{ $car->product->price }}</td>
                                     <td>
                                         <input class="quantity-label" type="number" value="{{ $car->numbers }}">
                                     </td>
 
                                     <td>
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                        <button data-id="{{ $car->id }}" class="close delete_car" type="button" >
                                             <i class="fa fa-trash-o"></i>
                                         </button>
                                     </td>
@@ -50,18 +50,12 @@
                                 <ul class="panel mb-20">
                                     <li>
                                         <div class="item-name">
-                                            小计
+                                            <strong class="t-uppercase">订单总价</strong>
                                         </div>
                                         <div class="price">
-                                            $68.50
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="item-name">
-                                            <strong class="t-uppercase">Order total</strong>
-                                        </div>
-                                        <div class="price">
-                                            <span>$150.50</span>
+                                            <span id="cars_price">
+                                                0
+                                            </span>
                                         </div>
                                     </li>
                                 </ul>
@@ -80,11 +74,35 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
     <script>
         var cars_span = '';
         var cars = localStorage;
+        var cars_prices = 0;
+        var token = "{{ csrf_token() }}";
 
-        console.log(cars);
+
+        @auth
+        syncCarsToDatabase();
+        function syncCarsToDatabase()
+        {
+            var cars = localStorage;
+            for (var i in cars) {
+                var product = $.parseJSON(cars[i]);
+
+                var data = {product_id:i, numbers:product.numbers, _token:token};
+                var url = "{{ url('/home/cars') }}";
+                console.log(product);
+
+                $.post(url, data, function(res){
+                    layer.msg('同步本地购物车成功');
+                });
+            }
+
+            localStorage.clear();
+        }
+        @endauth
+
         for (var i in cars) {
 
             var procuct_id = i;
@@ -101,20 +119,48 @@
             </h6>\
             </div>\
             </td>\
-            <td>'+ product.price +'</td>\
+            <td  class="prices">'+ product.price +'</td>\
             <td>\
             <input class="quantity-label" type="number" value="'+ product.numbers +'">\
             </td>\
             <td>\
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">\
+            <button type="button" class="close delete_car" data-id="'+  procuct_id +'"  >\
             <i class="fa fa-trash-o"></i>\
             </button>\
             </td>\
             </tr>';
 
+            cars_prices += product.price * product.numbers;
         }
 
         $('#cars_data').append(cars_span);
+        getTotal();
 
+        var cars_url = "{{ url("/home/cars") }}/";
+        $('.delete_car').click(function () {
+            var that = $(this);
+            var id = that.data('id');
+            var _url = cars_url + id;
+            $.post(_url, {_token:token,_method:'DELETE'}, function(res){
+                if (res.code == 302) {
+                    localStorage.removeItem(id);
+                }
+
+                that.parent().parent().remove();
+                getTotal();
+            });
+        });
+
+        function getTotal()
+        {
+            var total = 0;
+            $('.prices').each(function(){
+                var price = $(this).text();
+                var numbers = $(this).next().find('input').val();
+                total += price*numbers;
+            });
+
+            $('#cars_price').text(total);
+        }
     </script>
 @endsection
