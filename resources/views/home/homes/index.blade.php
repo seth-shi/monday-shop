@@ -54,50 +54,6 @@
                 </div>
             </div>
 
-            <div class="section explain-process-area ptb-30">
-                <div class="row row-rl-10">
-                    <div class="col-md-4">
-                        <div class="item panel prl-15 ptb-20">
-                            <div class="row row-rl-5 row-xs-cell">
-                                <div class="col-xs-4 valign-middle">
-                                    <img class="pr-10" src="#" alt="">
-                                </div>
-                                <div class="col-xs-8">
-                                    <h5 class="mb-10 pt-5">电脑</h5>
-                                    <p class="color-mid">你可能喜欢的.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="item panel prl-15 ptb-20">
-                            <div class="row row-rl-5 row-xs-cell">
-                                <div class="col-xs-4 valign-middle">
-                                    <img class="pr-10" src="#" alt="">
-                                </div>
-                                <div class="col-xs-8">
-                                    <h5 class="mb-10 pt-5">电脑</h5>
-                                    <p class="color-mid">你可能喜欢的.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="item panel prl-15 ptb-20">
-                            <div class="row row-rl-5 row-xs-cell">
-                                <div class="col-xs-4 valign-middle">
-                                    <img class="pr-10" src="#" alt="">
-                                </div>
-                                <div class="col-xs-8">
-                                    <h5 class="mb-10 pt-5">电脑</h5>
-                                    <p class="color-mid">你可能喜欢的.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <section class="section latest-deals-area ptb-30">
                 <header class="panel ptb-15 prl-20 pos-r mb-30">
                     <h3 class="section-title font-18">最新的 商品</h3>
