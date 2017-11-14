@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
 
             $table->string('uuid');
-            $table->decimal('total', 10, 2);
+            $table->decimal('total', 15, 2);
             $table->tinyInteger('status')->default(0)->comment('状态0：新订单1：已发货2：已收货3：无效订单');
 
 

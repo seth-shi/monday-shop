@@ -107,7 +107,6 @@
     <!-- –––––––––––––––[ HEADER ]––––––––––––––– -->
     @include('common.home.header')
     @include('common.home.search')
-    @include('common.home.menu')
     <!-- –––––––––––––––[ HEADER ]––––––––––––––– -->
 
         <!-- –––––––––––––––[ PAGE CONTENT ]––––––––––––––– -->

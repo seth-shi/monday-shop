@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -15,16 +16,8 @@ class OrdersController extends Controller
 
     public function index()
     {
-        dd(1);
-        return view('user.orders.index');
+        return 'success';
     }
-
-
-    public function create()
-    {
-        return view('user.orders.index');
-    }
-
 
     public function store(Request $request)
     {
@@ -55,9 +48,29 @@ class OrdersController extends Controller
     }
 
 
+    protected function single(Request $request)
+    {
+        // cars to orders
+        $order_data = $this->formatSingleData($request);
+
+        $order = $request->user()->orders()->create($order_data);
+
+        $detail_data = [
+            'numbers' => $request->input('numbers'),
+            'product_id' => $request->input('product_id'),
+            'order_id' => $order->id,
+        ];
+        OrderDetail::create($detail_data);
+
+        return [
+            'code' => 0,
+            'msg' => '购买成功'
+        ];
+    }
+
     public function show(Order $order)
     {
-        //
+
     }
 
 
@@ -96,5 +109,16 @@ class OrdersController extends Controller
         }
 
         return $total;
+    }
+
+    private function formatSingleData($request)
+    {
+        $product_id = $request->input('product_id');
+        $numbers = $request->input('numbers');
+        $address_id = $request->input('address_id');
+        $uuid = Uuid::generate()->hex;
+        $total = Product::find($product_id)->price * $numbers;
+
+        return compact('product_id', 'total', 'uuid', 'address_id');
     }
 }
