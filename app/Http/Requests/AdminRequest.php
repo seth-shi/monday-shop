@@ -13,6 +13,7 @@ class AdminRequest extends FormRequest
      */
     public function authorize()
     {
+        dd(1);
         return true;
     }
 

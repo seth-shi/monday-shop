@@ -36,8 +36,6 @@ class RolesController extends Controller
             $role->givePermissionTo($item['name']);
         }, $request->input('permission'));
 
-
-
         return back()->with('status', '创建角色成功');
     }
 

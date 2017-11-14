@@ -21,7 +21,6 @@ class AdminsController extends Controller
 
     public function create()
     {
-        $this->checkPermission('create admin');
         $roles = Role::where('guard_name', 'admin')->get();
 
         return view('admin.admins.create', compact('roles'));
@@ -29,7 +28,7 @@ class AdminsController extends Controller
 
     public function store(AdminRequest $request)
     {
-        $this->checkPermission('create admin');
+        $this->checkPermission('添加管理员');
 
         list($adminData, $roles) = $this->getFormParam($request);
 
@@ -42,8 +41,6 @@ class AdminsController extends Controller
 
     public function edit(Admin $admin)
     {
-        $this->checkPermission('edit admin');
-
         $roles = Role::where('guard_name', 'admin')->get();
 
         return view('admin.admins.edit', compact('admin', 'roles'));
@@ -52,7 +49,7 @@ class AdminsController extends Controller
 
     public function update(AdminRequest $request, Admin $admin)
     {
-        $this->checkPermission('edit admin');
+        $this->checkPermission('修改管理员');
 
         list($adminData, $roles) = $this->getFormParam($request);
 
@@ -70,7 +67,7 @@ class AdminsController extends Controller
 
     public function destroy(Admin $admin)
     {
-        $this->checkPermission('delete admin');
+        $this->checkPermission('删除管理员');
 
         $admin->delete();
         return back()->with('status', '删除成功');
