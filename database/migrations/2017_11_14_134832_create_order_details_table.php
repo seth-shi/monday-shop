@@ -23,8 +23,6 @@ class CreateOrderDetailsTable extends Migration
 
             $table->integer('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders');
-
-            $table->timestamps();
         });
     }
 

@@ -17,7 +17,6 @@ class CreateCarsTable extends Migration
             $table->increments('id');
 
             $table->integer('numbers')->default(1)->comment('商品的数量');
-            $table->tinyInteger('status')->default(0)->comment('0 购物车中，1 下单， 2 取消');
 
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');

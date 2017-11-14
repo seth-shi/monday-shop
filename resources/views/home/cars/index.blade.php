@@ -8,6 +8,60 @@
                 <div class="cart-area ptb-60">
                     <div class="container">
                         <div class="cart-wrapper">
+                            <div class="cart-price">
+                                <h5 class="t-uppercase mb-20">购物车总价</h5>
+                                <ul class="panel mb-20">
+                                    <li>
+                                        <div class="item-name">
+                                            <strong class="t-uppercase">订单总价</strong>
+                                        </div>
+                                        <div class="price">
+                                            <span id="cars_price">
+                                                0
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="t-right">
+                                    <!-- Checkout Area -->
+                                    <section class="section checkout-area panel prl-30 pt-20 pb-40">
+                                        <h2 class="h3 mb-20 h-title">支付信息</h2>
+                                        @if (session()->has('status'))
+                                            <div class="alert alert-success alert-dismissible" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                {{ session('status') }}
+                                            </div>
+                                        @endif
+                                        <form class="mb-30" method="post" action="{{ url('/user/orders/') }}">
+                                            {{ csrf_field() }}
+
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>选择收货地址</label>
+                                                        <select class="form-control" name="address_id">
+                                                            <option value="0">请选择收货地址</option>
+                                                            @if (Auth::check())
+                                                                @foreach (Auth::user()->addresses as $address)
+                                                                    <option value="{{ $address->id }}">{{ $address->name }}/{{ $address->phone }}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @auth
+                                            <button type="submit"  class="btn btn-lg btn-rounded mr-10">下单</button>
+                                            @endauth
+                                            @guest
+                                            <a href="{{ url('login') }}?redirect_url={{ url()->current() }}"  class="btn btn-lg btn-rounded mr-10">下单</a>
+                                            @endguest
+                                        </form>
+                                    </section>
+                                </div>
+                            </div>
                             <h3 class="h-title mb-30 t-uppercase">我的购物车</h3>
                             <table id="cart_list" class="cart-list mb-30">
                                 <thead class="panel t-uppercase">
@@ -45,24 +99,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="cart-price">
-                                <h5 class="t-uppercase mb-20">购物车总价</h5>
-                                <ul class="panel mb-20">
-                                    <li>
-                                        <div class="item-name">
-                                            <strong class="t-uppercase">订单总价</strong>
-                                        </div>
-                                        <div class="price">
-                                            <span id="cars_price">
-                                                0
-                                            </span>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="t-right">
-                                    <a href="{{ url("/user/orders") }}" class="btn btn-rounded btn-lg">下单</a>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
