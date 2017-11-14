@@ -43,6 +43,11 @@ class User extends Authenticatable
         return $this->hasMany(Car::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'likes_products');

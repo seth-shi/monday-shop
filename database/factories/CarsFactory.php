@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Cars;
+use App\Models\Car;
 use App\Models\Product;
 use App\Models\User;
 use Faker\Generator as Faker;
@@ -16,7 +16,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Cars::class, function (Faker $faker) {
+$factory->define(Car::class, function (Faker $faker) {
 
     return [
         'user_id' => User::inRandomOrder()->first()->id,

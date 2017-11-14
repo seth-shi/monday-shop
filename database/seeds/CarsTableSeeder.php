@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Cars;
+use App\Models\Car;
 use Illuminate\Database\Seeder;
 
 class CarsTableSeeder extends Seeder
@@ -12,8 +12,8 @@ class CarsTableSeeder extends Seeder
      */
     public function run()
     {
-        $cars = factory(Cars::class, 100)->make();
+        $cars = factory(Car::class, 100)->make();
 
-        Cars::insert($cars->toArray());
+        Car::insert($cars->toArray());
     }
 }
