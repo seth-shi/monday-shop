@@ -4,7 +4,7 @@
 @section('main')
     <div class="listMain">
         @inject('productPresenter', 'App\Presenters\ProductPresenter')
-        <!--放大镜-->
+
 
         <div class="item-inform">
             <div class="clearfixLeft" id="clearcontent">
@@ -21,7 +21,7 @@
                     </script>
 
                     <div class="tb-booth tb-pic tb-s310">
-                        <img src="{{ $productPresenter->getThumbLink($product->thumb) }}" alt="{{ $product->name }}" id="jqzoom" />
+                        <img src="{{ $productPresenter->getThumbLink($product->thumb) }}" alt="{{ $product->name }}" rel="../images/01.jpg" id="jqzoom" />
                     </div>
                     <ul class="tb-thumb" id="thumblist">
                         @foreach ($product->productImages as $key => $image)
@@ -38,127 +38,121 @@
 
                 <div class="clear"></div>
             </div>
+            <form>
+                <div class="clearfixRight">
 
-            <div class="clearfixRight">
-
-                <!--规格属性-->
-                <!--名称-->
-                <div class="tb-detail-hd">
-                    <h1>
-                        {{ $product->name }}
-                    </h1>
-                </div>
-                <div class="tb-detail-list">
-                    <!--价格-->
-                    <div class="tb-detail-price">
-                        <li class="price iteminfo_price">
-                            <dt>促销价</dt>
-                            <dd><em>¥</em><b class="sys_item_price">{{ $product->price }}</b>  </dd>
-                        </li>
-                        <li class="price iteminfo_mktprice">
-                            <dt>原价</dt>
-                            <dd><em>¥</em><b class="sys_item_mktprice">{{ $product->price_original }}</b></dd>
-                        </li>
-                        <div class="clear"></div>
+                    <!--规格属性-->
+                    <!--名称-->
+                    <div class="tb-detail-hd">
+                        <h1>
+                            {{ $product->name }}
+                        </h1>
                     </div>
-
-                    <!--地址-->
-                    <dl class="iteminfo_parameter freight">
-                        <dt>收货地址</dt>
-                        <div class="iteminfo_freprice">
-                            <div class="am-form-content address">
-
-                                @if (Auth::check())
-                                    <select data-am-selected name="address_id">
-                                        @foreach (Auth::user()->addresses as $address)
-                                            <option value="{{ $address->id }}">{{ $address->name }}/{{ $address->phone }}</option>
-                                        @endforeach
-                                    </select>
-                                @else
-                                    <a style="line-height:27px;color:red;" href="{{ url('user')  }}">添加收货地址</a>
-                                @endif
-
-                            </div>
+                    <div class="tb-detail-list">
+                        <!--价格-->
+                        <div class="tb-detail-price">
+                            <li class="price iteminfo_price">
+                                <dt>促销价</dt>
+                                <dd><em>¥</em><b class="sys_item_price">{{ $product->price }}</b>  </dd>
+                            </li>
+                            <li class="price iteminfo_mktprice">
+                                <dt>原价</dt>
+                                <dd><em>¥</em><b class="sys_item_mktprice">{{ $product->price_original }}</b></dd>
+                            </li>
+                            <div class="clear"></div>
                         </div>
-                    </dl>
-                    <div class="clear"></div>
 
-                    <!--销量-->
-                    <ul class="tm-ind-panel">
-                        <li class="tm-ind-item tm-ind-sumCount canClick">
-                            <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{ $product->safe_count }}</span></div>
-                        </li>
-                        <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
-                            <div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">640</span></div>
-                        </li>
-                    </ul>
-                    <div class="clear"></div>
+                        <!--地址-->
+                        <dl class="iteminfo_parameter freight">
+                            <dt>收货地址</dt>
+                            <div class="iteminfo_freprice">
+                                <div class="am-form-content address">
 
-                    <!--各种规格-->
-                    <dl class="iteminfo_parameter sys_item_specpara">
-                        <dt class="theme-login"><div class="cart-title">可选规格<span class="am-icon-angle-right"></span></div></dt>
-                        <dd>
-                            <!--操作页面-->
-
-                            <div class="theme-popover-mask"></div>
-
-                            <div class="theme-popover">
-                                <div class="theme-span"></div>
-                                <div class="theme-poptit">
-                                    <a href="javascript:;" title="关闭" class="close">×</a>
-                                </div>
-                                <div class="theme-popbod dform">
-                                    <form class="theme-signin" name="" action="" method="post">
-
-                                        <div class="theme-signin-left">
-                                            @foreach ($product->productAttributes()->get()->groupBy('attribute')->toArray() as $item => $attrs)
-                                                <div class="theme-options">
-                                                    <div class="cart-title">{{ $item }}</div>
-                                                    <ul>
-                                                        @foreach ($attrs as $key => $attr)
-                                                            <li title="价格浮动 {{ $attr['markup'] }}" class="sku-line {{ $key == 0 ? 'selected' : '' }}">{{ $attr['items'] }}<i></i></li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
+                                    @if (Auth::check())
+                                        <select data-am-selected name="address_id">
+                                            @foreach (Auth::user()->addresses as $address)
+                                                <option value="{{ $address->id }}">{{ $address->name }}/{{ $address->phone }}</option>
                                             @endforeach
-                                            <div class="theme-options">
-                                                <div class="cart-title number">数量</div>
-                        <dd>
-                            <input id="min" class="am-btn am-btn-default" type="button" value="-" />
-                            <input id="text_box" name="numbers" type="text" value="1" style="width:30px;" />
-                            <input id="add" class="am-btn am-btn-default"  type="button" value="+" />
-                            <span id="Stock" class="tb-hidden">库存<span class="stock">{{ $product->productDetail->count }}</span>件</span>
-                        </dd>
+                                        </select>
+                                    @else
+                                        <a style="line-height:27px;color:red;" href="{{ url('user')  }}">添加收货地址</a>
+                                    @endif
 
+                                </div>
+                            </div>
+                        </dl>
+                        <div class="clear"></div>
 
+                        <!--销量-->
+                        <ul class="tm-ind-panel">
+                            <li class="tm-ind-item tm-ind-sumCount canClick">
+                                <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{ $product->safe_count }}</span></div>
+                            </li>
+                            <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
+                                <div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">640</span></div>
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+
+                        <!--各种规格-->
+                        <dl class="iteminfo_parameter sys_item_specpara">
+                            <dt class="theme-login"><div class="cart-title">可选规格<span class="am-icon-angle-right"></span></div></dt>
+                            <dd>
+                                <!--操作页面-->
+
+                                <div class="theme-popover-mask"></div>
+
+                                <div class="theme-popover">
+                                    <div class="theme-span"></div>
+                                    <div class="theme-poptit">
+                                        <a href="javascript:;" title="关闭" class="close">×</a>
+                                    </div>
+                                    <div class="theme-popbod dform">
+                                        <form class="theme-signin" name="loginform" action="" method="post">
+
+                                            <div class="theme-signin-left">
+
+                                                @foreach ($product->productAttributes()->get()->groupBy('attribute')->toArray() as $item => $attrs)
+                                                    <div class="theme-options">
+                                                        <div class="cart-title">{{ $item }}</div>
+                                                        <ul>
+                                                            @foreach ($attrs as $key => $attr)
+                                                                <li title="价格浮动 {{ $attr['markup'] }}" class="sku-line {{ $key == 0 ? 'selected' : '' }}">{{ $attr['items'] }}<i></i></li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endforeach
+                                                <div class="theme-options">
+                                                    <div class="cart-title number">数量</div>
+
+                                                    <input id="min" class="am-btn am-btn-default" type="button" value="-" />
+                                                    <input id="text_box" name="" type="text" value="1" style="width:30px;" />
+                                                    <input id="add" class="am-btn am-btn-default"  type="button" value="+" />
+                                                    <span id="Stock" class="tb-hidden">库存<span class="stock">{{ $product->productDetail->count }}</span>件</span>
+                            </dd>
+
+                        </dl>
+                    </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="clear"></div>
-
-
-            </div>
-
 
             </form>
         </div>
     </div>
 
-    </dd>
-    </dl>
     <div class="clear"></div>
-    <!--活动	-->
-
-    </div>
 
     <div class="pay">
         <div class="pay-opt">
             <a href="{{ url('/') }}"><span class="am-icon-home am-icon-fw">首页</span></a>
+
             @auth
             @if ($product->users()->where('user_id', \Auth::user()->id)->count() > 0)
-                <a href="javascript:;" style="display: none" id="likes_btn"><span class="am-icon-heart am-icon-fw" >收藏</span></a>
-                <a href="javascript:;"  id="de_likes_btn"><span class="am-icon-heart am-icon-fw">取消收藏</span></a>
+                <a href="javascript:;" style="display: none" ><span class="am-icon-heart am-icon-fw" id="likes_btn">收藏</span></a>
+                <a href="javascript:;"><span class="am-icon-heart am-icon-fw" id="de_likes_btn">取消收藏</span></a>
             @else
-                <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
-                <a href="javascript:;" style="display: none" id="de_likes_btn"><span class="am-icon-heart am-icon-fw" >取消收藏</span></a>
+                <a href="javascript:;" ><span class="am-icon-heart am-icon-fw" id="likes_btn">收藏</span></a>
+                <a href="javascript:;" style="display: none" ><span class="am-icon-heart am-icon-fw" id="de_likes_btn">取消收藏</span></a>
             @endif
             @endauth
 
@@ -168,35 +162,24 @@
 
         </div>
         <li>
-            <div class="clearfix tb-btn" id="nowBug">
-                @auth
-                <a  href="javascript:;" >立即购买</a>
-                @endauth
-                @guest
-                <a href="{{ url('login') }}?redirect_url={{ url()->current() }}">立即购买</a>
-                @endguest
-
+            <div class="clearfix tb-btn tb-btn-buy theme-login">
+                <a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">立即购买</a>
             </div>
         </li>
         <li>
-            <div class="clearfix tb-btn tb-btn-basket">
-                <a  title="加入购物车" href="javascript:;"  id="addCar"><i></i>加入购物车</a>
+            <div class="clearfix tb-btn tb-btn-basket theme-login">
+                <a id="LikBasket" title="加入购物车" href="#"><i></i>加入购物车</a>
             </div>
         </li>
     </div>
-    <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-    </div>
+
 
     <div class="clear"></div>
-
-    </div>
-
 
 
 
     <!-- introduce-->
-
     <div class="introduce">
         <div class="browse">
             <div class="mc">
@@ -234,13 +217,13 @@
                             <span class="index-needs-dt-txt">宝贝详情</span></a>
 
                     </li>
-
                     <li>
                         <a href="#">
 
                             <span class="index-needs-dt-txt">全部评价</span></a>
 
                     </li>
+
                 </ul>
 
                 <div class="am-tabs-bd">
@@ -742,7 +725,6 @@
                         </div>
 
                     </div>
-
                 </div>
 
             </div>
@@ -810,12 +792,11 @@
         var Car = {
             addProduct:function(product_id) {
 
-                var numbers = $("input[name=numbers]").val();
                 if (! localStorage.getItem(product_id)) {
-                    var product = {name:"{{ $product->name }}", numbers:numbers, price:"{{ $product->price }}"};
+                    var product = {name:"{{ $product->name }}", numbers:1, price:"{{ $product->price }}"};
                 } else {
                     var product = $.parseJSON(localStorage.getItem(product_id));
-                    product.numbers = parseInt(product.numbers) + parseInt(numbers);
+                    product.numbers += 1;
                 }
                 localStorage.setItem(product_id, JSON.stringify(product))
             }
@@ -825,11 +806,10 @@
         $('#addCar').shoping({
             endElement:"#car_icon",
             iconCSS: "",
-            iconImg: $('#jqzoom').attr('src'),
+            iconImg: $('#product_slider_nav img').attr('src'),
             endFunction:function(element){
 
-                var numbers = $("input[name=numbers]").val();
-                var data = {product_id:"{{ $product->id }}",_token:token, numbers:numbers};
+                var data = {product_id:"{{ $product->id }}",_token:token};
                 var url = "{{ url('/home/cars') }}";
                 $.post(url, data, function(res){
                     console.log(res);
@@ -844,17 +824,6 @@
 
                 car_nums.text(parseInt(car_nums.text())+1);
             }
-        });
-
-        $('#nowBug').click(function(){
-            var _address_id = $('select[name=address_id]').val();
-            var _numbers = $('input[name=numbers]').val();
-            var _product_id = $('input[name=product_id]').val();
-
-            var data = {address_id:_address_id,numbers:_numbers,product_id:_product_id, _token:"{{ csrf_token() }}"};
-            $.post('{{ url('user/orders/single') }}', data, function(res){
-                layer.msg(res.msg + '   请到个人中心查看');
-            });
-        });
+        })
     </script>
 @endsection

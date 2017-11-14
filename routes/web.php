@@ -42,6 +42,7 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
 
     Route::get('likes', 'LikesController@index');
     Route::match(['post', 'delete'], 'likes/{id}', 'LikesController@toggle');
+    Route::post('orders/single', 'OrdersController@single');
     Route::resource('orders', 'OrdersController');
 });
 
