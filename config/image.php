@@ -16,5 +16,5 @@ return [
     */
 
     'driver' => 'gd',
-    'watermark' => storage_path('app/images/watermark.png'),
+    'watermark' => storage_path('app/resources/images/watermark.png'),
 ];
