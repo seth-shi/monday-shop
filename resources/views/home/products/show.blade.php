@@ -281,6 +281,7 @@
                     console.log(localStorage);
                     layer.msg('加入购物车成功');
                 });
+
                 car_nums.text(parseInt(car_nums.text())+1);
             }
         })
