@@ -39,4 +39,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductAttribute::class);
     }
+
+
+    public function orderDetail()
+    {
+        return $this->hasOne(orderDetail::class);
+    }
 }

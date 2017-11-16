@@ -10,4 +10,10 @@ class OrderDetail extends Model
     protected $fillable = ['numbers', 'product_id', 'order_id'];
 
     public $timestamps = false;
+
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

@@ -16,7 +16,7 @@
                     <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
                         @auth
                             <li>
-                                <a href="#"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a>
+                                <a href="{{ url('/user') }}"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a>
                             </li>
                             <li>
                                 <a href="javascript:;" onclick="event.preventDefault();
