@@ -16,7 +16,9 @@ class OrdersController extends Controller
 
     public function index()
     {
-        return 'success';
+        $orders = Auth::user()->orders;
+
+        return view('user.orders.index', compact('orders'));
     }
 
     public function store(Request $request)
@@ -70,7 +72,11 @@ class OrdersController extends Controller
 
     public function show(Order $order)
     {
+        if ($order->user_id != Auth::user()->id) {
+            abort(404, '你没有权限');
+        }
 
+        return view('user.orders.show', compact('order'));
     }
 
 
