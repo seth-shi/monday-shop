@@ -33,7 +33,21 @@ class UsersController extends Controller
 
     public function update(Request $request)
     {
-        dd($request);
+        $this->validate($request, [
+            'avatar' => 'required',
+            'sex' => 'in:0,1',
+            'name' => 'required:unique:users'
+        ], [
+           'avatar.required' => '头像不能为空',
+           'sex.in' => '性别格式不对',
+           'name.required' => '用户名不能为空',
+           'name.unique' => '用户名已经存在',
+        ]);
+
+
+        $this->guard()->user()->update($request->only(['avatar', 'name', 'sex']));
+
+        return back()->with('status', '修改成功');
     }
 
     public function uploadAvatar(Request $request)
