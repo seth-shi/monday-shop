@@ -38,6 +38,8 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
 
     Route::get('/', 'UsersController@index');
     Route::get('setting', 'UsersController@setting');
+    Route::post('upload/avatar', 'UsersController@uploadAvatar');
+    Route::put('update', 'UsersController@update');
 
     Route::post('addresses/default/{address}', 'AddressesController@setDefaultAddress');
     Route::resource('addresses', 'AddressesController');
