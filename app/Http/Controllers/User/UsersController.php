@@ -30,33 +30,39 @@ class UsersController extends Controller
     }
 
 
-    public function edit(User $user)
+
+    public function update(Request $request)
     {
-        //
+        dd($request);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
+    public function uploadAvatar(Request $request)
     {
-        //
+        if (! $request->hasFile('file')) {
+            return [
+                'code' => 302,
+                'msg' => '没选择图片',
+                'data' => []
+            ];
+        }
+
+        // move file to public
+        if (! $link = $request->file('file')->store(config('web.upload.avatar'), 'public')) {
+            return [
+                'code' => 402,
+                'msg' => '服务器异常，请稍后再试',
+                'data' => []
+            ];
+        }
+
+
+        return [
+            'code' => 0,
+            'msg' => '图片上传成功',
+            'data' => ['src' => $link]
+        ];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
 
     protected function guard()
     {
