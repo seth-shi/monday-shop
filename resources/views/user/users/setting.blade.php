@@ -33,6 +33,18 @@
 
             <!--个人信息 -->
             <div class="info-main">
+                @if (session()->has('status') > 0)
+                    <div class="am-alert am-alert-success" data-am-alert>
+                        <button type="button" class="am-close">&times;</button>
+                        <p>{{ session('status') }}</p>
+                    </div>
+                @endif
+                @if ($errors->count() > 0)
+                    <div class="am-alert am-alert-danger" data-am-alert>
+                        <button type="button" class="am-close">&times;</button>
+                        <p>{{ $errors->first() }}</p>
+                    </div>
+                @endif
                 <form class="am-form am-form-horizontal" method="post" action="{{ url('/user/update') }}">
 
                     {{ csrf_field() }}
@@ -43,7 +55,7 @@
                     <div class="am-form-group">
                         <label for="user-name2" class="am-form-label">昵称</label>
                         <div class="am-form-content">
-                            <input type="text" id="user-name2" placeholder="nickname" value="{{ $user->name }}">
+                            <input type="text" id="user-name2" placeholder="用户名" name="name" value="{{ $user->name }}">
 
                         </div>
                     </div>
@@ -63,13 +75,13 @@
                     <div class="am-form-group">
                         <label for="user-email" class="am-form-label">电子邮件</label>
                         <div class="am-form-content">
-                            <input id="user-email" placeholder="Email" type="email" value="{{ $user->email }}">
+                            <input id="user-email" placeholder="Email" type="email" value="{{ $user->email }}" disabled="disabled">
 
                         </div>
                     </div>
 
                     <div class="info-btn">
-                        <div class="am-btn am-btn-danger">保存修改</div>
+                        <button type="submit" class="am-btn am-btn-danger">保存修改</button>
                     </div>
 
                 </form>
