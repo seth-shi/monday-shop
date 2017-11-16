@@ -37,6 +37,7 @@ Route::prefix('home')->namespace('Home')->group(function(){
 Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(function(){
 
     Route::get('/', 'UsersController@index');
+    Route::get('setting', 'UsersController@setting');
 
     Route::post('addresses/default/{address}', 'AddressesController@setDefaultAddress');
     Route::resource('addresses', 'AddressesController');
@@ -44,7 +45,7 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     Route::get('likes', 'LikesController@index');
     Route::match(['post', 'delete'], 'likes/{id}', 'LikesController@toggle');
     Route::post('orders/single', 'OrdersController@single');
-    Route::resource('orders', 'OrdersController');
+    Route::resource('orders', 'OrdersController', ['only' => ['index', 'store', 'show']]);
 });
 
 /**********  admin  **********/

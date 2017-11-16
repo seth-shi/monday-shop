@@ -79,24 +79,6 @@ class OrdersController extends Controller
         return view('user.orders.show', compact('order'));
     }
 
-
-    public function edit(Order $order)
-    {
-        //
-    }
-
-
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-
-    public function destroy(Order $order)
-    {
-        //
-    }
-
     private function formatOrderData($request, $cars)
     {
         $total = $this->getTotal($cars);
