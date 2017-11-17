@@ -40,6 +40,9 @@ php artisan queue:work --tries=3
 ```shell
 php artisan gps:uninstall
 ```
+* 任务调度(每周六早八点发送订阅邮件)
+    * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
+    * [linux请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
 ## Optimize
 * 执行缓存（缓存配置，路由，类映射）
 ```shell

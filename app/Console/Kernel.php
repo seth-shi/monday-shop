@@ -2,8 +2,11 @@
 
 namespace App\Console;
 
+use App\Mail\SubscribesNotice;
+use DB;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Mail;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,8 +28,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function(){
-            file_put_contents('log.txt', time() . "\r\n", FILE_APPEND);
-        })->everyMinute();
+
+            // each all subscriber notices
+            DB::table('subscribes')->get()->each(function($item, $key){
+
+                Mail::to($item->email)->queue(new SubscribesNotice());
+            });
+
+
+        })->everyFiveMinutes();
     }
 
     /**
