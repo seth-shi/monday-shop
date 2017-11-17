@@ -1,11 +1,18 @@
 # WaitMoonMan/monday-shop
-
+****
+![http://or2pofbfh.bkt.clouddn.com/github/index_mb.png](http://or2pofbfh.bkt.clouddn.com/github/index_mb.png)
+![http://or2pofbfh.bkt.clouddn.com/github/user_pc.png](http://or2pofbfh.bkt.clouddn.com/github/user_pc.png)
+![http://or2pofbfh.bkt.clouddn.com/github/index_pc.png](http://or2pofbfh.bkt.clouddn.com/github/index_pc.png)
+![http://or2pofbfh.bkt.clouddn.com/github/index_mb.png](http://or2pofbfh.bkt.clouddn.com/github/index_mb.png)
 ## Feture
 * 第三方登录
    * Github
    * QQ
    * 微博
 * 购物车使用 H5 本地存储 + 数据库持久化存储
+* 商品搜索支持拼音首字母 + AJAX 无刷新显示
+* 订阅之后每周推送一封邮件包含最受欢迎，最新，最火卖商品的信息
+* 响应式网站
 ## Installation
 1. 获取源代码
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
@@ -32,10 +39,13 @@ php artisan gps:install
 ### Commands
 | 命令  | 一句话描述 |
 | ----- | --- |
+|`php artisan gps:install`|安装应用程序|
+|`php artisan gps:uninstall`|卸载网站(清空数据库，缓存，路由)|
 |`php artisan gps:cache`|执行缓存（缓存配置，路由，类映射）|
 |`php artisan gps:clear`|清除缓存|
+|`php artisan gps:copy`|复制项目内置的静态资源|
+|`php artisan gps:delete`|删除项目及上传的基本静态资源|
 |`php artisan queue:work --tries=3`|监听队列(邮件发送，图片裁剪 !!!|
-|`php artisan gps:uninstall`|卸载网站(清空数据库，缓存，路由)|
 ## Packages
 | 扩展包 | 一句话描述 | 在本项目中的使用案例 |  
 | --- | --- | --- |   
