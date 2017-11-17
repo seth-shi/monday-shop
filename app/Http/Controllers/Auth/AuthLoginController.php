@@ -142,7 +142,7 @@ class AuthLoginController extends Controller
         $data = [
             'name' => $faker->uuid,
             'avatar' => $faker->imageUrl(120, 120),
-            'email' => '0@qq.com',
+            'email' => $faker->email
         ];
 
 
@@ -155,7 +155,7 @@ class AuthLoginController extends Controller
             $data['avatar'] = $provider['avatar'];
         }
 
-        if (isset($provider['email'])) {
+        if (isset($provider['email']) && $provider['email']) {
             $data['email'] = $provider['email'];
         }
 
