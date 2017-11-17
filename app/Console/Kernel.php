@@ -35,8 +35,8 @@ class Kernel extends ConsoleKernel
                 Mail::to($item->email)->queue(new SubscribesNotice());
             });
 
-
-        })->everyFiveMinutes();
+            // why every minute, because i use windows, The planned task under windows is minimal and can run only once in five minutes
+        })->everyMinute();
     }
 
     /**

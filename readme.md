@@ -1,20 +1,11 @@
 # WaitMoonMan/monday-shop
 
 ## Feture
-* `Model` : 仅当成`Eloquent class`
-* `Service` : 辅助`controller`，处理程序逻辑，然后注入到`controller`
-* `Controller` : 接收`HTTP request`调用其他`service`
-* `Presenter` : 处理显示逻辑，然後注入到`view`
-* `View` : 使用`blade`將数据`binding`到`HTML`
 * 第三方登录
    * Github
    * QQ
    * 微博
 * 购物车使用 H5 本地存储 + 数据库持久化存储
-## Requirement
-1. Laravel 5.5.13
-2. PHP ^7.1
-
 ## Installation
 1. 获取源代码
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
@@ -35,34 +26,16 @@ cp .env.example .env
 php artisan gps:install
 ```
 ## Usage
-* 监听队列(邮件发送，图片裁剪 !!!)
-```shell
-php artisan queue:work --tries=3
-```
-* 卸载网站(清空数据库，缓存，路由)
-```shell
-php artisan gps:uninstall
-```
 * 任务调度(打算每周六早八点发送订阅邮件/ !!! 为方便展示，项目现为五分钟发送一次订阅)
-    * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
+    * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)先把
     * [linux请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
-## Optimize
-* 执行缓存（缓存配置，路由，类映射）
-```shell
-php artisan gps:cache
-```
-* 清除缓存
-```shell
-php artisan gps:clear
-```
-* 使用`redis`或者`memcache`存储会话
-```shell
-config/session.php
-```
-* 使用`redis`或者`memcache`做缓存驱动
-```shell
-config/cache.php
-```
+### Commands
+| 命令  | 一句话描述 |
+| ----- | --- |
+|`php artisan gps:cache`|执行缓存（缓存配置，路由，类映射）|
+|`php artisan gps:clear`|清除缓存|
+|`php artisan queue:work --tries=3`|监听队列(邮件发送，图片裁剪 !!!|
+|`php artisan gps:uninstall`|卸载网站(清空数据库，缓存，路由)|
 ## Errors
 * 监听队列如果长时间没反应，或者一直重复任务
     * 数据库没配置好，导致队列任务表连接不上
