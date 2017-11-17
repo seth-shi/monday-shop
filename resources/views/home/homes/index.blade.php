@@ -123,15 +123,22 @@
             <section class="section subscribe-area ptb-40 t-center">
                 <div class="newsletter-form">
                     <h4 class="mb-20"><i class="fa fa-envelope-o color-green mr-10"></i>订阅我们</h4>
-                    <p class="mb-20 color-mid">每周将发送一封商品推荐信息给你</p>
-                    <form method="post" action="#">
+                    <p class="mb-20 color-mid">每周六上午八点将发送一封商品推荐信息给你</p>
+
                         <div class="input-group mb-10">
-                            <input type="email" class="form-control bg-white" placeholder="Email Address" required="required">
+                            <input  type="email" id="subscribe_email" class="form-control bg-white" value="{{ auth()->user()->subscribe->email ?? '' }}" placeholder="Email Address" {{ isset(auth()->user()->subscribe) ? 'disabled' : ''  }}  required="required">
                             <span class="input-group-btn">
-                                        <button class="btn" type="submit">订阅</button>
-                                    </span>
+                                @auth
+                                    <button class="btn" id="subscribe_btn" type="button" style="{{ auth()->user()->subscribe()->exists() ? 'display: none;' : '' }}">订阅</button>
+                                    <button  type="button"  id="desubscribe_btn"  class="btn btn-warning"style="{{ auth()->user()->subscribe()->exists() ? '' : 'display: none;' }}">取消订阅</button>
+
+                                @endauth
+                                @guest
+                                    <button class="btn" id="login_subscribe_btn" type="button">订阅</button>
+                                @endguest
+                            </span>
                         </div>
-                    </form>
+
                     <p class="color-muted"><small>我们永远不会与第三方分享您的电子邮件地址.</small> </p>
                 </div>
             </section>
@@ -145,9 +152,59 @@
 
 @section('script')
     <script src="{{ asset('assets/admin/lib/lazyload/lazyload.js') }}"></script>
+    <script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
     <script>
         $(function() {
             $(".user-avatar").lazyload()
+        });
+
+        var csrf_token = "{{ csrf_token() }}";
+        $('#subscribe_btn').click(function(){
+            var _url = "{{ url('user/subscribe') }}";
+            var _email = $('#subscribe_email').val();
+            var that = $(this);
+            that.attr('disabled', true);
+
+            $.post(_url, {email:_email, _token:csrf_token}, function(res){
+
+                that.attr('disabled', false);
+
+                if (res.code == 200) {
+                    that.hide().next().show();
+                    layer.msg(res.msg, {icon: 1});
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                }
+
+            });
+        });
+
+        $('#desubscribe_btn').click(function(){
+            var _url = "{{ url('user/desubscribe') }}";
+            var that = $(this);
+            that.attr('disabled', true);
+
+            $.post(_url, {_token:csrf_token}, function(res){
+                that.attr('disabled', false);
+
+                if (res.code == 200) {
+                    that.hide().prev().show();
+                    layer.msg(res.msg, {icon: 1});
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                }
+
+            });
+        });
+
+        $('#login_subscribe_btn').click(function() {
+            layer.confirm('请登录后再订阅', {
+                btn: ['去登陆','再看看']
+            }, function(){
+                window.location.href = "{{ url('login') }}?redirect_dir={{ url()->current() }}";
+            }, function(){
+                layer.close();
+            });
         });
     </script>
 @endsection

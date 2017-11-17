@@ -37,15 +37,28 @@ Route::prefix('home')->namespace('Home')->group(function(){
 Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(function(){
 
     Route::get('/', 'UsersController@index');
+
+    Route::post('subscribe', 'UsersController@subscribe');
+    Route::post('desubscribe', 'UsersController@deSubscribe');
+
+    // user password setting
+    Route::get('password', 'UsersController@showPasswordForm');
+    Route::post('password', 'UsersController@updatePassword');
+
+    // user information setting
     Route::get('setting', 'UsersController@setting');
     Route::post('upload/avatar', 'UsersController@uploadAvatar');
     Route::put('update', 'UsersController@update');
 
+    // user address setting
     Route::post('addresses/default/{address}', 'AddressesController@setDefaultAddress');
     Route::resource('addresses', 'AddressesController');
 
+    // user products like, cancel like,
     Route::get('likes', 'LikesController@index');
     Route::match(['post', 'delete'], 'likes/{id}', 'LikesController@toggle');
+
+    // user order show and index
     Route::post('orders/single', 'OrdersController@single');
     Route::resource('orders', 'OrdersController', ['only' => ['index', 'store', 'show']]);
 });
