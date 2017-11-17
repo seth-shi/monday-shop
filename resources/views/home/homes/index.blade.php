@@ -101,7 +101,7 @@
             <section class="section stores-area stores-area-v1 ptb-30">
                 <header class="panel ptb-15 prl-20 pos-r mb-30">
                     <h3 class="section-title font-18">活跃的用户</h3>
-                    <a href="#" class="btn btn-o btn-xs pos-a right-10 pos-tb-center">All Stores</a>
+                    <a href="#" class="btn btn-o btn-xs pos-a right-10 pos-tb-center">查看更多</a>
                 </header>
                 <div class="popular-stores-slider owl-slider" data-loop="true" data-autoplay="true" data-smart-speed="1000" data-autoplay-timeout="10000" data-margin="20" data-items="2" data-xxs-items="2" data-xs-items="2" data-sm-items="3" data-md-items="5" data-lg-items="6">
                     @inject('userPresenter', 'App\Presenters\UserPresenter')
@@ -110,7 +110,7 @@
                             <a href="#" class="panel is-block">
                                 <div class="embed-responsive embed-responsive-4by3">
                                     <div class="store-logo">
-                                        <img class="user-avatar" data-original="{{ $userPresenter->getThumbLink($user->avatar) }}" alt="{{ $user->name }}">
+                                        <img class="user-avatar" src="{{ $userPresenter->getThumbLink($user->avatar) }}" alt="{{ $user->name }}">
                                     </div>
                                 </div>
                                 <h6 class="store-name ptb-10">{{ $userPresenter->getHiddenPartName($user->name) }}</h6>
@@ -153,9 +153,6 @@
     <script src="{{ asset('assets/admin/lib/lazyload/lazyload.js') }}"></script>
     <script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
     <script>
-        $(function() {
-            $(".user-avatar").lazyload()
-        });
 
         var csrf_token = "{{ csrf_token() }}";
         $('#subscribe_btn').click(function(){
