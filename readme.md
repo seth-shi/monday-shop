@@ -36,10 +36,6 @@ php artisan gps:install
 |`php artisan gps:clear`|清除缓存|
 |`php artisan queue:work --tries=3`|监听队列(邮件发送，图片裁剪 !!!|
 |`php artisan gps:uninstall`|卸载网站(清空数据库，缓存，路由)|
-## Errors
-* 监听队列如果长时间没反应，或者一直重复任务
-    * 数据库没配置好，导致队列任务表连接不上
-    * 邮件配置出错，导致发送邮件一直失败    
 ## Packages
 | 扩展包 | 一句话描述 | 在本项目中的使用案例 |  
 | --- | --- | --- |   
@@ -54,12 +50,9 @@ php artisan gps:install
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
-## TODO
-* 数据库填充注释了部分代码，上线前记得开启
-* 分类列表的分类加上排序
-* 定时删除上传图片中多余的文件
-* libpng warning: iCCP: known incorrect sRGB profile(裁剪图片队列出现的信息)
-* 上传文件的路径写入 config 方便配置
-* 权限检查，权限写入配置文件
+## Errors
+* 监听队列如果长时间没反应，或者一直重复任务
+    * 数据库没配置好，导致队列任务表连接不上
+    * 邮件配置出错，导致发送邮件一直失败    
 ## License
 MIT
