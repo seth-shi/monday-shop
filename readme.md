@@ -1,8 +1,6 @@
 # WaitMoonMan/monday-shop
 ****
-![http://or2pofbfh.bkt.clouddn.com/github/user_pc.png](http://or2pofbfh.bkt.clouddn.com/github/user_pc.png)
 ![http://or2pofbfh.bkt.clouddn.com/github/index_pc.png](http://or2pofbfh.bkt.clouddn.com/github/index_pc.png)
-![http://or2pofbfh.bkt.clouddn.com/github/index_mb.png](http://or2pofbfh.bkt.clouddn.com/github/index_mb.png)
 ## Feture
 * 第三方登录
    * Github
