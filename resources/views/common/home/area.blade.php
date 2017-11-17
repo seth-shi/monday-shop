@@ -30,17 +30,17 @@
                         <div class="footer-links">
                             <h2 class="color-lighter">快速链接</h2>
                             <ul>
-                                <li><a href="deals_grid.html">新的交易</a>
+                                <li><a href="#">新的交易</a>
                                 </li>
-                                <li><a href="coupons_grid.html">最新的优惠券</a>
+                                <li><a href="#">最新的优惠券</a>
                                 </li>
-                                <li><a href="contact_us_02.html">联系我们</a>
+                                <li><a href="#">联系我们</a>
                                 </li>
-                                <li><a href="404.html">错误 404</a>
+                                <li><a href="#">错误 404</a>
                                 </li>
-                                <li><a href="terms_conditions.html">使用条款</a>
+                                <li><a href="#">使用条款</a>
                                 </li>
-                                <li><a href="faq.html">FAQs</a>
+                                <li><a href="#">FAQs</a>
                                 </li>
                             </ul>
                         </div>

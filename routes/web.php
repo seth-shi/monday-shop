@@ -1,7 +1,10 @@
 <?php
+Route::get('/mail', function () {
 
-
+    return new \App\Mail\SubscribesNotice();
+});
 /**********  auth  **********/
+
 Auth::routes();
 
 Route::namespace('Auth')->group(function(){
