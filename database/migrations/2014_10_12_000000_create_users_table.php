@@ -27,8 +27,8 @@ class CreateUsersTable extends Migration
             // 第三方登录
             $table->integer('github_id')->nullable()->index()->comment('github第三方登录的ID');
             $table->string('github_name')->nullable()->comment('github第三方登录的用户名');
-            $table->string('wechat_id')->nullable()->index();
-            $table->string('wechat_name')->nullable();
+            $table->string('qq_id')->nullable()->index();
+            $table->string('qq_name')->nullable();
             $table->string('weibo_id')->nullable()->index();
             $table->string('weibo_name')->nullable();
 
