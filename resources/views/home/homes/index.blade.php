@@ -123,7 +123,7 @@
             <section class="section subscribe-area ptb-40 t-center">
                 <div class="newsletter-form">
                     <h4 class="mb-20"><i class="fa fa-envelope-o color-green mr-10"></i>订阅我们</h4>
-                    <p class="mb-20 color-mid">每周六上午八点将发送一封商品推荐信息给你(测试阶段将为5分钟发送一封订阅邮件)</p>
+                    <p class="mb-20 color-mid">每周六上午八点将发送一封商品推荐信息给你 <br />(测试阶段将为每天发送一封订阅邮件)</p>
 
                         <div class="input-group mb-10">
                             <input  type="email" id="subscribe_email" class="form-control bg-white" value="{{ auth()->user()->subscribe->email ?? auth()->user()->email ?? '' }}" placeholder="Email Address" {{ isset(auth()->user()->subscribe) ? 'disabled' : ''  }}  required="required">
@@ -198,7 +198,7 @@
 
         $('#login_subscribe_btn').click(function() {
             layer.confirm('请登录后再订阅', {
-                btn: ['去登陆','再看看']
+                btn: ['去登录','再看看']
             }, function(){
                 window.location.href = "{{ url('login') }}?redirect_dir={{ url()->current() }}";
             }, function(){

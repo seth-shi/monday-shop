@@ -23,8 +23,15 @@ class OrdersController extends Controller
 
     public function store(Request $request)
     {
+        $this->validate($request, ['address_id' => 'required'], ['address_id.required' => '收货地址不能为空']);
+
         // cars to orders
         $cars = $request->user()->cars()->with('product')->get();
+
+        if ($cars->isEmpty()) {
+            return back()->withErrors(['address_id' => '购物车为空，请选择商品后再结账']);
+        }
+
 
         $order_data = $this->formatOrderData($request, $cars);
         $order = $request->user()->orders()->create($order_data);
