@@ -126,12 +126,11 @@
                     <p class="mb-20 color-mid">每周六上午八点将发送一封商品推荐信息给你</p>
 
                         <div class="input-group mb-10">
-                            <input  type="email" id="subscribe_email" class="form-control bg-white" value="{{ auth()->user()->subscribe->email ?? '' }}" placeholder="Email Address" {{ isset(auth()->user()->subscribe) ? 'disabled' : ''  }}  required="required">
+                            <input  type="email" id="subscribe_email" class="form-control bg-white" value="{{ auth()->user()->subscribe->email ?? auth()->user()->email ?? '' }}" placeholder="Email Address" {{ isset(auth()->user()->subscribe) ? 'disabled' : ''  }}  required="required">
                             <span class="input-group-btn">
                                 @auth
                                     <button class="btn" id="subscribe_btn" type="button" style="{{ auth()->user()->subscribe()->exists() ? 'display: none;' : '' }}">订阅</button>
                                     <button  type="button"  id="desubscribe_btn"  class="btn btn-warning"style="{{ auth()->user()->subscribe()->exists() ? '' : 'display: none;' }}">取消订阅</button>
-
                                 @endauth
                                 @guest
                                     <button class="btn" id="login_subscribe_btn" type="button">订阅</button>
