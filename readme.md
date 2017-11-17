@@ -1,6 +1,6 @@
 # WaitMoonMan/monday-shop
 ****
-[demo 地址](http://shop.shiguopeng.cn)
+[http://shop.shiguopeng.cn](http://shop.shiguopeng.cn)
 ![http://or2pofbfh.bkt.clouddn.com/github/index_pc.png](http://or2pofbfh.bkt.clouddn.com/github/index_pc_part.png)
 ## Feture
 * 第三方登录
