@@ -142,7 +142,7 @@ class AuthLoginController extends Controller
         $data = [
             'name' => $faker->uuid,
             'avatar' => $faker->imageUrl(120, 120),
-            'email' => '0',
+            'email' => '0@qq.com',
         ];
 
 
