@@ -24,8 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function(){
+            file_put_contents('log.txt', time() . "\r\n", FILE_APPEND);
+        })->everyMinute();
     }
 
     /**

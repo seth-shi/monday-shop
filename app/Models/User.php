@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->hasMany(Address::class);
     }
 
+    public function subscribe()
+    {
+        return $this->hasOne(Subscribe::class);
+    }
+
     public function cars()
     {
         return $this->hasMany(Car::class);
