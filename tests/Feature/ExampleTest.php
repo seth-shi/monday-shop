@@ -18,4 +18,15 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+
+
+    public function testDatabase()
+    {
+        // 创建调用至应用程序...
+
+        $this->assertDatabaseHas('users', [
+            'email' => '1033404553@qq.com'
+        ]);
+    }
 }
