@@ -37,11 +37,17 @@
 
                                             <div class="row">
 
+                                                @if ($errors->has('address_id'))
+                                                    <div class="alert alert-danger" role="alert">
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        {{ $errors->first('address_id') }}
+                                                    </div>
+                                                @endif
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>选择收货地址</label>
                                                         <select class="form-control" name="address_id">
-                                                            <option value="0">请选择收货地址</option>
+                                                            <option value="">请选择收货地址</option>
                                                             @if (Auth::check())
                                                                 @foreach (Auth::user()->addresses as $address)
                                                                     <option value="{{ $address->id }}">{{ $address->name }}/{{ $address->phone }}</option>
