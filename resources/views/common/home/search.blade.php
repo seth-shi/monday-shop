@@ -51,9 +51,10 @@
 
 <script>
     var car_nums_span = document.getElementById('cart-number');
-    var car_nums = localStorage.length;
     @auth
-        car_nums += parseInt("{{ Auth::user()->cars->count() }}");
+        car_nums_span.innerText = parseInt("{{ Auth::user()->cars->count() }}");
     @endauth
-    car_nums_span.innerText = car_nums;
+    @guest
+        car_nums_span.innerText = localStorage.length;
+    @endguest
 </script>
