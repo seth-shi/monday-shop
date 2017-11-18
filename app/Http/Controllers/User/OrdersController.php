@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\ProductDetail;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -32,11 +33,11 @@ class OrdersController extends Controller
             return back()->withErrors(['address_id' => '购物车为空，请选择商品后再结账']);
         }
 
-
         $order_data = $this->formatOrderData($request, $cars);
+
+        DB::beginTransaction();
         $order = $request->user()->orders()->create($order_data);
 
-        // create order detail table
         // 'numbers', 'product_id', 'order_id'
         $order_detail_data = [];
         foreach ($cars as $car) {
@@ -46,9 +47,24 @@ class OrdersController extends Controller
                 'numbers' => $car['numbers']
 
             ];
-        }
 
-        OrderDetail::insert($order_detail_data);
+            if ($this->isGreaterStock($order_detail_data)) {
+                DB::rollBack();
+                return [
+                    'code' => 302,
+                    'msg' => '购买的数量大于库存量'
+                ];
+            }
+
+            // Reduce inventory
+            ProductDetail::where('product_id', $order_detail_data['product_id'])
+                ->lockForUpdate()
+                ->first()
+                ->decrement('count', $order_detail_data['numbers']);
+
+            OrderDetail::insert($order_detail_data);
+        }
+        DB::commit();
 
         // delete cars data
         $request->user()->cars()->delete();
@@ -59,6 +75,14 @@ class OrdersController extends Controller
 
     protected function single(Request $request)
     {
+
+        if ($this->isGreaterStock($request->all())) {
+            return [
+                'code' => 302,
+                'msg' => '购买的数量大于库存量'
+            ];
+        }
+
         // cars to orders
         $order_data = $this->formatSingleData($request);
 
@@ -71,10 +95,34 @@ class OrdersController extends Controller
         ];
         OrderDetail::create($detail_data);
 
+
+        // Reduce inventory
+        ProductDetail::where('product_id', $detail_data['product_id'])
+            ->lockForUpdate()
+            ->first()
+            ->decrement('count', $detail_data['numbers']);
+
         return [
             'code' => 0,
             'msg' => '购买成功'
         ];
+    }
+
+    /**
+     * check buy number is greater stock numbers
+     * @param array $data
+     * @return array
+     */
+    protected function isGreaterStock(array $data)
+    {
+        // buy numbers > count
+        $product = Product::find($data['product_id']);
+
+        if ($data['numbers'] > $product->productDetail->count) {
+            return true;
+        }
+
+        return false;
     }
 
     public function show(Order $order)
