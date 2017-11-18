@@ -31,6 +31,5 @@ class DatabaseSeeder extends Seeder
         // Provincial and municipal regions
         $this->call(ProvincesTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
-        $this->call(RegionsTableSeeder::class);
     }
 }
