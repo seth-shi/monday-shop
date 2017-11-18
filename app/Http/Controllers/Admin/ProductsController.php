@@ -23,7 +23,7 @@ class ProductsController extends Controller
 
     public function index()
     {
-        $products = Product::orderBy('likes', 'desc')->get();
+        $products = Product::withCount('users')->orderBy('users_count', 'desc')->get();
 
         return view('admin.products.index', compact('products'));
     }
