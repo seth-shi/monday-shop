@@ -2,6 +2,12 @@
 
 @section('style')
     <link href="{{ asset('assets/user/css/addstyle.css') }}" rel="stylesheet" type="text/css">
+    <style>
+        .am-selected-list {
+            height: 120px;
+            overflow-y: scroll;
+        }
+    </style>
     <script src="{{ asset('assets/user/AmazeUI-2.4.2/assets/js/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/user/AmazeUI-2.4.2/assets/js/amazeui.js') }}"></script>
 @endsection
@@ -102,16 +108,14 @@
                                     <label for="user-address" class="am-form-label">所在地</label>
                                     <div class="am-form-content address">
                                         <select name="province" data-am-selected>
-                                            <option value="浙江省">浙江省</option>
-                                            <option value="湖北省" selected>湖北省</option>
+                                            @foreach ($provinces as $province)
+                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                            @endforeach
                                         </select>
-                                        <select name="city" data-am-selected>
-                                            <option value="温州市">温州市</option>
-                                            <option value="武汉市" selected>武汉市</option>
-                                        </select>
-                                        <select name="region" data-am-selected>
-                                            <option value="瑞安区">瑞安区</option>
-                                            <option value="洪山区" selected>洪山区</option>
+                                        <select name="city" data-am-selected disabled="disabled">
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -186,6 +190,23 @@
                 }
 
                 layer.msg(res.msg);
+            });
+        });
+        
+        $('select[name=province]').change(function () {
+            var id = $(this).val();
+            var url = "{{ url('user/addresses/cities') }}/" + id;
+
+            $.get(url, function(res){
+
+
+                var text = '';
+                for (var i in res) {
+
+                    text += '<option value="'+ res[i].id +'">'+ res[i].name +'</option>';
+                }
+
+                $('select[name=city]').html(text);
             });
         });
     </script>
