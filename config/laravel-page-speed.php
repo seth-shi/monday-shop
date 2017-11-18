@@ -57,6 +57,7 @@ return [
         '*.m4v',
         '*.torrent',
         'captcha/*',
+        'admin/*'
     ],
 
 ];
