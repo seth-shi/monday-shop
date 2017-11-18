@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Models\Car;
 use App\Models\Product;
+use App\Models\ProductDetail;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,6 +47,12 @@ class CarsController extends Controller
         } else {
             Car::create($form_data);
         }
+
+        // Reduce inventory
+        ProductDetail::where('product_id', $form_data['product_id'])
+            ->lockForUpdate()
+            ->first()
+            ->decrement('count', $form_data['numbers']);
 
         return $this->response = ['code' => 0, 'msg' => '加入购物车成功'];
     }

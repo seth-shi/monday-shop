@@ -34,8 +34,6 @@ class OrdersController extends Controller
         }
 
         $order_data = $this->formatOrderData($request, $cars);
-
-        DB::beginTransaction();
         $order = $request->user()->orders()->create($order_data);
 
         // 'numbers', 'product_id', 'order_id'
@@ -47,24 +45,9 @@ class OrdersController extends Controller
                 'numbers' => $car['numbers']
 
             ];
-
-            if ($this->isGreaterStock($order_detail_data)) {
-                DB::rollBack();
-                return [
-                    'code' => 302,
-                    'msg' => '购买的数量大于库存量'
-                ];
-            }
-
-            // Reduce inventory
-            ProductDetail::where('product_id', $order_detail_data['product_id'])
-                ->lockForUpdate()
-                ->first()
-                ->decrement('count', $order_detail_data['numbers']);
-
-            OrderDetail::insert($order_detail_data);
         }
-        DB::commit();
+
+        OrderDetail::insert($order_detail_data);
 
         // delete cars data
         $request->user()->cars()->delete();

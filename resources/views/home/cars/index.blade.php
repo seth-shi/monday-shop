@@ -129,24 +129,32 @@
         syncCarsToDatabase();
         function syncCarsToDatabase()
         {
-            var cars = localStorage;
-            for (var i in cars) {
-                var product = $.parseJSON(cars[i]);
+            if (localStorage.length > 0) {
+                layer.confirm('是否同步本地购物车到本账户下', {
+                    btn: ['是', '否'],
+                }, function(){
+                    layer.closeAll();
+                    var cars = localStorage;
+                    for (var i in cars) {
+                        var product = $.parseJSON(cars[i]);
 
-                var data = {product_id: i, numbers: product.numbers, _token: token};
-                var url = "{{ url('/home/cars') }}";
-                console.log(product);
+                        var data = {product_id: i, numbers: product.numbers, _token: token};
+                        var url = "{{ url('/home/cars') }}";
+                        console.log(product);
 
-                $.post(url, data, function (res) {
-                    layer.msg('同步购物车成功，请刷新查看');
-                });
+                        $.post(url, data, function (res) {
+                            layer.msg('同步购物车成功，请刷新查看');
+                        });
+                    }
+
+                    localStorage.clear();
+                }, function(){});
             }
-
-            localStorage.clear();
         }
         @endauth
 
-        for (var i in cars) {
+        @guest
+            for (var i in cars) {
 
             var procuct_id = i;
             var product = cars[i];
@@ -205,5 +213,6 @@
 
             $('#cars_price').text(total);
         }
+        @endguest
     </script>
 @endsection
