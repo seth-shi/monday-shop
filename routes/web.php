@@ -84,8 +84,10 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::post('products/upload/detail', 'ProductsController@uploadDetailImage');
     Route::any('products/delete/images', 'ProductsController@deleteImage');
 
+
     Route::resource('categories', 'CategoriesController');
     Route::resource('products', 'ProductsController');
+
     Route::resource('productImages', 'ProductImagesController', ['only' => ['index', 'destroy']]);
     Route::resource('users', 'UsersController', ['only' => ['index']]);
     Route::resource('admins', 'AdminsController');
