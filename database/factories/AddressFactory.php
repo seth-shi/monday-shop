@@ -21,7 +21,6 @@ $factory->define(Address::class, function (Faker $faker) {
         'phone' => $faker->phoneNumber,
         'province' => $faker->state,
         'city' => $faker->city,
-        'region' => $faker->streetAddress,
         'detail_address' => $faker->address,
     ];
 });
