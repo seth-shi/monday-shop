@@ -27,5 +27,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call(LikesProductsTableSeeder::class);
         $this->call(CarsTableSeeder::class);
+
+        // Provincial and municipal regions
+        $this->call(ProvincesTableSeeder::class);
+        $this->call(CitiesTableSeeder::class);
+        $this->call(RegionsTableSeeder::class);
     }
 }

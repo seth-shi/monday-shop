@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Requests\AddressRequest;
 use App\Models\Address;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -20,7 +21,11 @@ class AddressesController extends Controller
     {
         $addresses = $this->guard()->user()->addresses;
 
-        return view('user.addresses.index', compact('addresses'));
+        // Provincial and municipal regions
+        $provinces = DB::table('provinces')->get();
+        $cities = DB::table('cities')->where('province_id', $provinces->first()->id)->get();
+
+        return view('user.addresses.index', compact('addresses', 'provinces', 'cities'));
     }
 
 
@@ -110,6 +115,17 @@ class AddressesController extends Controller
 
     protected function getFormatRequest($request)
     {
-        return $request->only(['name', 'phone', 'province', 'city', 'region','detail_address',]);
+        return $request->only(['name', 'phone', 'province', 'city','detail_address',]);
+    }
+
+
+    public function getCities($id)
+    {
+        return DB::table('cities')->where('province_id', $id)->get();
+    }
+
+    public function getRegion($id)
+    {
+        return DB::table('regions')->where('city_id', $id)->get();
     }
 }
