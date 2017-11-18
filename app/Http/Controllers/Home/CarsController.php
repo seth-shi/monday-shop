@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Models\Car;
+use App\Models\Product;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,6 +28,13 @@ class CarsController extends Controller
 
     public function store(Request $request)
     {
+        if ($this->isGreaterStock($request->all())) {
+            return [
+                'code' => 304,
+                'msg' => '加入购物车的数量大于库存量'
+            ];
+        }
+
         if (! $this->guard()->check()) {
             return $this->response;
         }
@@ -43,6 +51,17 @@ class CarsController extends Controller
     }
 
 
+    protected function isGreaterStock(array $data)
+    {
+        // buy numbers > count
+        $product = Product::find($data['product_id']);
+
+        if ($data['numbers'] > $product->productDetail->count) {
+            return true;
+        }
+
+        return false;
+    }
 
     public function destroy($id)
     {

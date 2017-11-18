@@ -834,15 +834,18 @@
                 $.post(url, data, function(res){
                     console.log(res);
 
-                    if (res.code = 302) {
-                        Car.addProduct(product_id);
+                    if (res.code == 304) {
+
+                        layer.msg(res.msg, {icon: 2});
+                        return;
                     }
 
-                    console.log(localStorage);
+                    if (res.code == 302) {
+                        Car.addProduct(product_id);
+                    }
                     layer.msg('加入购物车成功');
+                    car_nums.text(parseInt(car_nums.text())+1);
                 });
-
-                car_nums.text(parseInt(car_nums.text())+1);
             }
         });
 
@@ -852,8 +855,15 @@
             var _product_id = $('input[name=product_id]').val();
 
             var data = {address_id:_address_id,numbers:_numbers,product_id:_product_id, _token:"{{ csrf_token() }}"};
+            console.log(data);
             $.post('{{ url('user/orders/single') }}', data, function(res){
-                layer.msg(res.msg + '   请到个人中心查看');
+
+                if (res.code == 0) {
+                    layer.msg(res.msg + '   请到个人中心查看', {icon: 1});
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                }
+
             });
         });
     </script>
