@@ -1,9 +1,10 @@
 # WaitMoonMan/monday-shop
 ****
-[http://shop.shiguopeng.cn](http://shop.shiguopeng.cn)
+[Demo 演示地址](http://shop.shiguopeng.cn)
+
 ![http://or2pofbfh.bkt.clouddn.com/github/index_pc.png](http://or2pofbfh.bkt.clouddn.com/github/index_pc_part.png)
 ## Feture
-* 第三方登录
+* 第三方登录 (因为应用审核不通过，只能本人的账户登录)
    * Github
    * QQ
    * 微博
@@ -62,5 +63,7 @@ php artisan gps:install
 * 监听队列如果长时间没反应，或者一直重复任务
     * 数据库没配置好，导致队列任务表连接不上
     * 邮件配置出错，导致发送邮件一直失败    
+* `SQLSTATE[HY000]: General error: 1215 Cannot add foreign key constraint`
+    * 数据库引擎切换到`InnoDB`
 ## License
 MIT
