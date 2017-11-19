@@ -14,6 +14,7 @@ class CreateAddressesTable extends Migration
     public function up()
     {
         Schema::create('addresses', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
 
             $table->string('name')->comment('收货人名字');

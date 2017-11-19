@@ -14,6 +14,7 @@ class CreateProductAttributesTable extends Migration
     public function up()
     {
         Schema::create('product_attributes', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
 
             $table->string('attribute');

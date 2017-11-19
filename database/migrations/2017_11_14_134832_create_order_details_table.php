@@ -14,6 +14,7 @@ class CreateOrderDetailsTable extends Migration
     public function up()
     {
         Schema::create('order_details', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
 
             $table->integer('numbers');

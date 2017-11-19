@@ -13,6 +13,7 @@ class CreateCategoriesTable extends Migration {
    */
   public function up() {
     Schema::create('categories', function(Blueprint $table) {
+        $table->engine = 'InnoDB';
         $table->increments('id');
         NestedSet::columns($table);
         // Add needed columns here (f.ex: name, slug, path, etc.)

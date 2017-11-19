@@ -14,6 +14,7 @@ class CreateCitiesTable extends Migration
     public function up()
     {
         Schema::create('cities', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->integer('id')->unsigned();
             $table->string('name')->comment('城市名称');
 
