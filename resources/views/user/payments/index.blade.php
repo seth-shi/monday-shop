@@ -155,7 +155,7 @@
                 return false;
 			}
 
-			// 生成表单提交
+			/*生成表单提交*/
 			res = res.data;
             var hidden_input = '';
 			for (var i in res) {
