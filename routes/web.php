@@ -1,10 +1,6 @@
 <?php
-Route::get('/mail', function () {
 
-    return new \App\Mail\SubscribesNotice();
-});
 /**********  auth  **********/
-
 Auth::routes();
 
 Route::namespace('Auth')->group(function(){
@@ -66,6 +62,12 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     // user order show and index
     Route::post('orders/single', 'OrdersController@single');
     Route::resource('orders', 'OrdersController', ['only' => ['index', 'store', 'show']]);
+
+    // user payments
+    Route::post('pay/show', 'PaymentsController@index');
+    Route::post('pay/store', 'PaymentsController@pay');
+    Route::post('pay/notify', 'PaymentsController@paynotify');
+    Route::get('pay/return', 'PaymentsController@payreturn');
 });
 
 /**********  admin  **********/
