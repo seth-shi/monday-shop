@@ -155,6 +155,7 @@
                 return false;
 			}
 
+			console.log(res.data);
 			/*生成表单提交*/
 			res = res.data;
             var hidden_input = '';
