@@ -864,7 +864,7 @@
                 layer.msg(res.msg);
             });
 
-            // 请求支付
+            /** v请求支付 **/
             var form = $('#pay_form');
             var input = '<input type="hidden" name="_address_id" value="'+ _address_id +'">\
                         <input type="hidden" name="_product_id" value="'+ _product_id +'">\
