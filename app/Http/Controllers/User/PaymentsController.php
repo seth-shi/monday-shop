@@ -38,7 +38,7 @@ class PaymentsController extends ApiController
             return $this->setCode(402)->setMsg('服务器异常，请稍后再试');
         }
 
-        echo json_encode($pay_data);
+        return $this->setMsg('生成支付信息成功')->setData($pay_data)->toJson();
     }
 
     public function paynotify(Request $request)
@@ -50,7 +50,7 @@ class PaymentsController extends ApiController
         $temps = implode('', $pay_data);
         $Key = $request->input('key');
 
-        if ($temps != $Key) {
+        if (md5($temps) != $Key) {
             return $this->setCode(303)->setMsg('校验出错');
         }
 
@@ -100,7 +100,7 @@ class PaymentsController extends ApiController
 
         $data = array_merge($sys_data, $data);
         ksort($data);
-        $data['key'] = implode('', $data);
+        $data['key'] = md5(implode('', $data));
 
         return $data;
     }
