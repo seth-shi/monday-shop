@@ -146,8 +146,11 @@
 	$('#J_Go').click(function(){
 	    var url = "{{ url('/user/pay/store') }}";
         var data = $('form').serialize();
+        var that = $(this);
+        that.attr('disable', true);
 
         $.post(url, data, function(res){
+            that.attr('disable', false);
 
             if (res.code != 200) {
 
@@ -162,6 +165,8 @@
 			for (var i in res) {
 			    hidden_input += '<input name="'+ i +'" value="'+ res[i] +'" >';
 			}
+console.log(res);
+
 
 			$('#pay_form').html(hidden_input).submit();
 
