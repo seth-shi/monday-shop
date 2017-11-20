@@ -767,6 +767,9 @@
 
     </div>
     </div>
+    <form id="pay_form" action="{{ url('/user/pay/show') }}" method="post">
+        {{ csrf_field() }}
+    </form>
 @endsection
 
 @section('script')
@@ -854,17 +857,20 @@
             var _numbers = $('input[name=numbers]').val();
             var _product_id = $('input[name=product_id]').val();
 
+
             var data = {address_id:_address_id,numbers:_numbers,product_id:_product_id, _token:"{{ csrf_token() }}"};
             console.log(data);
             $.post('{{ url('user/orders/single') }}', data, function(res){
-
-                if (res.code == 0) {
-                    layer.msg(res.msg + '   请到个人中心查看', {icon: 1});
-                } else {
-                    layer.msg(res.msg, {icon: 2});
-                }
-
+                layer.msg(res.msg);
             });
+
+            // 请求支付
+            var form = $('#pay_form');
+            var input = '<input type="hidden" name="_address_id" value="'+ _address_id +'">\
+                        <input type="hidden" name="_product_id" value="'+ _product_id +'">\
+                        <input type="hidden" name="_numbers" value="'+ _numbers +'">';
+            form.append(input);
+            form.submit();
         });
     </script>
 @endsection
