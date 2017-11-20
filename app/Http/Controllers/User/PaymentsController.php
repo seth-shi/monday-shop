@@ -102,6 +102,8 @@ class PaymentsController extends ApiController
         ksort($data);
         $data['key'] = md5(implode('', $data));
 
+        unset($data['token']);
+
         return $data;
     }
 }

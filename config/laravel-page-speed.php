@@ -56,6 +56,7 @@ return [
         '*.flv',
         '*.m4v',
         '*.torrent',
+        'user/pay/*',
         'captcha/*',
         'admin/*'
     ],
