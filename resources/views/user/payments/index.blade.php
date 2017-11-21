@@ -60,26 +60,32 @@
 			<div class="pay-confirm ">
 				<div class="box" style="float: none">
 
-					<div id="holyshit268" class="pay-address">
+					@if ($address)
+						<div id="holyshit268" class="pay-address">
 
-						<p class="buy-footer-address">
-							<span class="buy-line-title buy-line-title-type">寄送至：</span>
-							<span class="buy--address-detail">
-								   <span class="province">{{ $address->province }}</span>省
-												<span class="city">{{ $address->city }}</span>市
-												<span class="dist">{{ $address->region }}</span>区
-												<span class="street">{{ $address->detail_address }}</span>
+							<p class="buy-footer-address">
+								<span class="buy-line-title buy-line-title-type">寄送至：</span>
+								<span class="buy--address-detail">
+													   <span class="province">{{ $address->province }}</span>省
+														<span class="city">{{ $address->city }}</span>市
+														<span class="dist">{{ $address->region }}</span>区
+														<span class="street">{{ $address->detail_address }}</span>
+														</span>
+								</span>
+							</p>
+							<p class="buy-footer-address">
+								<span class="buy-line-title">收货人：</span>
+								<span class="buy-address-detail">
+															 <span class="buy-user">{{ $address->name }} </span>
+																	<span class="buy-phone">{{ $address->phone }}</span>
 												</span>
-							</span>
-						</p>
-						<p class="buy-footer-address">
-							<span class="buy-line-title">收货人：</span>
-							<span class="buy-address-detail">
-                                         <span class="buy-user">{{ $address->name }} </span>
-												<span class="buy-phone">{{ $address->phone }}</span>
-							</span>
-						</p>
-					</div>
+							</p>
+						</div>
+					@else
+						<a href="{{ url('/user/addresses') }}">添加收获地址</a>
+					@endif
+
+
 				</div>
 
 				<form id="post_form">
