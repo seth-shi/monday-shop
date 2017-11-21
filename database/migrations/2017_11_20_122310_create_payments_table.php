@@ -26,7 +26,7 @@ class CreatePaymentsTable extends Migration
             $table->string('paysapi_id')->nullable()->comment('一定存在。一个24位字符串，是此订单在PaysApi服务器上的唯一编号');
             $table->decimal('realprice', 10, 2)->nullable()->comment('实际支付的钱');
 
-            $table->tinyInteger('stauts')->default(0)->comment('0 未支付，1：支付');
+            $table->tinyInteger('status')->default(0)->comment('0 未支付，1：支付');
 
             $table->timestamps();
         });

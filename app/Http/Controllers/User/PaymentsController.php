@@ -42,23 +42,26 @@ class PaymentsController extends ApiController
 
     public function paynotify(Request $request)
     {
+
         $pay_data = $request->only(['paysapi_id', 'orderid', 'price', 'realprice', 'orderuid']);
         $pay_data['token'] = config('payment.token');
 
         ksort($pay_data);
-        $temps = implode('', $pay_data);
+        $temps = md5(implode('', $pay_data));
         $Key = $request->input('key');
+
+
 
         if (md5($temps) != $Key) {
             file_put_contents('pay.log', "校验出错 \r\n", FILE_APPEND);
-            return $this->setCode(303)->setMsg('校验出错');
+            return $this->setCode(303)->setMsg('校验出错')->toJson();
         }
 
         $payment = Payment::where('orderid', $pay_data['orderid'])->first();
 
         if (! $payment) {
             file_put_contents('pay.log', "不存在此次支付 \r\n", FILE_APPEND);
-            return $this->setCode(305)->setMsg('不存在此次支付');
+            return $this->setCode(305)->setMsg('不存在此次支付')->toJson();
         }
 
         $payment->paysapi_id = $pay_data['paysapi_id'];
