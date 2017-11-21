@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Jobs\CreatePayment;
 use App\Models\Address;
 use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\Validator;
 use Webpatser\Uuid\Uuid;
 
@@ -30,13 +32,10 @@ class PaymentsController extends ApiController
         if (($validator = $this->validatePayParam($request->all()))->fails()) {
             return $this->setCode(303)->setMsg($validator->errors()->first());
         }
-        
+
         $pay_data = $this->getFormData($request->only(['price', 'istype', 'orderuid', 'goodsname']));
 
-
-        if (! $payment = Payment::create($pay_data)) {
-            return $this->setCode(402)->setMsg('服务器异常，请稍后再试');
-        }
+        CreatePayment::dispatch($pay_data);
 
         return $this->setMsg('生成支付信息成功')->setData($pay_data)->toJson();
     }
