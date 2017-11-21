@@ -28,7 +28,7 @@
         <h2><img src="{{ asset('images/success.jpg') }}">您已成功付款</h2>
         <div class="successInfo">
          <ul>
-           <li>付款金额：<em> {{ $payment->price }}</em></li>
+           <li>付款金额：<em> {{ $payment->price }}/{{ $payment->realprice }}</em></li>
            <div class="user-info">
              <p>商品名：{{ $payment->goodsname }}</p>
            </div>

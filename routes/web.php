@@ -66,7 +66,7 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     // user payments
     Route::post('pay/show', 'PaymentsController@index');
     Route::post('pay/store', 'PaymentsController@pay');
-    Route::post('pay/notify', 'PaymentsController@paynotify');
+    Route::any('pay/notify', 'PaymentsController@paynotify');
     Route::get('pay/return', 'PaymentsController@payreturn');
 });
 
