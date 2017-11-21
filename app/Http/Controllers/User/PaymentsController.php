@@ -75,10 +75,7 @@ class PaymentsController extends ApiController
 
     public function payreturn(Request $request)
     {
-        $payment = Payment::whereColumn([
-                ['orderid', '=', $request->input('orderid')],
-                ['status', '=', 1]
-            ])->first();
+        $payment = Payment::where('orderid', '=', $request->input('orderid'))->first();
 
 
         return view('user.payments.result', compact('payment'));
