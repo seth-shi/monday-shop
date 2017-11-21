@@ -50,12 +50,14 @@ class PaymentsController extends ApiController
         $Key = $request->input('key');
 
         if (md5($temps) != $Key) {
+            file_put_contents('pay.log', "校验出错 \r\n", FILE_APPEND);
             return $this->setCode(303)->setMsg('校验出错');
         }
 
         $payment = Payment::where('orderid', $pay_data['orderid'])->first();
 
         if (! $payment) {
+            file_put_contents('pay.log', "不存在此次支付 \r\n", FILE_APPEND);
             return $this->setCode(305)->setMsg('不存在此次支付');
         }
 
@@ -68,13 +70,15 @@ class PaymentsController extends ApiController
         return $this->setMsg('SUCCESS');
     }
 
-    public function payreturn()
+    public function payreturn(Request $request)
     {
-        $orderid = $_GET["orderid"];
+        $payment = Payment::whereColumn([
+                ['orderid', '=', $request->input('orderid')],
+                ['status', '=', 1]
+            ])->first();
 
-        // query database
-        //此处在您数据库中查询：此笔订单号是否已经异步通知给您付款成功了。如成功了，就给他返回一个支付成功的展示。
-        echo "恭喜，支付成功!，订单号：".$orderid;
+
+        return view('user.payments.result', compact('payment'));
     }
 
     private function validatePayParam(array $data)
