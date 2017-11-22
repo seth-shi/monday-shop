@@ -20,6 +20,7 @@ class ProductsTableSeeder extends Seeder
         $product_datas = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.json');
         $product_datas = json_decode($product_datas, true);
 
+
         foreach ($product_datas as $key => $product_data) {
 
             $product = $this->makeProduct($product_data);

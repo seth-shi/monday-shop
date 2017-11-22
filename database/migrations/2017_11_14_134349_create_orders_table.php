@@ -23,7 +23,7 @@ class CreateOrdersTable extends Migration
 
 
             $table->integer('address_id')->unsigned();
-            $table->foreign('address_id')->references('id')->on('address');
+            $table->foreign('address_id')->references('id')->on('addresses');
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

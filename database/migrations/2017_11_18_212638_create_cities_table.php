@@ -15,11 +15,11 @@ class CreateCitiesTable extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->integer('id')->unsigned();
+            $table->string('id');
             $table->string('name')->comment('城市名称');
 
-            $table->integer('province_id')->unsigned();
-            $table->foreign('province_id')->references('id')->on('provinces');
+            $table->string('province_id');
+            // $table->foreign('province_id')->references('id')->on('provinces');
             $table->primary('id');
         });
     }
