@@ -21,6 +21,7 @@ class ProductsTableSeeder extends Seeder
         $product_datas = json_decode($product_datas, true);
 
 
+        $total = count($product_datas);
         foreach ($product_datas as $key => $product_data) {
 
             $product = $this->makeProduct($product_data);
@@ -40,6 +41,8 @@ class ProductsTableSeeder extends Seeder
             $count = mt_rand(1, 4);
             factory(ProductAttribute::class, $count)->create(['product_id' =>  $product->id]);
 
+            $bar = (int)($key / $total) * 100;
+            echo "seeding: [products] .... {$bar} % \r";
         }
 
     }
