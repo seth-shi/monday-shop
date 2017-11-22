@@ -15,7 +15,7 @@ class CreateProvincesTable extends Migration
     {
         Schema::create('provinces', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->integer('id')->unsigned();
+            $table->string('id');
             $table->string('name')->comment('省份名称');
 
             $table->primary('id');
