@@ -14,7 +14,6 @@ class CitiesTableSeeder extends Seeder
         $data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'cities.json');
         $data = json_decode($data, true);
 
-
         DB::table('cities')->insert($data);
     }
 }
