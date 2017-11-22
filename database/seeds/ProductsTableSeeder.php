@@ -41,7 +41,7 @@ class ProductsTableSeeder extends Seeder
             $count = mt_rand(1, 4);
             factory(ProductAttribute::class, $count)->create(['product_id' =>  $product->id]);
 
-            $bar = (int)($key / $total) * 100;
+            $bar = intval(($key / $total) * 100);
             echo "seeding: [products] .... {$bar} % \r";
         }
 

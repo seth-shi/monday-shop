@@ -32,7 +32,7 @@ cp .env.example .env
 php artisan gps:install
 ```
 ## Usage
-* 任务调度(打算每周六早八点发送订阅邮件/ !!! 为方便展示，项目现为五分钟发送一次订阅)
+* 任务调度(打算每周六早八点发送订阅邮件/ !!! 为方便展示，项目现为一个小时发送一次订阅)
     * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)先把
     * [linux请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
 ### Commands
