@@ -101,6 +101,10 @@ class PaymentsController extends ApiController
             'orderid' => Uuid::generate()->hex,
         ];
 
+        if (mb_strlen($data['goodsname'], 'utf8') > 8) {
+            $data['goodsname'] = mb_substr($data['goodsname'], 0, 8, 'utf8');
+        }
+
         $data = array_merge($sys_data, $data);
         ksort($data);
         $data['key'] = md5(implode('', $data));
