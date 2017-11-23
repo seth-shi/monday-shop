@@ -32,15 +32,13 @@ class ProductsTableSeeder extends Seeder
                 'product_id' => $product->id
             ]);
             // product images
-            $count = mt_rand(2, 4);
-            factory(ProductImage::class, $count)->create(['product_id' => $product->id]);
+            factory(ProductImage::class, mt_rand(2, 4))->create(['product_id' => $product->id]);
 
             // product attribute
             factory(ProductDetail::class, 1)->create(['product_id' =>  $product->id]);
 
             // product attr
-            $count = mt_rand(1, 4);
-            factory(ProductAttribute::class, $count)->create(['product_id' =>  $product->id]);
+            factory(ProductAttribute::class, mt_rand(1, 4))->create(['product_id' =>  $product->id]);
 
             $bar = intval((++ $i / $total) * 100);
             echo "seeding: [products] .... {$bar} % \r";
