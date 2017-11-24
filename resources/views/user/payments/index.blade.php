@@ -92,14 +92,14 @@
 
 					{{ csrf_field() }}
 
-					价钱：<input type="text" name="price" value="0.01">
+					价钱：<input type="text" name="price" autofocus onfocus="this.value=((Math.random()*5+1)/100).toFixed(2)">
 					<input type="hidden" name="istype" value="1">
 					<input type="hidden" name="orderuid" value="{{ Auth::user()->id }}">
 					<input type="hidden" name="goodsname" value="{{ $product->name }}">
 
 					<div id="holyshit269" class="submitOrder">
 						<div class="go-btn-wrap">
-							<button	 id="J_Go" type="button" id="pay_btn" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</button>
+							<button  id="J_Go" type="button" id="pay_btn" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</button>
 						</div>
 					</div>
 				</form>
@@ -131,10 +131,10 @@
 	    var url = "{{ url('/user/pay/store') }}";
         var data = $('form').serialize();
         var that = $(this);
-        that.attr('disable', true);
+        that.attr('disabled', true);
 
         $.post(url, data, function(res){
-            that.attr('disable', false);
+            that.attr('disabled', false);
 
             if (res.code != 200) {
 
