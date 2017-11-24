@@ -66,9 +66,11 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     // user payments
     Route::post('pay/show', 'PaymentsController@index');
     Route::post('pay/store', 'PaymentsController@pay');
-    Route::post('pay/notify', 'PaymentsController@paynotify');
-    Route::get('pay/return', 'PaymentsController@payreturn');
 });
+// user payments !!! If [user.auth] is validated, infinite jumps will occur
+Route::get('user/pay/return', 'User\PaymentsController@payreturn');
+Route::post('user/pay/notify', 'User\PaymentsController@paynotify');
+
 
 /**********  admin  **********/
 Route::get('/admin/login' ,'Admin\Auth\LoginController@showLoginForm')->name('admin.login');

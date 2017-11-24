@@ -75,8 +75,12 @@ class PaymentsController extends ApiController
 
     public function payreturn(Request $request)
     {
-        $payment = Payment::where('orderid', '=', $request->input('orderid'))->first();
+        // TODO The query model causes an infinite refresh of the payment callback jump
+        dd($request->all());
 
+        $payment = Payment::where('orderid', $request->input('orderid'))->first();
+
+        dd($request->all());
 
         return view('user.payments.result', compact('payment'));
     }
