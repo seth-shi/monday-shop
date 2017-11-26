@@ -34,6 +34,7 @@ class UserAuth
             return redirect($url)->with('status', '请登录账号再操作');
         }
 
+
         return $next($request);
     }
 }
