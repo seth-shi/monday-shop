@@ -251,7 +251,7 @@
                                 <h4>商品细节</h4>
                             </div>
                             <div class="twlistNews">
-                                {{ $product->productDetail->description }}
+                                {!! $product->productDetail->description !!}
                             </div>
                         </div>
                         <div class="clear"></div>
