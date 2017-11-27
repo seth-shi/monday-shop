@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Services\ErrorServe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiController extends Controller
 {
-    protected $errno = 200;
+    protected $code = 200;
     protected $msg = '';
     protected $data = [];
 
-    public function setCode($errno)
+    public function setCode($code)
     {
-        $this->errno = $errno;
+        $this->code = $code;
 
         return $this;
     }
@@ -35,8 +36,7 @@ class ApiController extends Controller
 
     public function notFound()
     {
-        return $this->setCode(Response::HTTP_NOT_FOUND)
-            ->setMsg('找不到请求的内容')
+        return $this->setCode(ErrorServe::HTTP_NOT_FOUND)
             ->toJson();
     }
 
@@ -50,8 +50,7 @@ class ApiController extends Controller
 
     public function authFail()
     {
-        return $this->setCode(Response::HTTP)
-            ->setMsg('找不到请求的内容')
+        return $this->setCode(401)
             ->toJson();
     }
 
@@ -63,8 +62,8 @@ class ApiController extends Controller
     public function formatResponse()
     {
         return [
-            'code' => $this->errno,
-            'msg' => $this->msg,
+            'code' => $this->code,
+            'msg' => ErrorServe::getErrorMsg($this->code) ?? $this->msg,
             'data' => $this->data
         ];
     }
