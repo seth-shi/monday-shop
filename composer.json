@@ -12,6 +12,7 @@
         "intervention/image": "^2.4",
         "kalnoy/nestedset": "^4.3",
         "laravel/framework": "5.5.*",
+        "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
         "mews/captcha": "^2.1",
         "overtrue/laravel-pinyin": "~3.0",
