@@ -5,9 +5,12 @@
 ![http://or2pofbfh.bkt.clouddn.com/github/index_pc.png](http://or2pofbfh.bkt.clouddn.com/github/index_pc_part.png)
 ## Feture
 * 第三方登录 (因为应用审核不通过，只能本人的账户登录)
-   * Github
-   * QQ
-   * 微博
+    * Github
+    * QQ
+    * 微博
+* 第三方支付
+    * 微信支付
+    * 微信支付
 * 购物车使用 H5 本地存储 + 数据库持久化存储
 * 商品搜索支持拼音首字母 + AJAX 无刷新显示
 * 订阅之后每周推送一封邮件包含最受欢迎，最新，最火卖商品的信息
