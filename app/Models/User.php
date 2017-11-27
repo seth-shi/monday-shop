@@ -20,7 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'sex', 'password', 'active_token', 'is_active', 'avatar',
-        'github_id', 'github_name', 'qq_id', 'qq_name'
+        'github_id', 'github_name', 'qq_id', 'qq_name', 'weibo_id', 'weibo_name'
     ];
 
     /**
