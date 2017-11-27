@@ -131,6 +131,7 @@
 	    var url = "{{ url('/user/pay/store') }}";
         var data = $('form').serialize();
         var that = $(this);
+
         that.attr('disabled', true);
 
         $.post(url, data, function(res){
