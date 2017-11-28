@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Overtrue\LaravelSocialite\Socialite;
+use Overtrue\Socialite\AuthorizeFailedException;
 use Overtrue\Socialite\UserInterface;
 use Faker\Factory;
 
@@ -53,7 +54,12 @@ class AuthLoginController extends Controller
 
     public function handleWeiboCallback()
     {
-        $socialite = Socialite::driver('weibo')->user();
+        try {
+            $socialite = Socialite::driver('weibo')->user();
+        } catch (AuthorizeFailedException $e) {
+            dd($e);
+        }
+
 
         return $this->handleProviderCallback($socialite);
     }
