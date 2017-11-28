@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Services\ErrorServe;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class LoginController extends ApiController
 {
@@ -23,12 +26,18 @@ class LoginController extends ApiController
 
         $credentials = $this->credentials($request);
 
-        if ($this->attemptLogin($request)) {
-            return $this->setMsg('登录成功')->toJson();
+        if ($user = $this->attemptLogin($credentials)) {
+
+
+            $token = $user->createToken('monday')->accessToken;
+
+            return $this->setMsg('登录成功')->setData(compact('token'))->toJson();
         }
+
 
         return $this->setMsg('账号或者密码错误')->setData($credentials)->toJson();
     }
+
 
     public function username()
     {
@@ -55,5 +64,31 @@ class LoginController extends ApiController
             $field => $request->input($this->username()),
             'password' => $request->input('password')
         ];
+    }
+
+    protected function attemptLogin(array $credentials)
+    {
+        if (empty($credentials)) {
+            return false;
+        }
+
+        $query = new User();
+
+        foreach ($credentials as $key => $value) {
+            if (! Str::contains($key, 'password')) {
+                $query = $query->where($key, $value);
+            }
+        }
+
+        if (! $user = $query->first()) {
+            return false;
+        }
+
+        return Hash::check($credentials['password'], $user->password) ? $user : false;
+    }
+
+    protected function guard()
+    {
+        return Auth::guard('api');
     }
 }
