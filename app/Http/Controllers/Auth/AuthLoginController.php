@@ -57,7 +57,7 @@ class AuthLoginController extends Controller
         try {
             $socialite = Socialite::driver('weibo')->user();
         } catch (AuthorizeFailedException $e) {
-            return view('hint.error', ['msg' => $e->getMessage(), 'url' => route('login')]);
+            return view('hint.error', ['status' => $e->getMessage(), 'url' => route('login')]);
         }
 
 
@@ -74,7 +74,7 @@ class AuthLoginController extends Controller
     {
         if (!$socialite) {
 
-            return view('hint.error', ['msg' => '第三方登录出错']);
+            return view('hint.error', ['status' => '第三方登录出错']);
         }
 
         // Access to third party services
