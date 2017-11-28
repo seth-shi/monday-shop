@@ -57,7 +57,7 @@ class AuthLoginController extends Controller
         try {
             $socialite = Socialite::driver('weibo')->user();
         } catch (AuthorizeFailedException $e) {
-            dd($e);
+            return view('hint.error', ['msg' => $e->getMessage(), 'url' => route('login')]);
         }
 
 
