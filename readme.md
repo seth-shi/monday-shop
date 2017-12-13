@@ -20,7 +20,7 @@
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
 * 或者`git`克隆源代码
 ```shell
-git clone git@github.com:WaitMoonMan/monday-shop.git master
+git clone git@github.com:WaitMoonMan/monday-shop.git
 ```
 2. 安装依赖扩展包
 ```shell
