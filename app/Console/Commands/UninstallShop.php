@@ -36,7 +36,6 @@ class UninstallShop extends BaseCommand
      */
     public function handle()
     {
-        $this->call('key:generate');
         $this->call('gps:clear');
         $this->call('migrate:reset');
 
