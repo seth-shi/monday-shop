@@ -33,8 +33,14 @@ class OrdersController extends Controller
             return back()->withErrors(['address_id' => '购物车为空，请选择商品后再结账']);
         }
 
+        // begin tran
+        DB::beginTransaction();
         $order_data = $this->formatOrderData($request, $cars);
-        $order = $request->user()->orders()->create($order_data);
+
+        if ($order = $request->user()->orders()->create($order_data)) {
+            DB::rollBack();
+            return back()->with('status', '服务器异常，请稍后再试');
+        }
 
         // 'numbers', 'product_id', 'order_id'
         $order_detail_data = [];
@@ -47,11 +53,15 @@ class OrdersController extends Controller
             ];
         }
 
-        OrderDetail::insert($order_detail_data);
+        if (! OrderDetail::insert($order_detail_data)) {
+            DB::rollBack();
+            return back()->with('status', '服务器异常，请稍后再试');
+        }
 
         // delete cars data
         $request->user()->cars()->delete();
 
+        DB::commit();
         return back()->with('status', '下单成功');
     }
 
