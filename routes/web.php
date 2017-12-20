@@ -98,5 +98,4 @@ Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(fu
     Route::resource('users', 'UsersController', ['only' => ['index']]);
     Route::resource('admins', 'AdminsController');
     Route::resource('roles', 'RolesController');
-    Route::resource('permissions', 'PermissionsController');
 });
