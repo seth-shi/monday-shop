@@ -31,7 +31,7 @@
                                 </dt>
 								<dd>
 									@foreach ($permissions as $permission)
-                                        <label class="">
+                                        <label class="" style="display: inline-block">
                                             <input type="checkbox" value="{{ $permission->name }}" {{ $role->hasPermissionTo($permission->name) ? 'checked' : ''}} name="permission[][name]">{{ $permission->name }}</label>
                                     @endforeach
                                         @if ($errors->has('permission'))
