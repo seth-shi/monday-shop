@@ -77,7 +77,7 @@ Route::get('/admin/login' ,'Admin\Auth\LoginController@showLoginForm')->name('ad
 Route::post('/admin/login', 'Admin\Auth\LoginController@login');
 Route::post('/admin/logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
 
-Route::middleware(['admin.auth'])->prefix('admin')->namespace('Admin')->group(function(){
+Route::middleware(['admin.auth', 'admin.permission'])->prefix('admin')->namespace('Admin')->group(function(){
 
     // admin home page
     Route::get('/', 'HomeController@index');

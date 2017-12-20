@@ -51,7 +51,7 @@
                     <!-- multiple="multiple" -->
                     <div class="layui-form-item">
                             @foreach ($roles as $role)
-                                <input type="checkbox" name="roles[][role]" value="{{ $role->name }}" title="{{ $role->name }}" {{ $admin->hasRole($role->name) ? 'checked' : '' }}>
+                                <input type="radio" name="roles[][role]" value="{{ $role->name }}" title="{{ $role->name }}" {{ $admin->hasRole($role->name) ? 'checked' : '' }}>
                             @endforeach
 
                     </div>
