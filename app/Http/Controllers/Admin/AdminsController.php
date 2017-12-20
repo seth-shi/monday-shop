@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Traits\PermissionTrait;
 use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class AdminsController extends Controller
 {
+    use PermissionTrait;
+
     public function index()
     {
         $admins = Admin::latest()->get();
@@ -28,8 +30,6 @@ class AdminsController extends Controller
 
     public function store(AdminRequest $request)
     {
-        $this->checkPermission('添加管理员');
-
         list($adminData, $roles) = $this->getFormParam($request);
 
         $admin = Admin::create($adminData);
@@ -49,8 +49,6 @@ class AdminsController extends Controller
 
     public function update(AdminRequest $request, Admin $admin)
     {
-        $this->checkPermission('修改管理员');
-
         list($adminData, $roles) = $this->getFormParam($request);
 
         $admin->update($adminData);
@@ -67,8 +65,6 @@ class AdminsController extends Controller
 
     public function destroy(Admin $admin)
     {
-        $this->checkPermission('删除管理员');
-
         $admin->delete();
         return back()->with('status', '删除成功');
     }
@@ -89,18 +85,5 @@ class AdminsController extends Controller
         $roles = array_column($request->input('roles'), 'role');
 
         return [$admin, $roles];
-    }
-
-    private function checkPermission($permission)
-    {
-        if (! $this->guard()->user()->can($permission)) {
-
-            abort(404, '权限不足');
-        }
-    }
-
-    public function guard()
-    {
-        return Auth::guard('admin');
     }
 }

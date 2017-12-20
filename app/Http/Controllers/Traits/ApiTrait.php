@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Traits;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 trait ApiTrait
 {

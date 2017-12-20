@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Traits\PermissionTrait;
 use App\Http\Controllers\Traits\ProductTrait;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
@@ -12,6 +13,8 @@ use Webpatser\Uuid\Uuid;
 
 class ProductsController extends Controller
 {
+    use PermissionTrait;
+
     use ProductTrait;
 
     private $categoryService;
