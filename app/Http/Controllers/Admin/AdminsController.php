@@ -7,15 +7,15 @@ use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 
 class AdminsController extends Controller
 {
-    use PermissionTrait;
-
     public function index()
     {
         $admins = Admin::latest()->get();
+
 
         return view('admin.admins.index', compact('admins'));
     }
@@ -41,6 +41,7 @@ class AdminsController extends Controller
 
     public function edit(Admin $admin)
     {
+
         $roles = Role::where('guard_name', 'admin')->get();
 
         return view('admin.admins.edit', compact('admin', 'roles'));

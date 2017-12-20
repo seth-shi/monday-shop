@@ -55,7 +55,7 @@
                     <!-- multiple="multiple" -->
                     <div class="layui-form-item">
                             @foreach ($roles as $role)
-                                <input type="checkbox" name="roles[][role]" value="{{ $role->name }}" title="{{ $role->name }}" {{ (old('roles') && in_array($role->name, array_column(old('roles'), 'role'))) ? 'checked' : ''}}>
+                                <input type="radio" name="roles[][role]" value="{{ $role->name }}" title="{{ $role->name }}" {{ (old('roles') && in_array($role->name, array_column(old('roles'), 'role'))) ? 'checked' : ''}}>
                             @endforeach
                     </div>
                     @if ($errors->has('roles'))
