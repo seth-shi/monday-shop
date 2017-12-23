@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
             });
 
             // 服务器换成了 Linux，正式把这个换成每周六的八点
-        })->saturdays()->at('21:00');
+        })->saturdays()->at('8:00');
     }
 
     /**
