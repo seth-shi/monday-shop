@@ -35,8 +35,8 @@ class Kernel extends ConsoleKernel
                 Mail::to($item->email)->queue(new SubscribesNotice());
             });
 
-            // why every minute, because i use windows, The planned task under windows is minimal and can run only once in five minutes
-        })->everyMinute();
+            // 服务器换成了 Linux，正式把这个换成每周六的八点
+        })->saturdays()->at('21:00');
     }
 
     /**
