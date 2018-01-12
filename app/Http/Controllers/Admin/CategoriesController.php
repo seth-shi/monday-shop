@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use App\Services\CategoryService;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Pinyin;
 
@@ -87,12 +88,18 @@ class CategoriesController extends Controller
     {
         $response = ['code' => 1, 'msg' => '删除失败'];
 
-        if ($category->delete()) {
+        try {
+            if ($category->delete()) {
 
-            // delete products
-            $response['code'] = 0;
-            $response['msg'] = "{$category->name} 删除成功";
+                // delete products
+                $response['code'] = 0;
+                $response['msg'] = "{$category->name} 删除成功";
+            }
+        } catch (QueryException $e) {
+            $response['code'] = 2;
+            $response['msg'] = "{$category->name} 分类下有商品存在，不允许直接删除";
         }
+
 
         if(request()->ajax()) {
             return $response;
