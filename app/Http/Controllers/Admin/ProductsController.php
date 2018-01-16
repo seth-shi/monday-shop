@@ -52,7 +52,7 @@ class ProductsController extends Controller
         // add product images data
         $product->productImages()->createMany($product_images_data);
         // add product attributes data
-        $product->productAttribute()->createMany($product_attributes_data);
+        $product->productAttributes()->createMany($product_attributes_data);
 
         return back()->with('status', '添加商品成功');
     }
