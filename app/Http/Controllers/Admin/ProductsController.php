@@ -87,8 +87,8 @@ class ProductsController extends Controller
         $product->productImages()->delete();
         $product->productImages()->createMany($product_images_data);
         // delete all add product attributes data
-        $product->productAttribute()->delete();
-        $product->productAttribute()->createMany($product_attributes_data);
+        $product->productAttributes()->delete();
+        $product->productAttributes()->createMany($product_attributes_data);
 
         return back()->with('status', '修改商品成功');
     }
