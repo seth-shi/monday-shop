@@ -68,6 +68,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
+        // 虚拟主机房不能使用队列
         Mail::to($user->email)
             ->queue(new UserRegister($user));
     }

@@ -23,9 +23,13 @@ class ProductsTableSeeder extends Seeder
         $descriptions_data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'descriptions.json');
         $descriptions_data = json_decode($descriptions_data, true);
 
-        $total = count($products_data);
+        $total = count($products_data) - 1;
+        $i = 0;
         foreach ($products_data as $key => $product_data) {
 
+            if ($i ++ > 120) {
+                break;
+            }
             $product = $this->makeProduct($product_data);
 
             // product images
