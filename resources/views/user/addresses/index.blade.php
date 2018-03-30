@@ -195,7 +195,7 @@
         
         $('select[name=province]').change(function () {
             var id = $(this).val();
-            var url = "{{ url('user/addresses/cities') }}/" + id;
+            var url = "{{ url('user/addresses/cities') }}?province_id=" + id;
 
             $.get(url, function(res){
 

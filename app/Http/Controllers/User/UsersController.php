@@ -59,7 +59,7 @@ class UsersController extends Controller
             'msg' => '服务器出错，请稍后再试',
         ];
 
-        if ($this->guard()->user()->subscribe()->create($request->all())) {
+        if ($this->guard()->user()->subscribe()->create($request->only('email'))) {
             $response = [
                 'code' => 200,
                 'msg' => '订阅成功',
