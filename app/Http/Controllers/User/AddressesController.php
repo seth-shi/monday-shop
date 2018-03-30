@@ -119,13 +119,8 @@ class AddressesController extends Controller
     }
 
 
-    public function getCities($id)
+    public function getCities(Request $request)
     {
-        return DB::table('cities')->where('province_id', $id)->get();
-    }
-
-    public function getRegion($id)
-    {
-        return DB::table('regions')->where('city_id', $id)->get();
+        return DB::table('cities')->where('province_id', $request->input('province_id'))->get();
     }
 }
