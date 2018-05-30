@@ -14,6 +14,12 @@
                     {{ session('status') }}
                 </div>
             @endif
+            @if (session()->has('error'))
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="mt-20">
                 <table class="table table-border table-bordered table-bg table-hover table-sort">
                     <thead>
@@ -42,7 +48,7 @@
                             <td>
                                 {{ $product->price }} / {{ $product->price_original }}
                             </td>
-                            <td><span class="price">{{ $product->likes }}</span></td>
+                            <td><span class="price">{{ $product->users_count }}</span></td>
                             <td class="td-status">
                                 {!! $productPresenter->getAliveSpan($product->is_alive) !!}
                                 {!! $productPresenter->getHotSpan($product->is_hot) !!}
