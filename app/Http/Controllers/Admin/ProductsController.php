@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Services\CategoryService;
+use Illuminate\Database\QueryException;
 use Spatie\Permission\Models\Role;
 use Webpatser\Uuid\Uuid;
 
@@ -21,6 +22,14 @@ class ProductsController extends Controller
         $this->categoryService = $categoryService;
     }
 
+    /**
+     * 在此做一个注释，给学习下的人。不要取全部数据出来进行展示
+     * 当时我是因为刚开始学习坐，这个后台分页用到的 JQDataTable 进行前端分页
+     * 如果你做项目，务必务必，使用数据表格。
+     * 用接口的方式给数据表格进行分页数据，也可以使用 Laravel 自带的分页
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $products = Product::withCount('users')->orderBy('users_count', 'desc')->get();
@@ -99,9 +108,14 @@ class ProductsController extends Controller
         // delete all add product images data
         $product->productImages()->delete();
         // delete all add product attributes data
-        $product->productAttribute()->delete();
+        $product->productAttributes()->delete();
 
-        $product->delete();
+        try {
+            $product->delete();
+        } catch (QueryException $e) {
+            return back()->with('error', '此商品存在购物车或者订单中，不允许删除');
+        }
+
 
         return back()->with('status', '删除商品成功');
     }

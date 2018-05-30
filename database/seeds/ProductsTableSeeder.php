@@ -25,9 +25,11 @@ class ProductsTableSeeder extends Seeder
 
         $total = count($products_data) - 1;
         $i = 0;
+        // 只要 120 个商品就行了
+        $count = 120;
         foreach ($products_data as $key => $product_data) {
 
-            if ($i ++ > 120) {
+            if ($i ++ > $count) {
                 break;
             }
             $product = $this->makeProduct($product_data);
@@ -42,7 +44,7 @@ class ProductsTableSeeder extends Seeder
             // product attributes
             factory(ProductAttribute::class, mt_rand(1, 4))->create(['product_id' =>  $product->id]);
 
-            $bar = intval(($key / $total) * 100);
+            $bar = intval(($i / $count) * 100);
             echo "seeding: [products] .... {$bar} % \r";
         }
 
