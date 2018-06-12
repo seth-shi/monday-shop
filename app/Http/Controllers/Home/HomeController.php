@@ -10,12 +10,17 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
+    /**
+     * 首页显示的数据
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        $categories = Category::orderBy('parent_id', 'desc')->take(9)->get();
-        $hotProducts = Product::orderBy('safe_count', 'desc')->take(3)->get();
-        $latestProducts = Product::latest()->take(9)->get();
-        $users = User::orderBy('login_count', 'desc')->take(10)->get(['name', 'avatar']);
+        $categories = Category::query()->orderBy('parent_id', 'desc')->take(9)->get();
+        $hotProducts = Product::query()->orderBy('safe_count', 'desc')->take(3)->get();
+        $latestProducts = Product::query()->latest()->take(9)->get();
+        $users = User::query()->orderBy('login_count', 'desc')->take(10)->get(['name', 'avatar']);
 
         return view('home.homes.index', compact('categories', 'hotProducts', 'latestProducts', 'users'));
     }
