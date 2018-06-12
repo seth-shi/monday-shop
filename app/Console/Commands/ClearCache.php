@@ -29,7 +29,7 @@ class ClearCache extends BaseCommand
     }
 
     /**
-     * Execute the console command.
+     * 清除所有缓存
      *
      * @return mixed
      */

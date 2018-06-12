@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ProductTrait;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
-use App\Http\Controllers\Controller;
 use App\Services\CategoryService;
 use Illuminate\Database\QueryException;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 use Webpatser\Uuid\Uuid;
 
 class ProductsController extends Controller
@@ -32,12 +32,17 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::withCount('users')->orderBy('users_count', 'desc')->get();
+        $products = Product::query()->withCount('users')->orderBy('users_count', 'desc')->get();
 
         return view('admin.products.index', compact('products'));
     }
 
 
+    /**
+     * 创建商品页面
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $categories = $this->categoryService->getTransformCategories();
@@ -45,9 +50,18 @@ class ProductsController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
-
+    /**
+     * 创建商品处理逻辑
+     *
+     * @param ProductRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(ProductRequest $request)
     {
+        // 商品的数据
+        // 商品的详情数据
+        // 商品的图片数据
+        // 商品的属性数据 > 颜色，大小之类的
         list(
             $product_data,
             $product_detail_data,
@@ -55,23 +69,37 @@ class ProductsController extends Controller
             $product_attributes_data
             ) = $this->getRequestParam($request);
 
-        $product = Product::create($product_data);
-        // add product details data
+        /**
+         * @var $product Product
+         */
+        $product = Product::query()->create($product_data);
+        // 关联添加商品的详情数据
         $product->productDetail()->create($product_detail_data);
-        // add product images data
+        // 关联添加商品的图片数据
         $product->productImages()->createMany($product_images_data);
-        // add product attributes data
+        // 关联添加商品的属性数据
         $product->productAttributes()->createMany($product_attributes_data);
 
         return back()->with('status', '添加商品成功');
     }
 
+    /**
+     * 显示单个商品
+     *
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function show(Product $product)
     {
         return redirect('/home/products/'. $product->id);
     }
 
-
+    /**
+     * 编辑商品的页面
+     *
+     * @param Product $product
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit(Product $product)
     {
         $categories = $this->categoryService->getTransformCategories();
@@ -80,6 +108,13 @@ class ProductsController extends Controller
         return view('admin/products/edit', compact('product', 'categories'));
     }
 
+    /**
+     * 修改商品逻辑
+     *
+     * @param ProductRequest $request
+     * @param Product        $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(ProductRequest $request, Product $product)
     {
         list(
@@ -89,10 +124,11 @@ class ProductsController extends Controller
             $product_attributes_data
             ) = $this->getRequestParam($request);
 
-        Product::where('id', $product->id)->update($product_data);
+        $product->update($product_data);
 
         $product->productDetail()->update($product_detail_data);
-        // delete all add product images data
+        // 笨方法，把以前的全部删除点
+        // 然后在创建新的数据
         $product->productImages()->delete();
         $product->productImages()->createMany($product_images_data);
         // delete all add product attributes data
@@ -102,17 +138,23 @@ class ProductsController extends Controller
         return back()->with('status', '修改商品成功');
     }
 
+    /**
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function destroy(Product $product)
     {
-        $product->productDetail()->delete();
-        // delete all add product images data
-        $product->productImages()->delete();
-        // delete all add product attributes data
-        $product->productAttributes()->delete();
-
+        DB::beginTransaction();
         try {
+            // 先把所有关联数据删除掉
+            $product->productDetail()->delete();
+            $product->productImages()->delete();
+            $product->productAttributes()->delete();
             $product->delete();
+            DB::commit();
         } catch (QueryException $e) {
+            DB::rollBack();
             return back()->with('error', '此商品存在购物车或者订单中，不允许删除');
         }
 

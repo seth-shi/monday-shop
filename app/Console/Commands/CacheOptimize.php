@@ -30,20 +30,20 @@ class CacheOptimize extends BaseCommand
     }
 
     /**
-     * Execute the console command.
+     * 执行缓存命令
      *
      * @return mixed
      */
     public function handle()
     {
-        // Optimal configuration loading
+        // 优化配置
         $this->call('config:cache');
-        // Optimized routing loading
+        // 优化路由
         $this->call('route:cache');
         /**
-         * Optimizing class mapping loading
-         * This command will run after > php artisan config:cache,
-         * Because the optimize command generates files based on configuration information
+         * 优化类映射加载*此命令将在>
+         * php artisan config：cache之后运行，
+         * 因为优化命令根据配置信息生成文件
          */
         $this->call('optimize', ['--force']);
     }
