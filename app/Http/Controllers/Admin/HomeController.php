@@ -12,12 +12,21 @@ use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
+    /**
+     * 后台首页
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-
         return view('admin.home.index');
     }
 
+    /**
+     * 后台欢迎页
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function welcome()
     {
         return view('admin.home.welcome');

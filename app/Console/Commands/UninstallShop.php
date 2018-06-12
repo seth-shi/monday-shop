@@ -17,7 +17,7 @@ class UninstallShop extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Project Uninitialize Command';
+    protected $description = '卸载商城项目';
 
     /**
      * Create a new command instance.

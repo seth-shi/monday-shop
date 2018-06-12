@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Storage;
+
+use Illuminate\Support\Facades\Storage;
 
 class CopyFile extends BaseCommand
 {
@@ -31,7 +32,7 @@ class CopyFile extends BaseCommand
     }
 
     /**
-     * Execute the console command.
+     * 把静态资源发布到 public/storage 目录
      *
      * @return mixed
      */

@@ -32,7 +32,7 @@ class DeleteFile extends BaseCommand
     }
 
     /**
-     * Execute the console command.
+     * 删除静态资源文件
      *
      * @return mixed
      */

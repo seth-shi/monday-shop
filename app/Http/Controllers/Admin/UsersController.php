@@ -9,13 +9,13 @@ use App\Http\Controllers\Controller;
 class UsersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 用户列表
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $users = User::orderBy('login_count', 'desc')->paginate(5);
+        $users = User::query()->orderBy('login_count', 'desc')->paginate(5);
 
         return view('admin.users.index', compact('users'));
     }

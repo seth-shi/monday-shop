@@ -17,7 +17,7 @@ class InstallShop extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'Project Initialize Command';
+    protected $description = '初始化商城项目';
 
     /**
      * Create a new command instance.
@@ -30,7 +30,7 @@ class InstallShop extends BaseCommand
     }
 
     /**
-     * Execute the console command.
+     * 安装商城
      *
      * @return mixed
      */
