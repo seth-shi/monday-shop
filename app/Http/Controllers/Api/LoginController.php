@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
+
+/**
+ * 这个类暂时用不到
+ *
+ * @package App\Http\Controllers\Api
+ */
 class LoginController extends ApiController
 {
     use AuthenticatesUsers;
