@@ -61,9 +61,16 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
-        $recommendProducts = Product::query()->where('category_id', $product->category_id)->take(5)->get();
+        // 同类商品推荐
+        $recommendProducts = Product::query()
+                                    ->where('category_id', $product->category_id)
+                                    ->take(5)
+                                    ->get();
 
-        return view('home.products.show', compact('product', 'recommendProducts'));
+        // 加载出收藏的人数, 只查出第一页的人数，其他的 AJAX 获取
+        $collects = $product->users()->get();
+
+        return view('home.products.show', compact('product', 'recommendProducts', 'collects'));
     }
 
     /**
