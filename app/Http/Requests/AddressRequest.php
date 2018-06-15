@@ -28,7 +28,6 @@ class AddressRequest extends FormRequest
             'phone'=>'regex:/^1[34578][0-9]{9}$/',
             'province' => 'required',
             'city' => 'required',
-            'region' => 'required',
             'detail_address' => 'required',
         ];
     }
@@ -40,7 +39,6 @@ class AddressRequest extends FormRequest
             'phone.regex' => '手机号码格式不正确',
             'province.required' => '省区不能为空',
             'city.required' => '城市不能为空',
-            'region.required' => '区域不能为空',
             'detail_address.required' => '详细收货地址不能为空',
         ];
     }

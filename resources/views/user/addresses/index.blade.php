@@ -112,7 +112,7 @@
                                                 <option value="{{ $province->id }}">{{ $province->name }}</option>
                                             @endforeach
                                         </select>
-                                        <select name="city" data-am-selected disabled="disabled">
+                                        <select name="city" data-am-selected>
                                             @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}">{{ $city->name }}</option>
                                             @endforeach
