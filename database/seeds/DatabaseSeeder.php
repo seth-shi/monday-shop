@@ -12,27 +12,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UsersTableSeeder::class);
-        $this->call(AdminsTableSeeder::class);
+        $this->call(AdminTablesSeeder::class);
         $this->call(CategoriesTableSeeder::class);
 
+        // 商品
         $this->call(ProductsTableSeeder::class);
-        $this->call(JobsTableSeeder::class);
 
-        // permission and roles
-        $this->call(RolesTableSeeder::class);
-        $this->call(PermissionsTableSeeder::class);
-        // Assign role permissions
-        $this->call(PermissionsRolesTableSeeder::class);
-
-
+        // 收藏商品的
+        // 购物车
         $this->call(LikesProductsTableSeeder::class);
         $this->call(CarsTableSeeder::class);
 
-        // Provincial and municipal regions
+        // 国家
+        // 城市的数据填充
         $this->call(ProvincesTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
-
-        // 管理员拥有的角色
-        $this->call(AdminsRoleTableSeeder::class);
     }
 }
