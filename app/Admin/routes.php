@@ -12,4 +12,7 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
 
+    // 会员管理
+    $router->resource('users', 'UserController');
+
 });

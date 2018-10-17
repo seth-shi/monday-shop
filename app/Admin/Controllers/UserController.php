@@ -1,0 +1,160 @@
+<?php
+
+namespace App\Admin\Controllers;
+
+use App\Models\User;
+use App\Http\Controllers\Controller;
+use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Form;
+use Encore\Admin\Grid;
+use Encore\Admin\Layout\Content;
+use Encore\Admin\Show;
+
+class UserController extends Controller
+{
+    use HasResourceActions;
+
+    /**
+     * Index interface.
+     *
+     * @param Content $content
+     * @return Content
+     */
+    public function index(Content $content)
+    {
+        return $content
+            ->header('会员列表')
+            ->description('description')
+            ->body($this->grid());
+    }
+
+    /**
+     * Show interface.
+     *
+     * @param mixed $id
+     * @param Content $content
+     * @return Content
+     */
+    public function show($id, Content $content)
+    {
+        return $content
+            ->header('Detail')
+            ->description('description')
+            ->body($this->detail($id));
+    }
+
+    /**
+     * Edit interface.
+     *
+     * @param mixed $id
+     * @param Content $content
+     * @return Content
+     */
+    public function edit($id, Content $content)
+    {
+        return $content
+            ->header('Edit')
+            ->description('description')
+            ->body($this->form()->edit($id));
+    }
+
+    /**
+     * Create interface.
+     *
+     * @param Content $content
+     * @return Content
+     */
+    public function create(Content $content)
+    {
+        return $content
+            ->header('Create')
+            ->description('description')
+            ->body($this->form());
+    }
+
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    protected function grid()
+    {
+        $grid = new Grid(new User);
+
+        $grid->column('id', 'Id');
+        $grid->column('name', '用户名');
+        $grid->column('sex', '性别')->display(function ($sex) {
+            return User::SEXES[$sex] ?? '未知';
+        });
+        $grid->column('email', '邮箱');
+        $grid->column('avatar', '头像')->display(function ($avatar) {
+            return "<img style='with: 50px; height: 50px;' src='{$avatar}'>";
+        });
+        $grid->column('github_name', 'Github昵称');
+        $grid->column('qq_name', 'QQ昵称');
+        $grid->column('weibo_name', '微博昵称');
+        $grid->column('login_count', '登录次数');
+        $grid->column('is_active', '是否激活')->display(function ($isActive) {
+            return $isActive == User::ACTIVE_STATUS
+                ? "<span class='label' style='color: green;'>激活</span>"
+                : "<span class='label' style='color: red;'>未激活</span>";
+        });
+        $grid->column('created_at', '创建时间');
+        $grid->column('updated_at', '修改时间');
+
+        return $grid;
+    }
+
+    /**
+     * Make a show builder.
+     *
+     * @param mixed $id
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        $show = new Show(User::findOrFail($id));
+
+        $show->field('id', 'Id');
+        $show->field('name', '用户名');
+        $show->field('sex', '性别')->as(function ($sex) {
+            return User::SEXES[$sex] ?? '未知';
+        });
+        $show->field('email', '邮箱');
+        $show->field('avatar', '头像');
+        $show->field('github_name', 'Github昵称');
+        $show->field('qq_name', 'QQ昵称');
+        $show->field('weibo_name', '微博昵称');
+        $show->field('login_count', '登录次数');
+        $show->field('is_active', '是否激活')->display(function ($isActive) {
+            return $isActive == User::ACTIVE_STATUS
+                ? "<span class='label' style='color: green;'>激活</span>"
+                : "<span class='label' style='color: red;'>未激活</span>";
+        });
+        $show->field('created_at', '创建时间');
+        $show->field('updated_at', '修改时间');
+
+        return $show;
+    }
+
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
+    protected function form()
+    {
+        $form = new Form(new User);
+
+        // TODO 图片上传有问题
+        $form->text('name', '用户名')->rules('required|unique:users,name');
+        $form->select('sex', '性别')->rules('required|in:0,1')->options(User::SEXES)->default(1);
+        $form->email('email', '邮箱')->rules('required|email|unique:users,email');
+        $form->password('password', '密码');
+        $form->image('avatar', '头像')->resize(90, 90);
+
+        $form->switch('is_active', '激活');
+
+        return $form;
+    }
+}

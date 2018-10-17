@@ -13,6 +13,17 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens;
 
+
+    // 用户性别
+    CONST MAN = 1;
+    CONST WOMAN = 0;
+    CONST SEXES = [
+        self::MAN => '男',
+        self::WOMAN => '女'
+    ];
+
+    CONST ACTIVE_STATUS = 1;
+
     /**
      * The attributes that are mass assignable.
      *
