@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Address;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -12,7 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\User::class, 10)->create()->each(function ($u) {
+        factory(User::class, 10)->create()->each(function ($u) {
 
             // default select address
             factory(Address::class, 1)->create(['user_id' => $u->id, 'is_default' => 1]);

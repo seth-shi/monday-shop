@@ -21,7 +21,7 @@ class InstallShopWarn implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param User $user
      */
     public function __construct(User $user)
     {
@@ -38,9 +38,5 @@ class InstallShopWarn implements ShouldQueue
         $time = date('Y-m-d H:i:s');
         $msg = '网站已启动|启动时间: ' . $time;
         Log::info($msg);
-
-        // 注册成功发送邮件加入队列
-        Mail::to('1033404553@qq.com')
-            ->queue(new UserRegister($this->user));
     }
 }

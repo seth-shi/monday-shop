@@ -54,8 +54,12 @@ class InstallShop extends BaseCommand
         $this->call('gps:copy');
         $this->call('storage:link');
 
+
+        // laravel-admin 的初始化数据库填充
+        $this->call('db:seed', ['--class' => \Encore\Admin\Auth\Database\AdminTablesSeeder::class]);
+
         // 直接开启监听队列
-        $this->info('queue starting please don`t close cmd windows!!!');
-        $this->call('queue:work', ['--tries' => '3']);
+        // $this->info('queue starting please don`t close cmd windows!!!');
+        // $this->call('queue:work', ['--tries' => '3']);
     }
 }
