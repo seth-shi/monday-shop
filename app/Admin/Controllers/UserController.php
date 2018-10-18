@@ -95,7 +95,7 @@ class UserController extends Controller
         $grid->column('avatar', '头像')->display(function ($avatar) {
 
             if (! starts_with($avatar, 'http')) {
-                $avatar = Storage::url($avatar);
+                $avatar = Storage::disk('public')->url($avatar);
             }
 
             return "<img width='50' height='50' src='{$avatar}'>";

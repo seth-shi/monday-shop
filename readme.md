@@ -32,7 +32,7 @@ cp .env.example .env
 ```
 4. 使用安装命令(会执行执行数据库迁移，填充，监听队列 !!! 不需要再监听队列，此命令已包含)
 ```shell
-php artisan gps:install
+php artisan moon:install
 ```
 ## Usage
 * 任务调度(打算每周六早八点发送订阅邮件/ !!! 为方便展示，项目现为一个小时发送一次订阅)
@@ -41,12 +41,12 @@ php artisan gps:install
 ### Commands
 | 命令  | 一句话描述 |
 | ----- | --- |
-|`php artisan gps:install`|安装应用程序|
-|`php artisan gps:uninstall`|卸载网站(清空数据库，缓存，路由)|
-|`php artisan gps:cache`|执行缓存（缓存配置，路由，类映射）|
-|`php artisan gps:clear`|清除缓存|
-|`php artisan gps:copy`|复制项目内置的静态资源|
-|`php artisan gps:delete`|删除项目及上传的基本静态资源|
+|`php artisan moon:install`|安装应用程序|
+|`php artisan moon:uninstall`|卸载网站(清空数据库，缓存，路由)|
+|`php artisan moon:cache`|执行缓存（缓存配置，路由，类映射）|
+|`php artisan moon:clear`|清除缓存|
+|`php artisan moon:copy`|复制项目内置的静态资源|
+|`php artisan moon:delete`|删除项目及上传的基本静态资源|
 |`php artisan queue:work --tries=3`|监听队列(邮件发送，图片裁剪 !!!|
 ## Packages
 | 扩展包 | 一句话描述 | 在本项目中的使用案例 |  

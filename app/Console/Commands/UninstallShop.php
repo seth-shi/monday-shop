@@ -10,7 +10,7 @@ class UninstallShop extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'gps:uninstall';
+    protected $signature = 'moon:uninstall';
 
     /**
      * The console command description.
@@ -36,10 +36,10 @@ class UninstallShop extends BaseCommand
      */
     public function handle()
     {
-        $this->call('gps:clear');
+        $this->call('moon:clear');
         $this->call('migrate:reset');
 
         // delete all upload static resources
-        $this->call('gps:delete');
+        $this->call('moon:delete');
     }
 }

@@ -12,7 +12,7 @@ class DeleteFile extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'gps:delete';
+    protected $signature = 'moon:delete';
 
     /**
      * The console command description.

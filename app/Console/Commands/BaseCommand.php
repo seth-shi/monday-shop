@@ -11,7 +11,7 @@ class BaseCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'gps:base';
+    protected $signature = 'moon:base';
 
     /**
      * The console command description.
