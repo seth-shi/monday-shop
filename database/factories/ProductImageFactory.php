@@ -17,6 +17,6 @@ use Faker\Generator as Faker;
 $factory->define(ProductImage::class, function (Faker $faker) {
 
     return [
-        'link' => $faker->imageUrl(800, 600)
+        'url' => $faker->imageUrl(800, 600)
     ];
 });

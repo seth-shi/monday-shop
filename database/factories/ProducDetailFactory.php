@@ -19,6 +19,6 @@ $factory->define(ProductDetail::class, function (Faker $faker) {
     return [
         'count' => mt_rand(100, 1000),
         'unit' => '件',
-        'description' => $faker->text(),
+        'content' => $faker->text(),
     ];
 });
