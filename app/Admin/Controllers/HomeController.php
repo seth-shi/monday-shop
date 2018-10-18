@@ -13,6 +13,9 @@ class HomeController extends Controller
 {
     public function index(Content $content)
     {
+
+        // file_put_contents(database_path('seeds/data/menus.json'), Menu::query()->get()->toJson());
+
         return $content
             ->header('仪表盘')
             ->description('Description...')

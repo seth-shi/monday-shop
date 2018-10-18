@@ -12,6 +12,12 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
 
+
+    // 分类
+    // 商品
+    $router->resource('categories', 'CategoryController');
+    $router->resource('products', 'ProductController');
+
     // 会员管理
     $router->resource('users', 'UserController');
 
