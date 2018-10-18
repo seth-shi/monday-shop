@@ -9,6 +9,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic;
 
 class UserController extends Controller
 {
@@ -81,6 +83,9 @@ class UserController extends Controller
     {
         $grid = new Grid(new User);
 
+        // 排序最新的
+        $grid->model()->latest();
+
         $grid->column('id', 'Id');
         $grid->column('name', '用户名');
         $grid->column('sex', '性别')->display(function ($sex) {
@@ -88,7 +93,12 @@ class UserController extends Controller
         });
         $grid->column('email', '邮箱');
         $grid->column('avatar', '头像')->display(function ($avatar) {
-            return "<img style='with: 50px; height: 50px;' src='{$avatar}'>";
+
+            if (! starts_with($avatar, 'http')) {
+                $avatar = Storage::url($avatar);
+            }
+
+            return "<img width='50' height='50' src='{$avatar}'>";
         });
         $grid->column('github_name', 'Github昵称');
         $grid->column('qq_name', 'QQ昵称');
@@ -144,14 +154,34 @@ class UserController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new User);
+        // 前台用户注册必须要有这个 token，兼容一下
+        $form = new Form(tap(new User, function ($user) {
+            $user->active_token = str_random(60);
+        }));
 
-        // TODO 图片上传有问题
-        $form->text('name', '用户名')->rules('required|unique:users,name');
+        $form->text('name', '用户名')->rules(function (Form $form) {
+            $rules = 'required|unique:users,id';
+
+            // 更新操作
+            if (! is_null($id = $form->model()->getKey())) {
+                $rules .= ",{$id}";
+            }
+
+            return $rules;
+        });
         $form->select('sex', '性别')->rules('required|in:0,1')->options(User::SEXES)->default(1);
-        $form->email('email', '邮箱')->rules('required|email|unique:users,email');
+        $form->email('email', '邮箱')->rules(function (Form $form) {
+            $rules = 'required|email|unique:users,email';
+
+            // 更新操作
+            if (! is_null($id = $form->model()->getKey())) {
+                $rules .= ",{$id}";
+            }
+
+            return $rules;
+        });
         $form->password('password', '密码');
-        $form->image('avatar', '头像')->resize(90, 90);
+        $form->image('avatar', '头像')->uniqueName()->move('avatars');
 
         $form->switch('is_active', '激活');
 
