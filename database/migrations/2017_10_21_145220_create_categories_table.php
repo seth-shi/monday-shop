@@ -11,19 +11,21 @@ class CreateCategoriesTable extends Migration {
    *
    * @return void
    */
-  public function up() {
+  public function up()
+  {
+
     Schema::create('categories', function(Blueprint $table) {
         $table->engine = 'InnoDB';
         $table->increments('id');
-        NestedSet::columns($table);
-        // Add needed columns here (f.ex: name, slug, path, etc.)
+
         $table->string('name')->unique();
         $table->string('thumb');
         $table->string('description')->nullable()->comment('分类的描述');
-        $table->tinyInteger('order_lv')->default(1);
+        $table->tinyInteger('order')->comment('排序字段')->default(1);
 
         $table->timestamps();
     });
+
   }
 
   /**

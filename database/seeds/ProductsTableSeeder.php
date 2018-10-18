@@ -35,11 +35,11 @@ class ProductsTableSeeder extends Seeder
             $product = $this->makeProduct($product_data);
 
             // product images
-            factory(ProductImage::class, ['link' => 'products/list/' . $product_data['thumb'], 'product_id' => $product->id]);
+            factory(ProductImage::class, ['url' => 'products/list/' . $product_data['thumb'], 'product_id' => $product->id]);
             factory(ProductImage::class, mt_rand(2, 4))->create(['product_id' => $product->id]);
 
             // product detail
-            factory(ProductDetail::class)->create(['product_id' =>  $product->id, 'description' => $descriptions_data[$key]]);
+            factory(ProductDetail::class)->create(['product_id' =>  $product->id, 'content' => $descriptions_data[$key]]);
 
             // product attributes
             factory(ProductAttribute::class, mt_rand(1, 4))->create(['product_id' =>  $product->id]);
@@ -47,6 +47,8 @@ class ProductsTableSeeder extends Seeder
             $bar = intval(($i / $count) * 100);
             echo "seeding: [products] .... {$bar} % \r";
         }
+
+        echo "\n";
 
     }
 

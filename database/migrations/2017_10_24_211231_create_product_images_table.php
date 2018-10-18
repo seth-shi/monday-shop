@@ -17,7 +17,7 @@ class CreateProductImagesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
 
-            $table->string('link')->comment('商品的链接');
+            $table->string('url')->comment('商品的链接');
 
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
