@@ -6,6 +6,7 @@ use App\Mail\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -68,6 +69,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class, 'likes_products');
     }
+
 
     /**
      * rewrite send reset password email

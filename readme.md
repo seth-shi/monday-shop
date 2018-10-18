@@ -2,7 +2,7 @@
 ****
 [Demo 演示地址](http://shop.shiguopeng.cn)
 
-![http://or2pofbfh.bkt.clouddn.com/github/index_pc.png](http://or2pofbfh.bkt.clouddn.com/github/index_pc_part.png)
+![PC首页](public/media/index_pc.png)
 ## Feture
 * 第三方登录 (因为应用审核不通过，只能本人的账户登录)
     * Github
