@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 
 class CopyFile extends BaseCommand
@@ -12,7 +13,7 @@ class CopyFile extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'gps:copy';
+    protected $signature = 'moon:copy';
 
     /**
      * The console command description.
@@ -22,12 +23,19 @@ class CopyFile extends BaseCommand
     protected $description = 'Copy all upload static resources';
 
     /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * Create a new command instance.
      *
-     * @return void
+     * @param Filesystem $filesystem
      */
-    public function __construct()
+    public function __construct(Filesystem $filesystem)
     {
+        $this->filesystem = $filesystem;
+
         parent::__construct();
     }
 
@@ -38,15 +46,15 @@ class CopyFile extends BaseCommand
      */
     public function handle()
     {
+        // 图片的静态目录
+        $from = storage_path('app/resources/products');
+        $to = storage_path('app/public/products');
+        $this->filesystem->copyDirectory($from, $to);
 
-        $to = 'public' . DIRECTORY_SEPARATOR . config('web.upload.list');
-        $files = Storage::files('resources/products');
-        Storage::makeDirectory($to);
-
-        foreach ($files as $file) {
-            $filename = $to . DIRECTORY_SEPARATOR . basename($file);
-            Storage::copy($file, $filename);
-        }
+        // 默认头像
+        $from = storage_path('app/resources/avatars');
+        $to = storage_path('app/public/avatars');
+        $this->filesystem->copyDirectory($from, $to);
 
 
         $this->info('copy file success');

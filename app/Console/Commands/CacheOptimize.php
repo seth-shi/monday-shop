@@ -10,7 +10,7 @@ class CacheOptimize extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'gps:cache';
+    protected $signature = 'moon:cache';
 
     /**
      * The console command description.

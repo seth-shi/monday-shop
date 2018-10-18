@@ -35,7 +35,7 @@ class ProductsTableSeeder extends Seeder
             $product = $this->makeProduct($product_data);
 
             // product images
-            factory(ProductImage::class, ['link' => 'uploads/products/list/' . $product_data['thumb'], 'product_id' => $product->id]);
+            factory(ProductImage::class, ['link' => 'products/list/' . $product_data['thumb'], 'product_id' => $product->id]);
             factory(ProductImage::class, mt_rand(2, 4))->create(['product_id' => $product->id]);
 
             // product detail
@@ -56,7 +56,7 @@ class ProductsTableSeeder extends Seeder
         $product['price_original'] = ($product['price'] * (mt_rand(12, 18)/10));
         $product['pinyin'] = pinyin_permalink($product['name']);
         $product['first_pinyin'] = substr($product['pinyin'], 0, 1);
-        $product['thumb'] = 'uploads/products/list/' . $product['thumb'];
+        $product['thumb'] = 'products/list/' . $product['thumb'];
         $product['category_id'] = \App\Models\Category::inRandomOrder()->first()->id;
 
         return Product::create($product);

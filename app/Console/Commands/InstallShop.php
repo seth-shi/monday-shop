@@ -10,7 +10,7 @@ class InstallShop extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'gps:install';
+    protected $signature = 'moon:install';
 
     /**
      * The console command description.
@@ -40,7 +40,7 @@ class InstallShop extends BaseCommand
         // 删除上一次保留的数据表
         $this->call('migrate:reset');
         // 删除上一次保留的文件
-        $this->call('gps:delete');
+        $this->call('moon:delete');
 
 
         /****************************************
@@ -51,12 +51,9 @@ class InstallShop extends BaseCommand
          */
         $this->call('migrate');
         $this->call('db:seed');
-        $this->call('gps:copy');
+        $this->call('moon:copy');
         $this->call('storage:link');
 
-
-        // laravel-admin 的初始化数据库填充
-        $this->call('db:seed', ['--class' => \Encore\Admin\Auth\Database\AdminTablesSeeder::class]);
 
         // 直接开启监听队列
         // $this->info('queue starting please don`t close cmd windows!!!');

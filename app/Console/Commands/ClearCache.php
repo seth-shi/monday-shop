@@ -9,14 +9,14 @@ class ClearCache extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'gps:clear';
+    protected $signature = 'moon:clear';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'clear gps:cache cache information';
+    protected $description = 'clear moon:cache cache information';
 
     /**
      * Create a new command instance.
