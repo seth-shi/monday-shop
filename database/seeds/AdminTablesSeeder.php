@@ -63,63 +63,21 @@ class AdminTablesSeeder extends Seeder
                                ],
                            ]);
 
-        Role::first()->permissions()->save(Permission::first());
+        $role = Role::first();
+        $role->permissions()->save(Permission::first());
 
         // add default menus.
         Menu::truncate();
-        Menu::insert([
-                         [
-                             'parent_id' => 0,
-                             'order'     => 1,
-                             'title'     => 'Index',
-                             'icon'      => 'fa-bar-chart',
-                             'uri'       => '/',
-                         ],
-                         [
-                             'parent_id' => 0,
-                             'order'     => 2,
-                             'title'     => 'Admin',
-                             'icon'      => 'fa-tasks',
-                             'uri'       => '',
-                         ],
-                         [
-                             'parent_id' => 2,
-                             'order'     => 3,
-                             'title'     => 'Users',
-                             'icon'      => 'fa-users',
-                             'uri'       => 'auth/users',
-                         ],
-                         [
-                             'parent_id' => 2,
-                             'order'     => 4,
-                             'title'     => 'Roles',
-                             'icon'      => 'fa-user',
-                             'uri'       => 'auth/roles',
-                         ],
-                         [
-                             'parent_id' => 2,
-                             'order'     => 5,
-                             'title'     => 'Permission',
-                             'icon'      => 'fa-ban',
-                             'uri'       => 'auth/permissions',
-                         ],
-                         [
-                             'parent_id' => 2,
-                             'order'     => 6,
-                             'title'     => 'Menu',
-                             'icon'      => 'fa-bars',
-                             'uri'       => 'auth/menu',
-                         ],
-                         [
-                             'parent_id' => 2,
-                             'order'     => 7,
-                             'title'     => 'Operation log',
-                             'icon'      => 'fa-history',
-                             'uri'       => 'auth/logs',
-                         ],
-                     ]);
+        $menusJson = json_decode(file_get_contents(__DIR__.'/data/menus.json'), true);
+        Menu::insert($menusJson);
 
         // add role to menu.
-        Menu::find(2)->roles()->save(Role::first());
+        Menu::query()
+            ->where('parent_id', 1)
+            ->where('id', '!=', 1)
+            ->get()
+            ->map(function (Menu $menu) use ($role) {
+                $menu->roles()->save($role);
+            });
     }
 }
