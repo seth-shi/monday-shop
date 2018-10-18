@@ -15,6 +15,7 @@
 * 商品搜索支持拼音首字母 + AJAX 无刷新显示
 * 订阅之后每周推送一封邮件包含最受欢迎，最新，最火卖商品的信息
 * 响应式网站
+* laravel-admin 快速搭建后台
 ## Installation
 1. 获取源代码
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
@@ -51,6 +52,7 @@ php artisan gps:install
 ## Packages
 | 扩展包 | 一句话描述 | 在本项目中的使用案例 |  
 | --- | --- | --- |   
+|[z-song/laravel-admin](https://github.com/z-song/laravel-admin)|后台|快速搭建后台功能|
 |[mews/captcha](https://github.com/mewebstudio/captcha)|验证码|登录注册功能使用验证码验证|
 |[overtrue/laravel-socialite](https://github.com/overtrue/laravel-socialite)|第三方登录|用户登录可以使用Github,QQ,新浪微博|
 |[spatie/laravel-permission](https://github.com/spatie/laravel-permission)|权限管理包|后台管理员操作权限|  
