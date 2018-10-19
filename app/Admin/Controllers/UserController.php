@@ -93,12 +93,7 @@ class UserController extends Controller
         });
         $grid->column('email', '邮箱');
         $grid->column('avatar', '头像')->display(function ($avatar) {
-
-            if (! starts_with($avatar, 'http')) {
-                $avatar = Storage::disk('public')->url($avatar);
-            }
-
-            return "<img width='50' height='50' src='{$avatar}'>";
+            return imageUrl($avatar);
         });
         $grid->column('github_name', 'Github昵称');
         $grid->column('qq_name', 'QQ昵称');
@@ -131,7 +126,9 @@ class UserController extends Controller
             return User::SEXES[$sex] ?? '未知';
         });
         $show->field('email', '邮箱');
-        $show->field('avatar', '头像');
+        $show->field('avatar', '头像')->as(function ($avatar) {
+            return imageUrl($avatar);
+        });
         $show->field('github_name', 'Github昵称');
         $show->field('qq_name', 'QQ昵称');
         $show->field('weibo_name', '微博昵称');
