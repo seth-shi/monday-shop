@@ -20,4 +20,14 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+
+    public static function orderAll()
+    {
+        return self::query()->orderBy('order')->latest()->get();
+    }
+
+    public static function selectOrderAll()
+    {
+        return self::query()->orderBy('order')->latest()->pluck('title', 'id');
+    }
 }

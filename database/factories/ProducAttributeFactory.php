@@ -18,7 +18,7 @@ $factory->define(ProductAttribute::class, function (Faker $faker) {
 
     return [
         'attribute' => '颜色',
-        'items' => $faker->colorName,
+        'value' => $faker->colorName,
         'markup' => mt_rand(10, 20),
     ];
 });

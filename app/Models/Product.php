@@ -4,8 +4,13 @@ namespace App\Models;
 
 class Product extends Model
 {
-    protected $table = 'products';
-    protected $fillable = ['category_id', 'name', 'price', 'pinyin', 'first_pinyin', 'price_original', 'thumb', 'uuid', 'title'];
+    protected $fillable = [
+        'category_id', 'name', 'price', 'price_original',
+        'pinyin', 'first_pinyin', 'thumb', 'uuid', 'title', 'pictures'];
+
+    protected $casts = [
+        'pictures' => 'json'
+    ];
 
 
 
@@ -24,18 +29,13 @@ class Product extends Model
         return $this->belongsToMany(User::class, 'likes_products');
     }
 
-    public function productDetail()
+    public function detail()
     {
         return $this->hasOne(ProductDetail::class);
     }
 
-    public function productImages()
-    {
-        return $this->hasMany(ProductImage::class);
-    }
 
-
-    public function productAttributes()
+    public function attributes()
     {
         return $this->hasMany(ProductAttribute::class);
     }
@@ -49,7 +49,9 @@ class Product extends Model
     public static function boot()
     {
         parent::boot();
-
+//
+//        $form->text('pinyin', 'Pinyin');
+//        $form->text('first_pinyin', 'First pinyin');
         // TODO 拼音
         // 把分类的
         static::saving(function () {

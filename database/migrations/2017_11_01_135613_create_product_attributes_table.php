@@ -17,12 +17,11 @@ class CreateProductAttributesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
 
-            $table->string('attribute');
-            $table->string('items');
+            $table->string('attribute')->comment('属性，相同值的标志一组');
+            $table->string('value')->comment('值，标志属性的值');
             $table->decimal('markup', 6, 2)->default(0)->comment('此属性价格浮动多少钱');
 
-            $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->unsignedInteger('product_id');
 
             $table->timestamps();
         });
