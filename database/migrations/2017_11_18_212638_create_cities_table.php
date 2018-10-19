@@ -19,7 +19,7 @@ class CreateCitiesTable extends Migration
             $table->string('name')->comment('城市名称');
 
             $table->string('province_id');
-            // $table->foreign('province_id')->references('id')->on('provinces');
+
             $table->primary('id');
         });
     }

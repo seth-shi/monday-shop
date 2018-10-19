@@ -54,7 +54,6 @@ class Product extends Model
         // 把分类的
         static::saving(function () {
 
-            dd(func_get_args());
         });
     }
 }

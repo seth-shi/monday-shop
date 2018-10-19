@@ -18,6 +18,9 @@ Route::group([
     $router->resource('categories', 'CategoryController');
     $router->resource('products', 'ProductController');
 
+    // 订单
+    $router->resource('orders', 'OrderController');
+
     // 会员管理
     $router->resource('users', 'UserController');
 

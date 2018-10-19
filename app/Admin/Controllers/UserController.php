@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Storage;
@@ -98,7 +99,7 @@ class UserController extends Controller
         $grid->column('github_name', 'Github昵称');
         $grid->column('qq_name', 'QQ昵称');
         $grid->column('weibo_name', '微博昵称');
-        $grid->column('login_count', '登录次数');
+        $grid->column('login_count', '登录次数')->sortable();
         $grid->column('is_active', '是否激活')->display(function ($isActive) {
             return $isActive == User::ACTIVE_STATUS
                 ? "<span class='label' style='color: green;'>激活</span>"
@@ -106,6 +107,14 @@ class UserController extends Controller
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
+
+
+        // 筛选功能
+        $grid->filter(function (Filter $filter) {
+           $filter->disableIdFilter();
+           $filter->like('name', '用户名');
+           $filter->like('email', '邮箱');
+        });
 
         return $grid;
     }

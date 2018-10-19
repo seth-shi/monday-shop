@@ -15,7 +15,7 @@ class ProductsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run()
     {
         $products_data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.json');
         $products_data = json_decode($products_data, true);
@@ -23,7 +23,6 @@ class ProductsTableSeeder extends Seeder
         $descriptions_data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'descriptions.json');
         $descriptions_data = json_decode($descriptions_data, true);
 
-        $total = count($products_data) - 1;
         $i = 0;
         // 只要 120 个商品就行了
         $count = 120;
