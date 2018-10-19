@@ -18,7 +18,7 @@
                                             <img src="{{ $categoryPresenter->getThumbLink($category->thumb) }}" alt="{{ $category->name }}">
                                         </div>
                                     </div>
-                                    <h6 class="store-name ptb-10">{{ $category->name }}</h6>
+                                    <h6 class="store-name ptb-10">{{ $category->title }}</h6>
                                 </a>
                             </div>
                         @endforeach

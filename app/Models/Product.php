@@ -45,4 +45,16 @@ class Product extends Model
     {
         return $this->hasOne(orderDetail::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // TODO 拼音
+        // 把分类的
+        static::saving(function () {
+
+            dd(func_get_args());
+        });
+    }
 }

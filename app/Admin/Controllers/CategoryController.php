@@ -34,12 +34,19 @@ class CategoryController extends Controller
 
                 // 只能在同一级排序拖动，不允许二级
                 $row->column(6, Category::tree(function (Tree $tree) {
+
                     $tree->disableCreate();
 
-                    $tree->nestable(['maxDepth' => 1]);
+                    $tree->nestable(['maxDepth' => 1])
+                         ->branch(function ($branch) {
+
+                             $icon = "<i class='fa {$branch['icon']}'></i>";
+
+                             return $icon . ' ' . $branch['title'];
+                         });
                 }));
 
-                // 新建
+                // 新建表单
                 $row->column(6, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_base_path('categories'));
@@ -119,6 +126,7 @@ class CategoryController extends Controller
         $form = new Form(new Category);
 
         $form->text('title', '分类名');
+        $form->icon('icon', '图标');
         $form->image('thumb', '缩略图');
         $form->text('description', '描述');
 

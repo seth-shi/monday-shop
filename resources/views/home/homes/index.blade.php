@@ -13,7 +13,7 @@
                                 @foreach ($categories as $category)
                                     <li>
                                         <a href='{{ url("/home/categories/{$category->id}") }}'>
-                                            <i class="fa fa-product-hunt"></i>{{ $category->name }}
+                                            <i class="fa {{ $category->icon }}"></i>{{ $category->title }}
                                             <span>{{ $category->products->count() }}</span>
                                         </a>
                                     </li>
