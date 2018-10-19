@@ -18,10 +18,12 @@ class CreateCategoriesTable extends Migration {
         $table->engine = 'InnoDB';
         $table->increments('id');
 
-        $table->string('name')->unique();
-        $table->string('thumb');
+        $table->string('title')->unique();
+        $table->string('icon')->comment('分类的图标');
+        $table->string('thumb')->comment('分类的缩略图');
         $table->string('description')->nullable()->comment('分类的描述');
-        $table->tinyInteger('order')->comment('排序字段')->default(1);
+        $table->unsignedInteger('parent_id')->default(0)->comment('兼容插件的字段');
+        $table->tinyInteger('order')->comment('排序字段')->default(9);
 
         $table->timestamps();
     });

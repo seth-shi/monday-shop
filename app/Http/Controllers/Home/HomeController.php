@@ -17,7 +17,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::query()->take(9)->get();
+        $categories = Category::query()->orderBy('order')->take(9)->get();
         $hotProducts = Product::query()->orderBy('safe_count', 'desc')->take(3)->get();
         $latestProducts = Product::query()->latest()->take(9)->get();
         $users = User::query()->orderBy('login_count', 'desc')->take(10)->get(['name', 'avatar']);
