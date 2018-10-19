@@ -24,4 +24,6 @@ Route::group([
     // 会员管理
     $router->resource('users', 'UserController');
 
+    // 图片上传
+    $router->post('upload/editor', 'UploadController@uploadByEditor');
 });
