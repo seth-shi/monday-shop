@@ -96,6 +96,7 @@ class CarsController extends Controller
     /**
      * @param $id
      * @return array
+     * @throws \Exception
      */
     public function destroy($id)
     {

@@ -73,7 +73,7 @@ class AdminTablesSeeder extends Seeder
 
         // add role to menu.
         Menu::query()
-            ->where('parent_id', 1)
+            ->where('parent_id', 0)
             ->where('id', '!=', 1)
             ->get()
             ->map(function (Menu $menu) use ($role) {
