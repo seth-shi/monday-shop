@@ -5,7 +5,7 @@ namespace App\Models;
 class Address extends Model
 {
     protected $table = 'addresses';
-    protected $fillable = ['name', 'phone', 'province', 'city', 'region', 'detail_address', 'is_default', 'user_id'];
+    protected $fillable = ['name', 'phone', 'province', 'city', 'detail_address', 'is_default', 'user_id'];
 
     public function user()
     {
@@ -15,5 +15,10 @@ class Address extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function format()
+    {
+        return $this->province . $this->city . $this->detail_address;
     }
 }

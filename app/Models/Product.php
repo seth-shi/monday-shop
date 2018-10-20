@@ -11,7 +11,7 @@ class Product extends Model
         'pinyin', 'first_pinyin', 'thumb', 'uuid', 'title', 'pictures'];
 
     protected $casts = [
-        'pictures' => 'json'
+        'pictures' => 'json',
     ];
 
 
@@ -57,7 +57,7 @@ class Product extends Model
         static::saving(function ($model) {
 
             if (is_null($model->uuid)) {
-                $model->uuid = Uuid::generate()->hex;;
+                $model->uuid = Uuid::generate()->hex;
             }
 
             if (is_null($model->pinyin)) {

@@ -17,12 +17,11 @@ class CreateOrderDetailsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
 
-            $table->integer('order_id')->unsigned();
+            $table->unsignedInteger('order_id');
+            $table->unsignedInteger('product_id');
 
             $table->integer('numbers')->comment('数量');
-
-            $table->integer('product_id')->unsigned();
-
+            $table->decimal('price', 10, 2)->comment('商品单价');
             $table->decimal('total', 10, 2)->comment('价格小计算');
 
             $table->timestamps();
