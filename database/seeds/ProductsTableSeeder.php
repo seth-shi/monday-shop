@@ -62,7 +62,6 @@ class ProductsTableSeeder extends Seeder
     {
         $product['price_original'] = ($product['price'] * (mt_rand(12, 18)/10));
         $product['thumb'] = $this->pictureBasePath . $product['thumb'];
-        $product['unit'] = '件';
         $product['count'] = mt_rand(999, 99999);
         $product['category_id'] = \App\Models\Category::query()->inRandomOrder()->first()->id;
         // 图片的多图

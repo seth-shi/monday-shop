@@ -2,20 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Extensions\ProductAlive;
-use App\Admin\Extensions\ProductAttribute;
+
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
-use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Grid\Displayers\Actions;
-use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Collection as SuppoertCollection;
 
 class ProductController extends Controller
 {
@@ -88,6 +83,8 @@ class ProductController extends Controller
     {
         $grid = new Grid(new Product);
 
+        $grid->model()->latest();
+
         $grid->column('id');
         $grid->column('category.title', '商品类别');
         $grid->column('name', '商品名')->limit(30);
@@ -100,7 +97,7 @@ class ProductController extends Controller
         $grid->column('safe_count', '售出数量')->sortable();
         $grid->column('count', '库存量')->sortable();
         $grid->column('is_alive', '是否上架')->display(function ($isAlive) {
-            return $isAlive ? '上架' : '下架';
+            return $isAlive ? '<mark>上架</mark>' : '<mark style="color: red">下架</mark>';
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
@@ -132,7 +129,7 @@ class ProductController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Product::with('attributes')->findOrFail($id));
+        $show = new Show(Product::query()->findOrFail($id));
 
         $show->field('id');
         $show->field('category.title', '商品类别');
@@ -150,15 +147,6 @@ class ProductController extends Controller
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
 
-        $show->divider();
-        // 属性
-        $show->field('attributes', '属性')->unescape()->as(function (Collection $attributes) {
-
-            return new ProductAttribute($attributes);
-        });
-
-        $show->divider();
-
 
         return $show;
     }
@@ -173,27 +161,26 @@ class ProductController extends Controller
         $form = new Form(new Product);
 
 
-        $form->select('category_id', '类别')->options(Category::selectOrderAll());
-        $form->text('name', '商品名字');
-        $form->textarea('title', '卖点');
-        $form->currency('price', '销售价')->symbol('$');
-        $form->currency('price_original', '原价')->symbol('$');
-        $form->image('thumb', '缩略图')->uniqueName()->move('products/thumb');
+        $form->select('category_id', '类别')->options(Category::selectOrderAll())->rules('required|exists:categories,id');
+        $form->text('name', '商品名字')->rules(function (Form $form) {
+
+            $rules = 'required|max:50|unique:products,name';
+            if ($id = $form->model()->id) {
+                $rules .= ',' . $id;
+            }
+
+            return $rules;
+        });
+        $form->textarea('title', '卖点')->rules('required|max:199');
+        $form->currency('price', '销售价')->symbol('$')->rules('required|numeric');
+        $form->currency('price_original', '原价')->symbol('$')->rules('required|numeric');
+        $form->number('count', '库存量')->rules('required|integer|min:0');
         $form->switch('is_alive', '是否上架')->default(1);
 
+        $form->image('thumb', '缩略图')->uniqueName()->move('products/thumb')->rules('required');
         $form->multipleImage('pictures', '轮播图')->uniqueName()->move('products/lists');
 
-        $form->hasMany('attributes', '属性', function (Form\NestedForm $form) {
-
-            $form->text('attribute', '属性');
-            $form->text('value', '值');
-            $form->currency('markup', '加价')->symbol('$');
-        });
-
-
-        // TODO
-        $form->editor('detail.content', '详情');
-
+        $form->editor('detail.content', '详情')->rules('required');
 
         return $form;
     }

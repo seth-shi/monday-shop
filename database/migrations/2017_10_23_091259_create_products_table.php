@@ -26,7 +26,6 @@ class CreateProductsTable extends Migration
 
             $table->integer('safe_count')->default(0)->comment('出售的数量');
             $table->integer('count')->comment('商品库存量');
-            $table->string('unit')->comment('商品的单位');
             $table->tinyInteger('is_alive')->default(1)->comment('是否上架');
 
             $table->string('pinyin')->nullable()->comment('商品名的拼音');
