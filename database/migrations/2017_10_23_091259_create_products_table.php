@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 10, 2)->comment('商品的价格');
             $table->decimal('price_original', 10, 2)->comment('商品原本的价格');
             $table->string('thumb')->comment('商品的缩略图');
-            $table->string('pictures')->comment('图片的列表');
+            $table->text('pictures')->comment('图片的列表');
 
             $table->integer('safe_count')->default(0)->comment('出售的数量');
             $table->integer('count')->comment('商品库存量');
@@ -33,7 +33,6 @@ class CreateProductsTable extends Migration
             $table->char('first_pinyin', 1)->nullable()->comment('商品名的拼音的首字母');
 
             $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories');
 
             $table->timestamps();
         });

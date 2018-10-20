@@ -22,9 +22,8 @@ class CreateOrderDetailsTable extends Migration
             $table->integer('numbers')->comment('数量');
 
             $table->integer('product_id')->unsigned();
-            $table->unsignedInteger('product_attribute_id')->nullable()->comment('商品的属性ID');
 
-            $table->decimal('total', 10, 2)->comment('价格小记');
+            $table->decimal('total', 10, 2)->comment('价格小计算');
 
             $table->timestamps();
         });

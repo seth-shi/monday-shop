@@ -17,10 +17,8 @@ class CreateSubscribesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
 
+            $table->unsignedInteger('user_id');
             $table->string('email');
-
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
         });
