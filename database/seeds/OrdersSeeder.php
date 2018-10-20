@@ -10,10 +10,7 @@ class OrdersSeeder extends Seeder
 {
 
     public function run()
-    {  if (! function_exists('ceilTwoPrice')) {
-        require admin_path('helpers.php');
-    }
-
+    {
 
         for ($k = 0; $k < 9; ++ $k) {
             /**
