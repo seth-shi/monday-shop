@@ -8,6 +8,7 @@ use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
@@ -58,20 +59,29 @@ class OrderController extends Controller
         $grid = new Grid(new Order);
 
         $grid->model()->latest();
-        // TODO
+
         $grid->column('id');
         $grid->column('no', '流水号');
         $grid->column('user.name', '用户');
         $grid->column('total', '总价');
-        $grid->column('status', '状态');
+        $grid->column('status', '状态')->display(function ($status) {
+            return Order::PAY_STATUSES[$status];
+        });
         $grid->column('address', '收货地址');
         $grid->column('pay_no', '支付流水号');
         $grid->column('pay_time', '支付时间');
-        $grid->column('pay_type', '支付类型');
+        $grid->column('pay_type', '支付类型')->display(function ($type) {
+            return Order::PAY_TYPES[$type] ?? '未知';
+        });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
 
+        $grid->disableRowSelector();
         $grid->disableCreateButton();
+        $grid->actions(function (Actions $actions) {
+            $actions->disableEdit();
+        });
+
         $grid->filter(function (Filter $filter) {
 
             $filter->disableIdFilter();
@@ -96,40 +106,39 @@ class OrderController extends Controller
     {
         $show = new Show(Order::findOrFail($id));
 
-        $show->id('Id');
-        $show->no('No');
-        $show->user_id('User id');
-        $show->total('Total');
-        $show->status('Status');
-        $show->address('Address');
-        $show->pay_no('Pay no');
-        $show->pay_time('Pay time');
-        $show->pay_type('Pay type');
-        $show->deleted_at('Deleted at');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        $show->field('id');
+        $show->field('no', '流水号');
+        $show->field('user', '用户')->as(function ($user) {
+            return $user->name;
+        });
+        $show->field('total', '总计');
+        $show->field('status', '状态')->as(function ($status) {
+            return Order::PAY_STATUSES[$status];
+        });;
+        $show->field('address', '收货地址');
+        $show->field('pay_no', '支付单号');
+        $show->field('pay_time', '支付时间');
+        $show->field('pay_type', '支付类型')->as(function ($type) {
+            return Order::PAY_TYPES[$type] ?? '未知';
+        });
+        $show->field('created_at', '创建时间');
+        $show->field('updated_at', '修改时间');
+
+        // 详情
+        $show->details('详情', function (Grid $details) {
+
+            $details->column('id');
+            $details->column('product.name', '商品名字');
+            $details->column('price', '单价');
+            $details->column('numbers', '数量');
+            $details->column('total', '小计');
+
+            $details->disableRowSelector();
+            $details->disableCreateButton();
+            $details->disableFilter();
+            $details->disableActions();
+        });
 
         return $show;
-    }
-
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    protected function form()
-    {
-        $form = new Form(new Order);
-
-        $form->text('no', 'No');
-        $form->number('user_id', 'User id');
-        $form->decimal('total', 'Total');
-        $form->switch('status', 'Status');
-        $form->textarea('address', 'Address');
-        $form->text('pay_no', 'Pay no');
-        $form->datetime('pay_time', 'Pay time')->default(date('Y-m-d H:i:s'));
-        $form->switch('pay_type', 'Pay type');
-
-        return $form;
     }
 }
