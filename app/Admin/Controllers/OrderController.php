@@ -4,9 +4,11 @@ namespace App\Admin\Controllers;
 
 use App\Models\Order;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
@@ -70,6 +72,16 @@ class OrderController extends Controller
         $grid->column('updated_at', '修改时间');
 
         $grid->disableCreateButton();
+        $grid->filter(function (Filter $filter) {
+
+            $filter->disableIdFilter();
+            $filter->like('no', '流水号');
+            $filter->where(function ($query) {
+
+                $users = User::query()->where('name', 'like', "%{$this->input}%")->pluck('id');
+                $query->whereIn('user_id', $users->all());
+            }, '用户');
+        });
 
         return $grid;
     }
