@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use Encore\Admin\Auth\Database\Menu;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
@@ -13,8 +14,8 @@ class HomeController extends Controller
     public function index(Content $content)
     {
 
-        // $menus = Menu::query()->get(['id', 'parent_id', 'order', 'title', 'icon', 'uri']);
-        // file_put_contents(database_path('seeds/data/menus.json'), $menus->toJson());
+//         $menus = Menu::query()->get(['id', 'parent_id', 'order', 'title', 'icon', 'uri']);
+//         file_put_contents(database_path('seeds/data/menus.json'), $menus->toJson());
 
         return $content
             ->header('仪表盘')

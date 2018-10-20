@@ -12,7 +12,6 @@ class UploadController extends Controller
     /**
      * @param UploadServe $uploadServe
      * @return array
-     * @throws \App\Exceptions\UploadException
      */
     public function uploadByEditor(UploadServe $uploadServe)
     {

@@ -16,9 +16,9 @@ class CreateCitiesTable extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->string('id');
-            $table->string('name')->comment('城市名称');
 
             $table->string('province_id');
+            $table->string('name')->comment('城市名称');
 
             $table->primary('id');
         });

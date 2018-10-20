@@ -1,15 +1,14 @@
 <?php
 
 use App\Models\Product;
-use App\Models\ProductAttribute;
-use App\Models\ProductDetail;
-use App\Models\ProductImage;
 use Illuminate\Database\Seeder;
-use Faker\Generator as Faker;
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Collection;
 
 class ProductsTableSeeder extends Seeder
 {
+
+    protected $pictureBasePath = 'products/list/';
+
     /**
      * Run the database seeds.
      *
@@ -17,49 +16,58 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        $products_data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'products.json');
-        $products_data = json_decode($products_data, true);
+        $productsData = $this->buildCollectionByJsonFile(__DIR__ . '/data/products.json');
+        $contentsData = $this->buildCollectionByJsonFile(__DIR__ . '/data/descriptions.json');
+        $picturesData = $this->buildCollectionByJsonFile(__DIR__ . '/data/pictures.json')->map(function ($picture) {
+            return $this->pictureBasePath . $picture;
+        });
 
-        $descriptions_data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'descriptions.json');
-        $descriptions_data = json_decode($descriptions_data, true);
 
-        $i = 0;
-        // 只要 120 个商品就行了
-        $count = 120;
-        foreach ($products_data as $key => $product_data) {
+        $count = count($productsData) - 1;
+        $productsData->map(function ($productData, $index) use ($count, $contentsData, $picturesData) {
 
-            if ($i ++ > $count) {
-                break;
-            }
-            $product = $this->makeProduct($product_data);
-
-            // product images
-            factory(ProductImage::class, ['url' => 'products/list/' . $product_data['thumb'], 'product_id' => $product->id]);
-            factory(ProductImage::class, mt_rand(2, 4))->create(['product_id' => $product->id]);
+            /**
+             * @var $product Product
+             */
+            $product = $this->makeProduct($productData, $picturesData);
 
             // product detail
-            factory(ProductDetail::class)->create(['product_id' =>  $product->id, 'content' => $descriptions_data[$key]]);
+            $product->detail()->create(['content' => $contentsData[$index]]);
 
-            // product attributes
-            factory(ProductAttribute::class, mt_rand(1, 4))->create(['product_id' =>  $product->id]);
-
-            $bar = intval(($i / $count) * 100);
+            $bar = intval(($index / $count) * 100);
             echo "seeding: [products] .... {$bar} % \r";
-        }
+        });
+
 
         echo "\n";
 
     }
 
-    protected function makeProduct(array $product)
+    /**
+     * @param $file
+     * @return \Illuminate\Support\Collection
+     */
+    protected function buildCollectionByJsonFile($file)
     {
-        $product['uuid'] = Uuid::generate()->hex;
-        $product['price_original'] = ($product['price'] * (mt_rand(12, 18)/10));
-        $product['pinyin'] = pinyin_permalink($product['name']);
-        $product['first_pinyin'] = substr($product['pinyin'], 0, 1);
-        $product['thumb'] = 'products/list/' . $product['thumb'];
-        $product['category_id'] = \App\Models\Category::inRandomOrder()->first()->id;
+        $data = file_get_contents($file);
+        return collect(json_decode($data, true));
+    }
 
-        return Product::create($product);
+    /**
+     * @param array      $product
+     * @param Collection $pictures
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     */
+    protected function makeProduct(array $product, Collection $pictures)
+    {
+        $product['price_original'] = ($product['price'] * (mt_rand(12, 18)/10));
+        $product['thumb'] = $this->pictureBasePath . $product['thumb'];
+        $product['unit'] = '件';
+        $product['count'] = mt_rand(999, 99999);
+        $product['category_id'] = \App\Models\Category::query()->inRandomOrder()->first()->id;
+        // 图片的多图
+        $product['pictures'] = $pictures->random(mt_rand(2, 4));
+
+        return Product::query()->create($product);
     }
 }

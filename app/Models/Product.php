@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Webpatser\Uuid\Uuid;
+
 class Product extends Model
 {
     protected $fillable = [
@@ -49,12 +51,19 @@ class Product extends Model
     public static function boot()
     {
         parent::boot();
-//
-//        $form->text('pinyin', 'Pinyin');
-//        $form->text('first_pinyin', 'First pinyin');
-        // TODO 拼音
-        // 把分类的
-        static::saving(function () {
+
+
+        // 自动生成商品的 uuid， 拼音
+        static::saving(function ($model) {
+
+            if (is_null($model->uuid)) {
+                $model->uuid = Uuid::generate()->hex;;
+            }
+
+            if (is_null($model->pinyin)) {
+                $model->pinyin = pinyin_permalink($model->name);
+                $model->first_pinyin = substr($model->pinyin, 0, 1);
+            }
 
         });
     }

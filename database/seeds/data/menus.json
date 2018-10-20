@@ -1,1 +1,99 @@
-[{"id":1,"parent_id":0,"order":1,"title":"\u4eea\u8868\u76d8","icon":"fa-bar-chart","uri":"\/"},{"id":2,"parent_id":0,"order":2,"title":"\u7cfb\u7edf\u7ba1\u7406","icon":"fa-tasks","uri":""},{"id":3,"parent_id":2,"order":3,"title":"\u7ba1\u7406\u5458","icon":"fa-users","uri":"auth\/users"},{"id":4,"parent_id":2,"order":4,"title":"\u89d2\u8272","icon":"fa-user","uri":"auth\/roles"},{"id":5,"parent_id":2,"order":5,"title":"\u6743\u9650","icon":"fa-ban","uri":"auth\/permissions"},{"id":6,"parent_id":2,"order":6,"title":"\u83dc\u5355","icon":"fa-bars","uri":"auth\/menu"},{"id":7,"parent_id":2,"order":7,"title":"\u64cd\u4f5c\u65e5\u5fd7","icon":"fa-history","uri":"auth\/logs"},{"id":8,"parent_id":0,"order":8,"title":"\u4f1a\u5458\u7ba1\u7406","icon":"fa-user","uri":"users"},{"id":9,"parent_id":0,"order":9,"title":"\u5546\u54c1\u7ba1\u7406","icon":"fa-product-hunt","uri":null},{"id":10,"parent_id":0,"order":11,"title":"\u8ba2\u5355\u7ba1\u7406","icon":"fa-shopping-basket","uri":null},{"id":11,"parent_id":9,"order":10,"title":"\u5206\u7c7b","icon":"fa-align-justify","uri":"categories"},{"id":12,"parent_id":10,"order":0,"title":"\u8bc4\u8bba","icon":"fa-comments","uri":"comments"},{"id":13,"parent_id":9,"order":1,"title":"\u5546\u54c1","icon":"fa-product-hunt","uri":"products"},{"id":14,"parent_id":10,"order":0,"title":"\u8ba2\u5355","icon":"fa-indent","uri":"orders"}]
+[{
+  "id": 1,
+  "parent_id": 0,
+  "order": 1,
+  "title": "仪表盘",
+  "icon": "fa-bar-chart",
+  "uri": "\/"
+}, {
+  "id": 2,
+  "parent_id": 0,
+  "order": 2,
+  "title": "系统管理",
+  "icon": "fa-tasks",
+  "uri": ""
+}, {
+  "id": 3,
+  "parent_id": 2,
+  "order": 3,
+  "title": "管理员",
+  "icon": "fa-users",
+  "uri": "auth\/users"
+}, {
+  "id": 4,
+  "parent_id": 2,
+  "order": 4,
+  "title": "角色",
+  "icon": "fa-user",
+  "uri": "auth\/roles"
+}, {
+  "id": 5,
+  "parent_id": 2,
+  "order": 5,
+  "title": "权限",
+  "icon": "fa-ban",
+  "uri": "auth\/permissions"
+}, {
+  "id": 6,
+  "parent_id": 2,
+  "order": 6,
+  "title": "菜单",
+  "icon": "fa-bars",
+  "uri": "auth\/menu"
+}, {
+  "id": 7,
+  "parent_id": 2,
+  "order": 7,
+  "title": "操作日志",
+  "icon": "fa-history",
+  "uri": "auth\/logs"
+}, {
+  "id": 8,
+  "parent_id": 0,
+  "order": 8,
+  "title": "会员管理",
+  "icon": "fa-user",
+  "uri": "users"
+}, {
+  "id": 9,
+  "parent_id": 0,
+  "order": 9,
+  "title": "商品管理",
+  "icon": "fa-product-hunt",
+  "uri": null
+}, {
+  "id": 10,
+  "parent_id": 0,
+  "order": 12,
+  "title": "订单管理",
+  "icon": "fa-shopping-basket",
+  "uri": null
+}, {
+  "id": 11,
+  "parent_id": 9,
+  "order": 10,
+  "title": "分类",
+  "icon": "fa-align-justify",
+  "uri": "categories"
+}, {
+  "id": 12,
+  "parent_id": 10,
+  "order": 14,
+  "title": "评论",
+  "icon": "fa-comments",
+  "uri": "comments"
+}, {
+  "id": 13,
+  "parent_id": 9,
+  "order": 11,
+  "title": "商品",
+  "icon": "fa-product-hunt",
+  "uri": "products"
+}, {
+  "id": 14,
+  "parent_id": 10,
+  "order": 13,
+  "title": "订单",
+  "icon": "fa-indent",
+  "uri": "orders"
+}]
