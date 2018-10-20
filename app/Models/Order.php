@@ -14,6 +14,25 @@ class Order extends Model
     protected $fillable = ['uuid', 'total', 'status', 'address_id', 'user_id'];
 
 
+    // 订单状态
+    const UN_PAY_STATUS = 0;
+    const PAY_STATUS = 1;
+    const PAY_STATUSES = [
+      self::UN_PAY_TYPE => '未支付',
+      self::PAY_STATUS => '支付',
+    ];
+
+    // 支付类型
+    const UN_PAY_TYPE = 0;
+    const PAY_ZHIFUBAO_TYPE = 1;
+    const PAY_WEIXIN_TYPE = 2;
+    const PAY_TYPES = [
+      self::UN_PAY_TYPE => '未支付',
+      self::PAY_ZHIFUBAO_TYPE => '支付宝',
+      self::PAY_WEIXIN_TYPE => '微信'
+    ];
+
+
     public function details()
     {
         return $this->hasMany(OrderDetail::class);
@@ -46,6 +65,7 @@ class Order extends Model
 
     /**
      * @param string $userId
+     * @param int    $try
      * @return string
      * @throws \Exception
      */
