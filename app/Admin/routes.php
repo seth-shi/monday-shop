@@ -12,18 +12,19 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
 
-
     // 分类
     // 商品
     $router->resource('categories', 'CategoryController');
     $router->resource('products', 'ProductController');
 
     // 订单
+    // 评论
     $router->resource('orders', 'OrderController');
+    $router->resource('comments', 'CommentController');
 
     // 会员管理
     $router->resource('users', 'UserController');
 
-    // 图片上传
+    // 富文本图片上传
     $router->post('upload/editor', 'UploadController@uploadByEditor');
 });
