@@ -73,6 +73,9 @@ class OrderController extends Controller
         $grid->column('pay_type', '支付类型')->display(function ($type) {
             return Order::PAY_TYPES[$type] ?? '未知';
         });
+        $grid->column('is_commented', '是否评论')->display(function ($is) {
+            return $is ? '已评论' : '未评论';
+        });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
 

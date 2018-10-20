@@ -31,7 +31,7 @@ class Order extends Model
       self::PAY_ZHIFUBAO_TYPE => '支付宝',
       self::PAY_WEIXIN_TYPE => '微信'
     ];
-
+    
 
     public function details()
     {
