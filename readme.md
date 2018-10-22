@@ -4,13 +4,13 @@
 ![PC首页](public/media/index_pc.png)
 ****
 * 后台订单列表
-![订单列表](public/media/orders.png)
+![订单列表](public/media/admin/orders.png)
 ****
 * 后台商品列表
-![商品列表](public/media/products.png)
+![商品列表](public/media/admin/products.png)
 ****
 * 后台添加商品
-![添加商品](public/media/products_create.png)
+![添加商品](public/media/admin/products_create.png)
 ## Feture
 - [x] **响应式网站**
 - [x] **第三方登录**
