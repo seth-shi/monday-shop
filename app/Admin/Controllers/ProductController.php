@@ -40,7 +40,7 @@ class ProductController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
+            ->header('详情')
             ->description('description')
             ->body($this->detail($id));
     }
@@ -55,7 +55,7 @@ class ProductController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
+            ->header('编辑')
             ->description('description')
             ->body($this->form()->edit($id));
     }
@@ -69,8 +69,8 @@ class ProductController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+            ->header('添加商品')
+            ->description('为你的商城添加一个商品')
             ->body($this->form());
     }
 
@@ -88,7 +88,7 @@ class ProductController extends Controller
         $grid->column('id');
         $grid->column('category.title', '商品类别');
         $grid->column('name', '商品名')->limit(30);
-        $grid->column('thumb')->display(function ($thumb) {
+        $grid->column('thumb', '首图')->display(function ($thumb) {
             return imageUrl($thumb);
         });
         $grid->column('price', '价格')->display(function ($price) {
