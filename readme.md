@@ -1,11 +1,12 @@
 # WaitMoonMan/monday-shop
 ****
+* 首页图
 ![PC首页](public/media/index_pc.png)
-
+* 后台订单列表
 ![订单列表](public/media/orders.png)
-
+* 后台商品列表
 ![商品列表](public/media/products.png)
-
+* 后台添加商品
 ![添加商品](public/media/products_create.png)
 ## Feture
 - [x] **响应式网站**
