@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('style')
-	<link href="{{ asset('assets/user/css/stepstyle.css') }}" rel="stylesheet" type="text/css">
+	<link href="/assets/user/css/stepstyle.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('main')

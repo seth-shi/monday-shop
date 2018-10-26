@@ -320,8 +320,8 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
-    <script src="{{ asset('js/jquery-addShopping.js') }}"></script>
+    <script src="/assets/user/layer/2.4/layer.js"></script>
+    <script src="/js/jquery-addShopping.js"></script>
     <script>
         var product_id = $('input[name=product_id]').val();
         var _url = "{{ url("/user/likes") }}/" + product_id;

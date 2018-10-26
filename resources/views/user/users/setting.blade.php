@@ -3,8 +3,8 @@
 
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/admin/lib/layui/css/layui.css') }}">
-    <link href="{{ asset('assets/user/css/infstyle.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/assets/admin/lib/layui/css/layui.css">
+    <link href="/assets/user/css/infstyle.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('main')
@@ -94,7 +94,7 @@
 
 
 @section('script')
-    <script src="{{ asset('assets/admin/lib/layui/layui.js') }}"></script>
+    <script src="/assets/admin/lib/layui/layui.js"></script>
     <script>
         layui.use('upload', function() {
             var $ = layui.jquery

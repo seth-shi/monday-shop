@@ -34,37 +34,32 @@
         <!-- ––––––––––––––––––––––––––––––––––––––––– -->
         <!-- PAGE FAVICON                              -->
         <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-        <link rel="apple-touch-icon" href="{{ asset('assets/shop/images/favicon/apple-touch-icon.png') }}">
-        <link rel="icon" href="{{ asset('assets/shop/images/favicon/favicon.ico') }}'">
-
-        <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-        <!-- GOOGLE FONTS                              -->
-        <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
+        <link rel="apple-touch-icon" href="/assets/shop/images/favicon/apple-touch-icon.png">
+        <link rel="icon" href="/assets/shop/images/favicon/favicon.ico'">
 
         <!-- ––––––––––––––––––––––––––––––––––––––––– -->
         <!-- Include CSS Filess                        -->
         <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 
         <!-- Bootstrap -->
-        <link href="{{ asset('assets/shop/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="/assets/shop/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Font Awesome -->
-        <link href="{{ asset('assets/shop/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="/assets/shop/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
         <!-- Linearicons -->
-        <link href="{{ asset('assets/shop/vendors/linearicons/css/linearicons.css') }}" rel="stylesheet">
+        <link href="/assets/shop/vendors/linearicons/css/linearicons.css" rel="stylesheet">
 
         <!-- Owl Carousel -->
-        <link href="{{ asset('assets/shop/vendors/owl-carousel/owl.carousel.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/shop/vendors/owl-carousel/owl.theme.min.css') }}" rel="stylesheet">
+        <link href="/assets/shop/vendors/owl-carousel/owl.carousel.min.css" rel="stylesheet">
+        <link href="/assets/shop/vendors/owl-carousel/owl.theme.min.css" rel="stylesheet">
 
         <!-- Flex Slider -->
-        <link href="{{ asset('assets/shop/vendors/flexslider/flexslider.css') }}" rel="stylesheet">
+        <link href="/assets/shop/vendors/flexslider/flexslider.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="{{ asset('assets/shop/css/base.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/shop/css/style.css') }}" rel="stylesheet">
+        <link href="/assets/shop/css/base.css" rel="stylesheet">
+        <link href="/assets/shop/css/style.css" rel="stylesheet">
 </head>
 <body>
 <main id="mainContent" class="main-content">

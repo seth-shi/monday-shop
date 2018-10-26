@@ -48,7 +48,7 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
+    <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
 
         var _url = "{{ url("/user/likes") }}/";

@@ -6,15 +6,15 @@
 
 	<title>结算页面</title>
 
-	<link href="{{ asset('assets/user/AmazeUI-2.4.2/assets/css/amazeui.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/assets/user/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
 
-	<link href="{{ asset('assets/user/basic/css/demo.css') }}" rel="stylesheet" type="text/css" />
-	<link href="{{ asset('assets/user/css/cartstyle.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/assets/user/basic/css/demo.css" rel="stylesheet" type="text/css" />
+	<link href="/assets/user/css/cartstyle.css" rel="stylesheet" type="text/css" />
 
-	<link href="{{ asset('assets/user/css/jsstyle.css') }}" rel="stylesheet" type="text/css" />
+	<link href="/assets/user/css/jsstyle.css" rel="stylesheet" type="text/css" />
 
-	<script type="text/javascript" src="{{ asset('js/payment.js') }}"></script>
-	<script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
+	<script type="text/javascript" src="/js/payment.js"></script>
+	<script src="/assets/user/layer/2.4/layer.js"></script>
 	<style>
 		input{
 			margin: 20px auto;
@@ -45,8 +45,8 @@
 		<div class="logistics">
 			<h3>选择支付方式</h3>
 			<ul class="pay-list" id="pay-list">
-				<li data-id="1" class="pay taobao selected"><img src="{{ asset('images/zhifubao.jpg') }}" />支付宝<span></span></li>
-				<li data-id="2" class="pay qq"><img src="{{ asset('images/weizhifu.jpg') }}" />微信<span></span></li>
+				<li data-id="1" class="pay taobao selected"><img src="/images/zhifubao.jpg" />支付宝<span></span></li>
+				<li data-id="2" class="pay qq"><img src="/images/weizhifu.jpg" />微信<span></span></li>
 			</ul>
 		</div>
 		<div class="clear"></div>
