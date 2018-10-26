@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Models\Comment;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -22,56 +24,10 @@ class CommentController extends Controller
      */
     public function index(Content $content)
     {
-        // TODO
-
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('评论列表')
+            ->description('')
             ->body($this->grid());
-    }
-
-    /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Edit')
-            ->description('description')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @param Content $content
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Create')
-            ->description('description')
-            ->body($this->form());
     }
 
     /**
@@ -83,55 +39,34 @@ class CommentController extends Controller
     {
         $grid = new Grid(new Comment);
 
-        $grid->id('Id');
-        $grid->order_id('Order id');
-        $grid->product_id('Product id');
-        $grid->user_id('User id');
-        $grid->content('Content');
-        $grid->score('Score');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        $grid->column('id');
+        $grid->column('order_id', '订单');
+        $grid->column('product.name', '商品');
+        $grid->column('user.name', '用户');
+        $grid->column('content', '评论内容');
+        $grid->column('score', '评分');
+        $grid->column('created_at', '创建时间');
+        $grid->column('updated_at', '修改时间');
+
+        $grid->filter(function (Grid\Filter $filter) {
+
+            $filter->disableIdFilter();
+            $filter->where(function ($query) {
+
+                $collections = User::query()
+                                   ->where('name', 'like', "%{$this->input}%")
+                                   ->pluck('id');
+                $query->whereIn('user_id', $collections->all());
+            }, '用户');
+            $filter->where(function ($query) {
+
+                $collections = Product::query()
+                                      ->where('name', 'like', "%{$this->input}%")
+                                      ->pluck('id');
+                $query->whereIn('product_id', $collections->all());
+            }, '商品');
+        });
 
         return $grid;
-    }
-
-    /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(Comment::findOrFail($id));
-
-        $show->id('Id');
-        $show->order_id('Order id');
-        $show->product_id('Product id');
-        $show->user_id('User id');
-        $show->content('Content');
-        $show->score('Score');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
-
-        return $show;
-    }
-
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    protected function form()
-    {
-        $form = new Form(new Comment);
-
-        $form->number('order_id', 'Order id');
-        $form->number('product_id', 'Product id');
-        $form->number('user_id', 'User id');
-        $form->textarea('content', 'Content');
-        $form->switch('score', 'Score')->default(10);
-
-        return $form;
     }
 }
