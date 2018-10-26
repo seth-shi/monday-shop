@@ -56,6 +56,25 @@ class User extends Authenticatable
     ];
 
 
+    public function getAvatarAttribute($avatar)
+    {
+        return imageUrl($avatar);
+    }
+
+    /**
+     * 获取隐藏部分的名字
+     * @param $attribute
+     * @return string
+     */
+    public function getHiddenNameAttribute($attribute)
+    {
+        $lastStr = mb_substr($this->name, 0, 1, 'utf-8');
+
+        $hiddenStr = str_repeat('*', mb_strlen($this->name, 'utf-8') - 1);
+
+        return $lastStr . $hiddenStr;
+    }
+
     public function addresses()
     {
         return $this->hasMany(Address::class);

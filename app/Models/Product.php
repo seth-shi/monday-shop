@@ -15,6 +15,10 @@ class Product extends Model
     ];
 
 
+    public function getThumbAttribute($thumb)
+    {
+        return imageUrl($thumb);
+    }
 
     public function category()
     {

@@ -33,7 +33,10 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/Units/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

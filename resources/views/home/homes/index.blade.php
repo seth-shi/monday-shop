@@ -14,7 +14,7 @@
                                     <li>
                                         <a href='{{ url("/home/categories/{$category->id}") }}'>
                                             <i class="fa {{ $category->icon }}"></i>{{ $category->title }}
-                                            <span>{{ $category->products->count() }}</span>
+                                            <span>{{ $category->products_count }}</span>
                                         </a>
                                     </li>
                                 @endforeach
@@ -29,11 +29,10 @@
                     <div class="col-xs-12 col-md-8 col-lg-9">
                         <div class="header-deals-slider owl-slider" data-loop="true" data-autoplay="true" data-autoplay-timeout="10000" data-smart-speed="1000" data-nav-speed="false" data-nav="true" data-xxs-items="1" data-xxs-nav="true" data-xs-items="1" data-xs-nav="true" data-sm-items="1" data-sm-nav="true" data-md-items="1" data-md-nav="true" data-lg-items="1" data-lg-nav="true">
 
-                            @inject('productPresenter', 'App\Presenters\ProductPresenter')
                             @foreach ($hotProducts as $hotProduct)
                                 <div class="deal-single panel item">
                                     <a href="{{ url("/home/products/{$hotProduct->id}") }}">
-                                        <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $productPresenter->getThumbLink($hotProduct->thumb) }}">
+                                        <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $hotProduct->thumb }}">
                                             <div class="label-discount top-10 right-10" style="width: auto;">
                                                 {{ $hotProduct->price }} ￥
                                             </div>
@@ -41,7 +40,7 @@
                                     </a>
                                     <div class="deal-about p-20 pos-a bottom-0 left-0">
                                         <div class="mb-10">
-                                            收藏人数 <span class="rating-count rating">{{ $hotProduct->users->count() }}</span>
+                                            收藏人数 <span class="rating-count rating">{{ $hotProduct->users_count }}</span>
                                         </div>
                                         <h3 class="deal-title mb-10 ">
                                                 {{ $hotProduct->name }}
@@ -65,14 +64,14 @@
                         <div class="col-sm-6 col-lg-4">
                             <div class="deal-single panel">
                                 <a href="{{ url("/home/products/$latestProduct->id") }}">
-                                    <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $productPresenter->getThumbLink($latestProduct->thumb) }}">
+                                    <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $latestProduct->thumb }}">
 
                                     </figure>
                                 </a>
                                 <div class="bg-white pt-20 pl-20 pr-15">
                                     <div class="pr-md-10">
                                         <div class="mb-10">
-                                            收藏人数 <span class="rating-count rating">{{ $latestProduct->users->count() }}</span>
+                                            收藏人数 <span class="rating-count rating">{{ $latestProduct->users_count }}</span>
                                         </div>
                                         <h3 class="deal-title mb-10">
                                             <a href="{{ url("/home/products/$latestProduct->id") }}">
@@ -101,19 +100,18 @@
             <section class="section stores-area stores-area-v1 ptb-30">
                 <header class="panel ptb-15 prl-20 pos-r mb-30">
                     <h3 class="section-title font-18">活跃的用户</h3>
-                    <a href="#" class="btn btn-o btn-xs pos-a right-10 pos-tb-center">查看更多</a>
+                    <a href="#" class="btn btn-o btn-xs pos-a right-10 pos-tb-center">-</a>
                 </header>
                 <div class="popular-stores-slider owl-slider" data-loop="true" data-autoplay="true" data-smart-speed="1000" data-autoplay-timeout="10000" data-margin="20" data-items="2" data-xxs-items="2" data-xs-items="2" data-sm-items="3" data-md-items="5" data-lg-items="6">
-                    @inject('userPresenter', 'App\Presenters\UserPresenter')
                     @foreach ($users as $user)
                         <div class="store-item t-center">
                             <a href="#" class="panel is-block">
                                 <div class="embed-responsive embed-responsive-4by3">
                                     <div class="store-logo">
-                                        <img class="user-avatar" src="{{ $userPresenter->getThumbLink($user->avatar) }}" alt="{{ $user->name }}">
+                                        <img class="user-avatar" src="{{ $user->avatar }}" alt="{{ $user->HiddenName }}">
                                     </div>
                                 </div>
-                                <h6 class="store-name ptb-10">{{ $userPresenter->getHiddenPartName($user->name) }}</h6>
+                                <h6 class="store-name ptb-10">{{ $user->HiddenName }}</h6>
                             </a>
                         </div>
                     @endforeach
@@ -155,6 +153,7 @@
     <script>
 
         var csrf_token = "{{ csrf_token() }}";
+        // 订阅邮件
         $('#subscribe_btn').click(function(){
             var _url = "{{ url('user/subscribe') }}";
             var _email = $('#subscribe_email').val();
@@ -192,6 +191,7 @@
 
             });
         });
+
 
         $('#login_subscribe_btn').click(function() {
             layer.confirm('请登录后再订阅', {
