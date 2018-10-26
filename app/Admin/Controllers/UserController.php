@@ -94,7 +94,7 @@ class UserController extends Controller
         });
         $grid->column('email', '邮箱');
         $grid->column('avatar', '头像')->display(function ($avatar) {
-            return imageUrl($avatar);
+            return image($avatar);
         });
         $grid->column('github_name', 'Github昵称');
         $grid->column('qq_name', 'QQ昵称');
@@ -136,7 +136,7 @@ class UserController extends Controller
         });
         $show->field('email', '邮箱');
         $show->field('avatar', '头像')->as(function ($avatar) {
-            return imageUrl($avatar);
+            return image($avatar);
         });
         $show->field('github_name', 'Github昵称');
         $show->field('qq_name', 'QQ昵称');

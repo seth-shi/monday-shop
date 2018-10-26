@@ -106,7 +106,7 @@ class CategoryController extends Controller
         $show->field('id');
         $show->field('title', '分类名');
         $show->field('thumb', '缩略图')->unescape()->as(function ($thumb) {
-            return imageUrl($thumb);
+            return image($thumb);
         });
         $show->field('description', '描述');
         $show->field('order', '排序');

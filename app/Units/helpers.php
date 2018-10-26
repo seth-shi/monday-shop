@@ -10,7 +10,14 @@
  * @param int    $height
  * @return string
  */
-function imageUrl(string $url, string $disk = 'public', int $width = 50, int $height = 50) : string
+function image(string $url, string $disk = 'public', int $width = 50, int $height = 50) : string
+{
+    $url = imageUrl($url, $disk);
+
+    return "<img width='{$width}' height='{$height}' src='{$url}' />";
+}
+
+function imageUrl(string $url, string $disk = 'public')
 {
     static $driver  = null;
 
@@ -18,13 +25,11 @@ function imageUrl(string $url, string $disk = 'public', int $width = 50, int $he
         $driver = Storage::disk($disk);
     }
 
-
     if (! starts_with($url, 'http')) {
         $url = $driver->url($url);
     }
 
-
-    return "<img width='{$width}' height='{$height}' src='{$url}' />";
+    return $url;
 }
 
 
