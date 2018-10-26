@@ -32,28 +32,23 @@
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- PAGE FAVICON                              -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="apple-touch-icon" href="{{ asset('assets/shop/images/favicon/apple-touch-icon.png') }}">
-    <link rel="icon" href="{{ asset('assets/shop/images/favicon/favicon.ico') }}'">
-
-    <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <!-- GOOGLE FONTS                              -->
-    <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
+    <link rel="apple-touch-icon" href="/assets/shop/images/favicon/apple-touch-icon.png">
+    <link rel="icon" href="/assets/shop/images/favicon/favicon.ico'">
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Include CSS Filess                        -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 
     <!-- Bootstrap -->
-    <link href="{{ asset('assets/shop/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="/assets/shop/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="{{ asset('assets/shop/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="/assets/shop/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 
     <!-- Template Stylesheet -->
-    <link href="{{ asset('assets/shop/css/base.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/shop/css/style.css') }}" rel="stylesheet">
+    <link href="/assets/shop/css/base.css" rel="stylesheet">
+    <link href="/assets/shop/css/style.css" rel="stylesheet">
     @yield('style')
 </head>
 
@@ -122,12 +117,12 @@
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <!-- Initialize jQuery library                 -->
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-<script src="{{ asset('assets/shop/js/jquery-1.12.3.min.js') }}"></script>
+<script src="/assets/shop/js/jquery-1.12.3.min.js"></script>
 
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <!-- Latest compiled and minified Bootstrap    -->
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-<script type="text/javascript" src="{{ asset('assets/shop/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="/assets/shop/js/bootstrap.min.js"></script>
 
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <!-- JavaScript Plugins                        -->
@@ -135,21 +130,21 @@
 <!-- (!) Include all compiled plugins (below), or include individual files as needed -->
 
 <!-- Modernizer JS -->
-<script src="{{ asset('assets/shop/vendors/modernizr/modernizr-2.6.2.min.js') }}"></script>
+<script src="/assets/shop/vendors/modernizr/modernizr-2.6.2.min.js"></script>
 
 <!-- Owl Carousel -->
-<script type="text/javascript" src="{{ asset('assets/shop/vendors/owl-carousel/owl.carousel.min.js') }}"></script>
+<script type="text/javascript" src="/assets/shop/vendors/owl-carousel/owl.carousel.min.js"></script>
 
 <!-- FlexSlider -->
-<script type="text/javascript" src="{{ asset('assets/shop/vendors/flexslider/jquery.flexslider-min.js') }}"></script>
+<script type="text/javascript" src="/assets/shop/vendors/flexslider/jquery.flexslider-min.js"></script>
 
 <!-- Coutdown -->
-<script type="text/javascript" src="{{ asset('assets/shop/vendors/countdown/jquery.countdown.js') }}"></script>
+<script type="text/javascript" src="/assets/shop/vendors/countdown/jquery.countdown.js"></script>
 
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <!-- Custom Template JavaScript                   -->
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-<script type="text/javascript" src="{{ asset('assets/shop/js/main.js') }}"></script>
+<script type="text/javascript" src="/assets/shop/js/main.js"></script>
 
 @yield('script')
 </body>

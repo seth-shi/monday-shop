@@ -1,15 +1,15 @@
 @extends('layouts.user')
 
 @section('style')
-    <link href="{{ asset('assets/user/css/addstyle.css') }}" rel="stylesheet" type="text/css">
+    <link href="/assets/user/css/addstyle.css" rel="stylesheet" type="text/css">
     <style>
         .am-selected-list {
             height: 120px;
             overflow-y: scroll;
         }
     </style>
-    <script src="{{ asset('assets/user/AmazeUI-2.4.2/assets/js/jquery.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/user/AmazeUI-2.4.2/assets/js/amazeui.js') }}"></script>
+    <script src="/assets/user/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/assets/user/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 @endsection
 
 @section('main')
@@ -163,7 +163,7 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/user/layer/2.4/layer.js') }}"></script>
+    <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
         $('.delete_address').click(function(){
             var id = $(this).data('id');

@@ -9,26 +9,26 @@
 
 
     <!-- Bootstrap -->
-    <link href="{{ asset('assets/shop/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="/assets/shop/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ asset('assets/shop/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="/assets/shop/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- Template Stylesheet -->
-    <link href="{{ asset('assets/shop/css/base.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/shop/css/style.css') }}" rel="stylesheet">
+    <link href="/assets/shop/css/base.css" rel="stylesheet">
+    <link href="/assets/shop/css/style.css" rel="stylesheet">
 
-    <link href="{{ asset('assets/user/AmazeUI-2.4.2/assets/css/admin.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/user/AmazeUI-2.4.2/assets/css/amazeui.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/user/basic/css/demo.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/user/css/optstyle.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/user/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="/assets/user/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+    <link href="/assets/user/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+    <link href="/assets/user/basic/css/demo.css" rel="stylesheet" type="text/css">
+    <link href="/assets/user/css/optstyle.css" rel="stylesheet" type="text/css">
+    <link href="/assets/user/css/style.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="{{ asset('assets/user/basic/js/jquery-1.7.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/user/basic/js/quick_links.js') }}"></script>
+    <script type="text/javascript" src="/assets/user/basic/js/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="/assets/user/basic/js/quick_links.js"></script>
 
-    <script type="text/javascript" src="{{ asset('assets/user/AmazeUI-2.4.2/assets/js/amazeui.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/user/js/jquery.imagezoom.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/user/js/jquery.flexslider.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/user/js/list.js') }}"></script>
+    <script type="text/javascript" src="/assets/user/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+    <script type="text/javascript" src="/assets/user/js/jquery.imagezoom.min.js"></script>
+    <script type="text/javascript" src="/assets/user/js/jquery.flexslider.js"></script>
+    <script type="text/javascript" src="/assets/user/js/list.js"></script>
 </head>
 
 <body>

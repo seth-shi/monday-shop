@@ -71,7 +71,7 @@
 @section('script')
     <script>
         var url = "{{ url("/home/products/pinyin") }}/";
-        var loadImg = '<div style="background: #ddd"><img src="{{ asset('images/loading.svg') }}" style="width: 100%; height: auto;" alt=""></div>';
+        var loadImg = '<div style="background: #ddd"><img src="/images/loading.svg" style="width: 100%; height: auto;" alt=""></div>';
         var dataContainer = $('#data');
 
         $('.pinyinBtn').click(function(){

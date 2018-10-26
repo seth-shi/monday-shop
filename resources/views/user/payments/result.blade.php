@@ -6,11 +6,11 @@
 
     <title>结算页面</title>
 
-    <link href="{{ asset('assets/user/AmazeUI-2.4.2/assets/css/amazeui.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/user/AmazeUI-2.4.2/assets/css/admin.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/user/basic/css/demo.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/user/css/jsstyle.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/user/css//sustyle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="/assets/user/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/user/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/user/basic/css/demo.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/user/css/jsstyle.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/user/css//sustyle.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -25,7 +25,7 @@
 <div class="take-delivery">
  <div class="status">
      @if ($payment)
-        <h2><img src="{{ asset('images/success.jpg') }}">您已成功付款</h2>
+        <h2><img src="/images/success.jpg">您已成功付款</h2>
         <div class="successInfo">
          <ul>
            <li>付款金额：<em> {{ $payment->price }}/{{ $payment->realprice }}</em></li>
@@ -35,7 +35,7 @@
          </ul>
         </div>
      @else
-         <h2><img src="{{ asset('images/error.jpg') }}">支付失败</h2>
+         <h2><img src="/images/error.jpg">支付失败</h2>
          <div class="successInfo">
              请稍后刷新再次尝试
          </div>

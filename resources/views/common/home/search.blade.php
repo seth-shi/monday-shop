@@ -4,7 +4,7 @@
         <div class="row row-rl-0 row-tb-20 row-md-cell">
             <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
                 <a href="{{ url('/') }}" class="logo">
-                    <img src="{{ asset('assets/shop/images/logo.png') }}" alt="" width="250">
+                    <img src="/assets/shop/images/logo.png" alt="" width="250">
                 </a>
             </div>
             <div class="header-search col-md-9">
