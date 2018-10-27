@@ -69,16 +69,28 @@ class ProductsController extends Controller
                                     ->get();
 
         // 加载出详情，收藏的人数, 评论
-        $product->load('detail', 'users', 'comments', 'comments.user');
+        $product->load([
+            'detail',
+            'users',
+            'comments' => function ($query) {
+                $query->latest();
+            },
+            'comments.user']);
         $product->userIsLike = $product->users()->where('id', auth()->id())->exists();
 
         // 如果登录返回所有地址列表，如果没有，则返回一个空集合
         $addresses = collect()->when(auth()->user(), function ($coll, User $user) {
             return $user->addresses()->get();
         });
+        // 可评论的订单
+        $orderDetails = collect()->when(auth()->user(), function ($coll, User $user) use ($product) {
+
+            // 找到此商品下未评论的订单
+            return $user->orderDetails()->with('order')->where('is_commented', 0)->where('product_id', $product->id)->get();
+        });
 
 
-        return view('products.show', compact('product', 'addresses', 'recommendProducts'));
+        return view('products.show', compact('product', 'addresses', 'recommendProducts', 'orderDetails'));
     }
 
     /**

@@ -95,10 +95,19 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * 获取订单明细用以评论
+     */
+    public function orderDetails()
+    {
+        return $this->hasManyThrough(OrderDetail::class, Order::class);
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'likes_products');
     }
+
 
 
     /**
