@@ -68,7 +68,7 @@
                             <div class="am-form-content address">
 
                                 @if ($addresses->isNotEmpty())
-                                    <select data-am-selected name="address_id">
+                                    <select class="form-control" style="width: 100%" name="address_id">
                                         @foreach($addresses as $address)
                                             <option value="{{ $address->id }}" {{ $address->is_default ? 'selected' : '' }}>{{ $address->name }}/{{ $address->phone }}</option>
                                         @endforeach
@@ -124,6 +124,46 @@
                 </div>
                 <div class="clear"></div>
 
+                <!--按钮	-->
+                <div class="pay">
+                    <div class="pay-opt">
+                        <a href="/"><span class="am-icon-home am-icon-fw">首页</span></a>
+                        @auth
+                            @if ($product->userIsLike)
+                                <a href="javascript:;" style="display: none" id="likes_btn"><span class="am-icon-heart am-icon-fw" >收藏</span></a>
+                                <a href="javascript:;"  id="de_likes_btn"><span class="am-icon-heart am-icon-fw">取消收藏</span></a>
+                            @else
+                                <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
+                                <a href="javascript:;" style="display: none" id="de_likes_btn"><span class="am-icon-heart am-icon-fw" >取消收藏</span></a>
+                            @endif
+                        @endauth
+
+                        @guest
+                            <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
+                        @endguest
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="clearfix tb-btn" id="nowBug">
+                                @auth
+                                    <a  href="javascript:;" >立即购买</a>
+                                @endauth
+                                @guest
+                                    <a href="login?redirect_url={{ url()->current() }}">立即购买</a>
+                                @endguest
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="clearfix tb-btn tb-btn-basket">
+                                <a  title="加入购物车" href="javascript:;"  id="addCar"><i></i>加入购物车</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="clear"></div>
+                </div>
+                <input type="hidden" name="product_id" value="{{ $product->uuid }}">
 
             </div>
 
@@ -132,55 +172,7 @@
         </div>
     </div>
 
-    </dd>
-    </dl>
     <div class="clear"></div>
-    <!--活动	-->
-
-    </div>
-
-    <div class="pay">
-        <div class="pay-opt">
-            <a href="/"><span class="am-icon-home am-icon-fw">首页</span></a>
-            @auth
-            @if ($product->userIsLike)
-                <a href="javascript:;" style="display: none" id="likes_btn"><span class="am-icon-heart am-icon-fw" >收藏</span></a>
-                <a href="javascript:;"  id="de_likes_btn"><span class="am-icon-heart am-icon-fw">取消收藏</span></a>
-            @else
-                <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
-                <a href="javascript:;" style="display: none" id="de_likes_btn"><span class="am-icon-heart am-icon-fw" >取消收藏</span></a>
-            @endif
-            @endauth
-
-            @guest
-             <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
-            @endguest
-
-        </div>
-        <li>
-            <div class="clearfix tb-btn" id="nowBug">
-                @auth
-                    <a  href="javascript:;" >立即购买</a>
-                @endauth
-                @guest
-                    <a href="login?redirect_url={{ url()->current() }}">立即购买</a>
-                @endguest
-
-            </div>
-        </li>
-        <li>
-            <div class="clearfix tb-btn tb-btn-basket">
-                <a  title="加入购物车" href="javascript:;"  id="addCar"><i></i>加入购物车</a>
-            </div>
-        </li>
-    </div>
-    <input type="hidden" name="product_id" value="{{ $product->uuid }}">
-
-    </div>
-
-    <div class="clear"></div>
-
-    </div>
 
 
 
@@ -371,7 +363,7 @@
         </div>
 
     </div>
-    </div>
+
     <form id="pay_form" action="/user/pay/show" method="post">
         {{ csrf_field() }}
     </form>
