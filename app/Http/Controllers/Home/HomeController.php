@@ -24,6 +24,6 @@ class HomeController extends Controller
         $latestProducts = Product::query()->withCount('users')->latest()->take(9)->get();
         $users = User::query()->orderBy('login_count', 'desc')->take(10)->get(['avatar', 'name']);
 
-        return view('home.homes.index', compact('categories', 'hotProducts', 'latestProducts', 'users'));
+        return view('homes.index', compact('categories', 'hotProducts', 'latestProducts', 'users'));
     }
 }

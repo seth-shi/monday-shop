@@ -19,7 +19,7 @@ class CategoriesController extends Controller
         $categories = Category::query()->latest()->paginate(30);
 
 
-        return view('home.categories.index', compact('categories'));
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -35,6 +35,6 @@ class CategoriesController extends Controller
         $categoryProducts = $category->products()->orderBy($orderBy, 'desc')->paginate(10);
 
 
-        return view('home.categories.show', compact('category', 'categoryProducts'));
+        return view('categories.show', compact('category', 'categoryProducts'));
     }
 }

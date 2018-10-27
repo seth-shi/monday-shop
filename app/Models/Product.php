@@ -69,6 +69,16 @@ class Product extends Model
                 $model->first_pinyin = substr($model->pinyin, 0, 1);
             }
 
+            // 建立拼音表
+            ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
+        });
+
+        static::deleted(function ($model) {
+
+            // 没有这个拼音了，删去
+            if (! Product::query()->where('first_pinyin', $model->first_pinyin)->exists()) {
+                ProductPinYin::query()->where('pinyin', $model->first_pinyin)->delete();
+            }
         });
     }
 }

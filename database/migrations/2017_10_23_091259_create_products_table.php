@@ -31,6 +31,7 @@ class CreateProductsTable extends Migration
             $table->string('pinyin')->nullable()->comment('商品名的拼音');
             $table->char('first_pinyin', 1)->nullable()->comment('商品名的拼音的首字母');
 
+            $table->index(['pinyin', 'first_pinyin']);
             $table->integer('category_id')->unsigned();
 
             $table->timestamps();
