@@ -446,8 +446,8 @@
                     if (res.code == 302) {
                         Car.addProduct(product_id);
                     }
-                    layer.msg('加入购物车成功');
-                    car_nums.text(parseInt(car_nums.text())+1);
+                    layer.msg(res.msg);
+                    car_nums.text(parseInt(car_nums.text())+parseInt(numbers));
                 });
             }
         });
