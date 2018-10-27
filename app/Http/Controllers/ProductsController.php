@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductPinYin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,10 +68,17 @@ class ProductsController extends Controller
                                     ->take(5)
                                     ->get();
 
-        // 加载出收藏的人数, 只查出第一页的人数，其他的 AJAX 获取
-        $collects = $product->users()->get();
+        // 加载出详情，收藏的人数, 评论
+        $product->load('detail', 'users', 'comments', 'comments.user');
+        $product->userIsLike = $product->users()->where('id', auth()->id())->exists();
 
-        return view('products.show', compact('product', 'recommendProducts', 'collects'));
+        // 如果登录返回所有地址列表，如果没有，则返回一个空集合
+        $addresses = collect()->when(auth()->user(), function ($coll, User $user) {
+            return $user->addresses()->get();
+        });
+
+
+        return view('products.show', compact('product', 'addresses', 'recommendProducts'));
     }
 
     /**

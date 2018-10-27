@@ -35,11 +35,11 @@
                                 <div class="deal-single panel">
                                     <div class="row row-rl-0 row-sm-cell">
                                         <div class="col-sm-5">
-                                            <a href="/products/{{ $product->id }}">
+                                            <a href="/products/{{ $product->uuid }}">
                                                 <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $productPersenter->getThumbLink($product->thumb) }}">
                                                     <div class="label-discount left-20 top-15">-50%</div>
                                                     <ul class="deal-actions top-15 right-20">
-                                                        <li  class="like-deal" data-id="{{ $product->id }}">
+                                                        <li  class="like-deal" data-id="{{ $product->uuid }}">
                                                             <span>
                                                                 <i class="fa fa-heart"></i>
                                                             </span>
@@ -57,7 +57,7 @@
                                                         </div>
                                                     </div>
                                                     <h3 class="deal-title mb-10">
-                                                        <a href="/products/{{ $product->id }}">
+                                                        <a href="/products/{{ $product->uuid }}">
                                                             {{ $product->name }}
                                                         </a>
                                                     </h3>

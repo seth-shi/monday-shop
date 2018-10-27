@@ -3,7 +3,6 @@
 
 @section('main')
     <div class="listMain">
-        @inject('productPresenter', 'App\Presenters\ProductPresenter')
         <!--放大镜-->
 
         <div class="item-inform">
@@ -21,14 +20,14 @@
                     </script>
 
                     <div class="tb-booth tb-pic tb-s310">
-                        <img src="{{ $productPresenter->getThumbLink($product->thumb) }}" alt="{{ $product->name }}" id="jqzoom" />
+                        <img src="{{ $product->thumb }}" alt="{{ $product->name }}" id="jqzoom" />
                     </div>
                     <ul class="tb-thumb" id="thumblist">
-                        @foreach ($product->productImages as $key => $image)
+                        @foreach ($product->pictures as $key => $image)
                             <li class="{{ $key == 0 ? 'tb-selected' : '' }}">
                                 <div class="tb-pic tb-s40">
                                     <a href="javascript:;">
-                                        <img src="{{ $productPresenter->getThumbLink($image->link) }}">
+                                        <img src="{{ imageUrl($image) }}">
                                     </a>
                                 </div>
                             </li>
@@ -68,14 +67,14 @@
                         <div class="iteminfo_freprice">
                             <div class="am-form-content address">
 
-                                @if (Auth::check())
+                                @if ($addresses->isNotEmpty())
                                     <select data-am-selected name="address_id">
-                                        @foreach (Auth::user()->addresses as $address)
-                                            <option value="{{ $address->id }}">{{ $address->name }}/{{ $address->phone }}</option>
+                                        @foreach($addresses as $address)
+                                            <option value="{{ $address->id }}" {{ $address->is_default ? 'selected' : '' }}>{{ $address->name }}/{{ $address->phone }}</option>
                                         @endforeach
                                     </select>
                                 @else
-                                    <a style="line-height:27px;color:red;" href="user')  }}">添加收货地址</a>
+                                    <a style="line-height:27px;color:red;" href="/user/addresses/create">添加收货地址</a>
                                 @endif
 
                             </div>
@@ -89,7 +88,7 @@
                             <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{ $product->safe_count }}</span></div>
                         </li>
                         <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
-                            <div title="滑动到下方收藏的用户查看"  class="tm-indcon"><span class="tm-label">累计收藏</span><span class="tm-count">{{ $collects->count() }}</span></div>
+                            <div title="滑动到下方收藏的用户查看"  class="tm-indcon"><span class="tm-label">累计收藏</span><span class="tm-count">{{ $product->users->count() }}</span></div>
                         </li>
                     </ul>
                     <div class="clear"></div>
@@ -111,24 +110,15 @@
                                     <form class="theme-signin" name="" action="" method="post">
 
                                         <div class="theme-signin-left">
-                                            @foreach ($product->productAttributes()->get()->groupBy('attribute')->toArray() as $item => $attrs)
-                                                <div class="theme-options">
-                                                    <div class="cart-title">{{ $item }}</div>
-                                                    <ul>
-                                                        @foreach ($attrs as $key => $attr)
-                                                            <li title="价格浮动 {{ $attr['markup'] }}" class="sku-line {{ $key == 0 ? 'selected' : '' }}">{{ $attr['items'] }}<i></i></li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                            @endforeach
                                             <div class="theme-options">
                                                 <div class="cart-title number">数量</div>
                         <dd>
                             <input id="min" class="am-btn am-btn-default" type="button" value="-" />
                             <input id="text_box" name="numbers" type="text" value="1" style="width:30px;" />
                             <input id="add" class="am-btn am-btn-default"  type="button" value="+" />
-                            <span id="Stock" class="tb-hidden">库存<span class="stock">{{ $product->productDetail->count }}</span>件</span>
+                            <span id="Stock" class="tb-hidden">库存<span class="stock">{{ $product->count }}</span>件</span>
                         </dd>
+                    </dl>
 
 
                 </div>
@@ -151,9 +141,9 @@
 
     <div class="pay">
         <div class="pay-opt">
-            <a href="{{ url('/"><span class="am-icon-home am-icon-fw">首页</span></a>
+            <a href="/"><span class="am-icon-home am-icon-fw">首页</span></a>
             @auth
-            @if ($product->users()->where('user_id', \Auth::user()->id)->count() > 0)
+            @if ($product->userIsLike)
                 <a href="javascript:;" style="display: none" id="likes_btn"><span class="am-icon-heart am-icon-fw" >收藏</span></a>
                 <a href="javascript:;"  id="de_likes_btn"><span class="am-icon-heart am-icon-fw">取消收藏</span></a>
             @else
@@ -163,17 +153,17 @@
             @endauth
 
             @guest
-            <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
+             <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
             @endguest
 
         </div>
         <li>
             <div class="clearfix tb-btn" id="nowBug">
                 @auth
-                <a  href="javascript:;" >立即购买</a>
+                    <a  href="javascript:;" >立即购买</a>
                 @endauth
                 @guest
-                <a href="login?redirect_url={{ url()->current() }}">立即购买</a>
+                    <a href="login?redirect_url={{ url()->current() }}">立即购买</a>
                 @endguest
 
             </div>
@@ -184,7 +174,7 @@
             </div>
         </li>
     </div>
-    <input type="hidden" name="product_id" value="{{ $product->id }}">
+    <input type="hidden" name="product_id" value="{{ $product->uuid }}">
 
     </div>
 
@@ -208,11 +198,11 @@
                     @foreach ($recommendProducts as $recommendProduct)
                         <li class="first">
                             <div class="p-img">
-                                <a href="/products/{{ $recommendProduct->id }}">
-                                    <img class="media-object" src="{{ $productPresenter->getThumbLink($recommendProduct->thumb) }}" alt="{{ $recommendProduct->name }}" width="80">
+                                <a href="/products/{{ $recommendProduct->uuid }}">
+                                    <img class="media-object" src="{{ $recommendProduct->thumb }}" alt="{{ $recommendProduct->name }}" width="80">
                                 </a>
                             </div>
-                            <div class="p-name"><a href="/products/{{ $recommendProduct->id }}">
+                            <div class="p-name"><a href="/products/{{ $recommendProduct->uuid }}">
                                     {{ $recommendProduct->name }}
                                 </a>
                             </div>
@@ -228,50 +218,87 @@
         <div class="introduceMain">
             <div class="am-tabs" data-am-tabs>
                 <ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs">
+
                     <li class="am-active">
-                        <a href="#">
-
-                            <span class="index-needs-dt-txt">宝贝详情</span></a>
-
+                        <a href="#"><span class="index-needs-dt-txt">商品评论</span></a>
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a href="#"><span class="index-needs-dt-txt">宝贝详情</span></a>
+                    </li>
 
-                            <span class="index-needs-dt-txt">收藏的用户</span></a>
-
+                    <li>
+                        <a href="#"><span class="index-needs-dt-txt">收藏的用户</span></a>
                     </li>
                 </ul>
 
                 <div class="am-tabs-bd">
 
+
                     <div class="am-tab-panel am-fade am-in am-active">
+
+                        <div class="posted-review panel p-30">
+                            <h3 class="h-title">{{ $product->comments->count() }} 评论</h3>
+                            @foreach ($product->comments as $comment)
+                                <div class="review-single pt-30">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img class="media-object mr-10 radius-4" src="{{ $comment->user->avatar }}" width="90" alt="">
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="review-wrapper clearfix">
+                                                <ul class="list-inline">
+                                                    <li>
+                                                        <span class="review-holder-name h5">{{ $comment->user->name }}</span>
+                                                    </li>
+                                                    <li>
+                                                        <div class="rating">
+                                                            <span class="rating-stars" data-rating="5">
+                                                                {!! str_repeat('<i class="fa fa-star-o"></i>', 5 - $comment->score) !!}
+                                                                {!! str_repeat('<i class="fa fa-star-o star-active"></i>', $comment->score) !!}
+										                    </span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <p class="review-date mb-5">{{ $comment->created_at }}</p>
+                                                <p class="copy">{{ $comment->content }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="am-tab-panel am-fade">
                         <div class="details">
                             <div class="attr-list-hd after-market-hd">
                                 <h4>商品细节</h4>
                             </div>
                             <div class="twlistNews">
-                                {!! $product->productDetail->description !!}
+                                {!! $product->detail->content !!}
                             </div>
                         </div>
                         <div class="clear"></div>
 
                     </div>
 
+
                     <div class="am-tab-panel am-fade">
 
                         <ul class="am-comments-list am-comments-list-flip">
-                            @inject('userPresenter', 'App\Presenters\UserPresenter')
-                            @foreach ($collects as $user)
+                            @foreach ($product->users as $user)
                                 <li class="am-comment">
                                     <a href="">
-                                        <img class="am-comment-avatar" src="{{ $userPresenter->getThumbLink($user->avatar) }}" alt="{{ $user->name }}" />
+                                        <img class="am-comment-avatar" src="{{ $user->avatar }}" alt="{{ $user->name }}" />
                                     </a>
 
                                     <div class="am-comment-main">
                                         <header class="am-comment-hd">
                                             <div class="am-comment-meta">
-                                                <a href="#link-to-user" class="am-comment-author">{{ $user->name }}</a>
+                                                <a href="#" class="am-comment-author">{{ $user->name }}</a>
                                             </div>
                                         </header>
 
@@ -289,7 +316,6 @@
                         </div>
 
                     </div>
-
                 </div>
 
             </div>
@@ -379,7 +405,7 @@
             endFunction:function(element){
 
                 var numbers = $("input[name=numbers]").val();
-                var data = {product_id:"{{ $product->id }}",_token:token, numbers:numbers};
+                var data = {product_id:"{{ $product->uuid }}",_token:token, numbers:numbers};
                 var url = "/cars";
                 $.post(url, data, function(res){
                     console.log(res);

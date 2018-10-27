@@ -17,11 +17,12 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
 
             $table->unsignedInteger('order_id');
+            $table->unsignedInteger('order_detail_id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('user_id');
 
             $table->text('content')->comment('评论内容');
-            $table->tinyInteger('score')->default(10)->commnet('评分');
+            $table->tinyInteger('score')->default(5)->commnet('评分');
 
             $table->timestamps();
         });

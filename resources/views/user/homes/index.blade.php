@@ -247,7 +247,7 @@
                 <div class="new-goods-info">
 
                     @inject('productPresenter', 'App\Presenters\ProductPresenter')
-                    <a class="shop-info" href="/products/{{ $hotProduct->id }}" target="_blank">
+                    <a class="shop-info" href="/products/{{ $hotProduct->uuid }}" target="_blank">
                         <div >
                             <img src="{{ $productPresenter->getThumbLink($hotProduct->thumb) }}" alt="">
                         </div>

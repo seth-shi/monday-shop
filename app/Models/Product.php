@@ -15,9 +15,15 @@ class Product extends Model
     ];
 
 
+
     public function getThumbAttribute($thumb)
     {
         return imageUrl($thumb);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function category()
@@ -41,15 +47,19 @@ class Product extends Model
     }
 
 
-    public function attributes()
-    {
-        return $this->hasMany(ProductAttribute::class);
-    }
-
-
     public function orderDetail()
     {
         return $this->hasOne(orderDetail::class);
+    }
+
+    /**
+     * 使用 uuid 注入
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 
     public static function boot()
