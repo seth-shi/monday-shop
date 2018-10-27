@@ -30,7 +30,7 @@ class CarsController extends Controller
             $cars = $this->user()->cars()->get();
         }
 
-        return view('home.cars.index', compact('cars'));
+        return view('cars.index', compact('cars'));
     }
 
     /**

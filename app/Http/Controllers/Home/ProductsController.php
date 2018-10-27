@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductPinYin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,18 +12,17 @@ class ProductsController extends Controller
 {
 
     /**
-     * 商品详情
+     * 商品列表
      *
-     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
         // 随机查出一些商品展示
         $products = Product::query()->inRandomOrder()->take(9)->get(['id', 'name'])->split(3);
-        $productPinyins = Product::query()->groupBy('first_pinyin')->get(['first_pinyin']);
+        $pinyins = ProductPinYin::query()->orderBy('pinyin')->pluck('pinyin');
 
-        return view('home.products.index', compact('products', 'productPinyins'));
+        return view('products.index', compact('products', 'pinyins'));
     }
 
 
@@ -50,7 +50,7 @@ class ProductsController extends Controller
         $keyword = $request->input('keyword', '');
         $products = Product::query()->where('name', 'like', "%{$keyword}%")->paginate(10);
 
-        return view('home.products.search', compact('products'));
+        return view('products.search', compact('products'));
     }
 
     /**
@@ -70,7 +70,7 @@ class ProductsController extends Controller
         // 加载出收藏的人数, 只查出第一页的人数，其他的 AJAX 获取
         $collects = $product->users()->get();
 
-        return view('home.products.show', compact('product', 'recommendProducts', 'collects'));
+        return view('products.show', compact('product', 'recommendProducts', 'collects'));
     }
 
     /**
