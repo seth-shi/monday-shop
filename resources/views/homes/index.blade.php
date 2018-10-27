@@ -31,7 +31,7 @@
 
                             @foreach ($hotProducts as $hotProduct)
                                 <div class="deal-single panel item">
-                                    <a href="/products/{{ $hotProduct->id }}">
+                                    <a href="/products/{{ $hotProduct->uuid }}">
                                         <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $hotProduct->thumb }}">
                                             <div class="label-discount top-10 right-10" style="width: auto;">
                                                 {{ $hotProduct->price }} ￥
@@ -63,7 +63,7 @@
                     @foreach ($latestProducts as $latestProduct)
                         <div class="col-sm-6 col-lg-4">
                             <div class="deal-single panel">
-                                <a href="/products/{{ $latestProduct->id }}">
+                                <a href="/products/{{ $latestProduct->uuid }}">
                                     <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $latestProduct->thumb }}">
 
                                     </figure>
@@ -74,7 +74,7 @@
                                             收藏人数 <span class="rating-count rating">{{ $latestProduct->users_count }}</span>
                                         </div>
                                         <h3 class="deal-title mb-10">
-                                            <a href="/products/{{ $latestProduct->id }}">
+                                            <a href="/products/{{ $latestProduct->uuid }}">
                                                 {{ $latestProduct->name }}
                                             </a>
                                         </h3>

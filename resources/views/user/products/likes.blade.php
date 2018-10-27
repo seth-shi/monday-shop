@@ -20,7 +20,7 @@
                                             </figure>
                                         </div>
                                         <div class="media-body valign-middle">
-                                            <h5 class="title mb-5 t-uppercase"><a href="/products/{{ $product->id }}">{{ $product->name }}</a></h5>
+                                            <h5 class="title mb-5 t-uppercase"><a href="/products/{{ $product->uuid }}">{{ $product->name }}</a></h5>
                                             <div class="rating mb-10">
                                                 <span class="rating-reviews">
 				                        		( <span class="rating-count">{{ $product->users()->count() }}</span> 收藏 )</span>
@@ -29,7 +29,7 @@
                                         </div>
                                     </td>
                                     <td class="col-sm-1">
-                                        <button type="button" class="close pr-xs-0 pr-sm-10" data-id="{{ $product->id }}" class="de_likes_btn">
+                                        <button type="button" class="close pr-xs-0 pr-sm-10" data-id="{{ $product->uuid }}" class="de_likes_btn">
                                             <i class="fa fa-trash-o"></i>
                                         </button>
                                     </td>

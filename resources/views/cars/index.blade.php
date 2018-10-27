@@ -85,7 +85,7 @@
                                     <td>
                                         <div class="media-body valign-middle">
                                             <h6 class="title mb-15 t-uppercase">
-                                                <a href="/products/{{ $car->product->id }}">
+                                                <a href="/products/{{ $car->product->uuid }}">
                                                     {{ $car->product->name }}
                                                 </a>
                                             </h6>

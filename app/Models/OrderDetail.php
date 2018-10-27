@@ -14,4 +14,9 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function comment()
+    {
+        return $this->hasOne(Comment::class);
+    }
 }

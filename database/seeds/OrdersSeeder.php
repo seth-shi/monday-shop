@@ -9,6 +9,19 @@ use Illuminate\Database\Seeder;
 class OrdersSeeder extends Seeder
 {
 
+    protected $faker;
+
+    /**
+     * OrdersSeeder constructor.
+     *
+     * @param $faker
+     */
+    public function __construct(\Faker\Generator $faker)
+    {
+        $this->faker = $faker;
+    }
+
+
     public function run()
     {
 
@@ -39,11 +52,28 @@ class OrdersSeeder extends Seeder
 
                 $masterOrder->total += $total;
                 $data[] = compact('numbers', 'price', 'total', 'product_id');
+
+                $product->decrement('count', $numbers);
+                $product->increment('safe_count', $numbers);
             }
 
+            // 商品数量减少
 
             $masterOrder->save();
-            $masterOrder->details()->createMany($data);
+            $masterOrder->details()->createMany($data)->map(function (\App\Models\OrderDetail $detail) use ($masterOrder) {
+
+                $detail->comment()->create(
+                    [
+                        'user_id' => $masterOrder->user_id,
+                        'product_id' => $detail->product_id,
+                        'order_id' => $masterOrder->id,
+                        'content' => $this->faker->text(50),
+                        'score' => mt_rand(3, 5)
+                    ]
+                );
+                $detail->is_commented = true;
+                $detail->save();
+            });
         }
     }
 }

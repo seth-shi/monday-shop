@@ -24,6 +24,7 @@ class CreateOrderDetailsTable extends Migration
             $table->decimal('price', 10, 2)->comment('商品单价');
             $table->decimal('total', 10, 2)->comment('价格小计算');
 
+            $table->boolean('is_commented')->default(false)->comment('订单是否评论过');
             $table->timestamps();
         });
     }

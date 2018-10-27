@@ -75,7 +75,7 @@
                                             @endforeach
                                         </select>
                                     @else
-                                        <a style="line-height:27px;color:red;" href="user')  }}">添加收货地址</a>
+                                        <a style="line-height:27px;color:red;" href="/user/addresses/create">添加收货地址</a>
                                     @endif
 
                                 </div>
@@ -191,11 +191,11 @@
                     @foreach ($recommendProducts as $recommendProduct)
                         <li class="first">
                             <div class="p-img">
-                                <a href="/products/{{ $recommendProduct->id }}">
+                                <a href="/products/{{ $recommendProduct->uuid }}">
                                     <img class="media-object" src="{{ $productPresenter->getThumbLink($recommendProduct->thumb) }}" alt="{{ $recommendProduct->name }}" width="80">
                                 </a>
                             </div>
-                            <div class="p-name"><a href="/products/{{ $recommendProduct->id }}">
+                            <div class="p-name"><a href="/products/{{ $recommendProduct->uuid }}">
                                     {{ $recommendProduct->name }}
                                 </a>
                             </div>
@@ -809,7 +809,7 @@
             iconImg: $('#product_slider_nav img').attr('src'),
             endFunction:function(element){
 
-                var data = {product_id:"{{ $product->id }}",_token:token};
+                var data = {product_id:"{{ $product->uuid }}",_token:token};
                 var url = "/cars";
                 $.post(url, data, function(res){
                     console.log(res);

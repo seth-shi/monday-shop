@@ -134,6 +134,9 @@ class OrderController extends Controller
             $details->column('product.name', '商品名字');
             $details->column('price', '单价');
             $details->column('numbers', '数量');
+            $details->column('is_commented', '是否评论')->display(function ($is) {
+                return $is ? '<span class="bg-green">✔</span>' : '<span class="bg-blue">○</span>';
+            });
             $details->column('total', '小计');
 
             $details->disableRowSelector();

@@ -25,7 +25,7 @@
                                 <ul>
                                     @if (isset($products[0]))
                                         @foreach ($products[0] as $product)
-                                            <li><a href="/products/{{ $product->id }}"> {{ $product->name }} </a>
+                                            <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
                                             </li>
                                         @endforeach
                                     @endif
@@ -35,7 +35,7 @@
                                 <ul>
                                     @if (isset($products[1]))
                                         @foreach ($products[1] as $product)
-                                            <li><a href="/products/{{ $product->id }}"> {{ $product->name }} </a>
+                                            <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
                                             </li>
                                         @endforeach
                                     @endif
@@ -45,7 +45,7 @@
                                 <ul>
                                     @if (isset($products[2]))
                                         @foreach ($products[2] as $product)
-                                            <li><a href="/products/{{ $product->id }}"> {{ $product->name }} </a>
+                                            <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
                                             </li>
                                         @endforeach
                                     @endif

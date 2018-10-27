@@ -31,8 +31,6 @@ class CreateOrdersTable extends Migration
             $table->tinyInteger('pay_type')->default(Order::UN_PAY_TYPE)->comment('0 未知，1支付宝支付，2微信支付');
 
 
-            $table->boolean('is_commented')->default(false)->comment('订单是否评论过');
-
             $table->softDeletes();
 
             $table->timestamps();
