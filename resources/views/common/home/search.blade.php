@@ -52,9 +52,14 @@
 <script>
     var car_nums_span = document.getElementById('cart-number');
     @auth
-        car_nums_span.innerText = parseInt("{{ Auth::user()->cars->count() }}");
+        car_nums_span.innerText = parseInt("{{ auth()->user()->cars->sum('numbers') }}");
     @endauth
     @guest
-        car_nums_span.innerText = localStorage.length;
+        var numbers = 0;
+        for (var i in localStorage) {
+            var json = $.parseJSON(localStorage[i]);
+            numbers += json.numbers;
+        }
+        car_nums_span.innerText = numbers;
     @endguest
 </script>
