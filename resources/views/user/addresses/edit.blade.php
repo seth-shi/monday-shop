@@ -36,7 +36,7 @@
                                 <span class="street">{{ $add->detail_address }}</span></p>
                         </div>
                         <div class="new-addr-btn">
-                            <a href="{{ url("/user/addresses/{$add->id}/edit") }}"><i class="am-icon-edit"></i>编辑</a>
+                            <a href="/user/addresses/{{ $add->id }}/edit"><i class="am-icon-edit"></i>编辑</a>
                             <span class="new-addr-bar">|</span>
                             <a href="javascript:;" data-id="{{ $add->id }}" class="delete_address">
                                 <i class="am-icon-trash"></i>删除
@@ -82,7 +82,7 @@
 
 
                         <div class="am-u-md-12 am-u-lg-8" style="margin-top: 20px;">
-                            <form class="am-form am-form-horizontal" action="{{ url("/user/addresses/{$address->id}") }}" method="post">
+                            <form class="am-form am-form-horizontal" action="/user/addresses/{{ $address->id }}" method="post">
                                 {{ csrf_field() }}
                                 {{ method_field('PUT') }}
 
@@ -164,7 +164,7 @@
     <script>
         $('.delete_address').click(function(){
             var id = $(this).data('id');
-            var _url = "{{ url('/user/addresses') }}/" + id;
+            var _url = "/user/addresses/" + id;
             var that = $(this);
 
             $.post(_url, {_token:'{{ csrf_token() }}', _method:'DELETE'}, function(res){
@@ -179,7 +179,7 @@
     <script>
         $('.default_addr').click(function(){
             var id = $(this).data('id');
-            var _url = "{{ url('/user/addresses/default') }}/" + id;
+            var _url = "/user/addresses/default/" + id;
 
             $.post(_url, {_token:'{{ csrf_token() }}'}, function(res){
                 if (res.code == 0) {

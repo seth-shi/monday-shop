@@ -16,7 +16,7 @@
                     <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
                         @auth
                             <li>
-                                <a href="{{ url('/user') }}"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a>
+                                <a href="/user"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a>
                             </li>
                             <li>
                                 <a href="javascript:;" onclick="event.preventDefault();
@@ -25,9 +25,9 @@
                         @endauth
                         @guest
                             <li><a href="#"><i class="fa fa-user"></i>游客</a></li>
-                            <li><a href="{{ url('login') }}?redirect_url={{ url()->current() }}"><i class="fa fa-lock"></i>登录</a>
+                            <li><a href="login?redirect_url={{ url()->current() }}"><i class="fa fa-lock"></i>登录</a>
                             </li>
-                            <li><a href="{{ url('register') }}"><i class="fa fa-user"></i>注册</a>
+                            <li><a href="register"><i class="fa fa-user"></i>注册</a>
                             </li>
                         @endguest
 

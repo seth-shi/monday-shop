@@ -111,13 +111,13 @@
                                     <ul class="item-list">
                                         <li class="td td-item">
                                             <div class="item-pic">
-                                                <a href="{{ url("/home/products/{$orderDetail->product->id}") }}" class="J_MakePoint">
+                                                <a href="/home/products/{{ $orderDetail->product->id }}" class="J_MakePoint">
                                                     <img src="{{ $productPresenter->getThumbLink($orderDetail->product->thumb) }}" class="itempic J_ItemImg">
                                                 </a>
                                             </div>
                                             <div class="item-info">
                                                 <div class="item-basic-info">
-                                                    <a href="{{ url("/home/products/{$orderDetail->product->id}") }}">
+                                                    <a href="/home/products/{{ $orderDetail->product->id }}">
                                                         <p>{!! $orderDetail->product->title !!}</p>
                                                     </a>
                                                 </div>

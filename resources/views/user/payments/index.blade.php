@@ -82,7 +82,7 @@
 							</p>
 						</div>
 					@else
-						<a href="{{ url('/user/addresses') }}">添加收获地址</a>
+						<a href="/user/addresses">添加收获地址</a>
 					@endif
 
 
@@ -128,7 +128,7 @@
     });
 
 	$('#J_Go').click(function(){
-	    var url = "{{ url('/user/pay/store') }}";
+	    var url = "/user/pay/store";
         var data = $('form').serialize();
         var that = $(this);
 
