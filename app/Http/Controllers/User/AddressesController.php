@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Requests\AddressRequest;
 use App\Models\Address;
+use App\Models\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -17,9 +18,10 @@ class AddressesController extends Controller
         'msg' => '服务器异常，请稍后再试',
     ];
 
+
     public function index()
     {
-        $addresses = $this->guard()->user()->addresses;
+        $addresses = auth()->user()->addresses;
 
         // Provincial and municipal regions
         $provinces = DB::table('provinces')->get();
@@ -33,7 +35,11 @@ class AddressesController extends Controller
     {
         $addressesData = $this->getFormatRequest($request);
 
-        $this->guard()->user()->addresses()->create($addressesData);
+        /**
+         * @var $user User
+         */
+        $user = auth()->user();
+        $user->addresses()->create($addressesData);
 
         return back()->with('status', '创建成功');
     }
@@ -47,9 +53,12 @@ class AddressesController extends Controller
 
     public function edit(Address $address)
     {
-        $addresses = $this->guard()->user()->addresses;
+        $addresses = auth()->user()->addresses;
+        // Provincial and municipal regions
+        $provinces = DB::table('provinces')->get();
+        $cities = DB::table('cities')->where('province_id', $address->province_id)->get();
 
-        return view('user.addresses.edit', compact('addresses', 'address'));
+        return view('user.addresses.edit', compact('addresses', 'address', 'provinces', 'cities'));
     }
 
 
@@ -83,7 +92,7 @@ class AddressesController extends Controller
             return $this->response;
         }
 
-        Address::where('user_id', $address->user_id)->update(['is_default' => 0]);
+        Address::query()->where('user_id', $address->user_id)->update(['is_default' => 0]);
         $address->is_default = 1;
 
         if ($address->save()) {
@@ -105,17 +114,14 @@ class AddressesController extends Controller
 
     protected function owns($userID)
     {
-        return $this->guard()->user()->id == $userID;
+        return auth()->user()->id == $userID;
     }
 
-    protected function guard()
-    {
-        return Auth::guard();
-    }
 
-    protected function getFormatRequest($request)
+
+    protected function getFormatRequest(Request $request)
     {
-        return $request->only(['name', 'phone', 'province', 'city','detail_address',]);
+        return $request->only(['name', 'phone', 'province_id', 'city_id','detail_address']);
     }
 
 

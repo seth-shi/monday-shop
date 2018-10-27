@@ -14,6 +14,11 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
+        // 国家
+        // 城市的数据填充
+        $this->call(ProvincesTableSeeder::class);
+        $this->call(CitiesTableSeeder::class);
+
         $this->call(UsersTableSeeder::class);
         $this->call(AdminTablesSeeder::class);
         $this->call(CategoriesTableSeeder::class);
@@ -29,10 +34,5 @@ class DatabaseSeeder extends Seeder
 
         // 生成一些订单数据
         $this->call(OrdersSeeder::class);
-
-        // 国家
-        // 城市的数据填充
-        $this->call(ProvincesTableSeeder::class);
-        $this->call(CitiesTableSeeder::class);
     }
 }

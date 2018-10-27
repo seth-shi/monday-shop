@@ -19,8 +19,8 @@ $factory->define(Address::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'phone' => $faker->phoneNumber,
-        'province' => $faker->state,
-        'city' => $faker->city,
+        'province_id' => DB::table('provinces')->inRandomOrder()->first()->id,
+        'city_id' => DB::table('cities')->inRandomOrder()->first()->id,
         'detail_address' => $faker->address,
     ];
 });
