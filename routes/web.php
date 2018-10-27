@@ -28,26 +28,23 @@ Route::namespace('Auth')->group(function(){
 /****************************************
  * 主页相关的路由
  ****************************************/
-Route::get('/', 'Home\HomeController@index');
-Route::prefix('home')->namespace('Home')->group(function(){
-    Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index');
 
-    /****************************************
-     * 1. 通过商品拼音首字母得到商品列表
-     * 2. 搜索商品
-     ****************************************/
-    Route::get('/products/pinyin/{pinyin}', 'ProductsController@getProductsByPinyin');
-    Route::get('/products/search', 'ProductsController@search');
+/****************************************
+ * 1. 通过商品拼音首字母得到商品列表
+ * 2. 搜索商品
+ ****************************************/
+Route::get('/products/pinyin/{pinyin}', 'ProductsController@getProductsByPinyin');
+Route::get('/products/search', 'ProductsController@search');
 
-    /****************************************
-     * 1. 商品分类的资源路由，
-     * 2. 商品的资源路由哦
-     * 3. 购物车的资源路由
-     ****************************************/
-    Route::resource('/categories', 'CategoriesController', ['only' => ['index', 'show']]);
-    Route::resource('/products', 'ProductsController', ['only' => ['index', 'show']]);
-    Route::resource('/cars', 'CarsController');
-});
+/****************************************
+ * 1. 商品分类的资源路由，
+ * 2. 商品的资源路由哦
+ * 3. 购物车的资源路由
+ ****************************************/
+Route::resource('/categories', 'CategoriesController', ['only' => ['index', 'show']]);
+Route::resource('/products', 'ProductsController', ['only' => ['index', 'show']]);
+Route::resource('/cars', 'CarsController');
 
 /****************************************
  * 用户相关的路由

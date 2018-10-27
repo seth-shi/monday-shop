@@ -191,11 +191,11 @@
                     @foreach ($recommendProducts as $recommendProduct)
                         <li class="first">
                             <div class="p-img">
-                                <a href="/home/products/{{ $recommendProduct->id }}">
+                                <a href="/products/{{ $recommendProduct->id }}">
                                     <img class="media-object" src="{{ $productPresenter->getThumbLink($recommendProduct->thumb) }}" alt="{{ $recommendProduct->name }}" width="80">
                                 </a>
                             </div>
-                            <div class="p-name"><a href="/home/products/{{ $recommendProduct->id }}">
+                            <div class="p-name"><a href="/products/{{ $recommendProduct->id }}">
                                     {{ $recommendProduct->name }}
                                 </a>
                             </div>
@@ -810,7 +810,7 @@
             endFunction:function(element){
 
                 var data = {product_id:"{{ $product->id }}",_token:token};
-                var url = "/home/cars";
+                var url = "/cars";
                 $.post(url, data, function(res){
                     console.log(res);
 

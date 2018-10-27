@@ -85,7 +85,7 @@
                                     <td>
                                         <div class="media-body valign-middle">
                                             <h6 class="title mb-15 t-uppercase">
-                                                <a href="/home/products/{{ $car->product->id }}">
+                                                <a href="/products/{{ $car->product->id }}">
                                                     {{ $car->product->name }}
                                                 </a>
                                             </h6>
@@ -139,7 +139,7 @@
                         var product = $.parseJSON(cars[i]);
 
                         var data = {product_id: i, numbers: product.numbers, _token: token};
-                        var url = "/home/cars";
+                        var url = "/cars";
                         console.log(product);
 
                         $.post(url, data, function (res) {
@@ -164,7 +164,7 @@
             <td>\
             <div class="media-body valign-middle">\
             <h6 class="title mb-15 t-uppercase">\
-            <a href="/home/products/'+ i +'">\
+            <a href="/products/'+ i +'">\
                 '+ product.name +'\
             </a>\
             </h6>\
@@ -187,7 +187,7 @@
         $('#cars_data').append(cars_span);
         getTotal();
 
-        var cars_url = "/home/cars/";
+        var cars_url = "/cars/";
         $('.delete_car').click(function () {
             var that = $(this);
             var id = that.data('id');
