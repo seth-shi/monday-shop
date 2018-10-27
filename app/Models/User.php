@@ -3,12 +3,10 @@
 namespace App\Models;
 
 use App\Mail\ResetPassword;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -118,5 +116,22 @@ class User extends Authenticatable
     {
         Mail::to($this->email)
             ->queue(new ResetPassword($token));
+    }
+
+
+    /**
+     * 初始化头像
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+
+            if (! isset($model->attributes['avatar'])) {
+                $model->attributes['avatar'] = 'avatars/default/' . array_random(User::DEFAULT_AVATARS);
+            }
+
+        });
     }
 }

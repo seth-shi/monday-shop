@@ -16,7 +16,6 @@ class UsersController extends Controller
         $user = $this->guard()->user();
         $hotProduct = Product::where('safe_count', 'desc')->first();
 
-
         return view('user.homes.index', compact('user', 'hotProduct'));
     }
 

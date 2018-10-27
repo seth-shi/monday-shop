@@ -17,8 +17,8 @@ class PaymentsController extends ApiController
 {
     public function index(Request $request)
     {
-        $product = Product::find($request->input('_product_id'));
-        $address = Address::find($request->input('_address_id'));
+        $product = Product::query()->where('uuid', $request->input('_product_id'))->firstOrFail();
+        $address = Address::query()->find($request->input('_address_id'));
 
         return view('user.payments.index', [
             'product' => $product,
