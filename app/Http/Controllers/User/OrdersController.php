@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\User;
 
 use App\Exceptions\OrderException;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderMuiltRequest;
+use App\Http\Requests\OrderRequest;
 use App\Models\Address;
 use App\Models\Car;
 use App\Models\Order;
-use App\Models\OrderDetail;
 use App\Models\Product;
-use App\Models\ProductDetail;
 use App\Models\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Webpatser\Uuid\Uuid;
 
 class OrdersController extends Controller
@@ -30,11 +29,11 @@ class OrdersController extends Controller
     /**
      * 购物车批量下单
      *
-     * @param OrderMuiltRequest $request
+     * @param  OrderRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Throwable
      */
-    public function store(OrderMuiltRequest $request)
+    public function store(OrderRequest $request)
     {
         /**
          * @var $user User
@@ -120,58 +119,56 @@ class OrdersController extends Controller
     }
 
     /**
-     * TODO 加入购物车也有问题单个商品下单
      *
      * @param Request $request
      * @return array
+     * @throws \Throwable
      */
     protected function single(Request $request)
     {
 
-        if ($this->isGreaterStock($request->all())) {
-            return [
-                'code' => 302,
-                'msg' => '购买的数量大于库存量'
-            ];
+        if (! $this->hasAddress($request->input('address_id'))) {
+            return response()->json(['code' => 400, 'msg' => '请选择正确的收货地址']);
         }
 
-        // cars to orders
-        $order_data = $this->formatSingleData($request);
+        try {
+            DB::transaction(function () use ($request) {
 
-        $order = $request->user()->orders()->create($order_data);
+                $number = $request->input('numbers', 1);
 
-        $detail_data = [
-            'numbers' => $request->input('numbers'),
-            'product_id' => $request->input('product_id'),
-            'order_id' => $order->id,
-        ];
-        OrderDetail::create($detail_data);
+                /**
+                 * @var $product Product
+                 */
+                $masterOrder = $this->newMasterOrder($request);
 
+                $product = Product::query()
+                                  ->where('uuid', $request->input('product_id'))
+                                  ->firstOrFail();
 
-        // Reduce inventory
-        ProductDetail::where('product_id', $detail_data['product_id'])
-            ->lockForUpdate()
-            ->first()
-            ->decrement('count', $detail_data['numbers']);
+                // 库存数量
+                $this->decProductNumber($product, $number);
+
+                $detail = [
+                    'numbers' => $number,
+                    'product_id' => $product->id,
+                    'price' => $product->price,
+                ];
+                $detail['total'] = ceilTwoPrice($detail['numbers'] * $detail['price']);
+                $masterOrder->total = $detail['total'];
+                $masterOrder->save();
+                $masterOrder->details()->create($detail);
+            });
+        } catch (\Exception $e) {
+
+            return response()->json(['code' => 400, 'msg' => $e->getMessage()]);
+        }
 
         return [
-            'code' => 0,
+            'code' => 200,
             'msg' => '购买成功'
         ];
     }
 
-    /**
-     * check buy number is greater stock numbers
-     * @param array $data
-     * @return array
-     */
-    protected function isGreaterStock(array $data)
-    {
-        // buy numbers > count
-        $product = Product::query()->find($data['product_id']);
-
-        return $data['numbers'] > $product->count;
-    }
 
     public function show(Order $order)
     {
@@ -183,17 +180,18 @@ class OrdersController extends Controller
     }
 
 
-
-
-    private function formatSingleData($request)
+    /**
+     * 地址是否存在
+     *
+     * @param $address
+     * @return bool
+     */
+    protected function hasAddress($address)
     {
-        $product_id = $request->input('product_id');
-        $numbers = $request->input('numbers');
-        $address_id = $request->input('address_id');
-        $uuid = Uuid::generate()->hex;
-        $total = Product::find($product_id)->price * $numbers;
-
-        return compact('product_id', 'total', 'uuid', 'address_id');
+        return Address::query()
+                      ->where('user_id', auth()->id())
+                      ->where('id', $address)
+                      ->exists();
     }
 
 

@@ -107,7 +107,6 @@ class RegisterController extends Controller
             'sex' => $data['sex'],
             'password' => bcrypt($data['password']),
             'active_token' => str_random(60),
-            'avatar' => $faker->imageUrl(120, 120)
         ]);
 
     }

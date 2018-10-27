@@ -74,7 +74,7 @@
                                         @endforeach
                                     </select>
                                 @else
-                                    <a style="line-height:27px;color:red;" href="/user/addresses/create">添加收货地址</a>
+                                    <a style="line-height:27px;color:red;" href="/user/addresses">添加收货地址</a>
                                 @endif
 
                             </div>
@@ -149,7 +149,7 @@
                                     <a  href="javascript:;" >立即购买</a>
                                 @endauth
                                 @guest
-                                    <a href="login?redirect_url={{ url()->current() }}">立即购买</a>
+                                    <a href="/login?redirect_url={{ url()->current() }}">立即购买</a>
                                 @endguest
 
                             </div>
@@ -460,18 +460,21 @@
 
 
             var data = {address_id:_address_id,numbers:_numbers,product_id:_product_id, _token:"{{ csrf_token() }}"};
-            console.log(data);
-            $.post('user/orders/single', data, function(res){
-                layer.msg(res.msg);
-            });
 
-            /** v请求支付 **/
-            var form = $('#pay_form');
-            var input = '<input type="hidden" name="_address_id" value="'+ _address_id +'">\
+            $.post('/user/orders/single', data, function(res){
+                layer.msg(res.msg);
+
+                if (res.code != 200) {
+                    return false;
+                }
+                /** v请求支付 **/
+                var form = $('#pay_form');
+                var input = '<input type="hidden" name="_address_id" value="'+ _address_id +'">\
                         <input type="hidden" name="_product_id" value="'+ _product_id +'">\
                         <input type="hidden" name="_numbers" value="'+ _numbers +'">';
-            form.append(input);
-            form.submit();
+                form.append(input);
+                form.submit();
+            });
         });
 
         // 评论按钮
