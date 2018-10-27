@@ -66,10 +66,7 @@
 							<p class="buy-footer-address">
 								<span class="buy-line-title buy-line-title-type">寄送至：</span>
 								<span class="buy--address-detail">
-													   <span class="province">{{ $address->province }}</span>省
-														<span class="city">{{ $address->city }}</span>市
-														<span class="dist">{{ $address->region }}</span>区
-														<span class="street">{{ $address->detail_address }}</span>
+														<span class="street">{{ $address->format() }}</span>
 														</span>
 								</span>
 							</p>

@@ -21,8 +21,8 @@ class CreateAddressesTable extends Migration
             $table->string('name')->comment('收货人名字');
             $table->string('phone')->comment('收货人手机号码');
 
-            $table->string('province')->nullable()->comment('省份');
-            $table->string('city')->nullable()->comment('城市');
+            $table->string('province_id')->nullable()->comment('省份');
+            $table->string('city_id')->nullable()->comment('城市');
             $table->string('detail_address')->comment('详细的收货地址');
             $table->tinyInteger('is_default')->default(0)->comment('是否是默认收货地址');
 

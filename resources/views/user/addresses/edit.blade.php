@@ -2,6 +2,12 @@
 
 @section('style')
     <link href="/assets/user/css/addstyle.css" rel="stylesheet" type="text/css">
+    <style>
+        .am-selected-list {
+            height: 120px;
+            overflow-y: scroll;
+        }
+    </style>
     <script src="/assets/user/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
     <script src="/assets/user/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 @endsection
@@ -17,28 +23,24 @@
 			<hr/>
 			<ul class="am-avg-sm-1 am-avg-md-3 am-thumbnails">
 
-                @foreach ($addresses as $add)
-                    <li class="user-addresslist {{ $add->is_default ? 'defaultAddr' : '' }}">
-                         <span class="new-option-r default_addr" data-id="{{ $address->id }}">
+                @foreach ($addresses as $address)
+                    <li class="user-addresslist {{ $address->is_default ? 'defaultAddr' : '' }}">
+                        <span class="new-option-r default_addr" data-id="{{ $address->id }}">
                             <i class="am-icon-check-circle"></i>默认地址
                         </span>
                         <p class="new-tit new-p-re">
-                            <span class="new-txt">{{ $add->name }}</span>
-                            <span class="new-txt-rd2">{{ $add->phone }}</span>
+                            <span class="new-txt">{{ $address->name }}</span>
+                            <span class="new-txt-rd2">{{ $address->phone }}</span>
                         </p>
                         <div class="new-mu_l2a new-p-re">
                             <p class="new-mu_l2cw">
                                 <span class="title">地址：</span>
-                                <span class="province">{{ $add->province }}</span>省
-                                <span class="city">{{ $add->city }}</span>市
-                                <span class="dist">{{ $add->region }}</span>区
-                                <br>
-                                <span class="street">{{ $add->detail_address }}</span></p>
+                                <span class="province">{{ $address->format() }}</span>
                         </div>
                         <div class="new-addr-btn">
-                            <a href="/user/addresses/{{ $add->id }}/edit"><i class="am-icon-edit"></i>编辑</a>
+                            <a href="/user/addresses/{{ $address->id }}/edit"><i class="am-icon-edit"></i>编辑</a>
                             <span class="new-addr-bar">|</span>
-                            <a href="javascript:;" data-id="{{ $add->id }}" class="delete_address">
+                            <a href="javascript:;" data-id="{{ $address->id }}" class="delete_address">
                                 <i class="am-icon-trash"></i>删除
                             </a>
                         </div>
@@ -50,7 +52,7 @@
 			<div class="clear"></div>
 
 
-			<a class="new-abtn-type" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">修改地址</a>
+			<a class="new-abtn-type" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">添加新地址</a>
 			<!--例子-->
 
 
@@ -61,7 +63,7 @@
 
                         <!--标题 -->
                         <div class="am-cf am-padding">
-                            <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">新增地址</strong> / <small>update&nbsp;address</small></div>
+                            <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">新增地址</strong> / <small>Add&nbsp;address</small></div>
                         </div>
                         <hr/>
 
@@ -102,17 +104,15 @@
                                 <div class="am-form-group">
                                     <label for="user-address" class="am-form-label">所在地</label>
                                     <div class="am-form-content address">
-                                        <select name="province" data-am-selected>
-                                            <option value="浙江省">浙江省</option>
-                                            <option value="湖北省" selected>湖北省</option>
+                                        <select name="province_id" data-am-selected>
+                                            @foreach ($provinces as $province)
+                                                <option value="{{ $province->id }}" {{ $address->province_id == $province->id ? 'selected' : '' }}>{{ $province->name }}</option>
+                                            @endforeach
                                         </select>
-                                        <select name="city" data-am-selected>
-                                            <option value="温州市">温州市</option>
-                                            <option value="武汉市" selected>武汉市</option>
-                                        </select>
-                                        <select name="region" data-am-selected>
-                                            <option value="瑞安区">瑞安区</option>
-                                            <option value="洪山区" selected>洪山区</option>
+                                        <select name="city_id" data-am-selected>
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}" {{ $address->city_id == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -127,7 +127,7 @@
 
                                 <div class="am-form-group">
                                     <div class="am-u-sm-9 am-u-sm-push-3">
-                                        <button class="am-btn am-btn-danger">修改</button>
+                                        <button class="am-btn am-btn-danger">添加</button>
                                     </div>
                                 </div>
                             </form>
@@ -187,6 +187,23 @@
                 }
 
                 layer.msg(res.msg);
+            });
+        });
+        
+        $('select[name=province_id]').change(function () {
+            var id = $(this).val();
+            var url = "/user/addresses/cities?province_id=" + id;
+
+            $.get(url, function(res){
+
+
+                var text = '';
+                for (var i in res) {
+
+                    text += '<option value="'+ res[i].id +'">'+ res[i].name +'</option>';
+                }
+
+                $('select[name=city_id]').html(text);
             });
         });
     </script>

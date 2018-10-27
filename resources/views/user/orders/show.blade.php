@@ -72,10 +72,7 @@
 						<div class="new-mu_l2a new-p-re">
 							<p class="new-mu_l2cw">
 								<span class="title">收货地址：</span>
-								<span class="province">{{ $order->address->province }}</span>省
-								<span class="city">{{ $order->address->city }}</span>市
-								<span class="dist">{{ $order->address->region }}</span>区
-								<span class="street">{{ $order->address->detail_address }}</span></p>
+								<span class="street">{{ $order->address->format() }}</span></p>
 						</div>
 					</div>
 				</div>

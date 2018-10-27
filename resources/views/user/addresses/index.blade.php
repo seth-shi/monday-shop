@@ -35,11 +35,7 @@
                         <div class="new-mu_l2a new-p-re">
                             <p class="new-mu_l2cw">
                                 <span class="title">地址：</span>
-                                <span class="province">{{ $address->province }}</span>省
-                                <span class="city">{{ $address->city }}</span>市
-                                <span class="dist">{{ $address->region }}</span>区
-                                <br>
-                                <span class="street">{{ $address->detail_address }}</span></p>
+                                <span class="province">{{ $address->format() }}</span>
                         </div>
                         <div class="new-addr-btn">
                             <a href="/user/addresses/{{ $address->id }}/edit"><i class="am-icon-edit"></i>编辑</a>
@@ -107,14 +103,14 @@
                                 <div class="am-form-group">
                                     <label for="user-address" class="am-form-label">所在地</label>
                                     <div class="am-form-content address">
-                                        <select name="province" data-am-selected>
+                                        <select name="province_id" data-am-selected>
                                             @foreach ($provinces as $province)
-                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                                <option {{ old('province_id') == $province->id ? 'selected' : '' }} value="{{ $province->id }}">{{ $province->name }}</option>
                                             @endforeach
                                         </select>
-                                        <select name="city" data-am-selected>
+                                        <select name="city_id" data-am-selected>
                                             @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                <option {{ old('city_id') == $city->id ? 'selected' : '' }} value="{{ $city->id }}">{{ $city->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -193,9 +189,9 @@
             });
         });
         
-        $('select[name=province]').change(function () {
+        $('select[name=province_id]').change(function () {
             var id = $(this).val();
-            var url = "user/addresses/cities?province_id=" + id;
+            var url = "/user/addresses/cities?province_id=" + id;
 
             $.get(url, function(res){
 
@@ -206,7 +202,7 @@
                     text += '<option value="'+ res[i].id +'">'+ res[i].name +'</option>';
                 }
 
-                $('select[name=city]').html(text);
+                $('select[name=city_id]').html(text);
             });
         });
     </script>
