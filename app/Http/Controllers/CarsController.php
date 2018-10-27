@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCarRequest;
 use App\Models\Car;
 use App\Models\Product;
 use App\Models\ProductDetail;
@@ -25,9 +26,13 @@ class CarsController extends Controller
     public function index()
     {
         $cars = [];
-        if ($this->guard()->check()) {
+
+        /**
+         * @var $user User
+         */
+        if ($user = \auth()->user()) {
             // 直接获取当前登录用户的购物车
-            $cars = $this->user()->cars()->get();
+            $cars = $user->cars()->get();
         }
 
         return view('cars.index', compact('cars'));
@@ -40,58 +45,29 @@ class CarsController extends Controller
      */
     public function store(Request $request)
     {
-        if ($this->isGreaterStock($request->all())) {
-            return [
-                'code' => 304,
-                'msg' => '加入购物车的数量大于库存量'
-            ];
-        }
 
-        if (! $this->guard()->check()) {
+        // 没登录的加入购物车，直接加入 localStorage
+        if (! auth()->check()) {
             return $this->response;
         }
 
-        $form_data = $this->getFormData($request);
-
         /**
          * @var $car Car
+         * @var $product Product
+         * @var $user User
          */
-        $user = $this->user();
-        $car = $user->cars()->where('product_id', $form_data['product_id'])->first();
-        // 如果购物车已经存在，则添加数量，否则创建购物车
-        if ($car) {
-            $car->increment('numbers', $form_data['numbers']);
-        } else {
-            Car::query()->create($form_data);
-        }
+        $product = Product::query()->where('uuid', $request->input('product_id'))->firstOrFail();
+        $user = auth()->user();
+        $car = $user->cars()->firstOrNew([
+            'user_id' => \auth()->id(),
+            'product_id' => $product->id
+        ]);
+        $car->numbers += $request->input('numbers', 1);
+        $car->save();
 
-        // 加入购物车成功，减少商品数量
-        ProductDetail::query()->where('product_id', $form_data['product_id'])
-            ->lockForUpdate()
-            ->first()
-            ->decrement('count', $form_data['numbers']);
-
-        return $this->response = ['code' => 0, 'msg' => '加入购物车成功'];
+        return $this->response = ['code' => 200, 'msg' => '加入购物车成功'];
     }
 
-
-    /**
-     * 购买的数量是否超过库存
-     *
-     * @param array $data
-     * @return bool
-     */
-    protected function isGreaterStock(array $data)
-    {
-        // buy numbers > count
-        $product = Product::query()->find($data['product_id']);
-
-        if ($data['numbers'] > $product->productDetail->count) {
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * @param $id
@@ -107,34 +83,5 @@ class CarsController extends Controller
         }
 
         return $this->response = ['code' => 0, 'msg' => '删除成功'];
-    }
-
-    /**
-     * @param $request
-     * @return mixed
-     */
-    private function getFormData(Request $request)
-    {
-        $form_data = $request->only('product_id');
-        $form_data['user_id'] = $this->user()->getKey();
-        $form_data['numbers'] = $request->input('numbers', 1);
-
-        return $form_data;
-    }
-
-    /**
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    private function guard()
-    {
-        return Auth::guard();
-    }
-
-    /**
-     * @return \Illuminate\Contracts\Auth\Authenticatable | User
-     */
-    protected function user()
-    {
-        return $this->guard()->user();
     }
 }

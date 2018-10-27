@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exceptions\OrderException;
 use App\Http\Requests\OrderMuiltRequest;
 use App\Models\Address;
 use App\Models\Car;
@@ -29,9 +30,9 @@ class OrdersController extends Controller
     /**
      * 购物车批量下单
      *
-     * @param Request $request
+     * @param OrderMuiltRequest $request
      * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function store(OrderMuiltRequest $request)
     {
@@ -45,41 +46,59 @@ class OrdersController extends Controller
             return back()->withErrors(['address_id' => '购物车为空，请选择商品后再结账']);
         }
 
-        // begin tran
-        DB::beginTransaction();
+        try {
+
+            DB::transaction(function () use ($request, $cars, $user) {
+
+                // 主表
+                $masterOrder = $this->newMasterOrder($request);
+                // 明细表
+                $details = $cars->map(function (Car $car) use ($masterOrder) {
+
+                    // 库存量减少
+                    $this->decProductNumber($car->product, $car->numbers);
+
+                    $attribute =  [
+                        'product_id' => $car->product_id,
+                        'numbers' => $car->numbers
+                    ];
+                    $attribute['price'] = $car->product->price;
+                    $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['numbers']);
+                    $masterOrder->total += $attribute['total'];
 
 
-        $masterOrder = $this->newMasterOrder($request);
+                    return $attribute;
+                });
+                $masterOrder->save();
+                $masterOrder->details()->createMany($details->all());
+                // 删除购物车完成
+                $user->cars()->delete();
+            });
 
-        $details = $cars->map(function (Car $car) use ($masterOrder) {
-
-            $attribute =  [
-                'product_id' => $car->product_id,
-                'numbers' => $car->numbers
-            ];
-            $attribute['price'] = $car->product->price;
-            $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['numbers']);
-            $masterOrder->total += $attribute['total'];
-
-            return $attribute;
-        });
-
-        if (! $masterOrder->save()) {
-            DB::rollBack();
-            return back()->with('status', '服务器异常，请稍后再试');
+        } catch (\Exception $e) {
+            return back()->with('status', $e->getMessage());
         }
 
-        // 订单明细
-        if (! $masterOrder->details()->createMany($details->all())) {
-            DB::rollBack();
-            return back()->with('status', '服务器异常，请稍后再试');
-        }
 
-        // 删除购物车完成
-        $user->cars()->delete();
-
-        DB::commit();
         return back()->with('status', '下单成功');
+    }
+
+    /**
+     * 库存数量
+     *
+     * @param Product $product
+     * @param         $number
+     * @throws OrderException
+     */
+    protected function decProductNumber(Product $product, $number)
+    {
+        if ($number > $product->count) {
+            throw new OrderException("[{$product->name}] 库存数量不足");
+        }
+
+        $product->setAttribute('count', $product->count - $number)
+                ->setAttribute('safe_count', $product->safe_count + $number)
+                ->save();
     }
 
 
@@ -101,7 +120,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * 单个商品下单
+     * TODO 加入购物车也有问题单个商品下单
      *
      * @param Request $request
      * @return array
@@ -149,13 +168,9 @@ class OrdersController extends Controller
     protected function isGreaterStock(array $data)
     {
         // buy numbers > count
-        $product = Product::find($data['product_id']);
+        $product = Product::query()->find($data['product_id']);
 
-        if ($data['numbers'] > $product->productDetail->count) {
-            return true;
-        }
-
-        return false;
+        return $data['numbers'] > $product->count;
     }
 
     public function show(Order $order)
