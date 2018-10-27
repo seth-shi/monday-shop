@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\OrderMuiltRequest;
+use App\Models\Address;
+use App\Models\Car;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\ProductDetail;
+use App\Models\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -22,12 +26,20 @@ class OrdersController extends Controller
         return view('user.orders.index', compact('orders'));
     }
 
-    public function store(Request $request)
+    /**
+     * 购物车批量下单
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function store(OrderMuiltRequest $request)
     {
-        $this->validate($request, ['address_id' => 'required'], ['address_id.required' => '收货地址不能为空']);
-
-        // cars to orders
-        $cars = $request->user()->cars()->with('product')->get();
+        /**
+         * @var $user User
+         */
+        $user = $request->user();
+        $cars = $user->cars()->with('product')->get();
 
         if ($cars->isEmpty()) {
             return back()->withErrors(['address_id' => '购物车为空，请选择商品后再结账']);
@@ -35,37 +47,65 @@ class OrdersController extends Controller
 
         // begin tran
         DB::beginTransaction();
-        $order_data = $this->formatOrderData($request, $cars);
 
-        if ($order = $request->user()->orders()->create($order_data)) {
-            DB::rollBack();
-            return back()->with('status', '服务器异常，请稍后再试');
-        }
 
-        // 'numbers', 'product_id', 'order_id'
-        $order_detail_data = [];
-        foreach ($cars as $car) {
-            $order_detail_data[] = [
-                'order_id' => $order->id,
-                'product_id' => $car['product_id'],
-                'numbers' => $car['numbers']
+        $masterOrder = $this->newMasterOrder($request);
 
+        $details = $cars->map(function (Car $car) use ($masterOrder) {
+
+            $attribute =  [
+                'product_id' => $car->product_id,
+                'numbers' => $car->numbers
             ];
-        }
+            $attribute['price'] = $car->product->price;
+            $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['numbers']);
+            $masterOrder->total += $attribute['total'];
 
-        if (! OrderDetail::insert($order_detail_data)) {
+            return $attribute;
+        });
+
+        if (! $masterOrder->save()) {
             DB::rollBack();
             return back()->with('status', '服务器异常，请稍后再试');
         }
 
-        // delete cars data
-        $request->user()->cars()->delete();
+        // 订单明细
+        if (! $masterOrder->details()->createMany($details->all())) {
+            DB::rollBack();
+            return back()->with('status', '服务器异常，请稍后再试');
+        }
+
+        // 删除购物车完成
+        $user->cars()->delete();
 
         DB::commit();
         return back()->with('status', '下单成功');
     }
 
 
+    /**
+     * 实例化一个主订单
+     * @param Request $request
+     * @return Order
+     */
+    protected function newMasterOrder(Request $request)
+    {
+        /**
+         * 主订单的新建
+         * @var $address Address
+         * @var $masterOrder Order
+         */
+        $address = Address::query()->find($request->input('address_id'));
+
+        return  new Order(['address' => $address->format(), 'user_id' => auth()->id()]);
+    }
+
+    /**
+     * 单个商品下单
+     *
+     * @param Request $request
+     * @return array
+     */
     protected function single(Request $request)
     {
 
@@ -127,25 +167,8 @@ class OrdersController extends Controller
         return view('user.orders.show', compact('order'));
     }
 
-    private function formatOrderData($request, $cars)
-    {
-        $total = $this->getTotal($cars);
-        $uuid = Uuid::generate()->hex;
-        $address_id = $request->input('address_id');
 
-        return compact('total', 'uuid', 'address_id');
-    }
 
-    private function getTotal($cars)
-    {
-        $total = 0;
-
-        foreach ($cars as $car) {
-            $total += $car['numbers'] * $car['product']['price'];
-        }
-
-        return $total;
-    }
 
     private function formatSingleData($request)
     {
@@ -157,4 +180,6 @@ class OrdersController extends Controller
 
         return compact('product_id', 'total', 'uuid', 'address_id');
     }
+
+
 }

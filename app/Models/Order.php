@@ -11,7 +11,9 @@ class Order extends Model
     use SoftDeletes;
 
     protected $table = 'orders';
-    protected $fillable = ['uuid', 'total', 'status', 'address_id', 'user_id'];
+    protected $fillable = ['uuid', 'total', 'status', 'address', 'user_id'];
+
+
 
 
     // 订单状态
