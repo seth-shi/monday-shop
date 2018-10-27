@@ -12,14 +12,14 @@
                             <ul class="nav-coupon-category panel">
                                 @foreach ($categories as $category)
                                     <li>
-                                        <a href='/home/categories/{{ $category->id }}'>
+                                        <a href='/categories/{{ $category->id }}'>
                                             <i class="fa {{ $category->icon }}"></i>{{ $category->title }}
                                             <span>{{ $category->products_count }}</span>
                                         </a>
                                     </li>
                                 @endforeach
                                 <li class="all-cat">
-                                    <a class="font-14" href="/home/categories">查看所有分类</a>
+                                    <a class="font-14" href="/categories">查看所有分类</a>
                                 </li>
                             </ul>
                         </aside>
@@ -31,7 +31,7 @@
 
                             @foreach ($hotProducts as $hotProduct)
                                 <div class="deal-single panel item">
-                                    <a href="/home/products/{{ $hotProduct->id }}">
+                                    <a href="/products/{{ $hotProduct->id }}">
                                         <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $hotProduct->thumb }}">
                                             <div class="label-discount top-10 right-10" style="width: auto;">
                                                 {{ $hotProduct->price }} ￥
@@ -56,14 +56,14 @@
             <section class="section latest-deals-area ptb-30">
                 <header class="panel ptb-15 prl-20 pos-r mb-30">
                     <h3 class="section-title font-18">最新的 商品</h3>
-                    <a href="/home/products" class="btn btn-o btn-xs pos-a right-10 pos-tb-center">查看所有</a>
+                    <a href="/products" class="btn btn-o btn-xs pos-a right-10 pos-tb-center">查看所有</a>
                 </header>
 
                 <div class="row row-masnory row-tb-20">
                     @foreach ($latestProducts as $latestProduct)
                         <div class="col-sm-6 col-lg-4">
                             <div class="deal-single panel">
-                                <a href="/home/products/{{ $latestProduct->id }}">
+                                <a href="/products/{{ $latestProduct->id }}">
                                     <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $latestProduct->thumb }}">
 
                                     </figure>
@@ -74,7 +74,7 @@
                                             收藏人数 <span class="rating-count rating">{{ $latestProduct->users_count }}</span>
                                         </div>
                                         <h3 class="deal-title mb-10">
-                                            <a href="/home/products/{{ $latestProduct->id }}">
+                                            <a href="/products/{{ $latestProduct->id }}">
                                                 {{ $latestProduct->name }}
                                             </a>
                                         </h3>

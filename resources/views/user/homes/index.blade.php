@@ -39,9 +39,9 @@
                         <a class="i-load-more-item-shadow" href="/user/orders">全部订单</a>
                     </div>
                     <ul>
-                        <li><a href="/home/cars"><i><img src="/assets/user/images/send.png"/></i><span>购物车<em class="m-num">{{ $user->cars->count() }}</em></span></a></li>
+                        <li><a href="/cars"><i><img src="/assets/user/images/send.png"/></i><span>购物车<em class="m-num">{{ $user->cars->count() }}</em></span></a></li>
 
-                        <li><a href="/home/orders"><i><img src="/assets/user/images/refund.png"/></i><span>订单<em class="m-num">{{ $user->orders->count() }}</em></span></a></li>
+                        <li><a href="/orders"><i><img src="/assets/user/images/refund.png"/></i><span>订单<em class="m-num">{{ $user->orders->count() }}</em></span></a></li>
                     </ul>
                 </div>
 
@@ -247,7 +247,7 @@
                 <div class="new-goods-info">
 
                     @inject('productPresenter', 'App\Presenters\ProductPresenter')
-                    <a class="shop-info" href="/home/products/{{ $hotProduct->id }}" target="_blank">
+                    <a class="shop-info" href="/products/{{ $hotProduct->id }}" target="_blank">
                         <div >
                             <img src="{{ $productPresenter->getThumbLink($hotProduct->thumb) }}" alt="">
                         </div>

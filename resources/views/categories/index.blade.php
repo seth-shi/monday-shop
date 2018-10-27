@@ -12,7 +12,7 @@
                         @inject('categoryPresenter', 'App\Presenters\CategoryPresenter')
                         @foreach ($categories as $category)
                             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <a href="/home/categories/{{ $category->id }}" class="panel is-block">
+                                <a href="/categories/{{ $category->id }}" class="panel is-block">
                                     <div class="embed-responsive embed-responsive-4by3">
                                         <div class="store-logo">
                                             <img src="{{ $categoryPresenter->getThumbLink($category->thumb) }}" alt="{{ $category->name }}">

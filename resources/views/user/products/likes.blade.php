@@ -20,7 +20,7 @@
                                             </figure>
                                         </div>
                                         <div class="media-body valign-middle">
-                                            <h5 class="title mb-5 t-uppercase"><a href="/home/products/{{ $product->id }}">{{ $product->name }}</a></h5>
+                                            <h5 class="title mb-5 t-uppercase"><a href="/products/{{ $product->id }}">{{ $product->name }}</a></h5>
                                             <div class="rating mb-10">
                                                 <span class="rating-reviews">
 				                        		( <span class="rating-count">{{ $product->users()->count() }}</span> 收藏 )</span>
