@@ -96,6 +96,9 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     Route::post('/orders/single', 'OrdersController@single');
     Route::resource('/orders', 'OrdersController', ['only' => ['index', 'store', 'show']]);
 
+    // 评论商品
+    Route::post('/comments', 'CommentCOntroller@store');
+
     /****************************************
      * 1. 支付的显示页面
      * 2. 支付的处理

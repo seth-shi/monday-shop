@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    //
+    protected $fillable = [
+        'score', 'user_id', 'product_id', 'order_id', 'content'
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
