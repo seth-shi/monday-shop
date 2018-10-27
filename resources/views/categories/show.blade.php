@@ -47,7 +47,7 @@
 
                         <!-- List Control View -->
                         <ul class="list-control-view list-inline">
-                            <li><a href="{{ url('/home/categories') }}"><i class="fa fa-reply"></i></a>
+                            <li><a href="/home/categories"><i class="fa fa-reply"></i></a>
                             </li>
                         </ul>
                         <!-- End List Control View -->
@@ -70,7 +70,7 @@
                                 <div class="deal-single panel">
                                     <div class="row row-rl-0 row-sm-cell">
                                         <div class="col-sm-5">
-                                            <a href="{{ url("/home/products/{$product->id}") }}">
+                                            <a href="/home/products/{{ $product->id }}">
                                                 <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $productPresenter->getThumbLink($product->thumb) }}">
                                                     <div class="label-discount left-20 top-15">-50%</div>
                                                     <ul class="deal-actions top-15 right-20">
@@ -92,7 +92,7 @@
                                                         </div>
                                                     </div>
                                                     <h3 class="deal-title mb-10">
-                                                        <a href="{{ url("/home/products/{$product->id}") }}">
+                                                        <a href="/home/products/{{ $product->id }}">
                                                             {{ $product->name }}
                                                         </a>
                                                     </h3>

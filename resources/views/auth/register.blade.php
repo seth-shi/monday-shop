@@ -83,7 +83,7 @@
 
                                         <div style="position: relative;">
                                             <input width="50px" id="text" maxlength="4" type="text" class="form-control input-lg" name="captcha" placeholder="验证码" required>
-                                            <img style="position: absolute;top: 0; right: 0; cursor: pointer;" src="{{captcha_src()}}" onclick="this.src='{{ url("captcha/default") }}?'+Math.random()" alt="验证码" id="captcha">
+                                            <img style="position: absolute;top: 0; right: 0; cursor: pointer;" src="{{captcha_src()}}" onclick="this.src='captcha/default?'+Math.random()" alt="验证码" id="captcha">
                                         </div>
 
 
@@ -114,13 +114,13 @@
                         <div class="col-sm-6 col-md-5 col-right">
                             <div class="social-login p-40">
                                 <div class="mb-20">
-                                    <a href="{{ url('/auth/github') }}" class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa  fa-github"></i>登录 Github</a>
+                                    <a href="/auth/github" class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa  fa-github"></i>登录 Github</a>
                                 </div>
                                 <div class="mb-20">
-                                    <a href="{{ url('/auth/qq') }}" class="btn btn-lg btn-block btn-social btn-twitter"><i class="fa fa-qq"></i>登录  QQ</a>
+                                    <a href="/auth/qq" class="btn btn-lg btn-block btn-social btn-twitter"><i class="fa fa-qq"></i>登录  QQ</a>
                                 </div>
                                 <div class="mb-20">
-                                    <a href="{{ url('/auth/weibo') }}" class="btn btn-lg btn-block btn-social btn-google-plus"><i class="fa fa-weibo"></i>登录  微博</a>
+                                    <a href="/auth/weibo" class="btn btn-lg btn-block btn-social btn-google-plus"><i class="fa fa-weibo"></i>登录  微博</a>
                                 </div>
                                 <div class="text-center color-mid">
                                     已经有账号 ? <a href="{{ route('login') }}" class="color-green">登录</a>

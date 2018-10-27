@@ -45,7 +45,7 @@
                         <p>{{ $errors->first() }}</p>
                     </div>
                 @endif
-                <form class="am-form am-form-horizontal" method="post" action="{{ url('/user/update') }}">
+                <form class="am-form am-form-horizontal" method="post" action="/user/update">
 
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
@@ -104,7 +104,7 @@
             upload.render({
                 elem: '#avatar_img'
                 ,method: 'post'
-                ,url: '{{ url('user/upload/avatar') }}'
+                ,url: 'user/upload/avatar'
                 ,done: function(res){
 
                     if (res.code == 0) {

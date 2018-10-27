@@ -11,7 +11,7 @@
                     <div class="m-bg"></div>
                     <div class="m-userinfo">
                         <div class="m-baseinfo">
-                            <a href="{{ url('/user/setting') }}">
+                            <a href="/user/setting">
                                 <img src="{{ $userPresenter->getAvatarLink($user->avatar) }}">
                             </a>
                             <em class="s-name">{{ $user->name }}<span class="vip1"></span></em>
@@ -24,7 +24,7 @@
                             </div>
                             -->
                             <div class="m-address">
-                                <a href="{{ url('/user/addresses') }}" class="i-trigger">我的收货地址</a>
+                                <a href="/user/addresses" class="i-trigger">我的收货地址</a>
                             </div>
                         </div>
                     </div>
@@ -36,12 +36,12 @@
                 <div class="m-order">
                     <div class="s-bar">
                         <i class="s-icon"></i>我的订单
-                        <a class="i-load-more-item-shadow" href="{{ url('/user/orders') }}">全部订单</a>
+                        <a class="i-load-more-item-shadow" href="/user/orders">全部订单</a>
                     </div>
                     <ul>
-                        <li><a href="{{ url('/home/cars') }}"><i><img src="/assets/user/images/send.png"/></i><span>购物车<em class="m-num">{{ $user->cars->count() }}</em></span></a></li>
+                        <li><a href="/home/cars"><i><img src="/assets/user/images/send.png"/></i><span>购物车<em class="m-num">{{ $user->cars->count() }}</em></span></a></li>
 
-                        <li><a href="{{ url('/home/orders') }}"><i><img src="/assets/user/images/refund.png"/></i><span>订单<em class="m-num">{{ $user->orders->count() }}</em></span></a></li>
+                        <li><a href="/home/orders"><i><img src="/assets/user/images/refund.png"/></i><span>订单<em class="m-num">{{ $user->orders->count() }}</em></span></a></li>
                     </ul>
                 </div>
 
@@ -62,7 +62,7 @@
                                         <time>{{ $order->created_at }}</time>
                                     </div>
                                     <div class="lg-confirm">
-                                        <a class="i-btn-typical" href="{{ url("/user/orders/{$order->id}") }}">查看详细信息</a>
+                                        <a class="i-btn-typical" href="/user/orders/{{ $order->id }}">查看详细信息</a>
                                     </div>
                                 </li>
                                 <div class="clear"></div>
@@ -247,7 +247,7 @@
                 <div class="new-goods-info">
 
                     @inject('productPresenter', 'App\Presenters\ProductPresenter')
-                    <a class="shop-info" href="{{ url("/home/products/{$hotProduct->id}") }}" target="_blank">
+                    <a class="shop-info" href="/home/products/{{ $hotProduct->id }}" target="_blank">
                         <div >
                             <img src="{{ $productPresenter->getThumbLink($hotProduct->thumb) }}" alt="">
                         </div>

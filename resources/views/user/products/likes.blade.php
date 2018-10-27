@@ -20,7 +20,7 @@
                                             </figure>
                                         </div>
                                         <div class="media-body valign-middle">
-                                            <h5 class="title mb-5 t-uppercase"><a href="{{ url("/home/products/{$product->id}") }}">{{ $product->name }}</a></h5>
+                                            <h5 class="title mb-5 t-uppercase"><a href="/home/products/{{ $product->id }}">{{ $product->name }}</a></h5>
                                             <div class="rating mb-10">
                                                 <span class="rating-reviews">
 				                        		( <span class="rating-count">{{ $product->users()->count() }}</span> 收藏 )</span>
@@ -51,7 +51,7 @@
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
 
-        var _url = "{{ url("/user/likes") }}/";
+        var _url = "/user/likes/";
         var token = "{{ csrf_token() }}";
 
         $('.de_likes_btn').click(function(){

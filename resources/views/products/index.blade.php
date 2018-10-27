@@ -25,7 +25,7 @@
                                 <ul>
                                     @if (isset($products[0]))
                                         @foreach ($products[0] as $product)
-                                            <li><a href="{{ url("/home/products/{$product->id}") }}"> {{ $product->name }} </a>
+                                            <li><a href="/home/products/{{ $product->id }}"> {{ $product->name }} </a>
                                             </li>
                                         @endforeach
                                     @endif
@@ -35,7 +35,7 @@
                                 <ul>
                                     @if (isset($products[1]))
                                         @foreach ($products[1] as $product)
-                                            <li><a href="{{ url("/home/products/{$product->id}") }}"> {{ $product->name }} </a>
+                                            <li><a href="/home/products/{{ $product->id }}"> {{ $product->name }} </a>
                                             </li>
                                         @endforeach
                                     @endif
@@ -45,7 +45,7 @@
                                 <ul>
                                     @if (isset($products[2]))
                                         @foreach ($products[2] as $product)
-                                            <li><a href="{{ url("/home/products/{$product->id}") }}"> {{ $product->name }} </a>
+                                            <li><a href="/home/products/{{ $product->id }}"> {{ $product->name }} </a>
                                             </li>
                                         @endforeach
                                     @endif
@@ -70,7 +70,7 @@
 
 @section('script')
     <script>
-        var url = "{{ url("/home/products/pinyin") }}/";
+        var url = "/home/products/pinyin/";
         var loadImg = '<div style="background: #ddd"><img src="/images/loading.svg" style="width: 100%; height: auto;" alt=""></div>';
         var dataContainer = $('#data');
 

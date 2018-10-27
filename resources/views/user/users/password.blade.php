@@ -42,7 +42,7 @@
 				<p>{{ $errors->first() }}</p>
 			</div>
 		@endif
-		<form class="am-form am-form-horizontal" action="{{ url('user/password') }}" method="post">
+		<form class="am-form am-form-horizontal" action="user/password" method="post">
 
             {{ csrf_field() }}
 			<div class="am-form-group">

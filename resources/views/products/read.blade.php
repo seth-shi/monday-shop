@@ -75,7 +75,7 @@
                                             @endforeach
                                         </select>
                                     @else
-                                        <a style="line-height:27px;color:red;" href="{{ url('user')  }}">添加收货地址</a>
+                                        <a style="line-height:27px;color:red;" href="user')  }}">添加收货地址</a>
                                     @endif
 
                                 </div>
@@ -144,7 +144,7 @@
 
     <div class="pay">
         <div class="pay-opt">
-            <a href="{{ url('/') }}"><span class="am-icon-home am-icon-fw">首页</span></a>
+            <a href="/"><span class="am-icon-home am-icon-fw">首页</span></a>
 
             @auth
             @if ($product->users()->where('user_id', \Auth::user()->id)->count() > 0)
@@ -191,11 +191,11 @@
                     @foreach ($recommendProducts as $recommendProduct)
                         <li class="first">
                             <div class="p-img">
-                                <a href="{{ url("/home/products/{$recommendProduct->id}") }}">
+                                <a href="/home/products/{{ $recommendProduct->id }}">
                                     <img class="media-object" src="{{ $productPresenter->getThumbLink($recommendProduct->thumb) }}" alt="{{ $recommendProduct->name }}" width="80">
                                 </a>
                             </div>
-                            <div class="p-name"><a href="{{ url("/home/products/{$recommendProduct->id}") }}">
+                            <div class="p-name"><a href="/home/products/{{ $recommendProduct->id }}">
                                     {{ $recommendProduct->name }}
                                 </a>
                             </div>
@@ -756,7 +756,7 @@
     <script src="/js/jquery-addShopping.js"></script>
     <script>
         var product_id = $('input[name=product_id]').val();
-        var _url = "{{ url("/user/likes") }}/" + product_id;
+        var _url = "/user/likes/" + product_id;
         var token = "{{ csrf_token() }}";
         var likes_nums = $('#likes_count');
 
@@ -810,7 +810,7 @@
             endFunction:function(element){
 
                 var data = {product_id:"{{ $product->id }}",_token:token};
-                var url = "{{ url('/home/cars') }}";
+                var url = "/home/cars";
                 $.post(url, data, function(res){
                     console.log(res);
 

@@ -52,7 +52,7 @@
                     <tr style="padding-left: 20px;">
                         <td class="time">
                             <p>
-                                <a class="uuid" href="{{ url("/user/orders/{$order->id}") }}">{{ $order->uuid }}</a>
+                                <a class="uuid" href="/user/orders/{{ $order->id }}">{{ $order->uuid }}</a>
                             </p>
                         </td>
                         <td class="title name">

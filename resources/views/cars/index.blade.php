@@ -32,7 +32,7 @@
                                                 {{ session('status') }}
                                             </div>
                                         @endif
-                                        <form class="mb-30" method="post" action="{{ url('/user/orders/') }}">
+                                        <form class="mb-30" method="post" action="/user/orders/">
                                             {{ csrf_field() }}
 
                                             <div class="row">
@@ -62,7 +62,7 @@
                                             <button type="submit"  class="btn btn-lg btn-rounded mr-10">下单</button>
                                             @endauth
                                             @guest
-                                            <a href="{{ url('login') }}?redirect_url={{ url()->current() }}"  class="btn btn-lg btn-rounded mr-10">下单</a>
+                                            <a href="login?redirect_url={{ url()->current() }}"  class="btn btn-lg btn-rounded mr-10">下单</a>
                                             @endguest
                                         </form>
                                     </section>
@@ -85,7 +85,7 @@
                                     <td>
                                         <div class="media-body valign-middle">
                                             <h6 class="title mb-15 t-uppercase">
-                                                <a href="{{ url("/home/products/{$car->product->id}") }}">
+                                                <a href="/home/products/{{ $car->product->id }}">
                                                     {{ $car->product->name }}
                                                 </a>
                                             </h6>
@@ -139,7 +139,7 @@
                         var product = $.parseJSON(cars[i]);
 
                         var data = {product_id: i, numbers: product.numbers, _token: token};
-                        var url = "{{ url('/home/cars') }}";
+                        var url = "/home/cars";
                         console.log(product);
 
                         $.post(url, data, function (res) {
@@ -164,7 +164,7 @@
             <td>\
             <div class="media-body valign-middle">\
             <h6 class="title mb-15 t-uppercase">\
-            <a href="{{ url("/home/products") }}/'+ i +'">\
+            <a href="/home/products/'+ i +'">\
                 '+ product.name +'\
             </a>\
             </h6>\
@@ -187,7 +187,7 @@
         $('#cars_data').append(cars_span);
         getTotal();
 
-        var cars_url = "{{ url("/home/cars") }}/";
+        var cars_url = "/home/cars/";
         $('.delete_car').click(function () {
             var that = $(this);
             var id = that.data('id');

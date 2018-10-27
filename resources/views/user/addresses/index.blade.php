@@ -42,7 +42,7 @@
                                 <span class="street">{{ $address->detail_address }}</span></p>
                         </div>
                         <div class="new-addr-btn">
-                            <a href="{{ url("/user/addresses/{$address->id}/edit") }}"><i class="am-icon-edit"></i>编辑</a>
+                            <a href="/user/addresses/{{ $address->id }}/edit"><i class="am-icon-edit"></i>编辑</a>
                             <span class="new-addr-bar">|</span>
                             <a href="javascript:;" data-id="{{ $address->id }}" class="delete_address">
                                 <i class="am-icon-trash"></i>删除
@@ -88,7 +88,7 @@
 
 
                         <div class="am-u-md-12 am-u-lg-8" style="margin-top: 20px;">
-                            <form class="am-form am-form-horizontal" action="{{ url('/user/addresses') }}" method="post">
+                            <form class="am-form am-form-horizontal" action="/user/addresses" method="post">
                                 {{ csrf_field() }}
 
                                 <div class="am-form-group">
@@ -167,7 +167,7 @@
     <script>
         $('.delete_address').click(function(){
             var id = $(this).data('id');
-            var _url = "{{ url('/user/addresses') }}/" + id;
+            var _url = "/user/addresses/" + id;
             var that = $(this);
 
             $.post(_url, {_token:'{{ csrf_token() }}', _method:'DELETE'}, function(res){
@@ -182,7 +182,7 @@
     <script>
         $('.default_addr').click(function(){
             var id = $(this).data('id');
-            var _url = "{{ url('/user/addresses/default') }}/" + id;
+            var _url = "/user/addresses/default/" + id;
 
             $.post(_url, {_token:'{{ csrf_token() }}'}, function(res){
                 if (res.code == 0) {
@@ -195,7 +195,7 @@
         
         $('select[name=province]').change(function () {
             var id = $(this).val();
-            var url = "{{ url('user/addresses/cities') }}?province_id=" + id;
+            var url = "user/addresses/cities?province_id=" + id;
 
             $.get(url, function(res){
 
