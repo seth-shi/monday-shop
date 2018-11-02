@@ -25,7 +25,7 @@
 - [x] **商品搜索**支持拼音首字母 + `AJAX`无刷新显示
 - [x] **订阅模块**每周定时推送一封邮件包含最受欢迎，最新，最火卖商品
 - [x] **分类排序**后台使用拖动排序，得到优先展示的分类
-- [ ] **评论模块**
+- [x] **评论模块**
 ## Installation
 1. 获取源代码
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)

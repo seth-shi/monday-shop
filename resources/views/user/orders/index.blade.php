@@ -21,7 +21,7 @@
         </div>
         <hr>
 
-        <!--交易时间
+        交易时间
 
         <div class="order-time">
             <label class="form-label">交易时间：</label>
@@ -36,7 +36,7 @@
             </div>
             <div class="clear"></div>
         </div>
--->
+
         <table width="100%">
 
             <thead>
