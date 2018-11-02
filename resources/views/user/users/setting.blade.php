@@ -19,9 +19,8 @@
 
             <!--头像 -->
             <div class="user-infoPic">
-                @inject('userPresenter', 'App\Presenters\UserPresenter')
                 <div class="filePic">
-                    <img style="cursor: pointer;width: 60px;height: 60px;" id="avatar_img" class="am-circle am-img-thumbnail" src="{{ $userPresenter->getAvatarLink($user->avatar) }}" alt="{{ $user->name }}" />
+                    <img style="cursor: pointer;width: 60px;height: 60px;" id="avatar_img" class="am-circle am-img-thumbnail" src="{{ $user->avatar }}" alt="{{ $user->name }}" />
                 </div>
 
                 <p class="am-form-help">头像</p>
@@ -104,7 +103,7 @@
             upload.render({
                 elem: '#avatar_img'
                 ,method: 'post'
-                ,url: 'user/upload/avatar'
+                ,url: '/user/upload/avatar'
                 ,done: function(res){
 
                     if (res.code == 0) {
