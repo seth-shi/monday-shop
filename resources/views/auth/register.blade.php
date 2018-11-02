@@ -17,7 +17,7 @@
                 @endif
 
                 <section class="sign-area panel p-40">
-                    <h3 class="sign-title">注册 <small>Or <a href="{{ route('login') }}" class="color-green">登录</a></small></h3>
+                    <h3 class="sign-title">注册 <small>回到<a href="/" class="color-green">首 页</a></small></h3>
                     <div class="row row-rl-0">
                         <div class="col-sm-6 col-md-7 col-left">
                             <form class="p-40" id="register_form" method="post" action="{{ route('register') }}">
