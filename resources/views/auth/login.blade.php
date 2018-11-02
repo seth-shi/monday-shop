@@ -13,7 +13,7 @@
                 @endif
 
                 <section class="sign-area panel p-40">
-                    <h3 class="sign-title">登  录 <small>Or <a href="{{ route('register') }}" class="color-green">注  册</a></small></h3>
+                    <h3 class="sign-title">登  录 <small>回到<a href="/" class="color-green">首 页</a></small></h3>
                     <div class="row row-rl-0">
                         <div class="col-sm-6 col-md-7 col-left">
                             <form class="p-40 form-horizontal" method="POST" action="{{ route('login') }}">
