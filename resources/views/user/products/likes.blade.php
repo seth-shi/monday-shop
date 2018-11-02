@@ -10,20 +10,19 @@
                             <h3 class="h-title mb-40 t-uppercase">我的收藏列表</h3>
                             <table id="cart_list" class="wishlist">
                                 <tbody>
-                                @inject("productPersenter", 'App\Presenters\ProductPresenter')
                                 @foreach ($likesProducts as $product)
                                     <tr class="panel alert">
                                     <td class="col-sm-8 col-md-9">
                                         <div class="media-left is-hidden-sm-down">
                                             <figure class="product-thumb">
-                                                <img src="{{ $productPersenter->getThumbLink($product->thumb) }}" alt="{{ $product->name }}">
+                                                <img src="{{ $product->thumb }}" alt="{{ $product->name }}">
                                             </figure>
                                         </div>
                                         <div class="media-body valign-middle">
                                             <h5 class="title mb-5 t-uppercase"><a href="/products/{{ $product->uuid }}">{{ $product->name }}</a></h5>
                                             <div class="rating mb-10">
                                                 <span class="rating-reviews">
-				                        		( <span class="rating-count">{{ $product->users()->count() }}</span> 收藏 )</span>
+				                        		( <span class="rating-count">{{ $product->users_count }}</span> 收藏 )</span>
                                             </div>
                                             <h4 class="price color-green"><span class="price-sale">￥{{ $product->price_original }}</span>￥{{ $product->price }}</h4>
                                         </div>
@@ -40,6 +39,8 @@
                         </div>
                     </div>
                 </section>
+
+                {{ $likesProducts->links() }}
             </div>
         </div>
 

@@ -9,8 +9,9 @@
 
     <link href="/assets/user/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
     <link href="/assets/user/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
-    <link href="{{ asset("assets/user/css/systyle.css") }}" rel="stylesheet" type="text/css">
+    <link href="/assets/user/css/systyle.css" rel="stylesheet" type="text/css">
     <link href="/assets/user/css/personal.css" rel="stylesheet" type="text/css">
+    <link href="/assets/user/css/orstyle.css" rel="stylesheet" type="text/css">
     @yield('style')
 </head>
 

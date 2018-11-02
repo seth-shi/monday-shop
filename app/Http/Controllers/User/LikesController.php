@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Product;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class LikesController extends Controller
 
     public function index()
     {
-        $likesProducts = $this->guard()->user()->products;
+        $likesProducts = $this->user()->products()->withCount('users')->paginate(10);
 
         return view('user.products.likes', compact('likesProducts'));
     }
@@ -26,7 +27,7 @@ class LikesController extends Controller
     public function toggle($id)
     {
         // likes or no likes
-        $this->guard()->user()->products()->toggle($id);
+        $this->user()->products()->toggle($id);
 
         return $this->response = [
             'code' => 0,
@@ -34,8 +35,11 @@ class LikesController extends Controller
         ];
     }
 
-    protected function guard()
+    /**
+     * @return User
+     */
+    protected function user()
     {
-        return Auth::guard();
+        return Auth::guard()->user();
     }
 }
