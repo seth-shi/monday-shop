@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\User;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
@@ -13,7 +14,12 @@ class UsersController extends Controller
 
     public function index()
     {
-        $user = $this->guard()->user();
+
+        $user = $this->user();
+        $user->cars_count = $user->cars()->count();
+        $user->orders_count = $user->orders()->count();
+        $user->likeProducts = $user->products()->latest()->take(9)->get();
+
         $hotProduct = Product::where('safe_count', 'desc')->first();
 
         return view('user.homes.index', compact('user', 'hotProduct'));
@@ -23,7 +29,7 @@ class UsersController extends Controller
 
     public function setting()
     {
-        $user = Auth::user();
+        $user = $this->user();
 
         return view('user.users.setting', compact('user'));
     }
@@ -44,7 +50,7 @@ class UsersController extends Controller
         ]);
 
 
-        $this->guard()->user()->update($request->only(['avatar', 'name', 'sex']));
+        $this->user()->update($request->only(['avatar', 'name', 'sex']));
 
         return back()->with('status', '修改成功');
     }
@@ -57,7 +63,7 @@ class UsersController extends Controller
             'msg' => '服务器出错，请稍后再试',
         ];
 
-        if ($this->guard()->user()->subscribe()->create($request->only('email'))) {
+        if ($this->user()->subscribe()->create($request->only('email'))) {
             $response = [
                 'code' => 200,
                 'msg' => '订阅成功',
@@ -67,14 +73,14 @@ class UsersController extends Controller
         return $response;
     }
 
-    public function deSubscribe(Request $request)
+    public function deSubscribe()
     {
         $response = [
             'code' => 402,
             'msg' => '服务器出错，请稍后再试',
         ];
 
-        if ($this->guard()->user()->subscribe()->delete()) {
+        if ($this->user()->subscribe()->delete()) {
             $response = [
                 'code' => 200,
                 'msg' => '取消订阅成功',
@@ -96,7 +102,7 @@ class UsersController extends Controller
         }
 
         // move file to public
-        if (! $link = $request->file('file')->store(config('web.upload.avatar'), 'public')) {
+        if (! $link = $request->file('file')->store('avatars')) {
             return [
                 'code' => 402,
                 'msg' => '服务器异常，请稍后再试',
@@ -108,7 +114,7 @@ class UsersController extends Controller
         return [
             'code' => 0,
             'msg' => '图片上传成功',
-            'data' => ['src' => $link]
+            'data' => ['src' => $link, 'link' => \Storage::url($link)]
         ];
     }
 
@@ -144,12 +150,15 @@ class UsersController extends Controller
 
     private function validatePassword($oldPassword)
     {
-        return Hash::check($oldPassword, $this->guard()->user()->password);
+        return Hash::check($oldPassword, $this->user()->password);
     }
 
-    protected function guard()
+    /**
+     * @return User|null
+     */
+    protected function user()
     {
-        return Auth::guard();
+        return auth()->user();
     }
 
 

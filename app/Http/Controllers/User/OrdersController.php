@@ -21,7 +21,11 @@ class OrdersController extends Controller
 
     public function index()
     {
-        $orders = Auth::user()->orders;
+        /**
+         * @var $user User
+         */
+        $user = auth()->user();
+        $orders = $user->orders()->with('details', 'details.product')->get();
 
         return view('user.orders.index', compact('orders'));
     }

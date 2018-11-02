@@ -9,13 +9,12 @@
                     <h3 class="mb-40 t-uppercase">查看所有分类</h3>
                     <div class="row row-rl-15 row-tb-15 t-center">
 
-                        @inject('categoryPresenter', 'App\Presenters\CategoryPresenter')
                         @foreach ($categories as $category)
                             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                                 <a href="/categories/{{ $category->id }}" class="panel is-block">
                                     <div class="embed-responsive embed-responsive-4by3">
                                         <div class="store-logo">
-                                            <img src="{{ $categoryPresenter->getThumbLink($category->thumb) }}" alt="{{ $category->name }}">
+                                            <img src="{{ $category->thumb }}" alt="{{ $category->name }}">
                                         </div>
                                     </div>
                                     <h6 class="store-name ptb-10">{{ $category->title }}</h6>

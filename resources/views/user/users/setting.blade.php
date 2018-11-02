@@ -109,7 +109,7 @@
                     if (res.code == 0) {
                         console.log(res.data.src);
                         $('input[name=avatar]').val(res.data.src);
-                        $('#avatar_img').attr('src', "/storage/" + res.data.src);;
+                        $('#avatar_img').attr('src', res.data.link);
                     }
 
                     layer.msg(res.msg);
