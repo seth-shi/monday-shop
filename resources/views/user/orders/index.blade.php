@@ -21,6 +21,12 @@
                     <li><a href="#tab5">待评价</a></li>--}}
                 </ul>
 
+                @if (session()->has('status'))
+                    <div class="am-alert am-alert-success" data-am-alert>
+                        <button type="button" class="am-close">&times;</button>
+                        <p>{{ session('status') }}</p>
+                    </div>
+                @endif
                 <div class="am-tabs-bd">
                     <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                         <div class="order-top">
@@ -107,13 +113,19 @@
                                                         </div>
                                                     </li>
                                                     <li class="td td-change">
-                                                        <div class="am-btn am-btn-danger anniu disabled">删除订单</div>
+                                                        <a href="javascript:;" onclick="handleDelete({{ $order->id }})" class="am-btn am-btn-danger anniu delete_btn">删除订单</a>
                                                     </li>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
+
+                                <form id="delete-form" action="/" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                </form>
+
 
                             </div>
 
@@ -828,4 +840,17 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+       function handleDelete(id)
+       {
+           var url = "/user/orders/" + id;
+
+           var form = document.getElementById('delete-form');
+           form.action = url;
+           form.submit();
+       }
+    </script>
 @endsection

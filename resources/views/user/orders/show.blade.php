@@ -44,15 +44,14 @@
 				</div>
 			</div>
 
-			@inject('userPresenter', 'App\Presenters\UserPresenter')
 			<div class="order-infoaside">
 				<div class="order-logistics">
 					<a href="#">
 						<div class="icon-log">
-							<i><img src="{{ $userPresenter->getAvatarLink($order->user->avatar) }}"></i>
+							<i><img src="{{ $order->user->avatar }}"></i>
 						</div>
 						<div class="latest-logistics">
-							<p class="text">订单号：{{ $order->uuid }}</p>
+							<p class="text">订单号：{{ $order->no }}</p>
 							<div class="time-list">
 								<span class="date">{{ $order->created_at }}</span>
 							</div>
@@ -65,14 +64,10 @@
 					<div class="order-address">
 						<div class="icon-add">
 						</div>
-						<p class="new-tit new-p-re">
-							<span class="new-txt">{{ $order->address->name }}</span>
-							<span class="new-txt-rd2">{{ $order->address->phone }}</span>
-						</p>
 						<div class="new-mu_l2a new-p-re">
 							<p class="new-mu_l2cw">
 								<span class="title">收货地址：</span>
-								<span class="street">{{ $order->address->format() }}</span></p>
+								<span class="street">{{ $order->address }}</span></p>
 						</div>
 					</div>
 				</div>
@@ -103,31 +98,30 @@
 						<div class="order-content">
 							<div class="order-left">
 
-                                @inject('productPresenter', 'App\Presenters\ProductPresenter')
-                                @foreach ($order->orderDetails as $orderDetail)
+                                @foreach ($order->details as $detail)
                                     <ul class="item-list">
                                         <li class="td td-item">
                                             <div class="item-pic">
-                                                <a href="/products/{{ $orderDetail->product->uuid }}" class="J_MakePoint">
-                                                    <img src="{{ $productPresenter->getThumbLink($orderDetail->product->thumb) }}" class="itempic J_ItemImg">
+                                                <a href="/products/{{ $detail->product->uuid }}" class="J_MakePoint">
+                                                    <img src="{{ $detail->product->thumb }}" class="itempic J_ItemImg">
                                                 </a>
                                             </div>
                                             <div class="item-info">
                                                 <div class="item-basic-info">
-                                                    <a href="/products/{{ $orderDetail->product->uuid }}">
-                                                        <p>{!! $orderDetail->product->title !!}</p>
+                                                    <a href="/products/{{ $detail->product->uuid }}">
+                                                        <p>{!! $detail->product->title !!}</p>
                                                     </a>
                                                 </div>
                                             </div>
                                         </li>
                                         <li class="td td-price">
                                             <div class="item-price">
-                                                {{ $orderDetail->product->price }}
+                                                {{ $detail->product->price }}
                                             </div>
                                         </li>
                                         <li class="td td-number">
                                             <div class="item-number">
-                                                <span>×</span>{{ $orderDetail->numbers }}
+                                                <span>×</span>{{ $detail->numbers }}
                                             </div>
                                         </li>
                                         <li class="td td-operation">

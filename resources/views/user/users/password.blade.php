@@ -30,7 +30,7 @@
 				<div class="u-progress-bar-inner"></div>
 			</div>
 		</div>
-		@if (session()->has('status') > 0)
+		@if (session()->has('status'))
 			<div class="am-alert am-alert-success" data-am-alert>
 				<button type="button" class="am-close">&times;</button>
 				<p>{{ session('status') }}</p>

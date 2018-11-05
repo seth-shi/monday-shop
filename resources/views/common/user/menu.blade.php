@@ -13,16 +13,16 @@
         <li class="person">
             <a href="#">我的交易</a>
             <ul>
-                <li><a href="user/orders">订单管理</a></li>
+                <li><a href="/user/orders">订单管理</a></li>
             </ul>
         </li>
         <li class="person">
             <a href="#">我的小窝</a>
             <ul>
                 <li> <a href="/user/likes">收藏</a></li>
-                <li> <a href="foot.html">足迹</a></li>
-                <li> <a href="comment.html">评价</a></li>
-                <li> <a href="news.html">消息</a></li>
+                {{--<li> <a href="foot.html">足迹</a></li>--}}
+                {{--<li> <a href="comment.html">评价</a></li>--}}
+                {{--<li> <a href="news.html">消息</a></li>--}}
             </ul>
         </li>
 
