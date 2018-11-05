@@ -11,7 +11,7 @@
                             <div class="error-page-header">
                                 <span class="color-blue">4</span>
                                 <span class="color-green">0</span>
-                                <span class="color-blue">4</span>
+                                <span class="color-blue">3</span>
                             </div>
                             <div class="error-page-footer">
                                 <h5 class="color-mid mb-5">Oops !</h5>

@@ -176,8 +176,10 @@ class OrdersController extends Controller
 
     public function show(Order $order)
     {
+
+
         if ($order->user_id != Auth::user()->id) {
-            abort(404, '你没有权限');
+            abort(403, '你没有权限');
         }
 
         return view('user.orders.show', compact('order'));
@@ -198,5 +200,18 @@ class OrdersController extends Controller
                       ->exists();
     }
 
+
+    public function destroy($id)
+    {
+        $order = Order::query()->findOrFail($id);
+        // 判断是当前用户的订单才可以删除
+        if (auth()->id() != $order->user_id) {
+            abort(403);
+        }
+
+        $order->delete();
+
+        return back()->with('status', '删除成功');
+    }
 
 }

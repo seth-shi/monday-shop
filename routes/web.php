@@ -95,7 +95,8 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     Route::get('/likes', 'LikesController@index');
     Route::match(['post', 'delete'], '/likes/{id}', 'LikesController@toggle');
     Route::post('/orders/single', 'OrdersController@single');
-    Route::resource('/orders', 'OrdersController', ['only' => ['index', 'store', 'show']]);
+    // TODO 删除订单方法不允许
+    Route::resource('/orders', 'OrdersController')->only('index', 'store', 'show', 'destroy');
 
     // 评论商品
     Route::post('/comments', 'CommentCOntroller@store');
