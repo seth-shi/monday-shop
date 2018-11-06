@@ -79,7 +79,6 @@
                                 </tr>
                                 </thead>
                                 <tbody id="cars_data">
-                                @inject('productPresenter', 'App\Presenters\ProductPresenter')
                                 @foreach ($cars as $car)
                                 <tr class="panel alert">
                                     <td>
