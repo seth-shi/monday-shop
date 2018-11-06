@@ -6,7 +6,6 @@
         <div class="page-container ptb-10">
             <div class="container">
 
-                @inject("productPersenter", 'App\Presenters\ProductPresenter')
                 <section class="section deals-area ptb-30">
 
                     <!-- Page Control -->
@@ -36,7 +35,7 @@
                                     <div class="row row-rl-0 row-sm-cell">
                                         <div class="col-sm-5">
                                             <a href="/products/{{ $product->uuid }}">
-                                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $productPersenter->getThumbLink($product->thumb) }}">
+                                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $product->thumb }}">
                                                     <div class="label-discount left-20 top-15">-50%</div>
                                                     <ul class="deal-actions top-15 right-20">
                                                         <li  class="like-deal" data-id="{{ $product->uuid }}">

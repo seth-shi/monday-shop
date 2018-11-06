@@ -3,7 +3,6 @@
 
 @section('main')
     <div class="listMain">
-        @inject('productPresenter', 'App\Presenters\ProductPresenter')
 
 
         <div class="item-inform">
