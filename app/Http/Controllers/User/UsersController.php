@@ -20,7 +20,7 @@ class UsersController extends Controller
         $user->orders_count = $user->orders()->count();
         $user->likeProducts = $user->products()->latest()->take(9)->get();
 
-        $hotProduct = Product::where('safe_count', 'desc')->first();
+        $hotProduct = Product::query()->where('safe_count', 'desc')->first();
 
         return view('user.homes.index', compact('user', 'hotProduct'));
     }
