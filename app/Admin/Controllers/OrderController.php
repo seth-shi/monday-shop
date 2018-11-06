@@ -58,7 +58,7 @@ class OrderController extends Controller
     {
         $grid = new Grid(new Order);
 
-        $grid->model()->latest();
+        $grid->model()->withTrashed()->latest();
 
         $grid->column('id');
         $grid->column('no', '流水号');
@@ -73,8 +73,11 @@ class OrderController extends Controller
         $grid->column('pay_type', '支付类型')->display(function ($type) {
             return Order::PAY_TYPES[$type] ?? '未知';
         });
+        $grid->column('deleted_at', '是否删除')->display(function ($is) {
+            return $is ? '<span class="glyphicon glyphicon-ok bg-green"></span>' : '';
+        });
         $grid->column('is_commented', '是否评论')->display(function ($is) {
-            return $is ? '已评论' : '未评论';
+            return $is ? '<span class="glyphicon glyphicon-ok bg-green"></span>' : '';
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
