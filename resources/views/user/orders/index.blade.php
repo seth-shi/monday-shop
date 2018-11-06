@@ -123,7 +123,7 @@
 
                                 <form id="delete-form" action="/" method="POST" style="display: none;">
                                     {{ csrf_field() }}
-                                    {{ method_field('PUT') }}
+                                    {{ method_field('DELETE') }}
                                 </form>
 
 
