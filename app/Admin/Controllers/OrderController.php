@@ -12,6 +12,7 @@ use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -110,7 +111,7 @@ class OrderController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Order::findOrFail($id));
+        $show = new Show(Order::query()->withTrashed()->findOrFail($id));
 
         $show->field('id');
         $show->field('no', '流水号');
@@ -149,5 +150,37 @@ class OrderController extends Controller
         });
 
         return $show;
+    }
+
+    /**
+     * 后台删除订单就是真的删除了
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        try {
+
+            DB::transaction(function () use ($id) {
+                /**
+                 * @var $order Order
+                 */
+                $order = Order::query()->withTrashed()->findOrFail($id);
+                $order->details()->delete();
+                $order->forceDelete();
+            });
+
+            $data = [
+                'status'  => true,
+                'message' => trans('admin.delete_succeeded'),
+            ];
+        } catch (\Throwable $e) {
+            $data = [
+                'status'  => false,
+                'message' => trans('admin.delete_failed') . $e->getMessage(),
+            ];
+        }
+
+        return response()->json($data);
     }
 }
