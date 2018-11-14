@@ -29,14 +29,16 @@
                     <!-- End Page Control -->
                     <div class="row row-masnory row-tb-20">
 
-                        @foreach ($products as $product)
+                        @forelse($products as $product)
                             <div class="col-xs-12">
                                 <div class="deal-single panel">
                                     <div class="row row-rl-0 row-sm-cell">
                                         <div class="col-sm-5">
                                             <a href="/products/{{ $product->uuid }}">
                                                 <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $product->thumb }}">
-                                                    <div class="label-discount left-20 top-15">-50%</div>
+                                                    <div class="label-discount left-20 top-15">
+                                                        {{ intval(($product->price_original - $product->price)/$product->price_original * 100) }}%
+                                                    </div>
                                                     <ul class="deal-actions top-15 right-20">
                                                         <li  class="like-deal" data-id="{{ $product->uuid }}">
                                                             <span>
@@ -77,7 +79,46 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="col-xs-12">
+                                <div class="deal-single panel">
+                                    <div class="row row-rl-0 row-sm-cell">
+                                        <div class="col-sm-5">
+                                            <a href="#">
+                                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="">
+                                                    <div class="label-discount left-20 top-15">0</div>
+                                                    <ul class="deal-actions top-15 right-20">
+                                                        <li  class="like-deal">
+                                                            <span>
+                                                                <i class="fa fa-heart"></i>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </figure>
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="bg-white pt-20 pl-20 pr-15">
+                                                <div class="pr-md-10">
+                                                    <div class="rating mb-10">
+
+                                                    </div>
+                                                    <h3 class="deal-title mb-10">
+                                                        <a href="#">
+                                                            没有找到你想要的商品
+                                                        </a>
+                                                    </h3>
+                                                    <p class="text-muted mb-20">
+                                                        换个关键字再找找吧
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforelse
                     </div>
 
                     <!-- Page Pagination -->
