@@ -88,7 +88,7 @@
                             <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{ $product->safe_count }}</span></div>
                         </li>
                         <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
-                            <div title="滑动到下方收藏的用户查看"  class="tm-indcon"><span class="tm-label">累计收藏</span><span class="tm-count">{{ $product->users->count() }}</span></div>
+                            <div title="滑动到下方收藏的用户查看"  class="tm-indcon"><span class="tm-label">累计收藏</span><span class="tm-count" id="likes_count">{{ $product->users->count() }}</span></div>
                         </li>
                     </ul>
                     <div class="clear"></div>
@@ -137,7 +137,7 @@
                         @endauth
 
                         @guest
-                            <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
+                            <a href="/login"><span class="am-icon-heart am-icon-fw">收藏</span></a>
                         @endguest
                     </div>
                     <ul>
