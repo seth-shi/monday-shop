@@ -75,7 +75,8 @@ class ProductsController extends Controller
             'comments' => function ($query) {
                 $query->latest();
             },
-            'comments.user']);
+            'comments.user'
+        ]);
         $product->userIsLike = $product->users()->where('id', auth()->id())->exists();
 
         // 如果登录返回所有地址列表，如果没有，则返回一个空集合

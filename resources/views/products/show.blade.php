@@ -126,15 +126,13 @@
 
                 <!--按钮	-->
                 <div class="pay">
-                    <div class="pay-opt">
+                    <div class="pay-opt" style="display: inline-block">
                         <a href="/"><span class="am-icon-home am-icon-fw">首页</span></a>
                         @auth
                             @if ($product->userIsLike)
-                                <a href="javascript:;" style="display: none" id="likes_btn"><span class="am-icon-heart am-icon-fw" >收藏</span></a>
-                                <a href="javascript:;"  id="de_likes_btn"><span class="am-icon-heart am-icon-fw">取消收藏</span></a>
+                                <a href="javascript:;" id="likes_btn"><span class="am-icon-heart am-icon-fw color-blue" >取消收藏</span></a>
                             @else
-                                <a href="javascript:;"  id="likes_btn"><span class="am-icon-heart am-icon-fw">收藏</span></a>
-                                <a href="javascript:;" style="display: none" id="de_likes_btn"><span class="am-icon-heart am-icon-fw" >取消收藏</span></a>
+                                <a href="javascript:;" id="likes_btn"><span class="am-icon-heart am-icon-fw color-green" >收藏</span></a>
                             @endif
                         @endauth
 
@@ -382,33 +380,31 @@
         $('#likes_btn').click(function(){
             var that = $(this);
 
-            $.post(_url, {_token:token}, function(res){
+            $.post(_url, {_token:token, _method: 'PUT'}, function(res){
                 layer.msg(res.msg);
 
                 if (res.code == 301) {
                     return;
                 }
 
-                that.hide().next().show();
-                likes_nums.text(parseInt(likes_nums.text()) + 1);
-            });
-        });
-        // 取消收藏
-        $('#de_likes_btn').click(function(){
-            var that = $(this);
+                // 收藏成功
+                if (res.code == 201) {
 
-            $.post(_url, {_token:token,_method:'DELETE'}, function(res){
-                layer.msg(res.msg);
+                    that.find('span').text('取消收藏');
+                    that.find('span').removeClass('color-green').addClass('color-blue');
+                    likes_nums.text(parseInt(likes_nums.text()) + 1);
+                } else {
 
-                if (res.code == 301) {
-                    return;
+                    // 取消收藏
+                    that.find('span').text('收藏');
+                    that.find('span').removeClass('color-blue').addClass('color-green');
+                    likes_nums.text(parseInt(likes_nums.text()) - 1);
                 }
-
-                that.hide().prev().show();
-                likes_nums.text(parseInt(likes_nums.text()) - 1);
             });
         });
 
+
+        // 购物车对象
         var Car = {
             addProduct:function(product_id) {
 

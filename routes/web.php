@@ -94,9 +94,8 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
      * 4. 订单的资源路由
      ****************************************/
     Route::get('likes', 'LikesController@index');
-    Route::match(['post', 'delete'], 'likes/{id}', 'LikesController@toggle');
+    Route::put('likes/{id}', 'LikesController@toggle');
     Route::post('orders/single', 'OrdersController@single');
-    // TODO 删除订单方法不允许
     Route::resource('/orders', 'OrdersController')->only('index', 'store', 'show', 'destroy');
 
     // 评论商品

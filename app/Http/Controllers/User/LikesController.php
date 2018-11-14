@@ -18,28 +18,48 @@ class LikesController extends Controller
 
     public function index()
     {
-        $likesProducts = $this->user()->products()->withCount('users')->paginate(10);
+        /**
+         * @var $user User
+         */
+        $user = auth()->user();
+
+        $likesProducts = $user->products()
+                              ->where('user_id', auth()->id())
+                              ->withCount('users')
+                              ->latest()
+                              ->paginate(10);
 
         return view('user.products.likes', compact('likesProducts'));
     }
 
 
-    public function toggle($id)
+    public function toggle($uuid)
     {
-        // likes or no likes
-        $this->user()->products()->toggle($id);
+        /**
+         * @var $product Product
+         */
+        $product = Product::query()
+                          ->where('uuid', $uuid)
+                          ->firstOrFail();
 
-        return $this->response = [
-            'code' => 0,
-            'msg' => '操作成功'
-        ];
-    }
 
-    /**
-     * @return User
-     */
-    protected function user()
-    {
-        return Auth::guard()->user();
-    }
+        $user = auth()->id();
+
+        if ($product->users()->where('user_id', $user)->exists()) {
+
+            $product->users()->detach($user);
+
+            return response()->json([
+                'code' => 200,
+                'msg' => '欢迎下次收藏'
+            ]);
+        }
+
+        $product->users()->attach($user);
+
+        return response()->json([
+            'code' => 201,
+            'msg' => '收藏成功'
+        ]);
+}
 }
