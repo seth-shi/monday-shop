@@ -6,13 +6,11 @@
         <div class="page-container ptb-10">
             <div class="container">
 
-                @inject("productPresenter", 'App\Presenters\ProductPresenter')
-                @inject("categoryPresenter", 'App\Presenters\CategoryPresenter')
                 <section class="store-header-area panel t-xs-center t-sm-left">
                     <div class="row row-rl-10">
                         <div class="col-sm-3 col-md-2 t-center">
                             <figure class="pt-20 pl-10">
-                                <img src="{{ $categoryPresenter->getThumbLink($category->thumb) }}" alt="{{ $category->name }}">
+                                <img src="{{ $category->thumb }}" alt="{{ $category->name }}">
                             </figure>
                         </div>
 
@@ -52,7 +50,7 @@
                         </ul>
                         <!-- End List Control View -->
                         <div class="right-10 pos-tb-center">
-                            <form id="order-form" action="{{ url()->current() }}" method="get">
+                            <form id="order-form" action="" method="get">
                                 <select id="order-select" name="orderBy" class="form-control input-sm">
                                     <option value="">排序</option>
                                     <option value="updated_at">最新的</option>
@@ -71,7 +69,7 @@
                                     <div class="row row-rl-0 row-sm-cell">
                                         <div class="col-sm-5">
                                             <a href="/products/{{ $product->uuid }}">
-                                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $productPresenter->getThumbLink($product->thumb) }}">
+                                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $product->thumb }}">
                                                     <div class="label-discount left-20 top-15">-50%</div>
                                                     <ul class="deal-actions top-15 right-20">
                                                         <li  class="like-deal" data-id="{{ $product->uuid }}">
@@ -88,7 +86,7 @@
                                                 <div class="pr-md-10">
                                                     <div class="rating mb-10">
                                                         <div class="mb-10">
-                                                            收藏人数 <span class="rating-count rating">{{ $product->users->count() }}</span>
+                                                            收藏人数 <span class="rating-count rating">{{ $product->users_count }}</span>
                                                         </div>
                                                     </div>
                                                     <h3 class="deal-title mb-10">
