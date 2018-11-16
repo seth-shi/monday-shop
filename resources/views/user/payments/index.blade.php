@@ -85,26 +85,21 @@
 
 				</div>
 
-				<form id="post_form">
+				<form id="post_form" action="/user/pay/store" method="post">
 
 					{{ csrf_field() }}
 
 					价钱：<input type="text" name="price" autofocus onfocus="this.value=((Math.random()*5+1)/100).toFixed(2)">
 					<input type="hidden" name="istype" value="1">
-					<input type="hidden" name="orderuid" value="{{ Auth::user()->id }}">
+					<input type="hidden" name="orderuid" value="{{ auth()->id() }}">
 					<input type="hidden" name="goodsname" value="{{ $product->name }}">
 
 					<div id="holyshit269" class="submitOrder">
 						<div class="go-btn-wrap">
-							<button  id="J_Go" type="button" id="pay_btn" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</button>
+							<button  id="J_Go" type="submit" id="pay_btn" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</button>
 						</div>
 					</div>
 				</form>
-
-				<form style='display:none;' id='pay_form' method='post' action='https://pay.paysapi.com'>
-
-				</form>
-
 				<div class="clear"></div>
 			</div>
 		</div>
@@ -123,37 +118,6 @@
 		var id = $(this).data('id');
 		$('input[name=istype]').val(id);
     });
-
-	$('#J_Go').click(function(){
-	    var url = "/user/pay/store";
-        var data = $('form').serialize();
-        var that = $(this);
-
-        that.attr('disabled', true);
-
-        $.post(url, data, function(res){
-            that.attr('disabled', false);
-
-            if (res.code != 200) {
-
-                layer.msg(res.msg, {icon:2});
-                return false;
-			}
-
-			console.log(res.data);
-			/*生成表单提交*/
-			res = res.data;
-            var hidden_input = '';
-			for (var i in res) {
-			    hidden_input += '<input name="'+ i +'" value="'+ res[i] +'" >';
-			}
-			console.log(res);
-
-
-			$('#pay_form').html(hidden_input).submit();
-
-		});
-	});
 </script>
 </body>
 
