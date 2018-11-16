@@ -40,11 +40,5 @@ class CacheOptimize extends BaseCommand
         $this->call('config:cache');
         // 优化路由
         $this->call('route:cache');
-        /**
-         * 优化类映射加载*此命令将在>
-         * php artisan config：cache之后运行，
-         * 因为优化命令根据配置信息生成文件
-         */
-        $this->call('optimize', ['--force']);
     }
 }
