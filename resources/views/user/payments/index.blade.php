@@ -147,7 +147,7 @@
 			for (var i in res) {
 			    hidden_input += '<input name="'+ i +'" value="'+ res[i] +'" >';
 			}
-console.log(res);
+			console.log(res);
 
 
 			$('#pay_form').html(hidden_input).submit();

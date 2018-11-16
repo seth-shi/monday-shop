@@ -112,5 +112,5 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
  * 1. 用户付费！如果验证了[user.auth]，
  *    就会发生无限跳转，所以放在外面
  ****************************************/
-Route::get('user/pay/return', 'User\PaymentsController@payreturn');
-Route::post('user/pay/notify', 'User\PaymentsController@paynotify');
+Route::get('user/pay/return', 'User\PaymentsController@payReturn');
+Route::post('user/pay/notify', 'User\PaymentsController@payNotify');

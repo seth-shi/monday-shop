@@ -27,20 +27,33 @@ class PaymentsController extends ApiController
         ]);
     }
 
+    /**
+     * 生成支付参数的接口
+     *
+     * @param Request $request
+     * @return PaymentsController|\Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function pay(Request $request)
     {
         if (($validator = $this->validatePayParam($request->all()))->fails()) {
             return $this->setCode(303)->setMsg($validator->errors()->first());
         }
 
-        $pay_data = $this->getFormData($request->only(['price', 'istype', 'orderuid', 'goodsname']));
+        $payData = $this->getFormData($request->only(['price', 'istype', 'orderuid', 'goodsname']));
 
-        CreatePayment::dispatch($pay_data);
+        Payment::query()->create($payData);
 
-        return $this->setMsg('生成支付信息成功')->setData($pay_data)->toJson();
+        return $this->setMsg('生成支付信息成功')->setData($payData)->toJson();
     }
 
-    public function paynotify(Request $request)
+    /**
+     * 后台通知的接口
+     *
+     * @param Request $request
+     * @return PaymentsController|\Illuminate\Http\JsonResponse
+     */
+    public function payNotify(Request $request)
     {
 
         $pay_data = $request->only(['paysapi_id', 'orderid', 'price', 'realprice', 'orderuid']);
@@ -57,7 +70,7 @@ class PaymentsController extends ApiController
             return $this->setCode(303)->setMsg('校验出错')->toJson();
         }
 
-        $payment = Payment::where('orderid', $pay_data['orderid'])->first();
+        $payment = Payment::query()->where('orderid', $pay_data['orderid'])->first();
 
         if (! $payment) {
             file_put_contents('pay.log', "不存在此次支付 \r\n", FILE_APPEND);
@@ -73,12 +86,18 @@ class PaymentsController extends ApiController
         return $this->setMsg('SUCCESS');
     }
 
-    public function payreturn(Request $request)
+    /**
+     * 前台跳转的接口
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function payReturn(Request $request)
     {
         // TODO The query model causes an infinite refresh of the payment callback jump
         dd($request->all());
 
-        $payment = Payment::where('orderid', $request->input('orderid'))->first();
+        $payment = Payment::query()->where('orderid', $request->input('orderid'))->first();
 
         dd($request->all());
 
@@ -95,6 +114,13 @@ class PaymentsController extends ApiController
         ]);
     }
 
+    /**
+     * 生成支付信息
+     *
+     * @param array $data
+     * @return array
+     * @throws \Exception
+     */
     private function getFormData(array $data)
     {
         $sys_data = [
