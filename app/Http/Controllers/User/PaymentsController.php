@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\PayRequest;
 use App\Jobs\CreatePayment;
 use App\Models\Address;
 use App\Models\Payment;
@@ -30,21 +31,25 @@ class PaymentsController extends ApiController
     /**
      * 生成支付参数的接口
      *
-     * @param Request $request
-     * @return PaymentsController|\Illuminate\Http\JsonResponse
+     * @param PayRequest $request
+     * @return string
      * @throws \Exception
      */
-    public function pay(Request $request)
+    public function pay(PayRequest $request)
     {
-        if (($validator = $this->validatePayParam($request->all()))->fails()) {
-            return $this->setCode(303)->setMsg($validator->errors()->first());
-        }
+        // 获取订单参数
+        $baseData = $request->only(['price', 'istype', 'orderuid', 'goodsname']);
+        $payData = $this->buildPayData($baseData);
 
-        $payData = $this->getFormData($request->only(['price', 'istype', 'orderuid', 'goodsname']));
+        // 创建订单
+        $baseData['orderid'] = $payData['orderid'];
+        Payment::query()->create($baseData);
 
-        Payment::query()->create($payData);
 
-        return $this->setMsg('生成支付信息成功')->setData($payData)->toJson();
+        // 生成支付的 form
+        $form = $this->getPayForm($payData);
+
+        return $form;
     }
 
     /**
@@ -104,26 +109,16 @@ class PaymentsController extends ApiController
         return view('user.payments.result', compact('payment'));
     }
 
-    private function validatePayParam(array $data)
-    {
-        return Validator::make($data, [
-            'price' => 'required|numeric',
-            'istype' => 'in:1,2',
-            'orderuid' => 'required|exists:users,id',
-            'goodsname' => 'required|exists:products,name'
-        ]);
-    }
-
     /**
-     * 生成支付信息
+     * 生成支付信息, 排序加密参数
      *
      * @param array $data
      * @return array
      * @throws \Exception
      */
-    private function getFormData(array $data)
+    private function buildPayData(array $data)
     {
-        $sys_data = [
+        $sysData = [
             'uid' => config('payment.uid'),
             'token' => config('payment.token'),
             'notify_url' => config('payment.notify_url'),
@@ -135,12 +130,41 @@ class PaymentsController extends ApiController
             $data['goodsname'] = mb_substr($data['goodsname'], 0, 8, 'utf8');
         }
 
-        $data = array_merge($sys_data, $data);
+        $data = array_merge($sysData, $data);
         ksort($data);
         $data['key'] = md5(implode('', $data));
 
         unset($data['token']);
 
         return $data;
+    }
+
+    /**
+     * 获取支付表单
+     *
+     * @param array $attributes
+     * @return string
+     */
+    protected function getPayForm(array $attributes)
+    {
+        $inputs = '';
+        foreach ($attributes as $key => $val) {
+
+            $key = htmlspecialchars($key);
+            $val = htmlspecialchars($val);
+
+            $inputs .= "<input name='{$key}' value='{$val}' >";
+        }
+
+        $form = <<<html
+<form style="display: none;" method='post' id="pay_form" action='https://pay.paysapi.com'>
+{$inputs}
+</form>
+<script>
+    document.getElementById('pay_form').submit();
+</script>
+html;
+
+        return $form;
     }
 }
