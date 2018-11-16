@@ -32,7 +32,7 @@ class CategoriesController extends Controller
     public function show(Request $request, Category $category)
     {
         $orderBy = $request->input('orderBy', 'created_at');
-        $categoryProducts = $category->products()->orderBy($orderBy, 'desc')->paginate(10);
+        $categoryProducts = $category->products()->withCount('users')->orderBy($orderBy, 'desc')->paginate(10);
 
 
         return view('categories.show', compact('category', 'categoryProducts'));
