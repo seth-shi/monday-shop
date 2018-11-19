@@ -85,15 +85,30 @@ class AuthLoginController extends Controller
      */
     protected function findOrCreateMatchUser(\Overtrue\Socialite\User $socialiteUser)
     {
-        $user = $this->getBindUser($socialiteUser);
+        // 新建用户
+        $driver = strtolower($socialiteUser->getProviderName());
+        $idField = "{$driver}_id";
+        $nameField = "{$driver}_name";
 
+        /**
+         * 如果是已经登录的用户
+         * @var $user User
+         */
+        if ($user = auth()->user()) {
+            $user->setAttribute($idField, $socialiteUser->getId())
+                 ->setAttribute($nameField, $socialiteUser->getName())
+                 ->save();
 
-        // 如果用户不存在，绑定邮箱
+            return $user;
+        }
+
+        // 如果用户没有登录，就是使用第三方账号登录
+        // 如果数据库没有记录就创建，有就修改一下显示名
+        $user = User::query()->firstOrNew([$idField => $socialiteUser->getId()]);
+        $user->$nameField = $socialiteUser->getName();
+
+        // 如果用户不存在
         if (! $user->exists) {
-
-            if ($socialiteUser->getEmail()) {
-                $user->email = $socialiteUser->getEmail();
-            }
 
             if ($socialiteUser->getAvatar()) {
                 $user->avatar = $socialiteUser->getAvatar();
@@ -106,33 +121,6 @@ class AuthLoginController extends Controller
             $user->is_active = 1;
             $user->save();
         });
-    }
-
-    /**
-     * 找到第三方账号的用户
-     *
-     * @param \Overtrue\Socialite\User $socialiteUser
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null|object
-     */
-    protected function getBindUser(\Overtrue\Socialite\User $socialiteUser)
-    {
-        // 新建用户
-        $driver = strtolower($socialiteUser->getProviderName());
-        $idField = "{$driver}_id";
-        $nameField = "{$driver}_name";
-
-        // 如果邮箱存在，直接绑定当前的这个用户
-        $email = $socialiteUser->getEmail();
-        if ($user = User::query()->where('email', $email)->first()) {
-            $user->$idField = $socialiteUser->getId();
-            $user->$nameField = $socialiteUser->getName();
-            return $user;
-        }
-
-        $user = User::query()->firstOrNew([$idField => $socialiteUser->getId()]);
-        $user->$nameField = $socialiteUser->getName();
-
-        return $user;
     }
 
 
