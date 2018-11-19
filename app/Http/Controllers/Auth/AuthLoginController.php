@@ -27,7 +27,7 @@ class AuthLoginController extends Controller
     {
         $driver = $request->input('driver');
 
-        if (! in_array($driver, $this->allow) || config()->has("socialite.{$driver}")) {
+        if (! in_array($driver, $this->allow) || ! config()->has("socialite.{$driver}")) {
 
             abort(403, '未知的第三方登录');
         }
@@ -48,11 +48,10 @@ class AuthLoginController extends Controller
     {
         $driver = $request->input('driver');
 
-        if (! in_array($driver, $this->allow) || config()->has("socialite.{$driver}")) {
+        if (! in_array($driver, $this->allow) || ! config()->has("socialite.{$driver}")) {
 
             abort(403, '未知的第三方登录');
         }
-
 
         try {
 
@@ -130,4 +129,5 @@ class AuthLoginController extends Controller
 
         return $user;
     }
+
 }
