@@ -21,6 +21,7 @@ Route::namespace('Auth')->group(function(){
      ****************************************/
     Route::get('auth/oauth', 'AuthLoginController@redirectToAuth');
     Route::get('auth/oauth/callback', 'AuthLoginController@handleCallback');
+    Route::get('/auth/oauth/unbind', 'AuthLoginController@unBind');
 });
 
 /****************************************

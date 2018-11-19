@@ -5,6 +5,13 @@
 @section('style')
     <link rel="stylesheet" href="/assets/admin/lib/layui/css/layui.css">
     <link href="/assets/user/css/infstyle.css" rel="stylesheet" type="text/css">
+    <link href="/assets/shop/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <style>
+        .oauth_button {
+            padding: 5px 20px;
+            min-width: 150px;
+        }
+    </style>
 @endsection
 
 @section('main')
@@ -68,6 +75,64 @@
                             <label class="am-radio-inline">
                                 <input type="radio" name="sex" value="0"  {{ $user->sex == 0 ? 'checked' : '' }} data-am-ucheck> 女
                             </label>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="user-email" class="am-form-label">账号绑定</label>
+                        <div class="am-form-content">
+                            @if (! is_null($user->github_id))
+                                <button class="oauth_button" type="button" disabled>
+                                    <i class="fa fa-qq" style="color: #00aced;"></i>&nbsp;{{ $user->github_name }}
+                                </button>
+                                <a href="/auth/oauth/unbind?driver=github" style="color: #009a61;text-decoration: underline;">
+                                    解绑
+                                </a>
+                            @else
+                                <a href="/auth/oauth?driver=github">
+                                    <button class="oauth_button" type="button">
+                                        <i class="fa fa-github" style="color: #3b5999;"></i>&nbsp;Github
+                                    </button>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-email" class="am-form-label">账号绑定</label>
+                        <div class="am-form-content">
+                            @if (! is_null($user->qq_id))
+                                <button class="oauth_button" type="button" disabled>
+                                    <i class="fa fa-qq" style="color: #00aced;"></i>&nbsp;{{ $user->qq_name }}
+                                </button>
+                                <a href="/auth/oauth/unbind?driver=qq" style="color: #009a61;text-decoration: underline;">
+                                    解绑
+                                </a>
+                            @else
+                                <a href="/auth/oauth?driver=qq">
+                                    <button class="oauth_button" type="button">
+                                        <i class="fa fa-qq" style="color: #00aced;"></i>&nbsp;QQ
+                                    </button>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-email" class="am-form-label">账号绑定</label>
+                        <div class="am-form-content">
+                            @if (! is_null($user->weibo_id))
+                                <button class="oauth_button" type="button" disabled>
+                                    <i class="fa fa-weibo" style="color: #dd4b39;"></i>&nbsp;{{ $user->weibo_name }}
+                                </button>
+                                <a href="/auth/oauth/unbind?driver=weibo" style="color: #009a61;text-decoration: underline;">
+                                    解绑
+                                </a>
+                            @else
+                                <a href="/auth/oauth?driver=weibo">
+                                    <button class="oauth_button" type="button">
+                                        <i class="fa fa-weibo" style="color: #dd4b39;"></i>&nbsp;微博
+                                    </button>
+                                </a>
+                            @endif
                         </div>
                     </div>
 
