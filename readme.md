@@ -78,7 +78,9 @@ php artisan moon:install
 ## Errors
 * 监听队列如果长时间没反应，或者一直重复任务
     * 数据库没配置好，导致队列任务表连接不上
-    * 邮件配置出错，导致发送邮件一直失败    
+    * 邮件配置出错，导致发送邮件一直失败
+* `composer install`安装不上依赖
+    * 请删除`composer.lock`文件，重新运行`composer install`
 * `SQLSTATE[HY000]: General error: 1215 Cannot add foreign key constraint`
     * 数据库引擎切换到`InnoDB`
 ## License
