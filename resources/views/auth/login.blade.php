@@ -55,18 +55,10 @@
                         </div>
                         <div class="col-sm-6 col-md-5 col-right">
                             <div class="social-login p-40">
-                                <div class="mb-20">
-                                    <a href="/auth/github" class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa  fa-github"></i>登录 Github</a>
-                                </div>
-                                <div class="mb-20">
-                                    <a href="/auth/qq" class="btn btn-lg btn-block btn-social btn-twitter"><i class="fa fa-qq"></i>登录  QQ</a>
-                                </div>
-                                <div class="mb-20">
-                                    <a href="/auth/weibo" class="btn btn-lg btn-block btn-social btn-google-plus"><i class="fa fa-weibo"></i>登录  微博</a>
-                                </div>
+                                @include('auth.oauth')
 
                                 <div class="text-center color-mid">
-                                    需要一个账户 ? <a href="{{ route('register') }}" class="color-green">创建账户</a>
+                                    需要一个账户 ? <a href="/register" class="color-green">创建账户</a>
                                 </div>
                             </div>
                         </div>

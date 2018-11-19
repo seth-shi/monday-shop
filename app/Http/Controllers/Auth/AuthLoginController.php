@@ -4,87 +4,68 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Overtrue\LaravelSocialite\Socialite;
 use Overtrue\Socialite\AuthorizeFailedException;
+use Overtrue\Socialite\SocialiteManager;
 use Overtrue\Socialite\UserInterface;
 use Faker\Factory;
 
 class AuthLoginController extends Controller
 {
-    /**
-     * Third party GitHub authorization
-     * @return mixed
-     */
-    public function redirectToGithub()
-    {
-        return Socialite::driver('github')->redirect();
-    }
+    protected $allow = ['github', 'qq', 'weibo'];
 
     /**
-     * handle authorization callback
+     * 第三方授权登录跳转
+     *
+     * @param Request $request
      * @return mixed
      */
-    public function handleGithubCallback()
+    public function redirectToAuth(Request $request)
     {
-        $socialite = Socialite::driver('github')->user();
+        $driver = $request->input('driver');
 
-        return $this->handleProviderCallback($socialite);
+        if (! in_array($driver, $this->allow) || config()->has("socialite.{$driver}")) {
+
+            abort(403, '未知的第三方登录');
+        }
+
+        $socialite = new SocialiteManager(config('socialite'));
+
+        return $socialite->driver($driver)->redirect();
     }
 
 
-    public function redirectToQQ()
+    /**
+     * 第三方授权认证回调
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function handleCallback(Request $request)
     {
-        return Socialite::driver('qq')->redirect();
-    }
+        $driver = $request->input('driver');
 
-    public function handleQQCallback()
-    {
-        $socialite = Socialite::driver('qq')->user();
+        if (! in_array($driver, $this->allow) || config()->has("socialite.{$driver}")) {
 
-        return $this->handleProviderCallback($socialite);
-    }
+            abort(403, '未知的第三方登录');
+        }
 
 
-    public function redirectToWeibo()
-    {
-        return Socialite::driver('weibo')->redirect();
-    }
-
-    public function handleWeiboCallback()
-    {
         try {
-            $socialite = Socialite::driver('weibo')->user();
+
+            $socialite = new SocialiteManager(config('socialite'));
+            $socialiteUser = $socialite->driver($driver)->user();
         } catch (AuthorizeFailedException $e) {
+
             return view('hint.error', ['status' => $e->getMessage(), 'url' => route('login')]);
         }
 
+        // 处理第三方登录用户信息
+        $user = $this->findOrCreateMatchUser($socialiteUser);
 
-        return $this->handleProviderCallback($socialite);
-    }
-
-    /**
-     * Processing third party login callback
-     * @param $socialite
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse
-     *     |\Illuminate\Routing\Redirector|\Illuminate\View\View
-     */
-    private function handleProviderCallback($socialite)
-    {
-        if (!$socialite) {
-
-            return view('hint.error', ['status' => '第三方登录出错']);
-        }
-
-        // Access to third party services
-        list($providerId, $providerName) = $providerType = $this->formatProvider($socialite['provider']);
-
-        // First query the database whether there is a user, if it already exists, log on
-        if (!$user = User::where($providerId, $socialite['id'])->first()) {
-
-            $user = $this->createUserByProvider($socialite, $providerType);
-        }
 
         Auth::login($user, true);
 
@@ -93,90 +74,60 @@ class AuthLoginController extends Controller
     }
 
     /**
-     * Fields converted into third party services in a database
-     * @param $provider
-     * @return array
+     * 找到数据库匹配的记录，并存储用户
+     *
+     * @param \Overtrue\Socialite\User $socialiteUser
+     * @return mixed
      */
-    public function formatProvider($provider)
+    protected function findOrCreateMatchUser(\Overtrue\Socialite\User $socialiteUser)
     {
-        $provider = strtolower($provider);
+        $user = $this->getBindUser($socialiteUser);
 
-        // for instance: github => ['github_id', 'github_name']
-        return [
-            $provider . '_id',
-            $provider . '_name'
-        ];
+
+        // 如果用户不存在，绑定邮箱
+        if (! $user->exists) {
+
+            if ($socialiteUser->getEmail()) {
+                $user->email = $socialiteUser->getEmail();
+            }
+
+            if ($socialiteUser->getAvatar()) {
+                $user->avatar = $socialiteUser->getAvatar();
+            }
+        }
+
+        return tap($user, function (User $user) {
+
+            // 使用第三方登录的用户，默认激活
+            $user->is_active = 1;
+            $user->save();
+        });
     }
 
     /**
-     * Create user through third party service login
-     * @param UserInterface $provider
-     * @return User
+     * 找到第三方账号的用户
+     *
+     * @param \Overtrue\Socialite\User $socialiteUser
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null|object
      */
-    public function createUserByProvider(UserInterface $provider, array $providerType)
+    protected function getBindUser(\Overtrue\Socialite\User $socialiteUser)
     {
-        list($providerId, $providerName) = $providerType;
+        // 新建用户
+        $driver = strtolower($socialiteUser->getProviderName());
+        $idField = "{$driver}_id";
+        $nameField = "{$driver}_name";
 
-        // by email find user Is there
-        if ($user = User::where('email', $provider['email'])->first()) {
-            // if user already exists, bind the account only
-            $user->$providerId = $provider['id'];
-            $user->$providerName = $provider['nickname'];
-            $user->save();
-
-        } else {
-            $data = $this->getFormatFiledData($provider, $providerId, $providerName);
-            $user = User::create($data);
+        // 如果邮箱存在，直接绑定当前的这个用户
+        $email = $socialiteUser->getEmail();
+        if ($user = User::query()->where('email', $email)->first()) {
+            $user->$idField = $socialiteUser->getId();
+            $user->$nameField = $socialiteUser->getName();
+            return $user;
         }
+
+        $user = User::query()->firstOrNew([$idField => $socialiteUser->getId()]);
+        $user->$nameField = $socialiteUser->getName();
 
         return $user;
     }
-
-    /**
-     * Formats the data returned by the third party into a database field
-     * $providerId possible is github_id || qq_id ...
-     * @param $provider
-     * @param $providerId
-     * @param $providerName
-     * @return array
-     */
-    public function getFormatFiledData($provider, $providerId, $providerName)
-    {
-        // 数据库填充对象
-        $faker = Factory::create();
-
-        $data = [
-            'name' => $faker->uuid,
-            'avatar' => $faker->imageUrl(120, 120),
-            'email' => $faker->email
-        ];
-
-
-
-        if (! User::where('name', $provider['nickname'])->first()) {
-            $data['name'] = $provider['nickname'];
-        }
-
-        if (isset($provider['avatar'])) {
-            $data['avatar'] = $provider['avatar'];
-        }
-
-        if (isset($provider['email']) && $provider['email']) {
-            $data['email'] = $provider['email'];
-        }
-
-        if (isset($provider['sex'])) {
-            $data['sex'] = $provider['sex'];
-        }
-
-        $data[$providerId] = $provider['id'];
-        $data[$providerName] = $provider['nickname'];
-        $data['password'] = bcrypt('123456');
-        $data['active_token'] = str_random(60);
-        // Default activation by using third party login
-        $data['is_active'] = 1;
-
-        return $data;
-    }
-
 }

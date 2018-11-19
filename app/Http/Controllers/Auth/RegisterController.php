@@ -48,8 +48,10 @@ class RegisterController extends Controller
 
     /**
      * 核心注册方法
+     *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function register(Request $request)
     {
@@ -98,10 +100,8 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        $faker = Factory::create();
-
         // email_active,
-        return  User::create([
+        return  User::query()->create([
             'name' => $data['name'],
             'email' => $data['email'],
             'sex' => $data['sex'],

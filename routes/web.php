@@ -19,12 +19,8 @@ Route::namespace('Auth')->group(function(){
     /****************************************
      * 互联登录的路由，包括 github, QQ， 微博 登录
      ****************************************/
-    Route::get('auth/github', 'AuthLoginController@redirectToGithub');
-    Route::get('auth/github/callback', 'AuthLoginController@handleGithubCallback');
-    Route::get('auth/qq', 'AuthLoginController@redirectToQQ');
-    Route::get('auth/qq/callback', 'AuthLoginController@handleQQCallback');
-    Route::get('auth/weibo', 'AuthLoginController@redirectToWeibo');
-    Route::get('auth/weibo/callback', 'AuthLoginController@handleWeiboCallback');
+    Route::get('auth/oauth', 'AuthLoginController@redirectToAuth');
+    Route::get('auth/oauth/callback', 'AuthLoginController@handleCallback');
 });
 
 /****************************************
