@@ -65,10 +65,12 @@ class AuthLoginController extends Controller
         // 处理第三方登录用户信息
         $user = $this->findOrCreateMatchUser($socialiteUser);
 
+        // 如果用户已经登录的，作为绑定账号。跳转到个人中心页面
+        if (auth()->check()) {
+            return redirect('/user/setting');
+        }
 
-        Auth::login($user, true);
-
-        if (redirect()->intended())
+        auth()->login($user, true);
 
         // Do you need to jump to other places? gps:
         // 是否有前面缓存的跳转 url
@@ -133,4 +135,33 @@ class AuthLoginController extends Controller
         return $user;
     }
 
+
+    /**
+     * 解绑第三方账号
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unBind(Request $request)
+    {
+        $driver = $request->input('driver');
+
+        if (! in_array($driver, $this->allow) || ! config()->has("socialite.{$driver}")) {
+
+            return back()->withErrors(['msg' => '未知的第三方登录']);
+        }
+
+
+        // 可以做更多的判断，如用 QQ 注册的不能解绑之类的
+        /**
+         * @var $user User
+         */
+        $idField = "{$driver}_id";
+        $nameField = "{$driver}_name";
+        $user = $request->user();
+        $user->setAttribute($idField, null)->setAttribute($nameField, null)->save();
+
+
+        return back()->with('status', '解绑成功');
+    }
 }
