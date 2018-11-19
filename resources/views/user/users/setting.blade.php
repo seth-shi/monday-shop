@@ -52,7 +52,7 @@
                     <input type="hidden" name="avatar" value="{{ $user->avatar }}">
 
                     <div class="am-form-group">
-                        <label for="user-name2" class="am-form-label">昵称</label>
+                        <label for="user-name2" class="am-form-label">用户名</label>
                         <div class="am-form-content">
                             <input type="text" id="user-name2" placeholder="用户名" name="name" value="{{ $user->name }}">
 

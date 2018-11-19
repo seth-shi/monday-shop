@@ -68,8 +68,11 @@ class AuthLoginController extends Controller
 
         Auth::login($user, true);
 
+        if (redirect()->intended())
+
         // Do you need to jump to other places? gps:
-        return redirect('/');
+        // 是否有前面缓存的跳转 url
+        return redirect()->intended();
     }
 
     /**
