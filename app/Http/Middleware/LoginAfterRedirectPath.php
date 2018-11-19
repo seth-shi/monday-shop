@@ -2,11 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
 
-
-class UserAuth
+class LoginAfterRedirectPath
 {
     /**
      * Handle an incoming request.
@@ -17,9 +15,9 @@ class UserAuth
      */
     public function handle($request, Closure $next)
     {
-        if (! Auth::check()) {
+        if ($request->has('redirect_url')) {
 
-            return redirect()->guest('login')->with('status', '请登录账号再操作');
+            $request->session()->put('url.intended', $request->input('redirect_url'));
         }
 
 

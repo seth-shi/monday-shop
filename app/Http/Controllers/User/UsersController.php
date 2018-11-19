@@ -43,14 +43,13 @@ class UsersController extends Controller
         $this->validate($request, [
             'avatar' => 'required',
             'sex' => 'in:0,1',
-            'name' => 'required:unique:users'
+            'name' => 'required|unique:users,name,' . auth()->id()
         ], [
            'avatar.required' => '头像不能为空',
            'sex.in' => '性别格式不对',
            'name.required' => '用户名不能为空',
            'name.unique' => '用户名已经存在',
         ]);
-
 
         $this->user()->update($request->only(['avatar', 'name', 'sex']));
 

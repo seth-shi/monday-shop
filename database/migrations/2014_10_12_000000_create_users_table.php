@@ -36,7 +36,7 @@ class CreateUsersTable extends Migration
             $table->integer('login_count')->default(0)->comment('登录次数');
 
             // 用户激活所需信息
-            $table->string('active_token')->comment('邮箱激活的token');
+            $table->string('active_token')->nullable()->comment('邮箱激活的token');
             $table->tinyInteger('is_active')->default(0)->comment('用户是否激活');
 
             $table->rememberToken()->comment('laravel中的记住我');

@@ -120,6 +120,16 @@ class User extends Authenticatable
 
 
     /**
+     * 用户是否激活
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->is_active === 1;
+    }
+
+    /**
      * 初始化头像
      */
     public static function boot()
