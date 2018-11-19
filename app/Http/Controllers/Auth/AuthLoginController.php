@@ -67,7 +67,7 @@ class AuthLoginController extends Controller
 
         // 如果用户已经登录的，作为绑定账号。跳转到个人中心页面
         if (auth()->check()) {
-            return redirect('/user/setting');
+            return redirect('/user/setting')->with('status', '绑定成功');
         }
 
         auth()->login($user, true);
