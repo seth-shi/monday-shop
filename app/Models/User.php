@@ -126,7 +126,7 @@ class User extends Authenticatable
      */
     public function isActive()
     {
-        return $this->is_active === 1;
+        return $this->is_active == 1;
     }
 
     /**
