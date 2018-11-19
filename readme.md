@@ -4,6 +4,9 @@
 ****
 * 首页图
 ![PC首页](public/media/index_pc.png)
+
+* 个人中心
+![PC首页](public/media/map_center.png)
 ****
 * 后台订单列表
 ![订单列表](public/media/admin/orders.png)
