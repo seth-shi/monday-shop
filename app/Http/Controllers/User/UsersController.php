@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exceptions\UploadException;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\UploadServe;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
@@ -91,21 +93,28 @@ class UsersController extends Controller
     }
 
 
-    public function uploadAvatar(Request $request)
+    /**
+     * 用户上传头像
+     *
+     * @param UploadServe $uploadServe
+     * @return array
+     */
+    public function uploadAvatar(UploadServe $uploadServe)
     {
-        if (! $request->hasFile('file')) {
+        $disk = 'public';
+
+        try {
+            $link = $uploadServe->setFileInput('file')
+                                ->setMaxSize('5M')
+                                ->setExtensions(['jpg', 'jpeg', 'png', 'bmp', 'gif'])
+                                ->validate()
+                                ->store('avatars', compact('disk'));
+
+        } catch (UploadException $e) {
+
             return [
                 'code' => 302,
-                'msg' => '没选择图片',
-                'data' => []
-            ];
-        }
-
-        // move file to public
-        if (! $link = $request->file('file')->store('avatars')) {
-            return [
-                'code' => 402,
-                'msg' => '服务器异常，请稍后再试',
+                'msg' => $e->getMessage(),
                 'data' => []
             ];
         }
