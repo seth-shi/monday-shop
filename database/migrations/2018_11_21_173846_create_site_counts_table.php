@@ -18,7 +18,7 @@ class CreateSiteCountsTable extends Migration
 
             $table->date('date')->index();
             $table->unsignedInteger('register_count')->default(0);
-            $table->unsignedInteger('github_regitster_count')->default(0);
+            $table->unsignedInteger('github_registered_count')->default(0);
             $table->unsignedInteger('weibo_registered_count')->default(0);
             $table->unsignedInteger('qq_registered_count')->default(0);
             $table->unsignedInteger('moon_registered_count')->default(0)->comment('通过商城前台注册');

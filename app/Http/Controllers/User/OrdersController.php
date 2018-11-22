@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Events\CountSale;
 use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderMuiltRequest;
@@ -73,9 +74,12 @@ class OrdersController extends Controller
                     return $attribute;
                 });
                 $masterOrder->save();
-                $masterOrder->details()->createMany($details->all());
+                $details = $masterOrder->details()->createMany($details->all());
                 // 删除购物车完成
                 $user->cars()->delete();
+
+                // 统计订单
+                event(new CountSale($masterOrder, $details));
             });
 
         } catch (\Exception $e) {
@@ -160,7 +164,10 @@ class OrdersController extends Controller
                 $detail['total'] = ceilTwoPrice($detail['numbers'] * $detail['price']);
                 $masterOrder->total = $detail['total'];
                 $masterOrder->save();
-                $masterOrder->details()->create($detail);
+                $detail = $masterOrder->details()->create($detail);
+
+                // 统计订单
+                event(new CountSale($masterOrder, collect($detail)));
             });
         } catch (\Exception $e) {
 
