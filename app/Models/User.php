@@ -152,7 +152,7 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::saving(function ($model) {
+        static::creating(function ($model) {
 
             if (! isset($model->attributes['avatar'])) {
                 $model->attributes['avatar'] = 'avatars/default/' . array_random(User::DEFAULT_AVATARS);
@@ -165,7 +165,7 @@ class User extends Authenticatable
 
         });
 
-        static::saved(function ($model) {
+        static::created(function ($model) {
 
             // 用户注册之后，得到注册的来源
             // 存入 redis 缓存，每日更新到统计表
