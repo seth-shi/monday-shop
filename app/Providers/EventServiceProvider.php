@@ -16,10 +16,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
-        'App\Events\CountSale' => [
-            'App\Listeners\CountProductSaleTotal',
-            'App\Listeners\CountProductSaleNumber',
-        ]
+
     ];
 
     /**
