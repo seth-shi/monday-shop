@@ -58,7 +58,7 @@ class Order extends Model
 
 
         // 自动生成商品的 uuid， 拼音
-        static::created(function ($model) {
+        static::creating(function ($model) {
 
             if (is_null($model->no)) {
                 $model->no = static::findAvailableNo($model->user_id);
