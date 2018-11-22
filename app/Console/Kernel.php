@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
         })->saturdays()->at('8:00');
 
 
-        $schedule->command(CountRegisterNumber::class)->everyMinute();
+        $schedule->command(CountRegisterNumber::class)->dailyAt('01:00');
     }
 
     /**
