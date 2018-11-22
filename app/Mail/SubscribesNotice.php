@@ -14,7 +14,7 @@ class SubscribesNotice extends Mailable
 
     public $subject = '星期一商城订阅消息';
     public $latest;
-    public $hotest;
+    public $hottest;
     public $likest;
 
 
@@ -26,9 +26,10 @@ class SubscribesNotice extends Mailable
 
     public function build()
     {
-        $this->latest = Product::latest()->first();
-        $this->hotest = Product::orderBy('safe_count', 'desc')->first();
-        $this->likest = Product::withCount('users')->orderBy('users_count', 'desc')->first();
+
+        $this->latest = Product::query()->latest()->first();
+        $this->hottest = Product::query()->orderBy('safe_count', 'desc')->first();
+        $this->likest = Product::query()->withCount('users')->orderBy('users_count', 'desc')->first();
 
         return $this->markdown('emails.subscribes');
     }
