@@ -1,17 +1,17 @@
-<canvas id="todayRegister"></canvas>
+<canvas id="monthRegister"></canvas>
 <script>
     $(function () {
-        var ctx = document.getElementById("todayRegister").getContext('2d');
+        var ctx = document.getElementById("monthRegister").getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ["QQ", "Github", "微博", "商城前台注册"],
                 datasets: [{
                     data: [
-                        {{ $todaySite->qq_registered_count }},
-                        {{ $todaySite->github_registered_count }},
-                        {{ $todaySite->weibo_registered_count }},
-                        {{ $todaySite->moon_registered_count }}
+                        {{ $monthSites->sum('qq_registered_count') }},
+                        {{ $monthSites->sum('github_registered_count') }},
+                        {{ $monthSites->sum('weibo_registered_count') }},
+                        {{ $monthSites->sum('moon_registered_count') }}
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
