@@ -15,14 +15,14 @@ class CountSite extends Command
      *
      * @var string
      */
-    protected $signature = 'count:registered';
+    protected $signature = 'count:site';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '统计数据';
+    protected $description = '统计数据，直接执行会统计到昨天';
 
     /**
      * Create a new command instance.
