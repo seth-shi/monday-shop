@@ -106,6 +106,8 @@ class AuthLoginController extends Controller
         // 如果数据库没有记录就创建，有就修改一下显示名
         $user = User::query()->firstOrNew([$idField => $socialiteUser->getId()]);
         $user->$nameField = $socialiteUser->getName();
+        // 用户的来源
+        $user->source = User::SOURCES[$driver] ?? array_first(User::SOURCES);
 
         // 如果用户不存在
         if (! $user->exists) {

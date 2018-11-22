@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -34,6 +35,7 @@ class CreateUsersTable extends Migration
 
 
             $table->integer('login_count')->default(0)->comment('登录次数');
+            $table->tinyInteger('source')->default(User::SOURCES['moon'])->comment('用户的来源');
 
             // 用户激活所需信息
             $table->string('active_token')->nullable()->comment('邮箱激活的token');

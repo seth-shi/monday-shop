@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Mail\ResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Passport\HasApiTokens;
 
@@ -54,6 +55,15 @@ class User extends Authenticatable
     ];
 
 
+    // 用户的来源
+    const SOURCES = [
+        'moon' => 1,
+        'github' => 2,
+        'qq' => 3,
+        'weibo' => 4,
+    ];
+
+
     public function getAvatarAttribute($avatar)
     {
         return imageUrl($avatar);
@@ -66,6 +76,11 @@ class User extends Authenticatable
      */
     public function getHiddenNameAttribute($attribute)
     {
+        // 第三方登录的用户没有名字
+        if (is_null($this->name)) {
+            return '';
+        }
+
         $lastStr = mb_substr($this->name, 0, 1, 'utf-8');
 
         $hiddenStr = str_repeat('*', mb_strlen($this->name, 'utf-8') - 1);
@@ -147,6 +162,16 @@ class User extends Authenticatable
                 $model->attributes['password'] = bcrypt('123456');
             }
 
+        });
+
+        static::saved(function ($model) {
+
+            // 用户注册之后，得到注册的来源
+            // 存入 redis 缓存，每日更新到统计表
+            $source = array_search($model->source, User::SOURCES) ?? 'moon';
+
+            Cache::increment("{$source}_regitster_count");
+            Cache::increment("regitster_count");
         });
     }
 }
