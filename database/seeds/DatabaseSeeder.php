@@ -14,9 +14,6 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-        // 统计基础配置,不可删除
-        $this->call(SimpleCountsTableSeeder::class);
-
         // 国家
         // 城市的数据填充
         $this->call(ProvincesTableSeeder::class);
