@@ -3,23 +3,21 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Model;
 use App\Models\SiteCount;
 use App\Services\SiteCountService;
 use Carbon\Carbon;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Encore\Admin\Widgets\Box;
-use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
     public function index(Content $content, SiteCountService $service)
     {
-        // $users =
+
 
         return $content
-            ->header('数据统计')
+            ->header('仪表盘')
             ->row(function (Row $row) use ($service) {
 
                 /**
