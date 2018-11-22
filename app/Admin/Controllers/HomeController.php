@@ -23,20 +23,41 @@ class HomeController extends Controller
             ->row(function (Row $row) use ($service) {
 
                 /**
+                 * 今日统计,今天的特殊，需要从缓存 redis 中读取
                  *
-                 * 今天的使用 cache
-                 *
-                 * @var $today SiteCount
+                 * @var $todaySite SiteCount
                  */
-                $carbon = Carbon::now();
-                $today = SiteCount::query()->firstOrNew(['date' => $carbon->toDateString()]);
-                $today = $service->syncByCache($today);
+                $now = Carbon::now();
+                $today = $now->toDateString();
+                $todaySite = SiteCount::query()->firstOrNew(['date' => $today]);
+                $todaySite = $service->syncByCache($todaySite);
+
+                // 七日统计
+                $lastWeekDate = $now->subDay(7);
+                $weekSites = SiteCount::query()
+                                      ->where('date', '!=', $today)
+                                      ->where('date', '>', $lastWeekDate)
+                                      ->get()
+                                      ->push($todaySite);
 
 
-                $row->column(6, new Box('今日用户注册来源', view('admin.chars.today_register', compact('today'))));
-                $row->column(6, new Box('今日成交量', view('admin.chars.today_sale', compact('today'))));
-                //$row->column(4, new Box('Bar chart', view('admin.chart')));
+                // 本月统计
+                $month = $now->format('Y-m');
+                $monthSites = SiteCount::query()
+                                       ->where('date', '!=', $today)
+                                       ->where('date', '>', $month)
+                                       ->get()
+                                       ->push($todaySite);
 
+
+                $row->column(4, new Box('今日用户注册来源', view('admin.chars.today_register', compact('todaySite'))));
+                $row->column(4, new Box('七日用户注册来源', view('admin.chars.week_register', compact('weekSites'))));
+                $row->column(4, new Box('本月用户注册来源', view('admin.chars.month_register', compact('monthSites'))));
+
+                $allSites = compact('todaySite', 'weekSites', 'monthSites');
+                $row->column(4, new Box('成交金额', view('admin.chars.sale_money', $allSites)));
+                $row->column(4, new Box('成交量', view('admin.chars.sale_count', $allSites)));
+                $row->column(4, new Box('交易量', view('admin.chars.sale_number', $allSites)));
             });
     }
 

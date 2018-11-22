@@ -17,7 +17,7 @@ class SiteCountService
     {
         $attributes = [
             // 注册信息
-            'registered_count', 'github_registered_count', 'qq_registered_count', 'weibo_registered_count',
+            'registered_count', 'github_registered_count', 'qq_registered_count', 'moon_registered_count', 'weibo_registered_count',
             // 订单量            , 销售数量                            销售金额
             'product_sale_count', 'product_sale_number_count', 'product_sale_money_count'
         ];

@@ -1,17 +1,17 @@
-<canvas id="todayRegister"></canvas>
+<canvas id="weekRegister"></canvas>
 <script>
     $(function () {
-        var ctx = document.getElementById("todayRegister").getContext('2d');
+        var ctx = document.getElementById("weekRegister").getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ["QQ", "Github", "微博", "商城前台注册"],
                 datasets: [{
                     data: [
-                        {{ $todaySite->qq_registered_count }},
-                        {{ $todaySite->github_registered_count }},
-                        {{ $todaySite->weibo_registered_count }},
-                        {{ $todaySite->moon_registered_count }}
+                        {{ $weekSites->sum('qq_registered_count') }},
+                        {{ $weekSites->sum('github_registered_count') }},
+                        {{ $weekSites->sum('weibo_registered_count') }},
+                        {{ $weekSites->sum('moon_registered_count') }}
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',

@@ -1,17 +1,17 @@
-<canvas id="todayRegister"></canvas>
+<canvas id="saleMonth"></canvas>
 <script>
     $(function () {
-        var ctx = document.getElementById("todayRegister").getContext('2d');
+        var ctx = document.getElementById("saleMonth").getContext('2d');
         new Chart(ctx, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
-                labels: ["QQ", "Github", "微博", "商城前台注册"],
+                labels: ["今日", "七天", "当月"],
                 datasets: [{
+                    label: '# 交易金额',
                     data: [
-                        {{ $todaySite->qq_registered_count }},
-                        {{ $todaySite->github_registered_count }},
-                        {{ $todaySite->weibo_registered_count }},
-                        {{ $todaySite->moon_registered_count }}
+                        {{ $todaySite->product_sale_money_count }},
+                        {{ $weekSites->sum('product_sale_money_count') }},
+                        {{ $monthSites->sum('product_sale_money_count') }},
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -28,9 +28,6 @@
                     borderWidth: 1
                 }]
             },
-            options: {
-
-            }
         });
     });
 </script>
