@@ -47,14 +47,18 @@ composer install
 ```shell
 cp .env.example .env
 ```
-4. 使用安装命令(会执行执行数据库迁移，填充，监听队列 !!! 不需要再监听队列，此命令已包含)
+4. 使用安装命令(会执行执行数据库迁移，填充，等)
 ```shell
 php artisan moon:install
 ```
-## Usage
-* 任务调度(打算每周六早八点发送订阅邮件/ !!! 为方便展示，项目现为一个小时发送一次订阅)
-    * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)先把
+* 任务调度(订阅推荐，数据统计！！！)
+    * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
     * [linux请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
+* 运行队列处理器(发送订阅邮件等耗时任务)
+    * `Linux`系统: 
+        * `nohup php artisan queue:work --tries=3 &`
+    * `windows`系统直接打开一个命令行窗口，运行命令，不要关闭窗口即可
+        * `php artisan queue:work --tries=3`
 ### Commands
 | 命令  | 一句话描述 |
 | ----- | --- |
