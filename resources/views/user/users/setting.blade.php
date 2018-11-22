@@ -83,7 +83,7 @@
                         <div class="am-form-content">
                             @if (! is_null($user->github_id))
                                 <button class="oauth_button" type="button" disabled>
-                                    <i class="fa fa-qq" style="color: #00aced;"></i>&nbsp;{{ $user->github_name }}
+                                    <i class="fa fa-github" style="color: #00aced;"></i>&nbsp;{{ $user->github_name }}
                                 </button>
                                 <a href="/auth/oauth/unbind?driver=github" style="color: #009a61;text-decoration: underline;">
                                     解绑
