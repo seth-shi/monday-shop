@@ -2,8 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\SiteCount;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class CountRegisterNumber extends Command
 {
@@ -38,6 +41,21 @@ class CountRegisterNumber extends Command
      */
     public function handle()
     {
-        file_put_contents(__DIR__.'/log.txt', time() . PHP_EOL, FILE_APPEND);
+        // 每天凌晨统计昨天的数据
+        $date = Carbon::now()->subDay(1)->toDateString();
+
+        $githubCount = Cache::pull('site_counts:github_registered_count', 0);
+        $qqCount = Cache::pull('site_counts:qq_registered_count', 0);
+        $weiboCount = Cache::pull('site_counts:weibo_registered_count', 0);
+        $registerCout = Cache::pull('site_counts:registered_count', 0);
+
+
+        // 防止一天运行多次，所以采用更新
+        $site = SiteCount::query()->firstOrNew(compact('date'));
+        $site->github_registered_count += $githubCount;
+        $site->qq_registered_count += $qqCount;
+        $site->weibo_registered_count += $weiboCount;
+        $site->registered_count += $registerCout;
+        $site->save();
     }
 }

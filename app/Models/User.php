@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\ResetPassword;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
@@ -168,10 +169,10 @@ class User extends Authenticatable
 
             // 用户注册之后，得到注册的来源
             // 存入 redis 缓存，每日更新到统计表
-            $source = array_search($model->source, User::SOURCES) ?? 'moon';
+            $source = array_search($model->source, User::SOURCES) ?: 'moon';
 
-            Cache::increment("site_counts:{$source}_regitster_count");
-            Cache::increment("site_counts:regitster_count");
+            Cache::increment("site_counts:{$source}_registered_count");
+            Cache::increment("site_counts:registered_count");
         });
     }
 }

@@ -79,7 +79,7 @@ class OrdersController extends Controller
                 $user->cars()->delete();
 
                 // 统计订单
-                event(new CountSale($masterOrder, $details));
+
             });
 
         } catch (\Exception $e) {
@@ -167,7 +167,7 @@ class OrdersController extends Controller
                 $detail = $masterOrder->details()->create($detail);
 
                 // 统计订单
-                event(new CountSale($masterOrder, collect($detail)));
+
             });
         } catch (\Exception $e) {
 
