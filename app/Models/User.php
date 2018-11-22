@@ -78,7 +78,7 @@ class User extends Authenticatable
     {
         // 第三方登录的用户没有名字
         if (is_null($this->name)) {
-            return '';
+            return 'xxx';
         }
 
         $lastStr = mb_substr($this->name, 0, 1, 'utf-8');
@@ -170,8 +170,8 @@ class User extends Authenticatable
             // 存入 redis 缓存，每日更新到统计表
             $source = array_search($model->source, User::SOURCES) ?? 'moon';
 
-            Cache::increment("{$source}_regitster_count");
-            Cache::increment("regitster_count");
+            Cache::increment("site_counts:{$source}_regitster_count");
+            Cache::increment("site_counts:regitster_count");
         });
     }
 }
