@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use phpDocumentor\Reflection\Types\Self_;
 
 class Order extends Model
@@ -57,11 +58,19 @@ class Order extends Model
 
 
         // 自动生成商品的 uuid， 拼音
-        static::saving(function ($model) {
+        static::created(function ($model) {
 
             if (is_null($model->no)) {
                 $model->no = static::findAvailableNo($model->user_id);
             }
+        });
+
+        static::created(function ($model) {
+
+            // 订单成交量
+            // 订单成交金额
+            Cache::increment("site_counts:product_sale_count");
+            Cache::increment("site_counts:product_sale_money_count", $model->total);
         });
     }
 

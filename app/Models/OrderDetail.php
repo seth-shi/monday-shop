@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Cache;
+
 class OrderDetail extends Model
 {
     protected $table = 'order_details';
@@ -23,5 +25,19 @@ class OrderDetail extends Model
     public function comment()
     {
         return $this->hasOne(Comment::class);
+    }
+
+
+    public static function boot()
+    {
+        parent::boot();
+
+
+
+        static::created(function ($model) {
+
+            // 有过有取消订单功能，记得减去数量
+            Cache::increment("site_counts:product_sale_number_count", $model->numbers);
+        });
     }
 }

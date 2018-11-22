@@ -3,12 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\SiteCount;
-use App\Models\User;
+use App\Services\SiteCountService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
-class CountRegisterNumber extends Command
+class CountSite extends Command
 {
     /**
      * The name and signature of the console command.
@@ -22,7 +22,7 @@ class CountRegisterNumber extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '统计数据';
 
     /**
      * Create a new command instance.
@@ -37,27 +37,22 @@ class CountRegisterNumber extends Command
     /**
      * Execute the console command.
      *
+     * @param SiteCountService $service
      * @return mixed
      */
-    public function handle()
+    public function handle(SiteCountService $service)
     {
         // 每天凌晨统计昨天的数据
         $date = Carbon::now()->subDay(1)->toDateString();
 
-        $githubCount = Cache::get('site_counts:github_registered_count', 0);
-        $qqCount = Cache::get('site_counts:qq_registered_count', 0);
-        $weiboCount = Cache::get('site_counts:weibo_registered_count', 0);
-        $moonCount = Cache::get('site_counts:moon_registered_count', 0);
-        $registerCout = Cache::get('site_counts:registered_count', 0);
-
-
-        // 防止一天运行多次，所以采用更新
+        /**
+         * 防止一天运行多次，所以采用增加
+         *
+         * @var $site SiteCount
+         */
         $site = SiteCount::query()->firstOrNew(compact('date'));
-        $site->github_registered_count += $githubCount;
-        $site->qq_registered_count += $qqCount;
-        $site->weibo_registered_count += $weiboCount;
-        $site->moon_registered_count += $moonCount;
-        $site->registered_count += $registerCout;
+        $site = $service->syncByCache($site, true);
+
         $site->save();
     }
 }

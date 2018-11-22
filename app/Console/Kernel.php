@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use App\Console\Commands\CountRegisterNumber;
+use App\Console\Commands\CountSite;
+use App\Console\Commands\SendSubscribeEmail;
 use App\Mail\SubscribesNotice;
 use DB;
 use Illuminate\Console\Scheduling\Schedule;
@@ -28,19 +30,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function(){
+        // 每周六八点发送订阅邮件
+        $schedule->command(SendSubscribeEmail::class)->saturdays()->at('8:00');
 
-            // each all subscriber notices
-            DB::table('subscribes')->get()->each(function($item, $key){
-
-                Mail::to($item->email)->queue(new SubscribesNotice());
-            });
-
-            // 服务器换成了 Linux，正式把这个换成每周六的八点
-        })->saturdays()->at('8:00');
-
-
-        $schedule->command(CountRegisterNumber::class)->dailyAt('01:00');
+        // 每天统计注册人数, 销售数量
+        $schedule->command(CountSite::class)->dailyAt('01:00');
     }
 
     /**

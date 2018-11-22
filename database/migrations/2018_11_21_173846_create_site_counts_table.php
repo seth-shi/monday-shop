@@ -22,7 +22,8 @@ class CreateSiteCountsTable extends Migration
             $table->unsignedInteger('weibo_registered_count')->default(0);
             $table->unsignedInteger('qq_registered_count')->default(0);
             $table->unsignedInteger('moon_registered_count')->default(0)->comment('通过商城前台注册');
-            $table->unsignedInteger('product_sale_count')->default(0)->comment('商城商品销售的数量');
+            $table->unsignedInteger('product_sale_count')->default(0)->comment('订单成交量');
+            $table->unsignedInteger('product_sale_number_count')->default(0)->comment('订单销售商品数量');
             $table->decimal('product_sale_money_count')->unsigned()->default(0)->comment('商城金钱销售的数量');
 
             $table->timestamps();
