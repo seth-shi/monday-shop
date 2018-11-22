@@ -44,10 +44,11 @@ class CountRegisterNumber extends Command
         // 每天凌晨统计昨天的数据
         $date = Carbon::now()->subDay(1)->toDateString();
 
-        $githubCount = Cache::pull('site_counts:github_registered_count', 0);
-        $qqCount = Cache::pull('site_counts:qq_registered_count', 0);
-        $weiboCount = Cache::pull('site_counts:weibo_registered_count', 0);
-        $registerCout = Cache::pull('site_counts:registered_count', 0);
+        $githubCount = Cache::get('site_counts:github_registered_count', 0);
+        $qqCount = Cache::get('site_counts:qq_registered_count', 0);
+        $weiboCount = Cache::get('site_counts:weibo_registered_count', 0);
+        $moonCount = Cache::get('site_counts:moon_registered_count', 0);
+        $registerCout = Cache::get('site_counts:registered_count', 0);
 
 
         // 防止一天运行多次，所以采用更新
@@ -55,6 +56,7 @@ class CountRegisterNumber extends Command
         $site->github_registered_count += $githubCount;
         $site->qq_registered_count += $qqCount;
         $site->weibo_registered_count += $weiboCount;
+        $site->moon_registered_count += $moonCount;
         $site->registered_count += $registerCout;
         $site->save();
     }
