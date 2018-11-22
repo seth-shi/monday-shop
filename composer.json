@@ -10,6 +10,7 @@
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.4",
+        "laravel-admin-ext/chartjs": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",

@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
+        // 统计基础配置,不可删除
+        $this->call(SimpleCountsTableSeeder::class);
+
         // 国家
         // 城市的数据填充
         $this->call(ProvincesTableSeeder::class);
@@ -30,7 +33,6 @@ class DatabaseSeeder extends Seeder
         // 购物车
         $this->call(LikesProductsTableSeeder::class);
         $this->call(CarsTableSeeder::class);
-
 
         // 生成一些订单数据
         $this->call(OrdersSeeder::class);
