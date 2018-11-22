@@ -8,14 +8,12 @@
 * 个人中心
 ![PC首页](public/media/map_center.png)
 ****
-* 后台订单列表
-![订单列表](public/media/admin/orders.png)
+* 后台仪表盘
+![后台仪表盘](public/media/admin/dash_board.png)
 ****
 * 后台商品列表
 ![商品列表](public/media/admin/products.png)
-****
-* 后台添加商品
-![添加商品](public/media/admin/products_create.png)
+
 ## Feture
 - [x] **响应式网站**
 - [x] **第三方授权登录 + 登录回跳**
