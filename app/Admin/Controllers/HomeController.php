@@ -14,8 +14,6 @@ class HomeController extends Controller
 {
     public function index(Content $content, SiteCountService $service)
     {
-
-
         return $content
             ->header('仪表盘')
             ->row(function (Row $row) use ($service) {
