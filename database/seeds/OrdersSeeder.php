@@ -33,10 +33,13 @@ class OrdersSeeder extends Seeder
              */
             $user = User::query()->inRandomOrder()->first();
             $address = $user->addresses()->first();
-            $address = $address->format();
             $user_id = $user->getKey();
 
-            $masterOrder = new Order(compact('user_id', 'address'));
+            $masterOrder = new Order();
+            $masterOrder->consignee_name = $address->name;
+            $masterOrder->consignee_phone = $address->phone;
+            $masterOrder->consignee_address = $address->format();
+            $masterOrder->user_id = $user_id;
 
 
             // 随机几个明细

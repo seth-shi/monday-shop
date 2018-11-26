@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCarRequest;
 use App\Models\Car;
 use App\Models\Product;
-use App\Models\ProductDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CarsController extends Controller
 {
@@ -25,7 +21,8 @@ class CarsController extends Controller
      */
     public function index()
     {
-        $cars = [];
+        $cars = collect();
+        $addresses = collect();
 
         /**
          * @var $user User
@@ -33,9 +30,10 @@ class CarsController extends Controller
         if ($user = \auth()->user()) {
             // 直接获取当前登录用户的购物车
             $cars = $user->cars()->get();
+            $addresses = $user->addresses()->get();
         }
 
-        return view('cars.index', compact('cars'));
+        return view('cars.index', compact('cars', 'addresses'));
     }
 
     /**

@@ -14,6 +14,7 @@ class HomeController extends Controller
 {
     public function index(Content $content, SiteCountService $service)
     {
+        // TODO 更换成百度的插件
         return $content
             ->header('仪表盘')
             ->row(function (Row $row) use ($service) {

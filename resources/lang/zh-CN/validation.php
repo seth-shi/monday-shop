@@ -155,7 +155,8 @@ return [
         'level' => '等级',
         'picture_id' => '图片',
         'city_id' => '城市',
-        'country_id' => '国家'
+        'country_id' => '国家',
+        'address_id' => '地址',
     ],
 
 ];

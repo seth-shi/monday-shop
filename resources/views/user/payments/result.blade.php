@@ -1,50 +1,99 @@
-<!DOCTYPE html>
+@extends('layouts.shop')
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+@section('style')
+    <style>
+        .successInfo {
+            padding: 0 65px 0 56px;
+            display: inline-block;
+        }
+    </style>
+@endsection
 
-    <title>结算页面</title>
+@section('main')
+    <div class="container" style="padding: 20px 0px">
+        @if ($order)
+            <div class="row">
+                <div class="col-xs-2"><img src="/images/success.jpg"></div>
+                <div class="col-xs-10"><h2 style="color: darkgreen;">您已成功付款</h2></div>
+            </div>
 
-    <link href="/assets/user/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/user/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/user/basic/css/demo.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/user/css/jsstyle.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/user/css//sustyle.css" rel="stylesheet" type="text/css" />
-</head>
+            <div class="successInfo">
+                <div class="row">
+                    <div class="col-xs-4">付款金额</div>
+                    <div class="col-xs-8"><h2>{{ $order->price }}</h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">收货人</div>
+                    <div class="col-xs-8"><h2>{{ $order->consignee_name }}</h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">联系电话</div>
+                    <div class="col-xs-8"><h2>{{ $order->consignee_phone }}</h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">收货地址</div>
+                    <div class="col-xs-8"><h2>{{ $order->consignee_address }}</h2></div>
+                </div>
+                <div class="option">
+                    <span class="info">您可以</span>
+                    <a href="/user/orders" class="J_MakePoint">查看<span>已买到的宝贝</span></a>
+                </div>
 
-<body>
+                请认真核对您的收货信息，如有错误请联系客服
+            </div>
+        @else
+            <div class="row">
+                <div class="col-xs-2"><img src="/images/error.jpg"></div>
+                <div class="col-xs-10"><h2 style="color: darkred;">支付失败</h2></div>
+            </div>
+            <div class="successInfo">
+                请稍后刷新再次尝试...
+            </div>
+        @endif
 
+            <section class="section latest-deals-area ptb-30">
+                <header class="panel ptb-15 prl-20 pos-r mb-30">
+                    <h3 class="section-title font-18">商品推荐</h3>
+                    <a href="/products" class="btn btn-o btn-xs pos-a right-10 pos-tb-center">查看所有</a>
+                </header>
 
-<!--顶部导航条 -->
-@include('common.user.header')
+                <div class="row row-masnory row-tb-20">
+                    @foreach ($latestProducts as $latestProduct)
+                        <div class="col-sm-6 col-lg-4">
+                            <div class="deal-single panel">
+                                <a href="/products/{{ $latestProduct->uuid }}">
+                                    <figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="{{ $latestProduct->thumb }}">
 
-<!--悬浮搜索框-->
+                                    </figure>
+                                </a>
+                                <div class="bg-white pt-20 pl-20 pr-15">
+                                    <div class="pr-md-10">
+                                        <div class="mb-10">
+                                            收藏人数 <span class="rating-count rating">{{ $latestProduct->users_count }}</span>
+                                        </div>
+                                        <h3 class="deal-title mb-10">
+                                            <a href="/products/{{ $latestProduct->uuid }}">
+                                                {{ $latestProduct->name }}
+                                            </a>
+                                        </h3>
+                                        <p class="text-muted mb-20">
+                                            {!! $latestProduct->title !!}
+                                        </p>
+                                    </div>
+                                    <div class="deal-price pos-r mb-15">
+                                        <h3 class="price ptb-5 text-right">
+                                            <span class="price-sale">
+                                                {{ $latestProduct->price_original }}
+                                            </span>
+                                            ￥ {{ $latestProduct->price }}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </section>
+    </div>
+@endsection
 
-
-<div class="take-delivery">
- <div class="status">
-     @if ($payment)
-        <h2><img src="/images/success.jpg">您已成功付款</h2>
-        <div class="successInfo">
-         <ul>
-           <li>付款金额：<em> {{ $payment->price }}/{{ $payment->realprice }}</em></li>
-           <div class="user-info">
-             <p>商品名：{{ $payment->goodsname }}</p>
-           </div>
-         </ul>
-        </div>
-     @else
-         <h2><img src="/images/error.jpg">支付失败</h2>
-         <div class="successInfo">
-             请稍后刷新再次尝试
-         </div>
-     @endif
-  </div>
-</div>
-
-@include('common.user.footer')
-
-
-</body>
-</html>

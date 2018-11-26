@@ -25,6 +25,22 @@
 			border-radius: 2px;
 			font-family: "helvetica neue",arial,sans-serif;
 		}
+		.submitOrder {
+			text-align: center;
+		}
+		#J_Go {
+			display: inline-block;
+			padding: 0 26px;
+			height: 36px;
+			font: 400 18px/36px arial;
+			font-size: 18px;
+			background-color: #f50;
+			color: #fff;
+			text-align: center;
+			cursor: pointer;
+			outline: 0;
+			z-index: 999;
+		}
 	</style>
 </head>
 
@@ -36,9 +52,16 @@
 
 <div class="clear"></div>
 <div class="concent">
+
+	@if ($errors->count())
+			<div class="am-alert am-alert-danger" data-am-alert>
+				<button type="button" class="am-close">&times;</button>
+				<p>{{ $errors->first() }}</p>
+			</div>
+	@endif
+
 	<!--地址 -->
 	<div class="paycont">
-
 		<div class="clear"></div>
 
 		<!--支付方式-->
@@ -46,22 +69,18 @@
 			<h3>选择支付方式</h3>
 			<ul class="pay-list" id="pay-list">
 				<li data-id="1" class="pay taobao selected"><img src="/images/zhifubao.jpg" />支付宝<span></span></li>
-				<li data-id="2" class="pay qq"><img src="/images/weizhifu.jpg" />微信<span></span></li>
+				<li disabled="disabled" data-id="2" class="pay qq"><img src="/images/weizhifu.jpg" />微信(暂不支持)<span></span></li>
 			</ul>
 		</div>
-		<div class="clear"></div>
-
-		<!--订单 -->
-		<div class="clear"></div>
 
 
 		<!--信息 -->
-		<div class="order-go clearfix">
-			<div class="pay-confirm ">
+		<div class="order-go">
+			<div class="pay-confirm" style="padding: 20px">
 				<div class="box" style="float: none">
 
 					@if ($address)
-						<div id="holyshit268" class="pay-address">
+						<div id="holyshit268" >
 
 							<p class="buy-footer-address">
 								<span class="buy-line-title buy-line-title-type">寄送至：</span>
@@ -85,18 +104,21 @@
 
 				</div>
 
-				<form id="post_form" action="/user/pay/store" method="post">
+				<form action="/user/pay/store" method="post">
 
 					{{ csrf_field() }}
 
-					价钱：<input type="text" name="price" autofocus onfocus="this.value=((Math.random()*5+1)/100).toFixed(2)">
-					<input type="hidden" name="istype" value="1">
-					<input type="hidden" name="orderuid" value="{{ auth()->id() }}">
-					<input type="hidden" name="goodsname" value="{{ $product->name }}">
+					总计：
+					<input type="text" class="am-input-sm" value="{{ $product->price * $numbers }}" disabled="disabled">
+					<input type="hidden" name="pay_type" value="1">
+					<input type="hidden" name="product_id" value="{{ $product->uuid }}">
+					<input type="hidden" name="numbers" value="{{ $numbers }}">
+					<input type="hidden" name="address_id" value="{{ $address->id }}">
 
 					<div id="holyshit269" class="submitOrder">
 						<div class="go-btn-wrap">
-							<button  id="J_Go" type="submit" id="pay_btn" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</button>
+							<button name="pay_method" value="web"  id="J_Go" type="submit" class="btn-go" tabindex="0" title="点击此按钮，提交订单">电脑支付</button>
+							<button name="pay_method" value="wap"  id="J_Go" type="submit" class="btn-go" tabindex="0" title="点击此按钮，提交订单">手机支付</button>
 						</div>
 					</div>
 				</form>
@@ -107,17 +129,17 @@
 
 	<div class="clear"></div>
 </div>
-</div>
+
 
 @include('common.user.footer')
 
 <div class="clear"></div>
 
 <script>
-	$('#pay-list li').click(function () {
-		var id = $(this).data('id');
-		$('input[name=istype]').val(id);
-    });
+	// $('#pay-list li').click(function () {
+	// 	var id = $(this).data('id');
+	// 	$('input[name=pay_type]').val(id);
+    // });
 </script>
 </body>
 

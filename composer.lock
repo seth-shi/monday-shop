@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "118b86a0cd5ac5b4a53c0ca8db1f6df5",
+    "content-hash": "7ca8dbcedca93bd5111746b4f5686399",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -4213,6 +4213,114 @@
                 "UUID RFC4122"
             ],
             "time": "2017-09-03T23:32:05+00:00"
+        },
+        {
+            "name": "yansongda/pay",
+            "version": "v2.5.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yansongda/pay.git",
+                "reference": "c3ded381b87834852b4002a8c506a6fde0d3222d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yansongda/pay/zipball/c3ded381b87834852b4002a8c506a6fde0d3222d",
+                "reference": "c3ded381b87834852b4002a8c506a6fde0d3222d",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-openssl": "*",
+                "ext-simplexml": "*",
+                "monolog/monolog": "^1.23",
+                "php": ">=7.0",
+                "symfony/http-foundation": "^3.0|^4.0",
+                "yansongda/supports": "^1.8"
+            },
+            "require-dev": {
+                "mockery/mockery": "1.0.x-dev",
+                "phpunit/phpunit": "^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yansongda\\Pay\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yansongda",
+                    "email": "me@yansongda.cn"
+                }
+            ],
+            "description": "专注 Alipay 和 WeChat 的支付扩展包",
+            "keywords": [
+                "alipay",
+                "pay",
+                "wechat"
+            ],
+            "time": "2018-11-12T13:49:31+00:00"
+        },
+        {
+            "name": "yansongda/supports",
+            "version": "v1.8.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yansongda/supports.git",
+                "reference": "e5a8d80dd18ab5361187adfd33c398573943de39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yansongda/supports/zipball/e5a8d80dd18ab5361187adfd33c398573943de39",
+                "reference": "e5a8d80dd18ab5361187adfd33c398573943de39",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "monolog/monolog": "^1.23",
+                "php": ">=5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yansongda\\Supports\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yansongda",
+                    "email": "me@yansongda.cn"
+                }
+            ],
+            "description": "common components",
+            "keywords": [
+                "Guzzle",
+                "array",
+                "collection",
+                "config",
+                "http",
+                "support"
+            ],
+            "time": "2018-11-22T02:57:45+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

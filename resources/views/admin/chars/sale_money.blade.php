@@ -1,7 +1,7 @@
-<canvas id="saleMonth"></canvas>
+<canvas id="saleMoney"></canvas>
 <script>
     $(function () {
-        var ctx = document.getElementById("saleMonth").getContext('2d');
+        var ctx = document.getElementById("saleMoney").getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {

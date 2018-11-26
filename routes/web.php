@@ -1,7 +1,5 @@
 <?php
 
-
-
 /****************************************
  * 互联登录的路由，包括 github, QQ， 微博 登录
  ****************************************/
@@ -96,21 +94,21 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     Route::get('likes', 'LikesController@index');
     Route::put('likes/{id}', 'LikesController@toggle');
     Route::post('orders/single', 'OrdersController@single');
-    Route::resource('/orders', 'OrdersController')->only('index', 'store', 'show', 'destroy');
+    Route::resource('orders', 'OrdersController')->only('index', 'show', 'destroy');
 
     // 评论商品
     Route::post('comments', 'CommentCOntroller@store');
 
     /****************************************
      * 1. 支付的显示页面
-     * 2. 支付的处理
+     * 2. 订单的创建（包括直接下单和购物车下单
      ****************************************/
-    Route::post('pay/show', 'PaymentsController@index');
-    Route::post('pay/store', 'PaymentsController@pay');
+    Route::post('pay/show', 'PaymentsController@show');
+    Route::post('pay/store', 'PaymentsController@store');
 });
 /****************************************
  * 1. 用户付费！如果验证了[user.auth]，
  *    就会发生无限跳转，所以放在外面
  ****************************************/
-Route::get('user/pay/return', 'User\PaymentsController@payReturn');
-Route::post('user/pay/notify', 'User\PaymentsController@payNotify');
+Route::get('pay/return', 'PaymentNotificationController@payReturn');
+Route::post('pay/notify', 'PaymentNotificationController@payNotify');

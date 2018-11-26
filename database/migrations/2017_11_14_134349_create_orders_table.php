@@ -19,11 +19,16 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
 
             $table->string('no')->comment('订单流水号');
+
             $table->integer('user_id')->unsigned();
             $table->decimal('total', 15, 2)->comment('总计价格');
             $table->tinyInteger('status')->default(Order::UN_PAY_STATUS)->comment('0：未支付订单，已支付订单');
 
-            $table->text('address')->comment('收货地址');
+            $table->string('name')->nullable()->comment('订单的名字，用于第三方，只有一个商品就是商品的名字，多个商品取联合');
+            // 收货地址
+            $table->string('consignee_name')->nullable()->comment('收货人');
+            $table->string('consignee_phone')->nullable()->comment('收货人手机号码');
+            $table->string('consignee_address')->nullable()->comment('收货地址');
 
             // 第三方支付
             $table->string('pay_no')->nullable()->comment('第三方支付单号');

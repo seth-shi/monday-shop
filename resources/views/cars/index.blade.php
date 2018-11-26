@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.shop')
 
 
 @section('main')
@@ -32,28 +32,30 @@
                                                 {{ session('status') }}
                                             </div>
                                         @endif
-                                        <form class="mb-30" method="post" action="/user/orders/">
+                                        <form class="mb-30" method="post" action="/user/pay/store">
                                             {{ csrf_field() }}
 
                                             <div class="row">
 
-                                                @if ($errors->has('address_id'))
+                                                @if (count($errors))
                                                     <div class="alert alert-danger" role="alert">
                                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        {{ $errors->first('address_id') }}
+                                                        {{ $errors->first() }}
                                                     </div>
                                                 @endif
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>选择收货地址</label>
-                                                        <select class="form-control" name="address_id">
-                                                            <option value="">请选择收货地址</option>
-                                                            @if (Auth::check())
-                                                                @foreach (Auth::user()->addresses as $address)
+                                                        @if ($addresses->isNotEmpty())
+                                                            <select class="form-control" name="address_id">
+                                                                <option value="">请选择收货地址</option>
+                                                                @foreach ($addresses as $address)
                                                                     <option value="{{ $address->id }}">{{ $address->name }}/{{ $address->phone }}</option>
                                                                 @endforeach
-                                                            @endif
-                                                        </select>
+                                                            </select>
+                                                        @else
+                                                            <a style="color: green;" href="/user/addresses">添加收货地址</a>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
