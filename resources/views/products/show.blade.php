@@ -1,4 +1,4 @@
-@extends('layouts.shop')
+@extends('layouts.product')
 
 
 @section('main')
@@ -454,23 +454,13 @@
             var _numbers = $('input[name=numbers]').val();
             var _product_id = $('input[name=product_id]').val();
 
-
-            var data = {address_id:_address_id,numbers:_numbers,product_id:_product_id, _token:"{{ csrf_token() }}"};
-
-            $.post('/user/orders/single', data, function(res){
-                layer.msg(res.msg);
-
-                if (res.code != 200) {
-                    return false;
-                }
-                /** v请求支付 **/
-                var form = $('#pay_form');
-                var input = '<input type="hidden" name="_address_id" value="'+ _address_id +'">\
-                        <input type="hidden" name="_product_id" value="'+ _product_id +'">\
-                        <input type="hidden" name="_numbers" value="'+ _numbers +'">';
-                form.append(input);
-                form.submit();
-            });
+            /** v请求支付 **/
+            var form = $('#pay_form');
+            var input = '<input type="hidden" name="address_id" value="'+ _address_id +'">\
+                        <input type="hidden" name="product_id" value="'+ _product_id +'">\
+                        <input type="hidden" name="numbers" value="'+ _numbers +'">';
+            form.append(input);
+            form.submit();
         });
 
         // 评论按钮

@@ -2,28 +2,34 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exceptions\OrderException;
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Requests\PayRequest;
-use App\Jobs\CreatePayment;
+use App\Http\Requests\StoreOrderRequest;
 use App\Models\Address;
-use App\Models\Payment;
+use App\Models\Car;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Queue\Jobs\Job;
-use Illuminate\Support\Facades\Validator;
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Facades\DB;
+use Yansongda\Pay\Pay;
 
 class PaymentsController extends ApiController
 {
-    public function index(Request $request)
+    /**
+     * 限制选择支付页面
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(Request $request)
     {
-        $product = Product::query()->where('uuid', $request->input('_product_id'))->firstOrFail();
-        $address = Address::query()->find($request->input('_address_id'));
+        $product = Product::query()->where('uuid', $request->input('product_id'))->firstOrFail();
+        $address = Address::query()->find($request->input('address_id'));
 
         return view('user.payments.index', [
             'product' => $product,
-            'numbers' => $request['_numbers'],
+            'numbers' => $request->input('numbers', 1),
             'address' => $address
         ]);
     }
@@ -31,140 +37,202 @@ class PaymentsController extends ApiController
     /**
      * 生成支付参数的接口
      *
-     * @param PayRequest $request
+     * @param StoreOrderRequest $request
      * @return string
      * @throws \Exception
      */
-    public function pay(PayRequest $request)
+    public function store(StoreOrderRequest $request)
     {
-        // 获取订单参数
-        $baseData = $request->only(['price', 'istype', 'orderuid', 'goodsname']);
-        $payData = $this->buildPayData($baseData);
+        DB::beginTransaction();
 
-        // 创建订单
-        $baseData['orderid'] = $payData['orderid'];
-        Payment::query()->create($baseData);
+        try {
 
+            // 如果有商品 id，证明是单个商品下单。
+            // 否则，就是通过购物车直接下单，
+            // 但无论如何都得有 address_id
+            $masterOrder = $this->newMasterOrder($request);
 
-        // 生成支付的 form
-        $form = $this->getPayForm($payData);
+            if ($request->has('product_id')) {
 
-        return $form;
-    }
+                $this->storeSingleOrder($masterOrder, $request);
+            } else {
 
-    /**
-     * 后台通知的接口
-     *
-     * @param Request $request
-     * @return PaymentsController|\Illuminate\Http\JsonResponse
-     */
-    public function payNotify(Request $request)
-    {
+                $this->storeCarsOrder($masterOrder);
+            }
 
-        $pay_data = $request->only(['paysapi_id', 'orderid', 'price', 'realprice', 'orderuid']);
-        $pay_data['token'] = config('payment.token');
+        } catch (\Exception $e) {
 
-        ksort($pay_data);
-        $temps = md5(implode('', $pay_data));
-        $Key = $request->input('key');
+            DB::rollBack();
 
-
-
-        if (md5($temps) != $Key) {
-            file_put_contents('pay.log', "校验出错 \r\n", FILE_APPEND);
-            return $this->setCode(303)->setMsg('校验出错')->toJson();
+            return back()->withErrors($e->getMessage());
         }
 
-        $payment = Payment::query()->where('orderid', $pay_data['orderid'])->first();
+        DB::commit();
 
-        if (! $payment) {
-            file_put_contents('pay.log', "不存在此次支付 \r\n", FILE_APPEND);
-            return $this->setCode(305)->setMsg('不存在此次支付')->toJson();
+
+        // 生成支付信息
+        return $this->buildPayForm($masterOrder, $request->input('pay_method'));
+    }
+
+
+    /**
+     * 单个商品直接下单
+     *
+     * @param Order   $masterOrder
+     * @param Request $request
+     * @return void
+     * @throws OrderException
+     */
+    protected function storeSingleOrder(Order $masterOrder, Request $request)
+    {
+        /**
+         * @var $product Product
+         * @var $address Address
+         */
+        $product = Product::query()->where('uuid', $request->input('product_id'))->first();
+
+        // 明细表
+        $detail = $this->buildOrderDetail($product, $request->input('numbers'));
+        $masterOrder->name = $product->name;
+        $masterOrder->total = $detail['total'];
+        $masterOrder->save();
+
+
+        $masterOrder->details()->create($detail);
+    }
+
+
+    /**
+     * @param Order $masterOrder
+     * @throws OrderException
+     */
+    protected function storeCarsOrder(Order $masterOrder)
+    {
+        $cars = $this->user()->cars()->with('product')->get();
+        if ($cars->isEmpty()) {
+
+            throw new OrderException('购物车为空，请选择商品后再结账');
         }
 
-        $payment->paysapi_id = $pay_data['paysapi_id'];
-        $payment->status = 1;
-        $payment->save();
+        // 明细表
+        $details = $cars->map(function (Car $car) use ($masterOrder) {
 
-        file_put_contents('pay.log', "{$payment->paysapi_id} \r\n", FILE_APPEND);
+            return $this->buildOrderDetail($car->product, $car->numbers);
+        });
 
-        return $this->setMsg('SUCCESS');
+        // 商品的名字，用多个商品拼接
+        $name = $cars->pluck('product')->pluck('name')->implode('|');
+        $name = str_limit($name);
+
+        $masterOrder->name = $name;
+        $masterOrder->total = $details->sum('total');
+        $masterOrder->save();
+
+        // 订单明细表创建
+        $masterOrder->details()->createMany($details->all());
+
+        // 删除购物车完成
+        $this->user()->cars()->delete();
     }
 
+
     /**
-     * 前台跳转的接口
-     *
+     * 实例化一个主订单
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Order
      */
-    public function payReturn(Request $request)
+    protected function newMasterOrder(Request $request)
     {
-        // TODO The query model causes an infinite refresh of the payment callback jump
-        dd($request->all());
+        /**
+         * 主订单的新建
+         * @var $address Address
+         * @var $masterOrder Order
+         */
+        $address = Address::query()->find($request->input('address_id'));
 
-        $payment = Payment::query()->where('orderid', $request->input('orderid'))->first();
+        $order = new Order();
+        $order->consignee_name = $address->name;
+        $order->consignee_phone = $address->phone;
+        $order->consignee_address = $address->format();
+        $order->user_id = auth()->id();
+        $order->pay_type = $request->input('pay_type');
 
-        dd($request->all());
-
-        return view('user.payments.result', compact('payment'));
+        return $order;
     }
 
     /**
-     * 生成支付信息, 排序加密参数
+     * 库存数量
      *
-     * @param array $data
+     * @param Product $product
+     * @param         $number
+     * @throws OrderException
+     */
+    protected function decProductNumber(Product $product, $number)
+    {
+        if ($number > $product->count) {
+            throw new OrderException("[{$product->name}] 库存数量不足");
+        }
+
+        $product->setAttribute('count', $product->count - $number)
+                ->setAttribute('safe_count', $product->safe_count + $number)
+                ->save();
+    }
+
+    /**
+     * 构建订单明细
+     *
+     * @param Product $product
+     * @param         $number
      * @return array
-     * @throws \Exception
+     * @throws OrderException
      */
-    private function buildPayData(array $data)
+    protected function buildOrderDetail(Product $product, $number)
     {
-        $sysData = [
-            'uid' => config('payment.uid'),
-            'token' => config('payment.token'),
-            'notify_url' => config('payment.notify_url'),
-            'return_url' => config('payment.return_url'),
-            'orderid' => Uuid::generate()->hex,
+        // 库存量减少
+        $this->decProductNumber($product, $number);
+
+        $attribute =  [
+            'product_id' => $product->id,
+            'numbers' => $number
+        ];
+        $attribute['price'] = $product->price;
+        $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['numbers']);
+
+        return $attribute;
+    }
+
+    /**
+     * 生成支付订单
+     *
+     * @param Order $order
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function buildPayForm(Order $order, $payMethod)
+    {
+        // 创建订单
+        $order = [
+            'out_trade_no' => $order->no,
+            'total_amount' => $order->total,
+            'subject' => $order->name,
         ];
 
-        if (mb_strlen($data['goodsname'], 'utf8') > 8) {
-            $data['goodsname'] = mb_substr($data['goodsname'], 0, 8, 'utf8');
+        $pay = Pay::alipay(config('pay.ali'));
+
+        if ($payMethod == 'wap') {
+
+            return $pay->wap($order);
         }
 
-        $data = array_merge($sysData, $data);
-        ksort($data);
-        $data['key'] = md5(implode('', $data));
-
-        unset($data['token']);
-
-        return $data;
+        return $pay->web($order);
     }
+
 
     /**
-     * 获取支付表单
-     *
-     * @param array $attributes
-     * @return string
+     * @return User
      */
-    protected function getPayForm(array $attributes)
+    protected function user()
     {
-        $inputs = '';
-        foreach ($attributes as $key => $val) {
-
-            $key = htmlspecialchars($key);
-            $val = htmlspecialchars($val);
-
-            $inputs .= "<input name='{$key}' value='{$val}' >";
-        }
-
-        $form = <<<html
-<form style="display: none;" method='post' id="pay_form" action='https://pay.paysapi.com'>
-{$inputs}
-</form>
-<script>
-    document.getElementById('pay_form').submit();
-</script>
-html;
-
-        return $form;
+        return auth()->user();
     }
+
 }

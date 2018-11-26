@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class PayRequest extends FormRequest
+class StoreOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +25,11 @@ class PayRequest extends FormRequest
     public function rules()
     {
         return [
-            'price' => 'required|numeric',
-            'istype' => 'in:1,2',
-            'orderuid' => 'required|exists:users,id',
-            'goodsname' => 'required|exists:products,name'
+            'address_id' => ['required', Rule::exists('addresses', 'id')->where('user_id', auth()->id())],
+
+            // 只有是单个商品下单，才需要验证这两个规则
+            'product_id' => 'sometimes|exists:products,uuid',
+            'numbers' => 'sometimes|integer',
         ];
     }
 }

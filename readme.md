@@ -31,6 +31,7 @@
 - [x] **评论模块**
 - [x] **数据统计**
 - [ ] 全文搜索
+- [ ] 秒杀功能
 ## Installation
 1. 获取源代码
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)

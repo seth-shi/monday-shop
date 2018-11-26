@@ -18,7 +18,8 @@
         "overtrue/laravel-pinyin": "~3.0",
         "overtrue/socialite": "^2.0",
         "predis/predis": "^1.1",
-        "webpatser/laravel-uuid": "^3.0"
+        "webpatser/laravel-uuid": "^3.0",
+        "yansongda/pay": "^2.5"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
