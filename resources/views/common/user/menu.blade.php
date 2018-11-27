@@ -11,7 +11,6 @@
             </ul>
         </li>
         <li class="person">
-            <a href="#">我的交易</a>
             <ul>
                 <li><a href="/user/orders">订单管理</a></li>
             </ul>

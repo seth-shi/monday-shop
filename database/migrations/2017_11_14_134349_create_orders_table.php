@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
 
             $table->integer('user_id')->unsigned();
             $table->decimal('total', 15, 2)->comment('总计价格');
-            $table->tinyInteger('status')->default(Order::UN_PAY_STATUS)->comment('0：未支付订单，已支付订单');
+            $table->tinyInteger('status')->default(Order::UN_PAY_STATUS)->comment('0：未支付订单，1已支付订单');
 
             $table->string('name')->nullable()->comment('订单的名字，用于第三方，只有一个商品就是商品的名字，多个商品取联合');
             // 收货地址
@@ -32,6 +32,7 @@ class CreateOrdersTable extends Migration
 
             // 第三方支付
             $table->string('pay_no')->nullable()->comment('第三方支付单号');
+            $table->decimal('pay_total', 15, 2)->nullable()->comment('实际支付金额');
             $table->timestamp('pay_time')->nullable()->comment('支付时间');
             $table->tinyInteger('pay_type')->default(Order::UN_PAY_TYPE)->comment('0 未知，1支付宝支付，2微信支付');
 

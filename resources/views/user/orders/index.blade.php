@@ -39,9 +39,6 @@
                             <div class="th th-number">
                                 <td class="td-inner">数量</td>
                             </div>
-                            <div class="th th-operation">
-                                <td class="td-inner">商品操作</td>
-                            </div>
                             <div class="th th-amount">
                                 <td class="td-inner">合计</td>
                             </div>
@@ -92,11 +89,6 @@
                                                                 <span>×</span>{{ $detail->numbers }}
                                                             </div>
                                                         </li>
-                                                        <li class="td td-operation">
-                                                            <div class="item-operation">
-
-                                                            </div>
-                                                        </li>
                                                     </ul>
                                                 @endforeach
                                             </div>
@@ -106,15 +98,20 @@
                                                         合计：{{ $order->total }}
                                                     </div>
                                                 </li>
+                                                <li class="td td-status">
+                                                    <div class="item-status">
+                                                        <p class="Mystatus">{{ $order->status ? '交易成功' : '未付款' }}</p>
+                                                    </div>
+                                                </li>
+                                                <li class="td td-change">
+                                                    @if ($order->status == \App\Models\Order::PAY_STATUS)
+                                                        <a href="/user/pay/orders/{{ $order->id }}/refund" class="am-btn am-btn-danger anniu delete_btn">退款</a>
+                                                        <hr>
+                                                    @endif
+                                                    <a href="javascript:;" onclick="handleDelete({{ $order->id }})" class="am-btn am-btn-danger anniu delete_btn">删除订单</a>
+                                                </li>
                                                 <div class="move-right">
-                                                    <li class="td td-status">
-                                                        <div class="item-status">
-                                                            <p class="Mystatus">{{ $order->status ? '交易成功' : '未付款' }}</p>
-                                                        </div>
-                                                    </li>
-                                                    <li class="td td-change">
-                                                        <a href="javascript:;" onclick="handleDelete({{ $order->id }})" class="am-btn am-btn-danger anniu delete_btn">删除订单</a>
-                                                    </li>
+
                                                 </div>
                                             </div>
                                         </div>
