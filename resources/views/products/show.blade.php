@@ -1,5 +1,19 @@
 @extends('layouts.product')
 
+@section('style')
+    <style>
+        .iteminfo_freprice {
+            display: inline-block;
+        }
+        .pay li, .pay .pay-opt {
+            height: 40px;
+        }
+        .tb-btn a {
+            height: 40px;
+            line-height: 40px;
+        }
+    </style>
+@endsection
 
 @section('main')
     <div class="listMain">
@@ -68,10 +82,10 @@
                         </div>
                     @endif
                     <!--地址-->
-                    <dl class="iteminfo_parameter freight">
+                    <div class="iteminfo_parameter" style="text-align: center">
                         <dt>收货地址</dt>
                         <div class="iteminfo_freprice">
-                            <div class="am-form-content address">
+                            <div class="am-form-content">
 
                                 @if ($addresses->isNotEmpty())
                                     <select class="form-control" style="width: 100%" name="address_id">
@@ -85,7 +99,7 @@
 
                             </div>
                         </div>
-                    </dl>
+                    </div>
                     <div class="clear"></div>
 
                     <!--销量-->
@@ -101,7 +115,6 @@
 
                     <!--各种规格-->
                     <dl class="iteminfo_parameter sys_item_specpara">
-                        <dt class="theme-login"><div class="cart-title">可选规格<span class="am-icon-angle-right"></span></div></dt>
                         <dd>
                             <!--操作页面-->
 
