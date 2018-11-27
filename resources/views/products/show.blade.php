@@ -5,6 +5,9 @@
         .iteminfo_freprice {
             display: inline-block;
         }
+        .pay span {
+            line-height: 40px;
+        }
         .pay li, .pay .pay-opt {
             height: 40px;
         }
@@ -149,9 +152,9 @@
                         <a href="/"><span class="am-icon-home am-icon-fw">首页</span></a>
                         @auth
                             @if ($product->userIsLike)
-                                <a href="javascript:;" id="likes_btn"><span class="am-icon-heart am-icon-fw color-blue" >取消收藏</span></a>
+                                <a href="javascript:;" id="likes_btn"><span class="am-icon-heart am-icon-fw color-green" >已收藏</span></a>
                             @else
-                                <a href="javascript:;" id="likes_btn"><span class="am-icon-heart am-icon-fw color-green" >收藏</span></a>
+                                <a href="javascript:;" id="likes_btn"><span class="am-icon-heart am-icon-fw color-blue" >收藏</span></a>
                             @endif
                         @endauth
 
@@ -409,14 +412,14 @@
                 // 收藏成功
                 if (res.code == 201) {
 
-                    that.find('span').text('取消收藏');
-                    that.find('span').removeClass('color-green').addClass('color-blue');
+                    that.find('span').text('已收藏');
+                    that.find('span').removeClass('color-blue').addClass('color-green');
                     likes_nums.text(parseInt(likes_nums.text()) + 1);
                 } else {
 
-                    // 取消收藏
+                    // 已收藏
                     that.find('span').text('收藏');
-                    that.find('span').removeClass('color-blue').addClass('color-green');
+                    that.find('span').removeClass('color-green').addClass('color-blue');
                     likes_nums.text(parseInt(likes_nums.text()) - 1);
                 }
             });
