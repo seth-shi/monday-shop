@@ -17,6 +17,7 @@ class UserAuth
      */
     public function handle($request, Closure $next)
     {
+
         if (! Auth::check()) {
 
             return redirect()->guest('login')->with('status', '请登录账号再操作');

@@ -102,9 +102,11 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     /****************************************
      * 1. 支付的显示页面
      * 2. 订单的创建（包括直接下单和购物车下单
+     * 3. 退款接口
      ****************************************/
     Route::post('pay/show', 'PaymentsController@show');
     Route::post('pay/store', 'PaymentsController@store');
+    Route::get('pay/orders/{order}/refund', 'RefundController@store');
 });
 /****************************************
  * 1. 用户付费！如果验证了[user.auth]，

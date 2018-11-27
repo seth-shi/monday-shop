@@ -6,6 +6,7 @@ use App\Http\Controllers\User\PaymentsController;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Yansongda\Pay\Pay;
 
 class PaymentNotificationController extends Controller
@@ -23,58 +24,64 @@ class PaymentNotificationController extends Controller
      * 后台通知的接口
      *
      * @param Request $request
-     * @return PaymentsController|\Illuminate\Http\JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function payNotify(Request $request)
     {
+        $alipay = Pay::alipay($this->config);
 
-        $pay_data = $request->only(['paysapi_id', 'orderid', 'price', 'realprice', 'orderuid']);
-        $pay_data['token'] = config('payment.token');
+        // TODO , 加一个轮询接口配合后台通知修改订单状态
+        // 后台异步通知接口有可能会因为网络问题接收不到
+        // 使用轮询插接订单状态，如果支付了停止轮询
+        try{
+            $data = $alipay->verify(); // 是的，验签就这么简单！
 
-        ksort($pay_data);
-        $temps = md5(implode('', $pay_data));
-        $Key = $request->input('key');
+            // 验证 app_id
+            // 可：判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额）；
+            if ($data->get('app_id') == $this->config['app_id']) {
 
+                // 支付成功
+                if ($data->get('trade_status') == 'TRADE_SUCCESS') {
 
+                    // 更新订单
+                    $order = Order::query()->where('no', $data->get('out_trade_no'))->firstOrFail();
+                    $order->pay_time = $data->get('notify_time');
+                    $order->pay_no = $data->get('trade_no');
+                    $order->pay_total = $data->get('receipt_amount');
+                    $order->save();
+                }
+            }
 
-        if (md5($temps) != $Key) {
-            file_put_contents('pay.log', "校验出错 \r\n", FILE_APPEND);
-            return $this->setCode(303)->setMsg('校验出错')->toJson();
+            Log::debug('Alipay notify', $data->all());
+        } catch (\Exception $e) {
+
+            Log::debug('Alipay notify', $data->all());
         }
 
-        $payment = Payment::query()->where('orderid', $pay_data['orderid'])->first();
-
-        if (! $payment) {
-            file_put_contents('pay.log', "不存在此次支付 \r\n", FILE_APPEND);
-            return $this->setCode(305)->setMsg('不存在此次支付')->toJson();
-        }
-
-        $payment->paysapi_id = $pay_data['paysapi_id'];
-        $payment->status = 1;
-        $payment->save();
-
-        file_put_contents('pay.log', "{$payment->paysapi_id} \r\n", FILE_APPEND);
-
-        return $this->setMsg('SUCCESS');
+        return $alipay->success();// laravel 框架中请直接 `return $alipay->success()`
     }
 
 
     /**
      * 前台跳转的接口
      *
-     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Yansongda\Pay\Exceptions\InvalidArgumentException
-     * @throws \Yansongda\Pay\Exceptions\InvalidConfigException
-     * @throws \Yansongda\Pay\Exceptions\InvalidSignException
      */
-    public function payReturn(Request $request)
+    public function payReturn()
     {
         $latestProducts = Product::query()->latest()->take(9)->get();
 
-        $data = Pay::alipay($this->config)->verify(); // 是的，验签就这么简单！
+        $order = null;
 
-        $order = Order::query()->latest()->first();
+        try {
+
+            $data = Pay::alipay($this->config)->verify();
+
+            $order = Order::query()->where('no', $data->get('out_trade_no'))->firstOrFail();
+
+        } catch (\Exception $e) {
+
+        }
 
         return view('user.payments.result', compact('order', 'latestProducts'));
     }

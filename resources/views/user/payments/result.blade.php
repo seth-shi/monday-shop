@@ -12,27 +12,33 @@
 @section('main')
     <div class="container" style="padding: 20px 0px">
         @if ($order)
-            <div class="row">
-                <div class="col-xs-2"><img src="/images/success.jpg"></div>
-                <div class="col-xs-10"><h2 style="color: darkgreen;">您已成功付款</h2></div>
+            <div class="row" style="padding-left: 65px;">
+
+                @if ($order->status == \App\Models\Order::PAY_STATUS)
+                    <img src="/images/success.jpg" style="float: left;">
+                    <h2 style="color: darkgreen;">您已成功付款</h2>
+                @else
+                    <img src="/images/error.jpg" style="float: left;">
+                    <h2 style="color: darkred;">您还未付款</h2>
+                @endif
             </div>
 
             <div class="successInfo">
                 <div class="row">
-                    <div class="col-xs-4">付款金额</div>
-                    <div class="col-xs-8"><h2>{{ $order->price }}</h2></div>
+                    <div class="span">付款金额</div>
+                    <div class="span_content"><h2>{{ $order->total }}</h2></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4">收货人</div>
-                    <div class="col-xs-8"><h2>{{ $order->consignee_name }}</h2></div>
+                    <div class="span">收货人</div>
+                    <div class="span_content"><h2>{{ $order->consignee_name }}</h2></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4">联系电话</div>
-                    <div class="col-xs-8"><h2>{{ $order->consignee_phone }}</h2></div>
+                    <div class="span">联系电话</div>
+                    <div class="span_content"><h2>{{ $order->consignee_phone }}</h2></div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4">收货地址</div>
-                    <div class="col-xs-8"><h2>{{ $order->consignee_address }}</h2></div>
+                    <div class="span">收货地址</div>
+                    <div class="span_content"><h2>{{ $order->consignee_address }}</h2></div>
                 </div>
                 <div class="option">
                     <span class="info">您可以</span>
