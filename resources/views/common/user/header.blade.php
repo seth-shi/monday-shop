@@ -11,11 +11,15 @@
                         <div class="menu-hd MyShangcheng"><a href="/user" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
-                        <div class="menu-hd"><a id="mc-menu-hd" href="/cars" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">{{ auth()->user()->cars()->count() }}</strong></a></div>
+                        <div class="menu-hd"><a href="javascript:;" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="am-icon-pencil"></i><span>注销</span></a></div>
                     </div>
                     <div class="topMessage favorite">
                         <div class="menu-hd"><a href="/user/likes" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
                 </ul>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
             </div>
         </div>
     </article>
