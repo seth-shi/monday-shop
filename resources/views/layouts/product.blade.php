@@ -29,6 +29,8 @@
     <script type="text/javascript" src="/assets/user/js/jquery.imagezoom.min.js"></script>
     <script type="text/javascript" src="/assets/user/js/jquery.flexslider.js"></script>
     <script type="text/javascript" src="/assets/user/js/list.js"></script>
+
+    @yield('style')
 </head>
 
 <body>
