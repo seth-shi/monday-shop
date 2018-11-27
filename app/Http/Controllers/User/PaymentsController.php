@@ -24,7 +24,7 @@ class PaymentsController extends ApiController
      */
     public function show(Request $request)
     {
-        $this->validate($request, ['address_id' => 'required']);
+        $this->validate($request, ['address_id' => 'required|exists:addresses,id']);
 
         $product = Product::query()->where('uuid', $request->input('product_id'))->firstOrFail();
         $address = Address::query()->find($request->input('address_id'));
