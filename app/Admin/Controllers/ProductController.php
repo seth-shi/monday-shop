@@ -83,7 +83,7 @@ class ProductController extends Controller
     {
         $grid = new Grid(new Product);
 
-        $grid->model()->latest();
+        $grid->model()->withTrashed()->latest();
 
         $grid->column('id');
         $grid->column('category.title', '商品类别');
@@ -96,8 +96,8 @@ class ProductController extends Controller
         });
         $grid->column('safe_count', '售出数量')->sortable();
         $grid->column('count', '库存量')->sortable();
-        $grid->column('is_alive', '是否上架')->display(function ($isAlive) {
-            return $isAlive ? '<mark>上架</mark>' : '<mark style="color: red">下架</mark>';
+        $grid->column('deleted_at', '是否上架')->display(function ($isAlive) {
+            return is_null($isAlive) ? '<mark>上架</mark>' : '<mark style="color: red">下架</mark>';
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
@@ -116,6 +116,19 @@ class ProductController extends Controller
             $filter->equal('category_id', '分类')->select($categories);
             $filter->like('name', '商品名字');
 
+        });
+
+        // 增加一个上架，下架功能
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+
+            $id = $actions->row->id;
+            $pushUrl = admin_url("products/{$id}/push");
+
+            $link = is_null($actions->row->deleted_at) ?
+                "<a class='btn btn-xs btn-warning fa fa-close' href='{$pushUrl}'>下架</a>":
+                "<a class='btn btn-xs btn-success fa fa-check' href='{$pushUrl}'>上架</a>";
+
+            $actions->prepend($link);
         });
 
         return $grid;
@@ -141,8 +154,8 @@ class ProductController extends Controller
         });
         $show->field('safe_count', '售出数量');
         $show->field('count', '库存量');
-        $show->field('is_alive', '是否上架')->as(function ($isAlive) {
-            return $isAlive ? '上架' : '下架';
+        $show->field('deleted_at', '是否上架')->as(function ($isAlive) {
+            return is_null($isAlive) ? '上架' : '下架';
         });
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
@@ -175,7 +188,6 @@ class ProductController extends Controller
         $form->currency('price', '销售价')->symbol('$')->rules('required|numeric');
         $form->currency('price_original', '原价')->symbol('$')->rules('required|numeric');
         $form->number('count', '库存量')->rules('required|integer|min:0');
-        $form->switch('is_alive', '是否上架')->default(1);
 
         $form->image('thumb', '缩略图')->uniqueName()->move('products/thumb')->rules('required');
         $form->multipleImage('pictures', '轮播图')->uniqueName()->move('products/lists');
@@ -183,5 +195,59 @@ class ProductController extends Controller
         $form->editor('detail.content', '详情')->rules('required');
 
         return $form;
+    }
+
+
+    public function destroy($id)
+    {
+        $product = Product::query()->findOrFail($id);
+
+        if ($product->forceDelete()) {
+            $data = [
+                'status'  => true,
+                'message' => trans('admin.delete_succeeded'),
+            ];
+        } else {
+            $data = [
+                'status'  => false,
+                'message' => trans('admin.delete_failed'),
+            ];
+        }
+
+        return response()->json($data);
+    }
+
+    /**
+     * 上下架商品
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function pushProduct($id)
+    {
+        /**
+         * @var $product Product
+         */
+        $product = Product::withTrashed()->findOrFail($id);
+
+
+        // 如果商品已经下架
+        if ($product->trashed()) {
+
+            // 重新上架
+            $product->restore();
+
+            admin_toastr('上架成功');
+
+            return redirect()->back();
+        }
+
+
+        $product->delete();
+
+        admin_toastr('下架成功');
+
+        return redirect()->back();
     }
 }

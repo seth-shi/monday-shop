@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * @method static withTrashed()
+ */
 class Product extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'category_id', 'name', 'price', 'price_original',
         'pinyin', 'first_pinyin', 'thumb', 'uuid', 'title', 'pictures'];
@@ -89,6 +95,14 @@ class Product extends Model
             if (! Product::query()->where('first_pinyin', $model->first_pinyin)->exists()) {
                 ProductPinYin::query()->where('pinyin', $model->first_pinyin)->delete();
             }
+        });
+
+
+        // 从软删除中恢复
+        static::restored(function ($model) {
+
+            // 建立拼音表
+            ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
         });
     }
 }
