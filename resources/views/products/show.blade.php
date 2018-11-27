@@ -61,6 +61,12 @@
                         <div class="clear"></div>
                     </div>
 
+                    @if ($errors->count() > 0)
+                        <div class="am-alert am-alert-danger" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>{{ $errors->first() }}</p>
+                        </div>
+                    @endif
                     <!--地址-->
                     <dl class="iteminfo_parameter freight">
                         <dt>收货地址</dt>

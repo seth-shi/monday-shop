@@ -21,7 +21,7 @@ class ProductsController extends Controller
     {
         // TODO 查询商品显示使用未禁用的
         // 随机查出一些商品展示
-        $products = Product::query()->inRandomOrder()->take(9)->get(['id', 'name'])->split(3);
+        $products = Product::query()->inRandomOrder()->take(9)->get(['uuid', 'name'])->split(3);
         $pinyins = ProductPinYin::query()->orderBy('pinyin')->pluck('pinyin');
 
         return view('products.index', compact('products', 'pinyins'));
