@@ -11,9 +11,9 @@
                     <div class="letters-toolbar p-10 panel mb-40">
                         <span class="all-stores"><a href="#">选择商品</a></span>
 
-                        @foreach ($productPinyins as $pinyin)
+                        @foreach ($pinyins as $char)
                             <span>
-                                <a class="pinyinBtn" href="javascript:;" data-pinyin="{{ $pinyin->first_pinyin }}">{{ $pinyin->first_pinyin }}</a>
+                                <a class="pinyinBtn" href="javascript:;" data-pinyin="{{ $char }}">{{ $char }}</a>
                             </span>
                         @endforeach
                     </div>
@@ -23,32 +23,26 @@
 
                             <li class="col-sm-4">
                                 <ul>
-                                    @if (isset($products[0]))
-                                        @foreach ($products[0] as $product)
-                                            <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
-                                            </li>
-                                        @endforeach
-                                    @endif
+                                    @foreach ($products[0] ?? [] as $product)
+                                        <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <li class="col-sm-4">
                                 <ul>
-                                    @if (isset($products[1]))
-                                        @foreach ($products[1] as $product)
-                                            <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
-                                            </li>
-                                        @endforeach
-                                    @endif
+                                    @foreach ($products[1] ?? [] as $product)
+                                        <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <li class="col-sm-4">
                                 <ul>
-                                    @if (isset($products[2]))
-                                        @foreach ($products[2] as $product)
-                                            <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
-                                            </li>
-                                        @endforeach
-                                    @endif
+                                    @foreach ($products[2] ?? [] as $product)
+                                        <li><a href="/products/{{ $product->uuid }}"> {{ $product->name }} </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </li>
                         </ul>
