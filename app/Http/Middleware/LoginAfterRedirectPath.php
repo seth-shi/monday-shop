@@ -15,7 +15,6 @@ class LoginAfterRedirectPath
      */
     public function handle($request, Closure $next)
     {
-        dd($request);
         if ($request->has('redirect_url')) {
 
             $request->session()->put('url.intended', $request->input('redirect_url'));
