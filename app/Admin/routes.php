@@ -12,6 +12,10 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
 
+
+    // 商品上架下架
+    $router->get('products/{id}/push', 'ProductCOntroller@pushProduct');
+
     // 分类
     // 商品
     $router->resource('categories', 'CategoryController');
