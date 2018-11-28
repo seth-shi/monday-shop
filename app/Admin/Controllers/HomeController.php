@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SiteCount;
 use App\Services\SiteCountService;
 use Carbon\Carbon;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Encore\Admin\Widgets\Box;
@@ -14,7 +15,9 @@ class HomeController extends Controller
 {
     public function index(Content $content, SiteCountService $service)
     {
-        // TODO 更换成百度的插件
+        // 使用 echart
+        Admin::js('/js/echarts.min.js');
+
         return $content
             ->header('仪表盘')
             ->row(function (Row $row) use ($service) {
@@ -50,11 +53,11 @@ class HomeController extends Controller
                 $row->column(4, new Box('今日用户注册来源', view('admin.chars.today_register', compact('todaySite'))));
                 $row->column(4, new Box('七日用户注册来源', view('admin.chars.week_register', compact('weekSites'))));
                 $row->column(4, new Box('本月用户注册来源', view('admin.chars.month_register', compact('monthSites'))));
-
-                $allSites = compact('todaySite', 'weekSites', 'monthSites');
-                $row->column(4, new Box('成交量', view('admin.chars.order_count', $allSites)));
-                $row->column(4, new Box('有效成交量', view('admin.chars.order_pay_count', $allSites)));
-                $row->column(4, new Box('收入金额', view('admin.chars.sale_money', $allSites)));
+//
+//                $allSites = compact('todaySite', 'weekSites', 'monthSites');
+//                $row->column(4, new Box('成交量', view('admin.chars.order_count', $allSites)));
+//                $row->column(4, new Box('有效成交量', view('admin.chars.order_pay_count', $allSites)));
+//                $row->column(4, new Box('收入金额', view('admin.chars.sale_money', $allSites)));
             });
     }
 
