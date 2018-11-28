@@ -52,9 +52,9 @@ class HomeController extends Controller
                 $row->column(4, new Box('本月用户注册来源', view('admin.chars.month_register', compact('monthSites'))));
 
                 $allSites = compact('todaySite', 'weekSites', 'monthSites');
-                $row->column(4, new Box('成交金额', view('admin.chars.sale_money', $allSites)));
-                $row->column(4, new Box('成交量', view('admin.chars.sale_count', $allSites)));
-                $row->column(4, new Box('交易量', view('admin.chars.sale_number', $allSites)));
+                $row->column(4, new Box('成交量', view('admin.chars.order_count', $allSites)));
+                $row->column(4, new Box('有效成交量', view('admin.chars.order_pay_count', $allSites)));
+                $row->column(4, new Box('收入金额', view('admin.chars.sale_money', $allSites)));
             });
     }
 

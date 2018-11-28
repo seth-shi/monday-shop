@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yansongda\Pay\Pay;
 
-class PaymentsController extends ApiController
+class PaymentController extends ApiController
 {
     /**
      * 限制选择支付页面

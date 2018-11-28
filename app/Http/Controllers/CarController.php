@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class CarsController extends Controller
+class CarController extends Controller
 {
     protected $response = [
         'code' => 302,

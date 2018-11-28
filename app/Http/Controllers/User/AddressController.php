@@ -10,7 +10,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AddressesController extends Controller
+class AddressController extends Controller
 {
 
     public function index()

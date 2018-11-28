@@ -15,6 +15,8 @@ class VerifyCsrfToken extends Middleware
         '/admin/products/upload/*',
         '/user/upload/avatar',
         '/user/pay/*',
-        '/user/comments'
+        '/user/comments',
+        // 支付回调
+        '/pay/notify'
     ];
 }

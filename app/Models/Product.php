@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webpatser\Uuid\Uuid;
+use Overtrue\Pinyin\Pinyin;
+use Ramsey\Uuid\Uuid;
+
 
 /**
  * @method static withTrashed()
@@ -77,11 +79,17 @@ class Product extends Model
         static::saving(function ($model) {
 
             if (is_null($model->uuid)) {
-                $model->uuid = Uuid::generate()->hex;
+                $model->uuid = Uuid::uuid4()->toString();
             }
 
             if (is_null($model->pinyin)) {
-                $model->pinyin = pinyin_permalink($model->name);
+
+                /**
+                 * @var $pinyin Pinyin
+                 */
+                $pinyin = app(Pinyin::class);
+
+                $model->pinyin = $pinyin->permalink($model->name);
                 $model->first_pinyin = substr($model->pinyin, 0, 1);
             }
 

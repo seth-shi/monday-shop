@@ -9,17 +9,17 @@
         "encore/laravel-admin": "^1.6",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
-        "intervention/image": "^2.4",
         "laravel-admin-ext/chartjs": "^1.0",
+        "laravel-admin-ext/config": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
-        "mews/captcha": "^2.1",
-        "overtrue/laravel-pinyin": "~3.0",
+        "overtrue/pinyin": "~4.0",
         "overtrue/socialite": "^2.0",
         "predis/predis": "^1.1",
-        "webpatser/laravel-uuid": "^3.0",
-        "yansongda/pay": "^2.5"
+        "ramsey/uuid": "^3.8",
+        "yansongda/pay": "^2.5",
+        "gregwar/captcha": "1.*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -48,6 +48,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+
             ]
         }
     },

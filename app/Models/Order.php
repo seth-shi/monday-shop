@@ -47,7 +47,7 @@ class Order extends Model
         parent::boot();
 
 
-        // 自动生成商品的 uuid， 拼音
+        // 自动生成订单的订单号
         static::creating(function ($model) {
 
             if (is_null($model->no)) {
@@ -58,9 +58,22 @@ class Order extends Model
         static::created(function ($model) {
 
             // 订单成交量
-            // 订单成交金额
-            Cache::increment("site_counts:product_sale_count");
-            Cache::increment("site_counts:product_sale_money_count", $model->total);
+            Cache::increment("site_counts:order_count");
+        });
+
+        static::saved(function ($model) {
+
+            // 支付
+            if ($model->status == self::PAY_STATUSES['ALI']) {
+                // 订单成交量
+                Cache::increment("site_counts:order_pay_count");
+                Cache::increment("site_counts:sale_money_count", $model->pay_total);
+            }
+            // 退款
+            elseif ($model->status == self::PAY_STATUSES['REFUND']) {
+                Cache::decrement("site_counts:sale_money_count", $model->pay_refund_fee);
+            }
+
         });
     }
 

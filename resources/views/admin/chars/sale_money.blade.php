@@ -9,9 +9,9 @@
                 datasets: [{
                     label: '# 交易金额',
                     data: [
-                        {{ $todaySite->product_sale_money_count }},
-                        {{ $weekSites->sum('product_sale_money_count') }},
-                        {{ $monthSites->sum('product_sale_money_count') }},
+                        {{ $todaySite->sale_money_count }},
+                        {{ $weekSites->sum('sale_money_count') }},
+                        {{ $monthSites->sum('sale_money_count') }},
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
