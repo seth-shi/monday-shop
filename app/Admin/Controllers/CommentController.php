@@ -63,6 +63,7 @@ class CommentController extends Controller
                 $collections = Product::query()
                                       ->where('name', 'like', "%{$this->input}%")
                                       ->pluck('id');
+
                 $query->whereIn('product_id', $collections->all());
             }, '商品');
         });

@@ -14,7 +14,7 @@ class RefundController extends Controller
             abort(403, '非法操作');
         }
 
-        // TODO 支付回调，退款
+        // TODO 支付回调，退款,沙箱暂时用不了，等以后进行
         $pay = Pay::alipay(config('pay.ali'));
 
         $refundData = [
@@ -22,6 +22,7 @@ class RefundController extends Controller
             'refund_amount' => $order->pay_total,
             'refund_reason' => '正常退款',
         ];
+
         $response = $pay->refund($refundData);
         try {
 

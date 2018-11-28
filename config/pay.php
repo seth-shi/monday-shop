@@ -8,8 +8,8 @@
             'app_id' => env('ALIAPY_APP_ID'),
             'ali_public_key' => '',
             'private_key' => '',
-            'notify_url' =>  config('app.url') . '/alipay/return',
-            'return_url' =>  config('app.url') . '/alipay/notify',
+            'notify_url' =>  config('app.url') . '/alipay/notify',
+            'return_url' =>  config('app.url') . '/alipay/return',
             'log' => [ // optional
                        'file' => storage_path('logs/alipay.log'),
                        'level' => 'debug', // 建议生产环境等级调整为 info，开发环境为 debug

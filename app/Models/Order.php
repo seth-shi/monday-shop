@@ -15,26 +15,16 @@ class Order extends Model
     protected $fillable = ['uuid', 'total', 'status', 'consignee_name', 'consignee_phone', 'consignee_address', 'user_id'];
 
 
-
-
     // 订单状态
-    const UN_PAY_STATUS = 0;
-    const PAY_STATUS = 1;
     const PAY_STATUSES = [
-      self::UN_PAY_TYPE => '未支付',
-      self::PAY_STATUS => '支付',
+        // 退款
+        'REFUND' => -1,
+        // 未支付
+        'UN_PAY' => 0,
+        // 阿里支付，微信支付
+        'ALI' => 1,
+        'WEIXIN' => 2
     ];
-
-    // 支付类型
-    const UN_PAY_TYPE = 0;
-    const PAY_ZHIFUBAO_TYPE = 1;
-    const PAY_WEIXIN_TYPE = 2;
-    const PAY_TYPES = [
-      self::UN_PAY_TYPE => '未支付',
-      self::PAY_ZHIFUBAO_TYPE => '支付宝',
-      self::PAY_WEIXIN_TYPE => '微信'
-    ];
-    
 
     public function details()
     {

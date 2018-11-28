@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 
+use App\Admin\Transforms\ProductTransform;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
@@ -92,12 +93,14 @@ class ProductController extends Controller
             return image($thumb);
         });
         $grid->column('price', '价格')->display(function ($price) {
+
             return $price . '/' . $this->price_original;
         });
         $grid->column('safe_count', '售出数量')->sortable();
         $grid->column('count', '库存量')->sortable();
         $grid->column('deleted_at', '是否上架')->display(function ($isAlive) {
-            return is_null($isAlive) ? '<mark>上架</mark>' : '<mark style="color: red">下架</mark>';
+
+            return ProductTransform::getInstance()->transDeleted($isAlive);
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');

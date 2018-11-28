@@ -2,11 +2,12 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Order;
+use App\Admin\Transforms\OrderDetailTransform;
+use App\Admin\Transforms\OrderTransform;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
-use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Grid\Filter;
@@ -66,19 +67,18 @@ class OrderController extends Controller
         $grid->column('user.name', '用户');
         $grid->column('total', '总价');
         $grid->column('status', '状态')->display(function ($status) {
-            return Order::PAY_STATUSES[$status];
+
+            return OrderTransform::getInstance()->transStatus($status);
         });
-        $grid->column('address', '收货地址');
+
         $grid->column('pay_no', '支付流水号');
         $grid->column('pay_time', '支付时间');
-        $grid->column('pay_type', '支付类型')->display(function ($type) {
-            return Order::PAY_TYPES[$type] ?? '未知';
-        });
+        $grid->column('consignee_name', '收货人姓名');
+        $grid->column('consignee_phone', '收货人手机');
+        $grid->column('consignee_address', '收货地址');
         $grid->column('deleted_at', '是否删除')->display(function ($is) {
-            return $is ? '<span class="glyphicon glyphicon-ok bg-green"></span>' : '';
-        });
-        $grid->column('is_commented', '是否评论')->display(function ($is) {
-            return $is ? '<span class="glyphicon glyphicon-ok bg-green"></span>' : '';
+
+            return OrderTransform::getInstance()->transDeleted($is);
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
@@ -116,18 +116,16 @@ class OrderController extends Controller
         $show->field('id');
         $show->field('no', '流水号');
         $show->field('user', '用户')->as(function ($user) {
-            return $user->name;
+            return optional($user)->name;
         });
         $show->field('total', '总计');
         $show->field('status', '状态')->as(function ($status) {
-            return Order::PAY_STATUSES[$status];
+
+            return OrderTransform::getInstance()->transStatus($status);
         });;
         $show->field('address', '收货地址');
         $show->field('pay_no', '支付单号');
         $show->field('pay_time', '支付时间');
-        $show->field('pay_type', '支付类型')->as(function ($type) {
-            return Order::PAY_TYPES[$type] ?? '未知';
-        });
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
 
@@ -139,7 +137,8 @@ class OrderController extends Controller
             $details->column('price', '单价');
             $details->column('numbers', '数量');
             $details->column('is_commented', '是否评论')->display(function ($is) {
-                return $is ? '<span class="bg-green">✔</span>' : '<span class="bg-blue">○</span>';
+
+                return OrderDetailTransform::getInstance()->transCommented($is);
             });
             $details->column('total', '小计');
 
@@ -165,7 +164,7 @@ class OrderController extends Controller
                 /**
                  * @var $order Order
                  */
-                $order = Order::query()->withTrashed()->findOrFail($id);
+                $order = Order::withTrashed()->findOrFail($id);
                 $order->details()->delete();
                 $order->forceDelete();
             });
