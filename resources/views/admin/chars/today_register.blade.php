@@ -1,36 +1,31 @@
-<canvas id="todayRegister"></canvas>
-<script>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="todayRegister" style=""></div>
+<script type="text/javascript">
     $(function () {
-        var ctx = document.getElementById("todayRegister").getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ["QQ", "Github", "微博", "商城前台注册"],
-                datasets: [{
-                    data: [
-                        {{ $todaySite->qq_registered_count }},
-                        {{ $todaySite->github_registered_count }},
-                        {{ $todaySite->weibo_registered_count }},
-                        {{ $todaySite->moon_registered_count }}
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
 
+        // 动态获取父容器的高度设置为
+        var dom = document.getElementById('todayRegister');
+        $dom = $(dom);
+        $dom.width($dom.parent().width()).height(300);
+
+        // 绘制图表。
+        var myChart = echarts.init(dom);
+        myChart.setOption({
+            tooltip : {
+                trigger: 'item',
+                formatter: "{b} : {c} ({d}%)"
+            },
+            series: {
+                type: 'pie',
+                data: [
+                    {name: 'Moon商城', value: "{{ $todaySite->moon_registered_count }}"},
+                    {name: 'QQ', value: "{{ $todaySite->qq_registered_count }}"},
+                    {name: 'Github', value: "{{ $todaySite->github_registered_count }}"},
+                    {name: '微博', value: "{{ $todaySite->weibo_registered_count }}"},
+                ]
             }
         });
     });
+
+
 </script>

@@ -8,9 +8,9 @@
         "php": ">=7.0.0",
         "encore/laravel-admin": "^1.6",
         "fideloper/proxy": "~3.3",
+        "gregwar/captcha": "1.*",
         "guzzlehttp/guzzle": "^6.3",
         "laravel-admin-ext/chartjs": "^1.0",
-        "laravel-admin-ext/config": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
@@ -18,8 +18,7 @@
         "overtrue/socialite": "^2.0",
         "predis/predis": "^1.1",
         "ramsey/uuid": "^3.8",
-        "yansongda/pay": "^2.5",
-        "gregwar/captcha": "1.*"
+        "yansongda/pay": "^2.5"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

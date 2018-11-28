@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3f0087d337c5d3f84b4bfbd92321daa",
+    "content-hash": "f8638304c8728f84f9f981be249d970c",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1204,7 +1204,7 @@
             ],
             "authors": [
                 {
-                    "name": "Song",
+                    "name": "song",
                     "email": "zosong@126.com"
                 }
             ],
@@ -1216,66 +1216,6 @@
                 "laravel-admin"
             ],
             "time": "2018-09-16T17:28:26+00:00"
-        },
-        {
-            "name": "laravel-admin-ext/config",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel-admin-extensions/config.git",
-                "reference": "167a2c0e073932a64ccd4473739ca3bbb4d6ab8d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/config/zipball/167a2c0e073932a64ccd4473739ca3bbb4d6ab8d",
-                "reference": "167a2c0e073932a64ccd4473739ca3bbb4d6ab8d",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "encore/laravel-admin": "~1.6",
-                "laravel/framework": "~5.5",
-                "php": ">=7.0.0"
-            },
-            "require-dev": {
-                "laravel/laravel": "~5.5",
-                "phpunit/phpunit": "~6.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Encore\\Admin\\Config\\ConfigServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Encore\\Admin\\Config\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "z-song",
-                    "email": "zosong@126.com"
-                }
-            ],
-            "description": "Config extension for laravel-admin",
-            "homepage": "https://github.com/laravel-admin-extensions/config",
-            "keywords": [
-                "laravel-admin",
-                "setting"
-            ],
-            "time": "2018-10-24T15:57:50+00:00"
         },
         {
             "name": "laravel/framework",
