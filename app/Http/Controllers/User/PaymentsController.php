@@ -124,7 +124,7 @@ class PaymentsController extends ApiController
 
         // 商品的名字，用多个商品拼接
         $name = $cars->pluck('product')->pluck('name')->implode('|');
-        $name = str_limit($name);
+        $name = str_limit($name, 50);
 
         $masterOrder->name = $name;
         $masterOrder->total = $details->sum('total');

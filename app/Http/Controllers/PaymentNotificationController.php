@@ -48,6 +48,7 @@ class PaymentNotificationController extends Controller
                     $order->pay_time = $data->get('notify_time');
                     $order->pay_no = $data->get('trade_no');
                     $order->pay_total = $data->get('receipt_amount');
+                    $order->status = Order::PAY_STATUSES['ALI'];
                     $order->save();
                 }
             }
