@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Mail\UserRegister;
 use App\Models\User;
 use Faker\Factory;
+use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Mews\Captcha\CaptchaServiceProvider;
 
 class RegisterController extends Controller
 {
@@ -42,7 +45,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('guest');
+        $this->middleware('guest');
     }
 
 
@@ -57,6 +60,12 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
+        if ($request->input('captcha') != session()->get('captcha')) {
+
+            return back()->withErrors(['captcha' => '验证码不正确']);
+        }
+
+
         event(new Registered($user = $this->create($request->all())));
 
         return $this->registered($request, $user)
@@ -70,7 +79,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        // 虚拟主机房不能使用队列
         Mail::to($user->email)
             ->queue(new UserRegister($user));
     }
@@ -82,7 +90,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:50|unique:users',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => 'required|string|min:5|confirmed',
-            'captcha' => 'required|captcha',
+            'captcha' => 'required',
         ], [
             'name.required' => '用户名不能为空',
             'name.max' => '用户名不能超过50个字符',
@@ -94,7 +102,6 @@ class RegisterController extends Controller
             'password.required' => '密码不能为空',
             'password.confirmed' => '两次密码不一致',
             'captcha.required' => '验证码不能为空',
-            'captcha.captcha' => '验证码不正确',
         ]);
     }
 
@@ -117,4 +124,15 @@ class RegisterController extends Controller
     }
 
 
+    /**
+     * @return string
+     */
+    public function captcha()
+    {
+        $builder = (new CaptchaBuilder(4))->build(150, 46);
+
+        session()->put('captcha', $builder->getPhrase());
+
+        return $builder->get();
+    }
 }

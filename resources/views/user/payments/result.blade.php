@@ -14,7 +14,7 @@
         @if ($order)
             <div class="row" style="padding-left: 65px;">
 
-                @if ($order->status == \App\Models\Order::PAY_STATUS)
+                @if ($order->status == \App\Models\Order::PAY_STATUSES['ALI'])
                     <img src="/images/success.jpg" style="float: left;">
                     <h2 style="color: darkgreen;">您已成功付款</h2>
                 @else

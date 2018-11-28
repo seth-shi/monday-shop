@@ -7,6 +7,7 @@
         'ali' => [
             'app_id' => env('ALIAPY_APP_ID'),
             'ali_public_key' => '',
+            // 加密方式： **RSA2**
             'private_key' => '',
             'notify_url' =>  config('app.url') . '/pay/notify',
             'return_url' =>  config('app.url') . '/pay/return',

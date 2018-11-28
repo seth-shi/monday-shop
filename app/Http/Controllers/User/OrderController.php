@@ -17,7 +17,7 @@ use DB;
 use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
 
-class OrdersController extends Controller
+class OrderController extends Controller
 {
 
     public function index()

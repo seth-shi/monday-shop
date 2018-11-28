@@ -11,7 +11,7 @@ use Auth;
 use Hash;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
 
     public function index()

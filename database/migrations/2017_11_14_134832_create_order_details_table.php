@@ -21,8 +21,8 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedInteger('product_id');
 
             $table->integer('numbers')->comment('数量');
-            $table->decimal('price', 10, 2)->comment('商品单价');
-            $table->decimal('total', 10, 2)->comment('价格小计算');
+            $table->decimal('price', 12, 2)->comment('商品单价');
+            $table->decimal('total', 12, 2)->comment('价格小计算');
 
             $table->boolean('is_commented')->default(false)->comment('订单是否评论过');
             $table->timestamps();

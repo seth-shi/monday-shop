@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Overtrue\LaravelSocialite\Socialite;
 use Overtrue\Socialite\AuthorizeFailedException;
 use Overtrue\Socialite\SocialiteManager;
-use Overtrue\Socialite\UserInterface;
-use Faker\Factory;
 
 class AuthLoginController extends Controller
 {

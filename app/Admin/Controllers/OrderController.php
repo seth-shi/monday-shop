@@ -76,6 +76,8 @@ class OrderController extends Controller
         $grid->column('consignee_name', '收货人姓名');
         $grid->column('consignee_phone', '收货人手机');
         $grid->column('consignee_address', '收货地址');
+        $grid->column('pay_refund_fee', '退款金额');
+        $grid->column('pay_trade_no', '退款流水号');
         $grid->column('deleted_at', '是否删除')->display(function ($is) {
 
             return OrderTransform::getInstance()->transDeleted($is);

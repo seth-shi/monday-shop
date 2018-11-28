@@ -9,14 +9,14 @@
                     <div class="container">
                         <div class="error-page-wrapper t-center">
                             <div class="error-page-header">
-                                <span class="color-blue">4</span>
+                                <span class="color-blue">5</span>
                                 <span class="color-green">0</span>
-                                <span class="color-blue">3</span>
+                                <span class="color-blue">0</span>
                             </div>
                             <div class="error-page-footer">
                                 <h5 class="color-mid mb-5">Oops !</h5>
                                 <h2 class="t-uppercase m-10 color-green">
-                                    {{ $exception->getMessage()  ?: '权限拒绝~ '}}
+                                    {{ $exception->getMessage()  ? $exception->getMessage() : '服务器未知错误~ '}}
                                 </h2>
                                 <p class="color-muted mb-30 font-15">
                                     不好意思

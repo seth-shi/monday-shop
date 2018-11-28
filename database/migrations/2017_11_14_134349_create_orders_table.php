@@ -21,8 +21,8 @@ class CreateOrdersTable extends Migration
             $table->string('no')->comment('订单流水号');
 
             $table->integer('user_id')->unsigned();
-            $table->decimal('total', 15, 2)->comment('总计价格');
-            $table->tinyInteger('status')->default(Order::PAY_STATUSES['UN_PAY'])->comment('-1：退款， 0：未支付订单，1:支付宝支付，2:微信支付, ');
+            $table->decimal('total', 12, 2)->comment('总计价格');
+            $table->tinyInteger('status')->default(Order::PAY_STATUSES['UN_PAY'])->comment('-1：退款， 0：未支付订单，1:支付宝支付，');
 
             $table->string('name')->nullable()->comment('订单的名字，用于第三方，只有一个商品就是商品的名字，多个商品取联合');
             // 收货地址
@@ -32,10 +32,10 @@ class CreateOrdersTable extends Migration
 
             // 第三方支付
             $table->string('pay_no')->nullable()->comment('第三方支付单号');
-            $table->decimal('pay_total', 15, 2)->nullable()->comment('实际支付金额');
+            $table->decimal('pay_total', 12, 2)->nullable()->comment('实际支付金额');
             $table->timestamp('pay_time')->nullable()->comment('支付时间');
-            $table->tinyInteger('pay_type')->default(Order::UN_PAY_TYPE)->comment('0 未知，1支付宝支付，2微信支付');
-
+            $table->decimal('pay_refund_fee', 12, 2)->nullable()->comment('退款金额');
+            $table->string('pay_trade_no')->nullable()->comment('第三方退款订单号');
 
             $table->softDeletes();
 

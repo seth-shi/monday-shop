@@ -83,7 +83,7 @@
 
                                         <div style="position: relative;">
                                             <input width="50px" id="text" maxlength="4" type="text" class="form-control input-lg" name="captcha" placeholder="验证码" required>
-                                            <img style="position: absolute;top: 0; right: 0; cursor: pointer;" src="{{captcha_src()}}" onclick="this.src='captcha/default?'+Math.random()" alt="验证码" id="captcha">
+                                            <img style="position: absolute;top: 0; right: 0; cursor: pointer;" src="/captcha" onclick="this.src='/captcha?'+Math.random()" alt="验证码" id="captcha">
                                         </div>
 
 

@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
 
     /**
@@ -19,7 +19,6 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        // TODO 查询商品显示使用未禁用的
         // 随机查出一些商品展示
         $products = Product::query()->inRandomOrder()->take(9)->get(['uuid', 'name'])->split(3);
         $pinyins = ProductPinYin::query()->orderBy('pinyin')->pluck('pinyin');

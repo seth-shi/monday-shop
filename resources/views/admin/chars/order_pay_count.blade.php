@@ -1,17 +1,17 @@
-<canvas id="saleCount"></canvas>
+<canvas id="orderPayCount"></canvas>
 <script>
     $(function () {
-        var ctx = document.getElementById("saleCount").getContext('2d');
+        var ctx = document.getElementById("orderPayCount").getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ["今日", "七天", "当月"],
                 datasets: [{
-                    label: '# 成交量',
+                    label: '# 交易量',
                     data: [
-                        {{ $todaySite->product_sale_count }},
-                        {{ $weekSites->sum('product_sale_count') }},
-                        {{ $monthSites->sum('product_sale_count') }},
+                        {{ $todaySite->order_pay_count }},
+                        {{ $weekSites->sum('order_pay_count') }},
+                        {{ $monthSites->sum('order_pay_count') }},
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
