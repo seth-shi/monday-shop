@@ -30,6 +30,7 @@ class StoreOrderRequest extends FormRequest
             // 只有是单个商品下单，才需要验证这两个规则
             'product_id' => 'sometimes|exists:products,uuid',
             'numbers' => 'sometimes|integer',
+            'pay_type' => 'required',
         ];
     }
 }
