@@ -59,6 +59,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- 支付宝支付 -->
+                                            <input type="hidden" name="pay_type" value="1">
 
                                             @auth
                                             <button type="submit"  class="btn btn-lg btn-rounded mr-10">下单</button>
