@@ -45,8 +45,6 @@ class UserController extends Controller
         $this->validate($request, [
             'avatar' => 'required',
             'sex' => 'in:0,1',
-            'name' => 'sometimes|unique:users,name,' . $user->id,
-            'email' => 'sometimes|unique:users,email,' . $user->id,
         ], [
            'avatar.required' => '头像不能为空',
            'sex.in' => '性别格式不对',
@@ -57,13 +55,31 @@ class UserController extends Controller
         $user->sex= $request->input('sex');
         $user->avatar= $request->input('avatar');
 
+        // 如果当前用户第一次修改用户名
         if ($user->is_init_name && $request->filled('name')) {
-            $user->name = $request->input('name');
+
+            $name = $request->input('name');
+
+            if (User::query()->where('name', $name)->exists()) {
+
+                return back()->withErrors('用户名已经存在');
+            }
+
+            $user->name = $name;
             $user->is_init_name = false;
         }
 
+        // 如果当前用户第一次修改邮箱
         if ($user->is_init_email && $request->filled('email')) {
-            $user->email = $request->input('email');
+
+            $email = $request->input('email');
+
+            if (User::query()->where('email', $email)->exists()) {
+
+                return back()->withErrors('邮箱已经存在');
+            }
+
+            $user->email = $email;
             $user->is_init_email = false;
         }
 
