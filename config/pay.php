@@ -9,8 +9,8 @@
             'ali_public_key' => '',
             // 加密方式： **RSA2**
             'private_key' => '',
-            'notify_url' =>  config('app.url') . '/pay/notify',
             'return_url' =>  config('app.url') . '/pay/return',
+            'notify_url' =>  config('app.url') . '/pay/notify',
             'log' => [ // optional
                        'file' => storage_path('logs/alipay.log'),
                        'level' => 'debug', // 建议生产环境等级调整为 info，开发环境为 debug
