@@ -451,7 +451,7 @@
                 $.post(url, data, function(res){
                     console.log(res);
 
-                    if (res.code == 304) {
+                    if (res.code != 302 && res.code != 200) {
 
                         layer.msg(res.msg, {icon: 2});
                         return;
@@ -460,7 +460,9 @@
                     if (res.code == 302) {
                         Car.addProduct(product_id);
                     }
-                    layer.msg(res.msg);
+
+                    layer.msg(res.msg, {icon: 1});
+
                     car_nums.text(parseInt(car_nums.text())+parseInt(numbers));
                 });
             }
