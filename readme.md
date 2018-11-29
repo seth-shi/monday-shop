@@ -31,7 +31,7 @@
 - [x] **数据统计**
 - [ ] 全文搜索
 - [ ] 秒杀功能
-- [ ] 类名调整，服务换成手动注册
+- [ ] 延时取消订单，恢复库存
 ## Installation
 1. 获取源代码
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)

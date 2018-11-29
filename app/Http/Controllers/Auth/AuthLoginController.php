@@ -110,14 +110,18 @@ class AuthLoginController extends Controller
             if ($socialiteUser->getAvatar()) {
                 $user->avatar = $socialiteUser->getAvatar();
             }
+
+            // 用户的密码是初始的，可以不用输入旧密码修
+            //// 使用第三方登录的用户，默认激活
+            $user->is_active = 1;
+            $user->is_init_name = 1;
+            $user->is_init_email = 1;
+            $user->is_init_password = 1;
         }
 
-        return tap($user, function (User $user) {
+        $user->save();
 
-            // 使用第三方登录的用户，默认激活
-            $user->is_active = 1;
-            $user->save();
-        });
+        return $user;
     }
 
 

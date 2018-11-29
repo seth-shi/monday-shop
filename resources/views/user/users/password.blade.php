@@ -45,12 +45,16 @@
 		<form class="am-form am-form-horizontal" action="/user/password" method="post">
 
             {{ csrf_field() }}
-			<div class="am-form-group">
-				<label for="user-old-password" class="am-form-label">原密码</label>
-				<div class="am-form-content">
-					<input type="password" id="user-old-password" name="old_password" value="{{ old('old_password') }}" placeholder="请输入原登录密码">
+
+			{{-- 如果是初始密码就不用再社会 --}}
+			@if (! $user->is_init_password)
+				<div class="am-form-group">
+					<label for="user-old-password" class="am-form-label">原密码</label>
+					<div class="am-form-content">
+						<input type="password" id="user-old-password" name="old_password" value="{{ old('old_password') }}" placeholder="请输入原登录密码">
+					</div>
 				</div>
-			</div>
+			@endif
 			<div class="am-form-group">
 				<label for="user-new-password" class="am-form-label">新密码</label>
 				<div class="am-form-content">
