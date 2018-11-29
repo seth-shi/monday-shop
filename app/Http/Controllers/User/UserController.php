@@ -129,13 +129,14 @@ class UserController extends Controller
 
     public function showPasswordForm()
     {
-        return view('user.users.password');
+        $user = $this->user();
+
+        return view('user.users.password', compact('user'));
     }
 
     public function updatePassword(Request $request)
     {
         $this->validate($request, [
-            'old_password' => 'required',
             'password' => 'required|min:6|confirmed',
         ], [
             'old_password.required' => '旧密码不能为空',
@@ -144,12 +145,14 @@ class UserController extends Controller
             'password.confirmed' => '两次密码不一致',
         ]);
 
-        if (! $this->validatePassword($request->input('old_password'))) {
+        $user = $request->user();
+        // 如果是从未设置过密码就就不用验证旧密码
+        if (! $user->is_init_password && ! $this->validatePassword($request->input('old_password'))) {
             return back()->withErrors(['old_password' => '旧密码不正确']);
         }
 
-
-        $user = $request->user();
+        // 设置过密码之后，再也不是初始密码
+        $user->is_init_password = false;
         $user->password = Hash::make($request->input('password'));
         $user->save();
 

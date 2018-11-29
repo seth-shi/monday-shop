@@ -39,7 +39,10 @@ class CreateUsersTable extends Migration
 
             // 用户激活所需信息
             $table->string('active_token')->nullable()->comment('邮箱激活的token');
-            $table->tinyInteger('is_active')->default(0)->comment('用户是否激活');
+            $table->boolean('is_active')->default(0)->comment('用户是否激活');
+            $table->boolean('is_init_name')->default(0)->comment('是否是初始用户名，是的话，可以修改用户名');
+            $table->boolean('is_init_email')->default(0)->comment('是否是初始邮箱，是的话可以修改邮箱');
+            $table->boolean('is_init_password')->default(0)->comment('是否是初始密码，是的话可以不用输入旧密码直接修改');
 
             $table->rememberToken()->comment('laravel中的记住我');
             $table->timestamps();
