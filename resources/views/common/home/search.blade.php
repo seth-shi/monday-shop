@@ -58,7 +58,7 @@
         var numbers = 0;
         for (var i in localStorage) {
             var json = $.parseJSON(localStorage[i]);
-            numbers += json.numbers;
+            numbers += parseInt(json.numbers);
         }
         car_nums_span.innerText = numbers;
     @endguest

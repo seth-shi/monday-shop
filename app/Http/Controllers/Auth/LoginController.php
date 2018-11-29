@@ -65,12 +65,10 @@ class LoginController extends Controller
         $credentials = $this->credentials($request);
         $user = User::query()->where($credentials)->first();
 
-        if (\Hash::check($request->input('password'), $user->password)) {
-
+        if ($user instanceof User  && \Hash::check($request->input('password'), $user->password)) {
 
             // 如果用户没有激活
-            if (! $user->isActive())
-            {
+            if (! $user->isActive()) {
                 // 显示 再次发送激活链接
                 $link = $this->userService->getActiveLink($user);
                 return redirect('login')->withInput()->withErrors([$this->username() => $link]);

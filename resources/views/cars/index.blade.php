@@ -87,7 +87,7 @@
                                     </td>
                                     <td class="prices">{{ $car->product->price }}</td>
                                     <td>
-                                        <input class="quantity-label" type="number" value="{{ $car->numbers }}">
+                                        <input data-id="{{ $car->product->uuid }}" class="quantity-label car_numbers" type="number" value="{{ $car->numbers }}">
                                     </td>
 
                                     <td>
@@ -118,75 +118,110 @@
         var cars_prices = 0;
         var token = "{{ csrf_token() }}";
 
+        // 购物车对象
+        var Car = {
+            syncNumbers:function(product_id, numbers) {
+
+                console.log(product_id);
+                if (! localStorage.getItem(product_id)) {
+                    alert('非法添加');
+                    return;
+                } else {
+                    var product = $.parseJSON(localStorage.getItem(product_id));
+                    product.numbers = parseInt(numbers);
+                }
+                localStorage.setItem(product_id, JSON.stringify(product))
+            }
+        };
+
 
         @auth
-        syncCarsToDatabase();
-        function syncCarsToDatabase()
-        {
-            if (localStorage.length > 0) {
-                layer.confirm('是否同步本地购物车到本账户下', {
-                    btn: ['是', '否'],
-                }, function(){
-                    layer.closeAll();
-                    var cars = localStorage;
-                    for (var i in cars) {
-                        var product = $.parseJSON(cars[i]);
+            syncCarsToDatabase();
+            function syncCarsToDatabase()
+            {
+                if (localStorage.length > 0) {
+                    layer.confirm('是否同步本地购物车到本账户下', {
+                        btn: ['是', '否'],
+                    }, function(){
+                        layer.closeAll();
+                        var cars = localStorage;
+                        for (var i in cars) {
+                            var product = $.parseJSON(cars[i]);
 
-                        var data = {product_id: i, numbers: product.numbers, _token: token};
-                        var url = "/cars";
-                        console.log(product);
+                            var data = {product_id: i, numbers: product.numbers, _token: token};
+                            var url = "/cars";
+                            console.log(product);
 
-                        $.post(url, data, function (res) {
-                            layer.msg('同步购物车成功，请刷新查看');
-                        });
-                    }
+                            $.post(url, data, function (res) {
 
-                    localStorage.clear();
-                }, function(){});
+                                if (res.code != 302 && res.code != 200) {
+
+                                    layer.msg(res.msg, {icon: 2});
+                                    return;
+                                }
+
+                                layer.msg('同步购物车成功，请刷新查看');
+                            });
+                        }
+
+                        localStorage.clear();
+                    }, function(){});
+                }
             }
-        }
         @endauth
 
         @guest
             for (var i in cars) {
 
-            var procuct_id = i;
-            var product = cars[i];
-            product = $.parseJSON(product);
+                var procuct_id = i;
+                var product = cars[i];
+                product = $.parseJSON(product);
 
-            cars_span += '<tr class="panel alert local-car">\
-            <td>\
-            <div class="media-body valign-middle">\
-            <h6 class="title mb-15 t-uppercase">\
-            <a href="/products/'+ i +'">\
-                '+ product.name +'\
-            </a>\
-            </h6>\
-            </div>\
-            </td>\
-            <td  class="prices">'+ product.price +'</td>\
-            <td>\
-            <input class="quantity-label" type="number" value="'+ product.numbers +'">\
-            </td>\
-            <td>\
-            <button type="button" class="close delete_car" data-id="'+  procuct_id +'"  >\
-            <i class="fa fa-trash-o"></i>\
-            </button>\
-            </td>\
-            </tr>';
+                cars_span += '<tr class="panel alert local-car">\
+                <td>\
+                <div class="media-body valign-middle">\
+                <h6 class="title mb-15 t-uppercase">\
+                <a href="/products/'+ i +'">\
+                    '+ product.name +'\
+                </a>\
+                </h6>\
+                </div>\
+                </td>\
+                <td  class="prices">'+ product.price +'</td>\
+                <td>\
+                <input data-id="'+ procuct_id +'" class="quantity-label car_numbers" type="number" value="'+ product.numbers +'">\
+                </td>\
+                <td>\
+                <button type="button" class="close delete_car" data-id="'+  procuct_id +'"  >\
+                <i class="fa fa-trash-o"></i>\
+                </button>\
+                </td>\
+                </tr>';
 
-            cars_prices += product.price * product.numbers;
-        }
+                cars_prices += product.price * product.numbers;
+            }
 
-        $('#cars_data').append(cars_span);
-        getTotal();
+            $('#cars_data').append(cars_span);
+            getTotal();
+
+         @endguest
 
         var cars_url = "/cars/";
-        $('.delete_car').click(function () {
+
+        $("#cart_list").on('click', '.delete_car', function () {
+
+            console.log(1);
             var that = $(this);
             var id = that.data('id');
             var _url = cars_url + id;
             $.post(_url, {_token:token,_method:'DELETE'}, function(res){
+
+                if (res.code != 302 && res.code != 200) {
+
+                    layer.msg(res.msg, {icon: 2});
+                    return;
+                }
+
                 if (res.code == 302) {
                     localStorage.removeItem(id);
                 }
@@ -196,17 +231,53 @@
             });
         });
 
+
+        // 更改购物车数量
+        $('#cart_list').on('change', '.car_numbers', function () {
+
+            var id = $(this).data('id');
+            var numbers = $(this).val();
+
+
+            var data = {product_id:id,_token:"{{ csrf_token() }}", numbers:numbers};
+            var url = "/cars";
+            $.post(url, data, function(res){
+                console.log(res);
+
+                if (res.code != 302 && res.code != 200) {
+
+                    layer.msg(res.msg, {icon: 2});
+                    return;
+                }
+
+                if (res.code == 302) {
+
+                    Car.syncNumbers(id, numbers);
+                }
+
+                layer.msg(res.msg, {icon: 1});
+
+                getTotal();
+            });
+
+        });
+
+        getTotal();
         function getTotal()
         {
             var total = 0;
+            var total_numbers = 0;
             $('.prices').each(function(){
                 var price = $(this).text();
                 var numbers = $(this).next().find('input').val();
+                numbers = parseInt(numbers);
+
+                total_numbers += numbers;
                 total += price*numbers;
             });
 
             $('#cars_price').text(total);
+            $('#cart-number').text(total_numbers);
         }
-        @endguest
     </script>
 @endsection
