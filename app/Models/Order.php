@@ -67,11 +67,15 @@ class Order extends Model
             if ($model->status == self::PAY_STATUSES['ALI']) {
                 // 订单成交量
                 Cache::increment("site_counts:order_pay_count");
-                Cache::increment("site_counts:sale_money_count", $model->pay_total);
+
+                $currMoney = Cache::get('site_counts:sale_money_count', 0);
+                Cache::set("site_counts:sale_money_count", bcadd($currMoney, $model->pay_total));
             }
             // 退款
             elseif ($model->status == self::PAY_STATUSES['REFUND']) {
-                Cache::decrement("site_counts:sale_money_count", $model->pay_refund_fee);
+
+                $currMoney = Cache::get('site_counts:sale_money_count', 0);
+                Cache::set("site_counts:sale_money_count", bcadd($currMoney, $model->pay_refund_fee));
             }
 
         });
