@@ -30,18 +30,10 @@
 				<div class="u-progress-bar-inner"></div>
 			</div>
 		</div>
-		@if (session()->has('status'))
-			<div class="am-alert am-alert-success" data-am-alert>
-				<button type="button" class="am-close">&times;</button>
-				<p>{{ session('status') }}</p>
-			</div>
-		@endif
-		@if ($errors->count() > 0)
-			<div class="am-alert am-alert-danger" data-am-alert>
-				<button type="button" class="am-close">&times;</button>
-				<p>{{ $errors->first() }}</p>
-			</div>
-		@endif
+
+		@include('hint.status')
+		@include('hint.validate_errors')
+
 		<form class="am-form am-form-horizontal" action="/user/password" method="post">
 
             {{ csrf_field() }}

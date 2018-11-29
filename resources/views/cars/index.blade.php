@@ -26,23 +26,14 @@
                                     <!-- Checkout Area -->
                                     <section class="section checkout-area panel prl-30 pt-20 pb-40">
                                         <h2 class="h3 mb-20 h-title">支付信息</h2>
-                                        @if (session()->has('status'))
-                                            <div class="alert alert-success alert-dismissible" role="alert">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                {{ session('status') }}
-                                            </div>
-                                        @endif
+                                        @include('hint.status')
                                         <form class="mb-30" method="post" action="/user/pay/store">
                                             {{ csrf_field() }}
 
                                             <div class="row">
 
-                                                @if (count($errors))
-                                                    <div class="alert alert-danger" role="alert">
-                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                        {{ $errors->first() }}
-                                                    </div>
-                                                @endif
+                                                @include('hint.validate_errors')
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>选择收货地址</label>

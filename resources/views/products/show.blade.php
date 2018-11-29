@@ -78,12 +78,8 @@
                         <div class="clear"></div>
                     </div>
 
-                    @if ($errors->count() > 0)
-                        <div class="am-alert am-alert-danger" data-am-alert>
-                            <button type="button" class="am-close">&times;</button>
-                            <p>{{ $errors->first() }}</p>
-                        </div>
-                    @endif
+                    @include('hint.validate_errors')
+
                     <!--地址-->
                     <div class="iteminfo_parameter" style="text-align: center">
                         <dt>收货地址</dt>
