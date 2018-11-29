@@ -384,7 +384,7 @@
 
     </div>
 
-    <form id="pay_form" action="/user/pay/show" method="post">
+    <form id="pay_form" action="/user/pay/store" method="post">
         {{ csrf_field() }}
     </form>
 @endsection

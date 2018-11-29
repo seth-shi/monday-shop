@@ -17,26 +17,6 @@ use Yansongda\Pay\Pay;
 class PaymentController extends ApiController
 {
     /**
-     * 限制选择支付页面
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function show(Request $request)
-    {
-        $this->validate($request, ['address_id' => 'required|exists:addresses,id']);
-
-        $product = Product::query()->where('uuid', $request->input('product_id'))->firstOrFail();
-        $address = Address::query()->find($request->input('address_id'));
-
-        return view('user.payments.index', [
-            'product' => $product,
-            'numbers' => $request->input('numbers', 1),
-            'address' => $address
-        ]);
-    }
-
-    /**
      * 生成支付参数的接口
      *
      * @param StoreOrderRequest $request
@@ -157,7 +137,6 @@ class PaymentController extends ApiController
         $order->consignee_phone = $address->phone;
         $order->consignee_address = $address->format();
         $order->user_id = auth()->id();
-        $order->pay_type = $request->input('pay_type');
 
         return $order;
     }
