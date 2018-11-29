@@ -239,7 +239,7 @@
             var numbers = $(this).val();
 
 
-            var data = {product_id:id,_token:"{{ csrf_token() }}", numbers:numbers};
+            var data = {product_id:id,_token:"{{ csrf_token() }}", numbers:numbers, action:"sync"};
             var url = "/cars";
             $.post(url, data, function(res){
                 console.log(res);

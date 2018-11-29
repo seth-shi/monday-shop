@@ -57,7 +57,11 @@ class AuthLoginController extends Controller
             return view('hint.error', ['status' => $e->getMessage(), 'url' => route('login')]);
         }
 
-        // 处理第三方登录用户信息
+        /**
+         * 处理第三方登录用户信息
+         *
+         * @var $user User
+         */
         $user = $this->findOrCreateMatchUser($socialiteUser);
 
         // 如果用户已经登录的，作为绑定账号。跳转到个人中心页面
@@ -66,6 +70,8 @@ class AuthLoginController extends Controller
         }
 
         auth()->login($user, true);
+        // 登录次数
+        $user->increment('login_count');
 
         // Do you need to jump to other places? gps:
         // 是否有前面缓存的跳转 url
