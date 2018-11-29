@@ -21,12 +21,7 @@
                     <li><a href="#tab5">待评价</a></li>--}}
                 </ul>
 
-                @if (session()->has('status'))
-                    <div class="am-alert am-alert-success" data-am-alert>
-                        <button type="button" class="am-close">&times;</button>
-                        <p>{{ session('status') }}</p>
-                    </div>
-                @endif
+                @include('hint.status')
                 <div class="am-tabs-bd">
                     <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                         <div class="order-top">

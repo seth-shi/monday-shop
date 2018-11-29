@@ -9,12 +9,7 @@
         <div class="page-container ptb-60">
             <div class="container">
 
-                @if (session()->has('status'))
-                    <div class="alert alert-success alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        {{ session('status') }}
-                    </div>
-                @endif
+                @include('hint.status')
 
                 <section class="sign-area panel p-40">
                     <h3 class="sign-title">注册 <small>回到<a href="/" class="color-green">首 页</a></small></h3>

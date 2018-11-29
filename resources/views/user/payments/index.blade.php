@@ -53,13 +53,7 @@
 <div class="clear"></div>
 <div class="concent">
 
-	@if ($errors->count())
-			<div class="am-alert am-alert-danger" data-am-alert>
-				<button type="button" class="am-close">&times;</button>
-				<p>{{ $errors->first() }}</p>
-			</div>
-	@endif
-
+	@include('hint.validate_errors')
 	<!--地址 -->
 	<div class="paycont">
 		<div class="clear"></div>

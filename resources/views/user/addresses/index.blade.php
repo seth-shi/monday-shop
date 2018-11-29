@@ -68,20 +68,8 @@
                         <hr/>
 
 
-                        @if (session()->has('status'))
-                            <div class="am-alert am-alert-success" data-am-alert>
-                                <button type="button" class="am-close">&times;</button>
-                                <p>{{ session('status') }}</p>
-                            </div>
-                        @endif
-
-                        @if ($errors->count())
-                            <div class="am-alert am-alert-danger" data-am-alert>
-                                <button type="button" class="am-close">&times;</button>
-                                <p>{{ $errors->first() }}</p>
-                            </div>
-                        @endif
-
+                        @include('hint.status')
+                        @include('hint.validate_errors')
 
                         <div class="am-u-md-12 am-u-lg-8" style="margin-top: 20px;">
                             <form class="am-form am-form-horizontal" action="/user/addresses" method="post">

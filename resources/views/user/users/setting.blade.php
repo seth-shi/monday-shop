@@ -39,18 +39,9 @@
 
             <!--个人信息 -->
             <div class="info-main">
-                @if (session()->has('status'))
-                    <div class="am-alert am-alert-success" data-am-alert>
-                        <button type="button" class="am-close">&times;</button>
-                        <p>{{ session('status') }}</p>
-                    </div>
-                @endif
-                @if ($errors->count() > 0)
-                    <div class="am-alert am-alert-danger" data-am-alert>
-                        <button type="button" class="am-close">&times;</button>
-                        <p>{{ $errors->first() }}</p>
-                    </div>
-                @endif
+                @include('hint.status')
+                @include('hint.validate_errors')
+
                 <form class="am-form am-form-horizontal" method="post" action="/user/update">
 
                     {{ csrf_field() }}
@@ -140,7 +131,7 @@
                     <div class="am-form-group">
                         <label for="user-email" class="am-form-label">电子邮件</label>
                         <div class="am-form-content">
-                            <input id="user-email" placeholder="Email" type="email" value="{{ $user->email }}" {{ $user->is_init_name ? '' : 'disabled' }}>
+                            <input name="email" placeholder="Email" type="email" value="{{ $user->email }}" {{ $user->is_init_email ? '' : 'disabled' }}>
 
                         </div>
                     </div>
