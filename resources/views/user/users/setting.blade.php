@@ -58,10 +58,11 @@
 
                     <input type="hidden" name="avatar" value="{{ $user->avatar }}">
 
+                    <span style="color: #aaa">第三方账号注册的账户可以有一次机会更改用户名和邮箱</span>
                     <div class="am-form-group">
                         <label for="user-name2" class="am-form-label">用户名</label>
                         <div class="am-form-content">
-                            <input type="text" id="user-name2" placeholder="用户名" name="name" value="{{ $user->name }}">
+                            <input type="text" id="user-name2" placeholder="用户名" name="name" value="{{ $user->name }}" {{ $user->is_init_name ? '' : 'disabled' }}>
 
                         </div>
                     </div>
@@ -139,7 +140,7 @@
                     <div class="am-form-group">
                         <label for="user-email" class="am-form-label">电子邮件</label>
                         <div class="am-form-content">
-                            <input id="user-email" placeholder="Email" type="email" value="{{ $user->email }}" disabled="disabled">
+                            <input id="user-email" placeholder="Email" type="email" value="{{ $user->email }}" {{ $user->is_init_name ? '' : 'disabled' }}>
 
                         </div>
                     </div>

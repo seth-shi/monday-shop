@@ -40,18 +40,35 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $user = $this->user();
+
         $this->validate($request, [
             'avatar' => 'required',
             'sex' => 'in:0,1',
-            'name' => 'required|unique:users,name,' . auth()->id()
+            'name' => 'sometimes|unique:users,name,' . $user->id,
+            'email' => 'sometimes|unique:users,email,' . $user->id,
         ], [
            'avatar.required' => '头像不能为空',
            'sex.in' => '性别格式不对',
-           'name.required' => '用户名不能为空',
            'name.unique' => '用户名已经存在',
+           'name.email' => '邮箱已经存在',
         ]);
 
-        $this->user()->update($request->only(['avatar', 'name', 'sex']));
+        $user->sex= $request->input('sex');
+        $user->avatar= $request->input('avatar');
+
+        if ($user->is_init_name && $request->filled('name')) {
+            $user->name = $request->input('name');
+            $user->is_init_name = false;
+        }
+
+        if ($user->is_init_email && $request->filled('email')) {
+            $user->email = $request->input('email');
+            $user->is_init_email = false;
+        }
+
+        // 初始用户可以修改邮箱
+        $user->save();
 
         return back()->with('status', '修改成功');
     }
