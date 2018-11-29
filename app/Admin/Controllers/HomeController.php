@@ -50,6 +50,7 @@ class HomeController extends Controller
                                        ->push($todaySite);
 
 
+                // TODO 自适应，更好。
                 $row->column(4, new Box('今日用户注册来源', view('admin.chars.today_register', compact('todaySite'))));
                 $row->column(4, new Box('七日用户注册来源', view('admin.chars.week_register', compact('weekSites'))));
                 $row->column(4, new Box('本月用户注册来源', view('admin.chars.month_register', compact('monthSites'))));

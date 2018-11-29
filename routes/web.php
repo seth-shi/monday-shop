@@ -103,11 +103,9 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     Route::post('comments', 'CommentCOntroller@store');
 
     /****************************************
-     * 1. 支付的显示页面
-     * 2. 订单的创建（包括直接下单和购物车下单
-     * 3. 退款接口
+     * 1. 订单的创建（包括直接下单和购物车下单
+     * 2. 退款接口
      ****************************************/
-    Route::post('pay/show', 'PaymentController@show');
     Route::post('pay/store', 'PaymentController@store');
     Route::get('pay/orders/{order}/refund', 'RefundController@store');
 });
