@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Agent\Agent;
 use Yansongda\Pay\Pay;
 
 class PaymentController extends ApiController
@@ -52,8 +53,9 @@ class PaymentController extends ApiController
         DB::commit();
 
 
+        // TODO 自动获取手机支付方式
         // 生成支付信息
-        return $this->buildPayForm($masterOrder, $request->input('pay_method'));
+        return $this->buildPayForm($masterOrder, (new Agent)->isMobile());
     }
 
 
@@ -186,9 +188,10 @@ class PaymentController extends ApiController
      * 生成支付订单
      *
      * @param Order $order
+     * @param       $isMobild
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function buildPayForm(Order $order, $payMethod)
+    protected function buildPayForm(Order $order, $isMobild)
     {
         // 创建订单
         $order = [
@@ -199,7 +202,7 @@ class PaymentController extends ApiController
 
         $pay = Pay::alipay(config('pay.ali'));
 
-        if ($payMethod == 'wap') {
+        if ($isMobild) {
 
             return $pay->wap($order);
         }

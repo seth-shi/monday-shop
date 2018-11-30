@@ -11,8 +11,8 @@
 * 后台仪表盘
 ![后台仪表盘](public/media/admin/dash_board.png)
 ****
-* 后台商品列表
-![商品列表](public/media/admin/products.png)
+* 后台订单列表
+![商品列表](public/media/admin/orders.png)
 
 ## Feture
 - [x] **响应式网站**
