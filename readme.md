@@ -34,10 +34,10 @@
 - [ ] 延时取消订单，恢复库存
 ## Installation
 1. 获取源代码
-* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/WaitMoonMan/monday-shop/archive/master.zip)
+* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/DavidNineRoc/monday-shop/archive/master.zip)
 * 或者`git`克隆源代码
 ```shell
-git clone git@github.com:WaitMoonMan/monday-shop.git
+git clone git@github.com:DavidNineRoc/monday-shop.git
 ```
 2. 安装依赖扩展包
 ```shell
@@ -82,7 +82,8 @@ php artisan moon:install
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
-## Errors
+## Notice
+* 建议开启`bcmath`扩展保证字符串数字运算正确
 * 监听队列如果长时间没反应，或者一直重复任务
     * 数据库没配置好，导致队列任务表连接不上
     * 邮件配置出错，导致发送邮件一直失败
