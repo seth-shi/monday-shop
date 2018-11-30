@@ -21,6 +21,7 @@
                     <li><a href="#tab5">待评价</a></li>--}}
                 </ul>
 
+                @include('hint.validate_errors')
                 @include('hint.status')
                 <div class="am-tabs-bd">
                     <div class="am-tab-panel am-fade am-in am-active" id="tab1">

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Div;
 use App\Http\Controllers\Controller;
 use App\Models\SiteCount;
 use App\Services\SiteCountService;
@@ -38,7 +39,8 @@ class HomeController extends Controller
                                       ->where('date', '!=', $today)
                                       ->where('date', '>', $lastWeekDate)
                                       ->get()
-                                      ->push($todaySite);
+                                      ->push($todaySite)
+                                      ->sortBy('date');
 
 
                 // 本月统计
@@ -47,18 +49,20 @@ class HomeController extends Controller
                                        ->where('date', '!=', $today)
                                        ->where('date', '>', $month)
                                        ->get()
-                                       ->push($todaySite);
+                                       ->push($todaySite)
+                                       ->sortBy('date');
 
 
-                // TODO 自适应，更好。
-                $row->column(4, new Box('今日用户注册来源', view('admin.chars.today_register', compact('todaySite'))));
-                $row->column(4, new Box('七日用户注册来源', view('admin.chars.week_register', compact('weekSites'))));
-                $row->column(4, new Box('本月用户注册来源', view('admin.chars.month_register', compact('monthSites'))));
-//
-//                $allSites = compact('todaySite', 'weekSites', 'monthSites');
-//                $row->column(4, new Box('成交量', view('admin.chars.order_count', $allSites)));
-//                $row->column(4, new Box('有效成交量', view('admin.chars.order_pay_count', $allSites)));
-//                $row->column(4, new Box('收入金额', view('admin.chars.sale_money', $allSites)));
+                $row->column(4, new Box('今日用户注册来源', new Div('todayRegister')));
+                $row->column(4, new Box('七日用户注册来源', new Div('weekRegister')));
+                $row->column(4, new Box('本月用户注册来源', new Div('monthRegister')));
+
+                $row->column(4, new Box('今日订单', new Div('todayOrders')));
+                $row->column(4, new Box('近期订单量', new Div('weekSites')));
+                $row->column(4, new Box('交易金额', new Div('saleMoney')));
+
+                $allSites = compact('todaySite', 'weekSites', 'monthSites');
+                $row->column(12, view('admin.chars.echart', $allSites));
             });
     }
 
