@@ -1,6 +1,9 @@
 # WaitMoonMan/monday-shop
 ****
 [演示地址：http://shop.shiguopeng.cn](http://shop.shiguopeng.cn)
+[后台地址：http://shop.shiguopeng.cn/admin](http://shop.shiguopeng.cn/admin)
+* 账号：`admin`
+* 密码：`admin`
 ****
 * 首页图
 ![PC首页](public/media/index_pc.png)
