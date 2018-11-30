@@ -69,13 +69,26 @@ class Order extends Model
                 Cache::increment("site_counts:order_pay_count");
 
                 $currMoney = Cache::get('site_counts:sale_money_count', 0);
-                Cache::set("site_counts:sale_money_count", bcadd($currMoney, $model->pay_total));
+                if (function_exists('bcadd')) {
+                    $money = bcadd($currMoney, $model->pay_total);
+                } else {
+                    $money = $currMoney + $model->pay_total;
+                }
+
+                Cache::set("site_counts:sale_money_count", $money);
             }
             // 退款
             elseif ($model->status == self::PAY_STATUSES['REFUND']) {
 
                 $currMoney = Cache::get('site_counts:sale_money_count', 0);
-                Cache::set("site_counts:sale_money_count", bcadd($currMoney, $model->pay_refund_fee));
+                if (function_exists('bcsub')) {
+                    $money = bcsub($currMoney, $model->pay_refund_fee);
+                } else {
+                    $money = $currMoney - $model->pay_refund_fee;
+                }
+
+
+                Cache::set("site_counts:sale_money_count", $money);
             }
 
         });
