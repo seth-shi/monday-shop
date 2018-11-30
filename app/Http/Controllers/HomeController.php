@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
+use Jenssegers\Agent\Agent;
 
 class HomeController extends Controller
 {
