@@ -87,7 +87,7 @@ class Order extends Model
                     $money = $currMoney - $model->pay_refund_fee;
                 }
 
-
+                Cache::increment('site_counts:refund_pay_count');
                 Cache::set("site_counts:sale_money_count", $money);
             }
 

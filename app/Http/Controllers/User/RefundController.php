@@ -43,7 +43,8 @@ class RefundController extends Controller
         } catch (\Exception $e) {
 
             // 调用异常的处理
-            abort(500, $e->getMessage());
+            // abort(500, $e->getMessage());
+            return back()->withErrors('服务器异常，请稍后再试');
         }
 
 

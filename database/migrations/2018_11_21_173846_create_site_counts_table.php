@@ -25,6 +25,8 @@ class CreateSiteCountsTable extends Migration
 
             $table->unsignedInteger('order_count')->default(0)->comment('订单量');
             $table->unsignedInteger('order_pay_count')->default(0)->comment('有效的订单成交量，已支付的');
+            $table->unsignedInteger('refund_pay_count')->default(0)->comment('取消的订单量');
+
             $table->decimal('sale_money_count', 12, 2)->default(0)->comment('商城金钱销售的数量');
 
             $table->timestamps();
