@@ -14,11 +14,14 @@ class CreateLikesProductsTable extends Migration
     public function up()
     {
         Schema::create('likes_products', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('product_id')->unsigned();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('product_id');
 
             $table->primary(['user_id', 'product_id']);
         });
+
+        DB::statement("ALTER TABLE `likes_products` comment'用户收藏的商品关联表'");
+
     }
 
     /**

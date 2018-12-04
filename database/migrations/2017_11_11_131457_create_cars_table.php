@@ -19,11 +19,14 @@ class CreateCarsTable extends Migration
 
             $table->integer('numbers')->default(1)->comment('商品的数量');
 
-            $table->integer('product_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('user_id');
 
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE `cars` comment'购物车表'");
+
     }
 
     /**

@@ -28,6 +28,9 @@ class CreateCategoriesTable extends Migration {
         $table->timestamps();
     });
 
+
+      DB::statement("ALTER TABLE `categories` comment'商品分类表'");
+
   }
 
   /**

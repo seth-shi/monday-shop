@@ -20,6 +20,9 @@ class CreateProductPinYinsTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE `product_pin_yins` comment'商品拼音表'");
+
     }
 
     /**
