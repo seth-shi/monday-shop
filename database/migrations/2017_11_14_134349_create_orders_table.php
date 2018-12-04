@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
 
             $table->string('no')->comment('订单流水号');
 
-            $table->integer('user_id')->unsigned();
+            $table->unsignedInteger('user_id');
             $table->decimal('total', 12, 2)->comment('总计价格');
             $table->tinyInteger('status')->default(Order::PAY_STATUSES['UN_PAY'])->comment('-1：退款， 0：未支付订单，1:支付宝支付，');
 
@@ -41,6 +41,9 @@ class CreateOrdersTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE `orders` comment'订单表'");
+
     }
 
     /**

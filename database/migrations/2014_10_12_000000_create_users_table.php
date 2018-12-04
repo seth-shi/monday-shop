@@ -47,6 +47,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken()->comment('laravel中的记住我');
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE `users` comment'用户信息'");
     }
 
     /**

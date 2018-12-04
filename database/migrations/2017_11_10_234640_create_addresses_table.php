@@ -29,6 +29,8 @@ class CreateAddressesTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE `addresses` comment'收货地址表'");
     }
 
     /**

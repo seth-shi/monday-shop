@@ -38,6 +38,9 @@ class CreateProductsTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE `products` comment'商品表'");
+
     }
 
     /**
