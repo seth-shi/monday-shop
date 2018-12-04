@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Encore\Admin\Traits\AdminBuilder;
 use Encore\Admin\Traits\ModelTree;
-use Kalnoy\Nestedset\NodeTrait;
+use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {

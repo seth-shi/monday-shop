@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Mail\ResetPassword;
-use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
