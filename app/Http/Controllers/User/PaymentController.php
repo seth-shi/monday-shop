@@ -203,10 +203,10 @@ class PaymentController extends ApiController
      * 生成支付订单
      *
      * @param Order $order
-     * @param       $isMobild
+     * @param       $isMobile
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function buildPayForm(Order $order, $isMobild)
+    protected function buildPayForm(Order $order, $isMobile)
     {
         // 创建订单
         $order = [
@@ -217,7 +217,7 @@ class PaymentController extends ApiController
 
         $pay = Pay::alipay(config('pay.ali'));
 
-        if ($isMobild) {
+        if ($isMobile) {
 
             return $pay->wap($order);
         }
