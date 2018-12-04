@@ -17,6 +17,24 @@ use Yansongda\Pay\Pay;
 
 class PaymentController extends ApiController
 {
+
+    /**
+     * 再次支付的接口
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function againStore($id)
+    {
+        /**
+         * @var $masterOrder Order
+         */
+        $masterOrder = Order::query()->findOrFail($id);
+
+        // 生成支付信息
+        return $this->buildPayForm($masterOrder, (new Agent)->isMobile());
+    }
+
     /**
      * 生成支付参数的接口
      *
@@ -52,12 +70,9 @@ class PaymentController extends ApiController
 
         DB::commit();
 
-
-        // TODO 自动获取手机支付方式
         // 生成支付信息
         return $this->buildPayForm($masterOrder, (new Agent)->isMobile());
     }
-
 
     /**
      * 单个商品直接下单

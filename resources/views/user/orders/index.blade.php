@@ -105,8 +105,11 @@
                                                     @if ($order->status == \App\Models\Order::PAY_STATUSES['ALI'])
                                                         <a href="/user/pay/orders/{{ $order->id }}/refund" class="am-btn am-btn-danger anniu delete_btn">退款</a>
                                                         <hr>
+                                                    @elseif ($order->status == \App\Models\Order::PAY_STATUSES['UN_PAY'])
+                                                        <a href="/user/pay/orders/{{ $order->id }}/again" class="am-btn am-btn-danger anniu delete_btn">去付款</a>
+                                                        <hr>
                                                     @endif
-                                                    <a href="javascript:;" onclick="handleDelete({{ $order->id }})" class="am-btn am-btn-danger anniu delete_btn">删除订单</a>
+                                                        <a href="javascript:;" onclick="handleDelete({{ $order->id }})" class="am-btn am-btn-danger anniu delete_btn">删除订单</a>
                                                 </li>
                                                 <div class="move-right">
 

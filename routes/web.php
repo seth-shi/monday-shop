@@ -5,6 +5,20 @@
  ****************************************/
 Auth::routes();
 
+Route::get('init', function (\Illuminate\Http\Request $request) {
+
+    $number = $request->input('number', 20);
+
+    dd(Redis::connection()->lpush('seckill:', array_fill(0, $number, 9)));
+});
+
+Route::get('test', function () {
+
+
+    var_dump(Redis::connection()->lpop('seckill:'));
+});
+
+
 Route::namespace('Auth')->group(function(){
 
     // 获取验证码
@@ -52,7 +66,7 @@ Route::resource('cars', 'CarController');
 /****************************************
  * 用户相关的路由
  ****************************************/
-Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(function(){
+Route::middleware('user.auth')->prefix('user')->namespace('User')->group(function(){
 
     /****************************************
      * 1. 用户的个人中心
@@ -105,13 +119,13 @@ Route::middleware(['user.auth'])->prefix('user')->namespace('User')->group(funct
     /****************************************
      * 1. 订单的创建（包括直接下单和购物车下单
      * 2. 退款接口
+     * 3. 忘记付款了，再次付款
      ****************************************/
     Route::post('pay/store', 'PaymentController@store');
     Route::get('pay/orders/{order}/refund', 'RefundController@store');
+    Route::get('pay/orders/{order}/again', 'PaymentController@againStore');
 });
-/****************************************
- * 1. 用户付费！如果验证了[user.auth]，
- *    就会发生无限跳转，所以放在外面
- ****************************************/
+
+// 支付通知的接口
 Route::get('pay/return', 'PaymentNotificationController@payReturn');
 Route::post('pay/notify', 'PaymentNotificationController@payNotify');
