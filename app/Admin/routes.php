@@ -12,6 +12,8 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
 
+    // 系统的配置
+    $router->resource('settings', 'SettingController')->only('index', 'show', 'edit', 'update');
 
     // 商品上架下架
     $router->get('products/{id}/push', 'ProductCOntroller@pushProduct');

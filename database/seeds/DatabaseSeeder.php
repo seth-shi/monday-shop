@@ -14,8 +14,10 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
+        // 配置的填充
         // 国家
         // 城市的数据填充
+        $this->call(SettingsTablesSeeder::class);
         $this->call(ProvincesTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
 
