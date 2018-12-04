@@ -53,6 +53,9 @@
                 </div>
             </div>
 
+
+            @includeWhen(true, 'homes.seckills')
+
             <section class="section latest-deals-area ptb-30">
                 <header class="panel ptb-15 prl-20 pos-r mb-30">
                     <h3 class="section-title font-18">最新的 商品</h3>

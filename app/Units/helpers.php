@@ -64,3 +64,25 @@ function ceilTwoPrice($price)
 {
     return floor($price * 100) / 100;
 }
+
+
+/**
+ * 从缓存中获取系统配置
+ *
+ * @param      $key
+ * @param null $default
+ * @return mixed|null
+ */
+function setting($key, $default = null)
+{
+    $value = Cache::rememberForever("settings:{$key}", function () use ($key) {
+
+        return \App\Models\Setting::query()->where('index_name', $key)->value('value');
+    });
+
+    if ($value) {
+        return $value;
+    }
+
+    return $default;
+}
