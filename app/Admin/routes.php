@@ -20,8 +20,10 @@ Route::group([
 
     // 分类
     // 商品
+    // 秒杀的商品管理
     $router->resource('categories', 'CategoryController');
     $router->resource('products', 'ProductController');
+    $router->resource('seckills', 'ProductController');
 
     // 订单
     // 评论
