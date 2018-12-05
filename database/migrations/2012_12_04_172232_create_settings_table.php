@@ -19,11 +19,12 @@ class CreateSettingsTable extends Migration
             $table->string('index_name')->index()->comment('配置的索引名');
             $table->string('value')->index()->comment('配置的索引值');
             $table->string('description')->comment('配置的描述');
+            $table->string('type')->default('text')->comment('配置值的类型');
 
             $table->timestamps();
         });
 
-        DB::statement("ALTER TABLE `settings` comment'配置的描述表'");
+        DB::statement("ALTER TABLE `settings` comment'配置的表'");
     }
 
     /**

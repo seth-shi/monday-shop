@@ -54,7 +54,7 @@
             </div>
 
 
-            @includeWhen(true, 'homes.seckills')
+            @includeWhen(setting('is_open_seckill') == 1, 'homes.seckills')
 
             <section class="section latest-deals-area ptb-30">
                 <header class="panel ptb-15 prl-20 pos-r mb-30">

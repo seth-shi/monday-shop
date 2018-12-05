@@ -55,7 +55,7 @@ class SettingController extends Controller
         return $content
             ->header('Edit')
             ->description('description')
-            ->body($this->form()->edit($id));
+            ->body($this->editForm($id)->edit($id));
     }
 
     /**
@@ -100,7 +100,7 @@ class SettingController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Setting::findOrFail($id));
+        $show = new Show(Setting::query()->findOrFail($id));
 
         $show->field('id');
         $show->field('index_name', '索引名');
@@ -112,17 +112,16 @@ class SettingController extends Controller
         return $show;
     }
 
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    protected function form()
+
+    protected function editForm($id)
     {
         $form = new Form(new Setting);
 
+
+        $setting = Setting::query()->findOrFail($id);
+
         $form->text('index_name', '索引名')->disable();
-        $form->text('value', '配置值');
+        $form->{$setting->type}('value', '配置值');
         $form->text('description', '描述');
 
         return $form;
@@ -137,7 +136,7 @@ class SettingController extends Controller
      */
     public function update($id)
     {
-        $response = $this->form()->update($id);
+        $response = $this->editForm($id)->update($id);
 
         // 使缓存失效
         $setting = Setting::query()->findOrFail($id);

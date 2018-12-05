@@ -67,20 +67,21 @@ function ceilTwoPrice($price)
 
 
 /**
- * 从缓存中获取系统配置
+ * 或者设置的配置项
  *
- * @param      $key
+ * @param      $indexName
  * @param null $default
  * @return mixed|null
  */
-function setting($key, $default = null)
+function setting($indexName, $default = null)
 {
-    $value = Cache::rememberForever("settings:{$key}", function () use ($key) {
+    $value = Cache::rememberForever("settings:{$indexName}", function () use ($indexName) {
 
-        return \App\Models\Setting::query()->where('index_name', $key)->value('value');
+        return \App\Models\Setting::query()->where('index_name', $indexName)->value('value');
     });
 
     if ($value) {
+
         return $value;
     }
 

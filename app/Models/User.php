@@ -157,9 +157,9 @@ class User extends Authenticatable
                 $model->attributes['avatar'] = 'avatars/default/' . array_random(User::DEFAULT_AVATARS);
             }
 
-            // TODO, 之后增加一个配置表
             if (! isset($model->attributes['password'])) {
-                $model->attributes['password'] = bcrypt('123456');
+
+                $model->attributes['password'] = bcrypt(setting('user_init_password', '123456'));
             }
 
         });

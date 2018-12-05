@@ -14,7 +14,14 @@ class SettingsTablesSeeder extends Seeder
             [
                 'index_name' => 'user_init_password',
                 'value' => '123456',
+                'type' => 'text',
                 'description' => '注册用户的初始密码'
+            ],
+            [
+                'index_name' => 'is_open_seckill',
+                'value' => 0,
+                'type' => 'switch',
+                'description' => '是否开始秒杀功能模块（需要配置好 redis）'
             ],
         ];
 
