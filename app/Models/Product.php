@@ -9,7 +9,55 @@ use Ramsey\Uuid\Uuid;
 
 
 /**
+ * App\Models\Product
+ *
  * @method static withTrashed()
+ * @property int $id
+ * @property int $category_id 商品所属分类
+ * @property string $uuid 商品的uuid号
+ * @property string $name
+ * @property string $title 简短的描述
+ * @property float $price 商品的价格
+ * @property float $price_original 商品原本的价格
+ * @property string $thumb 商品的缩略图
+ * @property array $pictures 图片的列表
+ * @property int $safe_count 出售的数量
+ * @property int $count 商品库存量
+ * @property string|null $pinyin 商品名的拼音
+ * @property string|null $first_pinyin 商品名的拼音的首字母
+ * @property string|null $deleted_at 是否上架
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Car[] $cars
+ * @property-read \App\Models\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read \App\Models\ProductDetail $detail
+ * @property-read \App\Models\OrderDetail $orderDetail
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Product onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereFirstPinyin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product wherePictures($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product wherePinyin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product wherePriceOriginal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereSafeCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereThumb($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUuid($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Product withoutTrashed()
+ * @mixin \Eloquent
  */
 class Product extends Model
 {
