@@ -6,6 +6,56 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * App\Models\Order
+ *
+ * @property int $id
+ * @property string $no 订单流水号
+ * @property int $user_id
+ * @property float $total 总计价格
+ * @property int $status -1：退款， 0：未支付订单，1:支付宝支付，
+ * @property string|null $name 订单的名字，用于第三方，只有一个商品就是商品的名字，多个商品取联合
+ * @property string|null $consignee_name 收货人
+ * @property string|null $consignee_phone 收货人手机号码
+ * @property string|null $consignee_address 收货地址
+ * @property string|null $pay_no 第三方支付单号
+ * @property float|null $pay_total 实际支付金额
+ * @property string|null $pay_time 支付时间
+ * @property float|null $pay_refund_fee 退款金额
+ * @property string|null $pay_trade_no 第三方退款订单号
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Address $address
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDetail[] $details
+ * @property-read \App\Models\User $user
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereConsigneeAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereConsigneeName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereConsigneePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayRefundFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayTradeNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Order extends Model
 {
 
