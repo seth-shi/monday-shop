@@ -16,14 +16,14 @@ Route::group([
     $router->resource('settings', 'SettingController')->only('index', 'show', 'edit', 'update');
 
     // 商品上架下架
-    $router->get('products/{id}/push', 'ProductCOntroller@pushProduct');
+    $router->get('products/{id}/push', 'ProductController@pushProduct');
 
     // 分类
     // 商品
     // 秒杀的商品管理
     $router->resource('categories', 'CategoryController');
     $router->resource('products', 'ProductController');
-    $router->resource('seckills', 'ProductController');
+    $router->resource('seckills', 'SeckillController')->only('index', 'create', 'store');
 
     // 订单
     // 评论
@@ -35,4 +35,6 @@ Route::group([
 
     // 富文本图片上传
     $router->post('upload/editor', 'UploadController@uploadByEditor');
+    // 通过分类异步加载商品下拉列表
+    $router->get('api/products', 'CategoryController@getProducts');
 });

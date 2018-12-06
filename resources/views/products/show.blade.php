@@ -73,7 +73,7 @@
                         </li>
                         <li class="price iteminfo_mktprice">
                             <dt>原价</dt>
-                            <dd><em>¥</em><b class="sys_item_mktprice">{{ $product->price_original }}</b></dd>
+                            <dd><em>¥</em><b class="sys_item_mktprice">{{ $product->original_price }}</b></dd>
                         </li>
                         <div class="clear"></div>
                     </div>

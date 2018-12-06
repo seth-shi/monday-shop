@@ -88,13 +88,15 @@ class ProductController extends Controller
 
         $grid->column('id');
         $grid->column('category.title', '商品类别');
-        $grid->column('name', '商品名')->limit(30);
+        $grid->column('name', '商品名')->display(function ($name) {
+            return str_limit($name, 30);
+        });
         $grid->column('thumb', '首图')->display(function ($thumb) {
             return image($thumb);
         });
         $grid->column('price', '价格')->display(function ($price) {
 
-            return $price . '/' . $this->price_original;
+            return $price . '/' . $this->original_price;
         });
         $grid->column('safe_count', '售出数量')->sortable();
         $grid->column('count', '库存量')->sortable();
@@ -153,7 +155,7 @@ class ProductController extends Controller
         $show->field('title', '卖点');
         $show->field('thumb', '缩略图')->image();
         $show->field('price', '价格')->as(function ($price) {
-            return $price . '/' . $this->price_original;
+            return $price . '/' . $this->original_price;
         });
         $show->field('safe_count', '售出数量');
         $show->field('count', '库存量');
@@ -189,7 +191,7 @@ class ProductController extends Controller
         });
         $form->textarea('title', '卖点')->rules('required|max:199');
         $form->currency('price', '销售价')->symbol('$')->rules('required|numeric');
-        $form->currency('price_original', '原价')->symbol('$')->rules('required|numeric');
+        $form->currency('original_price', '原价')->symbol('$')->rules('required|numeric');
         $form->number('count', '库存量')->rules('required|integer|min:0');
 
         $form->image('thumb', '缩略图')->uniqueName()->move('products/thumb')->rules('required');

@@ -13,6 +13,7 @@ use Encore\Admin\Layout\Row;
 use Encore\Admin\Show;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
@@ -164,5 +165,21 @@ class CategoryController extends Controller
         }
 
         return response()->json($data);
+    }
+
+    /**
+     * 商品下拉列表
+     *
+     * @param Request $request
+     * @return \Illuminate\Support\Collection
+     */
+    public function getProducts(Request $request)
+    {
+        $id = $request->get('q');
+
+        $category = Category::query()->findOrFail($id);
+
+        // 尽量促销卖得少的商品
+        return $category->products()->orderBy('safe_count', 'desc')->get(['id', 'name as text']);
     }
 }

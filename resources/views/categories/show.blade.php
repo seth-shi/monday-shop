@@ -101,7 +101,7 @@
                                                 <div class="deal-price pos-r mb-15">
                                                     <h3 class="price ptb-5 text-right">
                                                                 <span class="price-sale">
-                                                                    {{ $product->price_original }}
+                                                                    {{ $product->original_price }}
                                                                 </span>
                                                         ￥ {{ $product->price }}
                                                     </h3>
