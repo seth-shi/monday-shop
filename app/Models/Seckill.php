@@ -28,5 +28,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Seckill extends Model
 {
-    //
+    /**
+     * 一个商品可以同时有多个商品同时秒杀，
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
 }

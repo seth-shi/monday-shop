@@ -59,7 +59,7 @@
                                     </div>
                                     <div class="s-price-box">
                                         <span class="s-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $product->price }}</em></span>
-                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $product->price_original }}</em></span>
+                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $product->original_price }}</em></span>
 
                                     </div>
                                     <div class="s-title"><a href="/products/{{ $product->uuid }}" title="{{ $product->name }}">{{ $product->name }}</a></div>

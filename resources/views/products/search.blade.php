@@ -37,7 +37,7 @@
                                             <a href="/products/{{ $product->uuid }}">
                                                 <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $product->thumb }}">
                                                     <div class="label-discount left-20 top-15">
-                                                        {{ intval(($product->price_original - $product->price)/$product->price_original * 100) }}%
+                                                        {{ intval(($product->original_price - $product->price)/$product->original_price * 100) }}%
                                                     </div>
                                                     <ul class="deal-actions top-15 right-20">
                                                         <li  class="like-deal" data-id="{{ $product->uuid }}">
@@ -69,7 +69,7 @@
                                                 <div class="deal-price pos-r mb-15">
                                                     <h3 class="price ptb-5 text-right">
                                                                 <span class="price-sale">
-                                                                    {{ $product->price_original }}
+                                                                    {{ $product->original_price }}
                                                                 </span>
                                                         ￥ {{ $product->price }}
                                                     </h3>

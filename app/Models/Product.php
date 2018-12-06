@@ -18,7 +18,7 @@ use Ramsey\Uuid\Uuid;
  * @property string $name
  * @property string $title 简短的描述
  * @property float $price 商品的价格
- * @property float $price_original 商品原本的价格
+ * @property float $original_price 商品原本的价格
  * @property string $thumb 商品的缩略图
  * @property array $pictures 图片的列表
  * @property int $safe_count 出售的数量
@@ -64,7 +64,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'category_id', 'name', 'price', 'price_original',
+        'category_id', 'name', 'price', 'original_price',
         'pinyin', 'first_pinyin', 'thumb', 'uuid', 'title', 'pictures'];
 
     protected $casts = [

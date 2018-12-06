@@ -16,7 +16,9 @@ class CreateSeckillsTable extends Migration
         Schema::create('seckills', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->unsignedInteger('category_id');
             $table->unsignedInteger('product_id');
+
             $table->unsignedInteger('numbers')->default(1);
             $table->dateTime('start_at')->comment('抢购开始时间');
             $table->dateTime('end_at')->comment('抢购结束时间');

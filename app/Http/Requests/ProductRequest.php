@@ -29,7 +29,7 @@ class ProductRequest extends FormRequest
             "name" => "required|unique:products",
             "title" => "required|max:50",
             "price" => "required|numeric",
-            "price_original" => "required|numeric",
+            "original_price" => "required|numeric",
 
             // product_details table field
             "unit" => 'required',
@@ -68,8 +68,8 @@ class ProductRequest extends FormRequest
             "title.max" => "商品描述不能大于50个字",
             "price.required" => "商品销售价格不能为空",
             "price.numeric" => "商品销售价格必须是数字",
-            "price_original.required" => "商品展示价格不能为空",
-            "price_original.numeric" => "商品展示价格必须是数字",
+            "original_price.required" => "商品展示价格不能为空",
+            "original_price.numeric" => "商品展示价格必须是数字",
 
             "unit.required" => '商品计数单位不能为空',
             "count.required" => '商品库存量不能为空',

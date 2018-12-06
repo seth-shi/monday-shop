@@ -2,13 +2,17 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\Seckill;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
 
 class SeckillController extends Controller
 {
@@ -23,39 +27,9 @@ class SeckillController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
+            ->header('秒杀列表')
             ->description('description')
             ->body($this->grid());
-    }
-
-    /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header('Detail')
-            ->description('description')
-            ->body($this->detail($id));
-    }
-
-    /**
-     * Edit interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Edit')
-            ->description('description')
-            ->body($this->form()->edit($id));
     }
 
     /**
@@ -67,7 +41,7 @@ class SeckillController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
+            ->header('新建秒杀')
             ->description('description')
             ->body($this->form());
     }
@@ -81,37 +55,32 @@ class SeckillController extends Controller
     {
         $grid = new Grid(new Seckill);
 
-        $grid->id('Id');
-        $grid->product_id('Product id');
-        $grid->numbers('Numbers');
-        $grid->start_at('Start at');
-        $grid->end_at('End at');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        $grid->column('id');
+
+        $grid->column('product.id', '商品ID');
+        $grid->column('product.name', '商品名字')->display(function ($name) {
+            return str_limit($name, 30);
+        });
+        $grid->column('product.thumb', '商品图')->display(function ($thumb) {
+            return image($thumb);
+        });
+
+        $grid->column('numbers', '秒杀数量');
+        $grid->column('start_at', '开始时间');
+        $grid->column('end_at', '结束时间');
+        $grid->column('created_at', '创建时间');
+        $grid->column('updated_at', '修改时间');
+
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+
+            $actions->disableView();
+            $actions->disableEdit();
+        });
 
         return $grid;
     }
 
-    /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        $show = new Show(Seckill::findOrFail($id));
 
-        $show->id('Id');
-        $show->product_id('Product id');
-        $show->numbers('Numbers');
-        $show->start_at('Start at');
-        $show->end_at('End at');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
-
-        return $show;
-    }
 
     /**
      * Make a form builder.
@@ -122,11 +91,35 @@ class SeckillController extends Controller
     {
         $form = new Form(new Seckill);
 
-        $form->number('product_id', 'Product id');
-        $form->number('numbers', 'Numbers')->default(1);
-        $form->datetime('start_at', 'Start at')->default(date('Y-m-d H:i:s'));
-        $form->datetime('end_at', 'End at')->default(date('Y-m-d H:i:s'));
+        $categories = Category::selectOrderAll();
+        $form->select('category_id', '分类')
+             ->options($categories)
+             ->load('product_id', admin_url('api/products'));
+        $form->select('product_id', '秒杀商品');
+
+        $form->number('numbers', '秒杀数量')->default(1)->help('保证商品的库存数量大于此数量，会从库存中减去');
+
+        $now = Carbon::now();
+        $form->datetime('start_at', '开始时间')->default($now->format('Y-m-d H:00:00'));
+        $form->datetime('end_at', '结束时间')->default($now->addHour(1)->format('Y-m-d H:00:00'));
 
         return $form;
+    }
+
+
+
+    public function store(Request $request)
+    {
+        $numbers = $request->input('numbers', 0);
+        $product = Product::query()->firstOrFail($request->input('product_id'));
+
+
+        if ($numbers > $product->numbers) {
+
+            return back()->withInput()->withErrors('秒杀数量不能大于库存数量');
+        }
+
+
+        return $this->form()->store();
     }
 }

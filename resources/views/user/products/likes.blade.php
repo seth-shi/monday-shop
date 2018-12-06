@@ -24,7 +24,7 @@
                                                 <span class="rating-reviews">
 				                        		( <span class="rating-count">{{ $product->users_count }}</span> 收藏 )</span>
                                             </div>
-                                            <h4 class="price color-green"><span class="price-sale">￥{{ $product->price_original }}</span>￥{{ $product->price }}</h4>
+                                            <h4 class="price color-green"><span class="price-sale">￥{{ $product->original_price }}</span>￥{{ $product->price }}</h4>
                                         </div>
                                     </td>
                                     <td class="col-sm-1">

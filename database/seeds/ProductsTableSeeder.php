@@ -60,7 +60,7 @@ class ProductsTableSeeder extends Seeder
      */
     protected function makeProduct(array $product, Collection $pictures)
     {
-        $product['price_original'] = ($product['price'] * (mt_rand(12, 18)/10));
+        $product['original_price'] = ($product['price'] * (mt_rand(12, 18)/10));
         $product['thumb'] = $this->pictureBasePath . $product['thumb'];
         $product['count'] = mt_rand(999, 99999);
         $product['category_id'] = \App\Models\Category::query()->inRandomOrder()->first()->id;
