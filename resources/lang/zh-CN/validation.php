@@ -157,6 +157,8 @@ return [
         'city_id' => '城市',
         'country_id' => '国家',
         'address_id' => '地址',
+        'category_id' => '分类',
+        'product_id' => '商品',
     ],
 
 ];

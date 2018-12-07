@@ -16,7 +16,7 @@
                             <div class="error-page-footer">
                                 <h5 class="color-mid mb-5">Oops !</h5>
                                 <h2 class="t-uppercase m-10 color-green">
-                                    {{ $exception->getMessage()  ? $exception->getMessage() : '您访问的页面不存在~ '}}
+                                    {{ isset($exception) ? $exception->getMessage() : '您访问的页面不存在~ '}}
                                 </h2>
                                 <p class="color-muted mb-30 font-15">
                                     不好意思

@@ -2,17 +2,18 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSeckillRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Seckill;
-use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SeckillController extends Controller
 {
@@ -65,6 +66,7 @@ class SeckillController extends Controller
             return image($thumb);
         });
 
+        $grid->column('price', '秒杀价');
         $grid->column('numbers', '秒杀数量');
         $grid->column('start_at', '开始时间');
         $grid->column('end_at', '结束时间');
@@ -97,29 +99,119 @@ class SeckillController extends Controller
              ->load('product_id', admin_url('api/products'));
         $form->select('product_id', '秒杀商品');
 
-        $form->number('numbers', '秒杀数量')->default(1)->help('保证商品的库存数量大于此数量，会从库存中减去');
+        $form->number('price', '秒杀价')
+             ->default(1);
+        $form->number('numbers', '秒杀数量')
+             ->default(1)
+             ->help('保证商品的库存数量大于此数量，会从库存中减去');
 
-        $now = Carbon::now();
-        $form->datetime('start_at', '开始时间')->default($now->format('Y-m-d H:00:00'));
-        $form->datetime('end_at', '结束时间')->default($now->addHour(1)->format('Y-m-d H:00:00'));
+        $now = Carbon::now()->addHour(1);
+        $form->datetime('start_at', '开始时间')
+             ->default($now->format('Y-m-d H:00:00'));
+        $form->datetime('end_at', '结束时间')
+             ->default($now->addHour(1)->format('Y-m-d H:00:00'))
+             ->rules('required|date|after_or_equal:start_at');;
 
         return $form;
     }
 
-
-
-    public function store(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
+    public function store(StoreSeckillRequest $request)
     {
         $numbers = $request->input('numbers', 0);
-        $product = Product::query()->firstOrFail($request->input('product_id'));
+        $product = Product::query()->findOrFail($request->input('product_id'));
 
+        if ($numbers > $product->count) {
 
-        if ($numbers > $product->numbers) {
-
-            return back()->withInput()->withErrors('秒杀数量不能大于库存数量');
+            return back()->withInput()->withErrors(['numbers' => '秒杀数量不能大于库存数量']);
         }
 
+        DB::beginTransaction();
 
-        return $this->form()->store();
+        try {
+
+            // 减去库存数量
+            $response = $this->form()->store();
+            $product->decrement('count', $numbers);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return back()->withInput()->withErrors(['category_id' => $e->getMessage()]);
+        }
+
+        DB::commit();
+
+        return $response;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function destroy($id)
+    {
+        /**
+         * @var $secKill Seckill
+         * @var $product Product
+         */
+        $secKill = Seckill::query()->findOrFail($id);
+        $product = $secKill->product()->firstOrFail();
+
+
+        // 如果已经到了开始抢购时间，就不能删除了
+        $now = Carbon::now();
+        $startTime = Carbon::make($secKill->start_at);
+        $endTime = Carbon::make($secKill->end_at);
+
+        // 如果正处于抢购的时间，不允许删除
+        if ($now->gte($startTime) && $now->lte($endTime)) {
+
+            return response()->json([
+                'status' => false,
+                'message' => '秒杀已经开始，不能删除',
+            ]);
+        }
+
+        DB::beginTransaction();
+
+
+        try {
+
+            // 恢复剩余的库存量
+            // 恢复库存数量
+            if ($secKill->safe_count != 0) {
+                $product->increment('safe_count', $secKill->safe_count);
+            }
+
+            if ($secKill->numbers != 0) {
+                $product->increment('count', $secKill->numbers);
+            }
+
+            $secKill->delete();
+
+            $data = [
+                'status'  => false,
+                'message' => trans('admin.delete_succeeded'),
+            ];
+
+        } catch (\Exception $e) {
+
+            $data = [
+                'status'  => true,
+                'message' => trans('admin.delete_failed'),
+            ];
+            DB::rollBack();
+        }
+
+        DB::commit();
+        return response()->json($data);
     }
 }

@@ -35,5 +35,7 @@ class DatabaseSeeder extends Seeder
 
         // 生成一些订单数据
         $this->call(OrdersSeeder::class);
+        // 秒杀数据
+        $this->call(SeckillsTablesSeeder::class);
     }
 }

@@ -11,6 +11,7 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
+    $router->fallback('HomeController@noFound');
 
     // 系统的配置
     $router->resource('settings', 'SettingController')->only('index', 'show', 'edit', 'update');
@@ -23,7 +24,7 @@ Route::group([
     // 秒杀的商品管理
     $router->resource('categories', 'CategoryController');
     $router->resource('products', 'ProductController');
-    $router->resource('seckills', 'SeckillController')->only('index', 'create', 'store');
+    $router->resource('seckills', 'SeckillController')->only('index', 'create', 'store', 'destroy');
 
     // 订单
     // 评论
