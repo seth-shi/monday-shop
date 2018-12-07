@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property int $product_id
- * @property int $numbers
+ * @property int $numbers 秒杀的数量
+ * @property int $safe_count 卖出的数量
  * @property string $start_at 抢购开始时间
  * @property string $end_at 抢购结束时间
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereEndAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereNumbers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereSafeCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereStartAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereUpdatedAt($value)
@@ -28,6 +30,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Seckill extends Model
 {
+    protected $casts = [
+        'price' => 'double'
+    ];
     /**
      * 一个商品可以同时有多个商品同时秒杀，
      *

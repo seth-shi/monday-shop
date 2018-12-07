@@ -69,4 +69,13 @@ class HomeController extends Controller
     }
 
 
+    /**
+     * 自定义 404 页面
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function noFound()
+    {
+        return view('errors.404');
+    }
 }

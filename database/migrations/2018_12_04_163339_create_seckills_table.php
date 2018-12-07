@@ -19,7 +19,9 @@ class CreateSeckillsTable extends Migration
             $table->unsignedInteger('category_id');
             $table->unsignedInteger('product_id');
 
-            $table->unsignedInteger('numbers')->default(1);
+            $table->decimal('price')->comment('秒杀价');
+            $table->unsignedInteger('numbers')->default(1)->comment('秒杀的数量');
+            $table->unsignedInteger('safe_count')->default(0)->comment('卖出的数量');
             $table->dateTime('start_at')->comment('抢购开始时间');
             $table->dateTime('end_at')->comment('抢购结束时间');
 
