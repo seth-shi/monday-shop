@@ -62,6 +62,8 @@ Route::get('products/search', 'ProductController@search');
 Route::resource('categories', 'CategoryController', ['only' => ['index', 'show']]);
 Route::resource('products', 'ProductController', ['only' => ['index', 'show']]);
 Route::resource('cars', 'CarController');
+// 秒杀商品
+Route::get('seckills/{id}', 'SeckillController@show');
 
 /****************************************
  * 用户相关的路由

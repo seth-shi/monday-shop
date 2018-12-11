@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Seckill;
 use App\Models\User;
+use Carbon\Carbon;
 use Jenssegers\Agent\Agent;
 
 class HomeController extends Controller
@@ -22,6 +24,24 @@ class HomeController extends Controller
         $latestProducts = Product::query()->withCount('users')->latest()->take(9)->get();
         $users = User::query()->orderBy('login_count', 'desc')->take(10)->get(['avatar', 'name']);
 
-        return view('homes.index', compact('categories', 'hotProducts', 'latestProducts', 'users'));
+
+        $secKills = collect()->when(setting('is_open_seckill') == 1, function () {
+
+            // 只要秒杀没有结束，都要查出来
+            $now = Carbon::now()->toDateTimeString();
+            $secKills = Seckill::query()
+                               ->where('end_at', '>=', $now)
+                               ->where('numbers', '>', 0)
+                               ->oldest('start_at')
+                               ->with('product')
+                               ->get();
+
+            return $secKills;
+        });
+
+        return view(
+            'homes.index',
+            compact('categories', 'hotProducts', 'latestProducts', 'users', 'secKills')
+        );
     }
 }
