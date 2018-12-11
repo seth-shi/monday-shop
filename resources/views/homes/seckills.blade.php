@@ -1,213 +1,76 @@
 <section class="section latest-coupons-area ptb-30">
     <header class="panel ptb-15 prl-20 pos-r mb-30">
-        <h3 class="section-title font-18">Latest Deals</h3>
-        <a class="btn btn-o btn-xs pos-a right-10 pos-tb-center">View All</a>
+        <h3 class="section-title font-18">秒杀商品</h3>
     </header>
 
     <div class="latest-coupons-slider owl-slider" data-autoplay-hover-pause="true" data-loop="true" data-autoplay="true" data-smart-speed="1000" data-autoplay-timeout="10000" data-margin="30" data-nav-speed="false" data-items="1" data-xxs-items="1" data-xs-items="2" data-sm-items="2" data-md-items="3" data-lg-items="4">
-        <div class="coupon-item">
-            <div class="coupon-single panel t-center">
-                <div class="ribbon-wrapper is-hidden-xs-down">
-                    <div class="ribbon">Featured</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="text-center p-20">
-                            <img class="store-logo" src="assets/images/coupons/coupon_01.jpg" alt="">
-                        </div>
-                        <!-- end media -->
-                    </div>
-                    <!-- end col -->
 
-                    <div class="col-xs-12">
-                        <div class="panel-body">
-                            <ul class="deal-meta list-inline mb-10">
-                                <li class="color-green"><i class="ico lnr lnr-smile mr-5"></i>Verifed</li>
-                                <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>125 Used</li>
-                            </ul>
-                            <h4 class="color-green mb-10 t-uppercase">10% OFF</h4>
-                            <h5 class="deal-title mb-10">
-                                <a href="#">10% off select XPS & Alienware laptops</a>
-                            </h5>
-                            <p class="mb-15 color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>Expires On 01/01/2018</p>
-                            <div class="showcode" data-toggle-class="coupon-showen" data-toggle-event="click">
-                                <button class="show-code btn btn-sm btn-block" data-toggle="modal" data-target="#coupon_01">Get Coupon Code</button>
-                                <div class="coupon-hide">X455-17GT-OL58</div>
+        @forelse($secKills as $secKill)
+            <div class="coupon-item">
+                <a href="/seckills/{{ $secKill->id }}">
+                    <div class="coupon-single panel t-center">
+                    <div class="ribbon-wrapper is-hidden-xs-down">
+                        <div class="ribbon"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-center p-20">
+                                <img class="store-logo" style="width: 100%; height: 100px;" src="{{ $secKill->product->thumb }}" alt="">
+                            </div>
+                            <!-- end media -->
+                        </div>
+                        <!-- end col -->
+
+                        <div class="col-xs-12">
+                            <div class="panel-body">
+                                <ul class="deal-meta list-inline mb-10">
+                                    <li class="color-green"><i class="ico lnr lnr-smile mr-5"></i>剩余：{{ $secKill->numbers }}</li>
+                                    <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>已抢: {{ $secKill->safe_count }}</li>
+                                </ul>
+                                <h5 class="deal-title mb-10">
+                                    <a href="#">{{ str_limit($secKill->product->name, 10) }}</a>
+                                </h5>
+                                <p class="mb-15 color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>开始时间: {{ $secKill->start_at }}</p>
+                                <div class="showcode" data-toggle-class="coupon-showen" data-toggle-event="click">
+                                    <div class="coupon-hide">{{ $secKill->price }} ￥</div>
+                                </div>
                             </div>
                         </div>
+                        <!-- end col -->
                     </div>
-                    <!-- end col -->
+                    <!-- end row -->
                 </div>
-                <!-- end row -->
+                </a>
             </div>
-        </div>
-        <div class="coupon-item">
-            <div class="coupon-single panel t-center">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="text-center p-20">
-                            <img class="store-logo" src="assets/images/coupons/coupon_02.jpg" alt="">
-                        </div>
-                        <!-- end media -->
+        @empty
+            <div class="coupon-item">
+                <div class="coupon-single panel t-center">
+                    <div class="ribbon-wrapper is-hidden-xs-down">
+                        <div class="ribbon">没有秒杀活动</div>
                     </div>
-                    <!-- end col -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-center p-20">
+                                <img class="store-logo" alt="">
+                            </div>
+                            <!-- end media -->
+                        </div>
+                        <!-- end col -->
 
-                    <div class="col-xs-12">
-                        <div class="panel-body">
-                            <ul class="deal-meta list-inline mb-10">
-                                <li class="color-muted"><i class="ico fa fa-map-marker mr-5"></i>California</li>
-                                <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>13 Used</li>
-                            </ul>
-                            <h4 class="color-green mb-10 t-uppercase">15% OFF</h4>
-                            <h5 class="deal-title mb-10">
-                                <a href="#">15% off 2 select Amazon Fire cases</a>
-                            </h5>
-                            <p class="mb-15 color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>Expires On 05/02/2018</p>
-                            <div class="showcode" data-toggle-class="coupon-showen" data-toggle-event="click">
-                                <button class="show-code btn btn-sm btn-block" data-toggle="modal" data-target="#coupon_02">Show Code</button>
-                                <div class="coupon-hide">X455-17GT-OL58</div>
+                        <div class="col-xs-12">
+                            <div class="panel-body">
+
+                                <h4 class="color-green mb-10 t-uppercase">再等等吧</h4>
+                                <h5 class="deal-title mb-10">
+                                    <a href="#">没有抢购活动</a>
+                                </h5>
                             </div>
                         </div>
+                        <!-- end col -->
                     </div>
-                    <!-- end col -->
+                    <!-- end row -->
                 </div>
-                <!-- end row -->
             </div>
-        </div>
-        <div class="coupon-item">
-            <div class="coupon-single panel t-center">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="text-center p-20">
-                            <img class="store-logo" src="assets/images/coupons/coupon_03.jpg" alt="">
-                        </div>
-                        <!-- end media -->
-                    </div>
-                    <!-- end col -->
-
-                    <div class="col-xs-12">
-                        <div class="panel-body">
-                            <ul class="deal-meta list-inline mb-10">
-                                <li class="color-muted"><i class="ico fa fa-tag mr-5"></i>Coupon</li>
-                                <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>425 Used</li>
-                            </ul>
-                            <h4 class="color-green mb-10 t-uppercase">20% OFF</h4>
-                            <h5 class="deal-title mb-10">
-                                <a href="#">Flat 40% off hotel bookings in 10 cities</a>
-                            </h5>
-                            <p class="mb-15 color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>Expires On 15/01/2018</p>
-                            <div class="showcode" data-toggle-class="coupon-showen" data-toggle-event="click">
-                                <button class="show-code btn btn-sm btn-block" data-toggle="modal" data-target="#coupon_03">See Sale</button>
-                                <div class="coupon-hide">X455-17GT-OL58</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-        </div>
-        <div class="coupon-item">
-            <div class="coupon-single panel t-center">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="text-center p-20">
-                            <img class="store-logo" src="assets/images/coupons/coupon_04.jpg" alt="">
-                        </div>
-                        <!-- end media -->
-                    </div>
-                    <!-- end col -->
-
-                    <div class="col-xs-12">
-                        <div class="panel-body">
-                            <ul class="deal-meta list-inline mb-10">
-                                <li class="color-green"><i class="ico lnr lnr-smile mr-5"></i>Verifed</li>
-                                <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>230 Used</li>
-                            </ul>
-                            <h4 class="color-green mb-10 t-uppercase">30% OFF</h4>
-                            <h5 class="deal-title mb-10">
-                                <a href="#">There is no place like home 25% off</a>
-                            </h5>
-                            <p class="mb-15 color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>Expires On 02/03/2018</p>
-                            <div class="showcode" data-toggle-class="coupon-showen" data-toggle-event="click">
-                                <button class="show-code btn btn-sm btn-block" data-toggle="modal" data-target="#coupon_04">Print Code</button>
-                                <div class="coupon-hide">X455-17GT-OL58</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-        </div>
-        <div class="coupon-item">
-            <div class="coupon-single panel t-center">
-                <div class="ribbon-wrapper is-hidden-xs-down">
-                    <div class="ribbon">Featured</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="text-center p-20">
-                            <img class="store-logo" src="assets/images/coupons/coupon_05.jpg" alt="">
-                        </div>
-                        <!-- end media -->
-                    </div>
-                    <!-- end col -->
-
-                    <div class="col-xs-12">
-                        <div class="panel-body">
-                            <ul class="deal-meta list-inline mb-10">
-                                <li class="color-muted"><i class="ico fa fa-tag mr-5"></i>Coupon</li>
-                                <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>86 Used</li>
-                            </ul>
-                            <h4 class="color-green mb-10 t-uppercase">10% OFF</h4>
-                            <h5 class="deal-title mb-10">
-                                <a href="#">10% off $399+ refurbished laptops</a>
-                            </h5>
-                            <p class="mb-15 color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>Expires On 20/02/2018</p>
-                            <div class="showcode" data-toggle-class="coupon-showen" data-toggle-event="click">
-                                <button class="show-code btn btn-sm btn-block" data-toggle="modal" data-target="#coupon_05">Show Code</button>
-                                <div class="coupon-hide">X455-17GT-OL58</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-        </div>
-        <div class="coupon-item">
-            <div class="coupon-single panel t-center">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="text-center p-20">
-                            <img class="store-logo" src="assets/images/coupons/coupon_06.jpg" alt="">
-                        </div>
-                        <!-- end media -->
-                    </div>
-                    <!-- end col -->
-
-                    <div class="col-xs-12">
-                        <div class="panel-body">
-                            <ul class="deal-meta list-inline mb-10">
-                                <li class="color-green"><i class="ico lnr lnr-smile mr-5"></i>Verifed</li>
-                                <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>24 Used</li>
-                            </ul>
-                            <h4 class="color-green mb-10 t-uppercase">25% OFF</h4>
-                            <h5 class="deal-title mb-10">
-                                <a href="#">There is no place like home 25% off</a>
-                            </h5>
-                            <p class="mb-15 color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>Expires On 14/01/2018</p>
-                            <div class="showcode" data-toggle-class="coupon-showen" data-toggle-event="click">
-                                <button class="show-code btn btn-sm btn-block" data-toggle="modal" data-target="#coupon_06">Show Coupon</button>
-                                <div class="coupon-hide">X455-17GT-OL58</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-        </div>
+        @endforelse
     </div>
 </section>
