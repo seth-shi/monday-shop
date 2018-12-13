@@ -87,3 +87,17 @@ function setting($indexName, $default = null)
 
     return $default;
 }
+
+
+/**
+ * 响应 json
+ *
+ * @param int    $code
+ * @param string $msg
+ * @param array  $data
+ * @return \Illuminate\Http\JsonResponse
+ */
+function responseJson($code = 200, $msg = 'success', $data = [])
+{
+    return response()->json(compact('code', 'msg', 'data'));
+}

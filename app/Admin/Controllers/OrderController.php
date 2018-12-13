@@ -70,7 +70,10 @@ class OrderController extends Controller
 
             return OrderTransform::getInstance()->transStatus($status);
         });
+        $grid->column('type', '订单类型')->display(function ($type) {
 
+            return OrderTransform::getInstance()->transType($type);
+        });
         $grid->column('pay_no', '支付流水号');
         $grid->column('pay_time', '支付时间');
         $grid->column('consignee_name', '收货人姓名');
@@ -124,7 +127,11 @@ class OrderController extends Controller
         $show->field('status', '状态')->as(function ($status) {
 
             return OrderTransform::getInstance()->transStatus($status);
-        });;
+        });
+        $show->field('type', '订单类型')->as(function ($type) {
+
+            return OrderTransform::getInstance()->transType($type);
+        });
         $show->field('address', '收货地址');
         $show->field('pay_no', '支付单号');
         $show->field('pay_time', '支付时间');

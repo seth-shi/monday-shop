@@ -149,7 +149,7 @@
             var that = $(this);
 
             $.post(_url, {_token:'{{ csrf_token() }}', _method:'DELETE'}, function(res){
-                if (res.code == 0) {
+                if (res.code == 200) {
                     that.parent().parent().remove();
                 }
 
@@ -163,7 +163,7 @@
             var _url = "/user/addresses/default/" + id;
 
             $.post(_url, {_token:'{{ csrf_token() }}'}, function(res){
-                if (res.code == 0) {
+                if (res.code == 200) {
 
                 }
 

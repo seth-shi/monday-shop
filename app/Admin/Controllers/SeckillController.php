@@ -56,6 +56,8 @@ class SeckillController extends Controller
     {
         $grid = new Grid(new Seckill);
 
+        $grid->model()->latest();
+
         $grid->column('id');
 
         $grid->column('product.id', '商品ID');
@@ -70,6 +72,10 @@ class SeckillController extends Controller
         $grid->column('numbers', '秒杀数量');
         $grid->column('start_at', '开始时间');
         $grid->column('end_at', '结束时间');
+        $grid->column('rollback_count', '回滚量');
+        $grid->column('is_rollback', '是否回滚数量')->display(function ($is) {
+            return $is ? '是' : '否';
+        });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
 
@@ -159,17 +165,16 @@ class SeckillController extends Controller
     public function destroy($id)
     {
         /**
-         * @var $secKill Seckill
+         * @var $seckill Seckill
          * @var $product Product
          */
-        $secKill = Seckill::query()->findOrFail($id);
-        $product = $secKill->product()->firstOrFail();
+        $seckill = Seckill::query()->findOrFail($id);
 
 
         // 如果已经到了开始抢购时间，就不能删除了
         $now = Carbon::now();
-        $startTime = Carbon::make($secKill->start_at);
-        $endTime = Carbon::make($secKill->end_at);
+        $startTime = Carbon::make($seckill->start_at);
+        $endTime = Carbon::make($seckill->end_at);
 
         // 如果正处于抢购的时间，不允许删除
         if ($now->gte($startTime) && $now->lte($endTime)) {
@@ -185,17 +190,13 @@ class SeckillController extends Controller
 
         try {
 
-            // 恢复剩余的库存量
-            // 恢复库存数量
-            if ($secKill->safe_count != 0) {
-                $product->increment('safe_count', $secKill->safe_count);
-            }
+            // 先把 redis 数据删除掉
+            // 虽然过期会自动清理，但是如果用户是
+            // 删除还没有开始的秒杀，只能在这里手动清理
+            \Redis::connection()->del([$seckill->getRedisModelKey(), $seckill->getRedisQueueKey()]);
 
-            if ($secKill->numbers != 0) {
-                $product->increment('count', $secKill->numbers);
-            }
 
-            $secKill->delete();
+            $seckill->delete();
 
             $data = [
                 'status'  => false,

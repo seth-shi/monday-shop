@@ -3,19 +3,18 @@
 namespace App\Http\Controllers\User;
 
 use App\Exceptions\OrderException;
-use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Address;
 use App\Models\Car;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Agent\Agent;
 use Yansongda\Pay\Pay;
 
-class PaymentController extends ApiController
+class PaymentController extends Controller
 {
 
     /**
@@ -51,11 +50,11 @@ class PaymentController extends ApiController
             // 如果有商品 id，证明是单个商品下单。
             // 否则，就是通过购物车直接下单，
             // 但无论如何都得有 address_id
-            $masterOrder = $this->newMasterOrder($request);
+            $masterOrder = $this->newMasterOrder($request->input('address_id'));
 
             if ($request->has('product_id')) {
 
-                $this->storeSingleOrder($masterOrder, $request);
+                $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('number'));
             } else {
 
                 $this->storeCarsOrder($masterOrder);
@@ -77,21 +76,22 @@ class PaymentController extends ApiController
     /**
      * 单个商品直接下单
      *
-     * @param Order   $masterOrder
-     * @param Request $request
+     * @param Order $masterOrder
+     * @param       $productUuid
+     * @param       $numbers
      * @return void
      * @throws OrderException
      */
-    protected function storeSingleOrder(Order $masterOrder, Request $request)
+    protected function storeSingleOrder(Order $masterOrder, $productUuid, $numbers)
     {
         /**
          * @var $product Product
          * @var $address Address
          */
-        $product = Product::query()->where('uuid', $request->input('product_id'))->first();
+        $product = Product::query()->where('uuid', $productUuid)->firstOrFail();
 
         // 明细表
-        $detail = $this->buildOrderDetail($product, $request->input('numbers'));
+        $detail = $this->buildOrderDetail($product, $numbers);
         $masterOrder->name = $product->name;
         $masterOrder->total = $detail['total'];
         $masterOrder->save();
@@ -137,17 +137,18 @@ class PaymentController extends ApiController
 
     /**
      * 实例化一个主订单
-     * @param Request $request
+     *
+     * @param $addressId
      * @return Order
      */
-    protected function newMasterOrder(Request $request)
+    protected function newMasterOrder($addressId)
     {
         /**
          * 主订单的新建
          * @var $address Address
          * @var $masterOrder Order
          */
-        $address = Address::query()->find($request->input('address_id'));
+        $address = Address::query()->find($addressId);
 
         $order = new Order();
         $order->consignee_name = $address->name;

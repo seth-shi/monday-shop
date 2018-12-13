@@ -17,7 +17,8 @@ class CommentController extends Controller
         $validator = $this->buildValidator($request->all());
 
         if ($validator->fails()) {
-            return response()->json(['code' => 400, 'msg' => $validator->errors()->first()]);
+
+            return responseJson(400, $validator->errors()->first());
         }
 
         /**
@@ -31,7 +32,8 @@ class CommentController extends Controller
         // TODO 还可以验证是否支付等等，暂不做
         // 主订单的人是否是当前这个人
         if ($masterOrder->user_id != auth()->id()) {
-            return response()->json(['code' => 400, 'msg' => '非法评论']);
+
+            return responseJson(400, '非法评论');
         }
 
         // 可以评论
@@ -42,7 +44,7 @@ class CommentController extends Controller
         $orderDetail->comment()->create($data);
         $orderDetail->setAttribute('is_commented', true)->save();
 
-        return response()->json(['code' => 200, 'msg' => '评论成功']);
+        return responseJson(200, '评论成功');
     }
 
 
