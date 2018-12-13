@@ -18,6 +18,20 @@ class OrderTransform extends Transform
         return $isCommented ? '<span class="glyphicon glyphicon-ok bg-green"></span>' : '';
     }
 
+
+    public function transType($type)
+    {
+        $text = '未知';
+
+        if ($type == 1) {
+            $text = '普通订单';
+        } elseif ($type == 2) {
+            $text = '秒杀订单';
+        }
+
+        return $text;
+    }
+
     public function transStatus($status)
     {
         switch ($status) {

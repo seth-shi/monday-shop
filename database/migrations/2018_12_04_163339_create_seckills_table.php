@@ -21,9 +21,14 @@ class CreateSeckillsTable extends Migration
 
             $table->decimal('price', 12, 2)->comment('秒杀价');
             $table->unsignedInteger('numbers')->default(1)->comment('秒杀的数量');
+            $table->unsignedInteger('rollback_count')->default(0)->comment('回滚的库存量');
             $table->unsignedInteger('safe_count')->default(0)->comment('卖出的数量');
+
             $table->dateTime('start_at')->comment('抢购开始时间');
             $table->dateTime('end_at')->comment('抢购结束时间');
+
+            // 回滚过了，就不继续回滚
+            $table->tinyInteger('is_rollback')->default(0)->comment('是否回滚了数量');
 
             $table->timestamps();
         });

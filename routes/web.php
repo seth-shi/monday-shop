@@ -5,20 +5,6 @@
  ****************************************/
 Auth::routes();
 
-Route::get('init', function (\Illuminate\Http\Request $request) {
-
-    $number = $request->input('number', 20);
-
-    dd(Redis::connection()->lpush('seckill:', array_fill(0, $number, 9)));
-});
-
-Route::get('test', function () {
-
-
-    var_dump(Redis::connection()->lpop('seckill:'));
-});
-
-
 Route::namespace('Auth')->group(function(){
 
     // 获取验证码
@@ -59,11 +45,12 @@ Route::get('products/search', 'ProductController@search');
  * 2. 商品的资源路由哦
  * 3. 购物车的资源路由
  ****************************************/
-Route::resource('categories', 'CategoryController', ['only' => ['index', 'show']]);
-Route::resource('products', 'ProductController', ['only' => ['index', 'show']]);
+Route::resource('categories', 'CategoryController')->only('index', 'show');
+Route::resource('products', 'ProductController')->only('index', 'show');
 Route::resource('cars', 'CarController');
+
 // 秒杀商品
-Route::get('seckills/{id}', 'SeckillController@show');
+Route::get('seckills/{id}', 'User\SeckillController@show');
 
 /****************************************
  * 用户相关的路由
@@ -126,6 +113,9 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     Route::post('pay/store', 'PaymentController@store');
     Route::get('pay/orders/{order}/refund', 'RefundController@store');
     Route::get('pay/orders/{order}/again', 'PaymentController@againStore');
+
+    // 秒杀的订单创建接口
+    Route::post('seckills/{id}', 'SeckillController@storeSeckill');
 });
 
 // 支付通知的接口

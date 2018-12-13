@@ -62,8 +62,17 @@ class Order extends Model
     use SoftDeletes;
 
     protected $table = 'orders';
-    protected $fillable = ['uuid', 'total', 'status', 'consignee_name', 'consignee_phone', 'consignee_address', 'user_id'];
+    protected $fillable = [
+        'uuid', 'total', 'status', 'type',
+        'consignee_name', 'consignee_phone', 'consignee_address', 'user_id'
+    ];
 
+
+    // 订单类型
+    const TYPES = [
+        'COMMON' => 1,
+        'SEC_KILL' => 2
+    ];
 
     // 订单状态
     const PAY_STATUSES = [

@@ -79,15 +79,12 @@ class AddressController extends Controller
     {
         if (auth()->id() != $address->user_id) {
 
-            return response()->json([
-                'code' => 403,
-                'msg' => '非法操作'
-            ]);
+            return responseJson(400, '非法操作');
         }
 
         $address->delete();
 
-        return response()->json(['code' => 0, 'msg' => '删除成功']);
+        return responseJson(200, '删除成功');
     }
 
 
@@ -95,23 +92,18 @@ class AddressController extends Controller
     {
         if (auth()->id() != $address->user_id) {
 
-            return response()->json([
-                'code' => 403,
-                'msg' => '非法操作'
-            ]);
+            return responseJson(400, '非法操作');
         }
 
         Address::query()->where('user_id', $address->user_id)->update(['is_default' => 0]);
         $address->is_default = 1;
 
         if ($address->save()) {
-            $this->response = [
-                'code' => 0,
-                'msg' => '设置成功',
-            ];
+
+            return responseJson(0, '设置成功');
         }
 
-        return $this->response;
+        return responseJson(400, '请稍后再试！');
     }
 
 

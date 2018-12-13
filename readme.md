@@ -38,7 +38,69 @@
     - [ ] 秒杀商品，如果用户收藏，发送邮件提醒活动
     - [ ] 秒杀的数量，使用 redis + mysql 实时同步
     - [ ] 秒杀过期，自动回退库存
+    - [ ] 使用延时队列，当订单超过三十分钟未付款，自动取消订单
 - [ ] 延时取消订单，恢复库存
+- [ ] **首页数据全走 redis 缓存**
+## 秒杀处理逻辑
+```php
+
+## 初始化抢购数据
+<?php
+
+// 假设当前秒杀活动的 id 为 9
+// 可以在模型的 created 事件做这个事情
+$id = 9;;
+
+// 填充一个 redis 队列，数量为抢购的数量，后面的 9 无意义
+\Redis::lpush("seckills:{$id},queue", array_fill(0, $seckill->numbers, 9));
+?>
+
+## 抢购
+<?php
+
+// 从路由或者参数中得到当前秒杀活动的 id
+$id = 9;
+$userId = auth()->id();
+
+// 判断是否已经开始了秒杀
+
+// 返回 0，代表当前用户已经抢购过了
+if (0 == Redis::hset("seckills:{$id},users,{$userId}", 'id', $userId)) {
+
+    return responseJson(403, '你已经抢购过了');
+}
+
+// 如果从队列中读取到了 null，代表已经没有库存
+if (is_null(Redis::lpop("seckills:{$id},queue"))) {
+
+    return responseJson(403, '已经抢购完成了');
+}
+
+// 这里就可以开始入库订单
+
+?>
+
+## 利用 crontab 定时扫描过期数据，回滚库存，删除过期 redis (可选)
+<?php
+
+ // 查出已经过期确没有回滚过的秒杀，
+Seckill::query()
+       ->where('end_at', '<', date('Y-m-d H:i:s'))
+       ->get()
+       ->map(function (Seckill $seckill) {
+           
+           // 先模糊查找到所有用户 key
+           $ids = Redis::keys("seckills:{$seckill->id},users,*");
+           // 再加一个队列的 redis key
+           $ids[] = "seckills:{$seckill->id},queue";
+           Redis::del($ids);
+           
+           // 回滚库存
+           // 做更多的事
+       };
+?>
+
+```
 ## Installation
 1. 获取源代码
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/DavidNineRoc/monday-shop/archive/master.zip)
@@ -54,7 +116,10 @@ composer install
 ```shell
 cp .env.example .env
 ```
-4. 使用安装命令(会执行执行数据库迁移，填充，等)
+4. 开启秒杀功能
+    * 安装前可以把`database/seeds/SettingsTablesSeeder.php`中的`is_open_seckill`设置为`1`
+    * 安装之后可以直接通过后台管理系统设置中的配置设置管理
+5. 使用安装命令(会执行执行数据库迁移，填充，等)
 ```shell
 php artisan moon:install
 ```

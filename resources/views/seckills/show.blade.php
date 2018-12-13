@@ -37,7 +37,7 @@
                     </script>
 
                     <div class="tb-booth tb-pic tb-s310">
-                        <img src="{{ $product->thumb }}" alt="{{ $product->name }}" id="jqzoom" />
+                        <img src="{{ imageUrl($product->thumb) }}" alt="{{ $product->name }}" id="jqzoom" />
                     </div>
                     <ul class="tb-thumb" id="thumblist">
                         @foreach ($product->pictures as $key => $image)
@@ -69,7 +69,7 @@
                     <div class="tb-detail-price">
                         <li class="price iteminfo_price">
                             <dt>秒杀价</dt>
-                            <dd><em>¥</em><b class="sys_item_price">{{ $seckill->price }}</b>  </dd>
+                            <dd><em>¥</em><b class="sys_item_price">{{ $redisSeckill->price }}</b>  </dd>
                         </li>
                         <li class="price iteminfo_mktprice">
                             <dt>原价</dt>
@@ -82,12 +82,14 @@
 
                     <!--地址-->
                     <div class="iteminfo_parameter" style="text-align: center">
-                        <dt>收货地址</dt>
+                        <hr>
+                        <dt>收货地址请设置好收货地址，避免秒杀失败</dt>
+                        <hr>
                         <div class="iteminfo_freprice">
                             <div class="am-form-content">
 
                                 @if ($addresses->isNotEmpty())
-                                    <select class="form-control" style="width: 100%" name="address_id">
+                                    <select class="form-control" style="width: 100%" id="address_id">
                                         @foreach($addresses as $address)
                                             <option value="{{ $address->id }}" {{ $address->is_default ? 'selected' : '' }}>{{ $address->name }}/{{ $address->phone }}</option>
                                         @endforeach
@@ -104,10 +106,10 @@
                     <!--销量-->
                     <ul class="tm-ind-panel">
                         <li class="tm-ind-item tm-ind-sumCount canClick">
-                            <div class="tm-indcon"><span class="tm-label">剩余量</span><span class="tm-count">{{ $seckill->numbers }}</span></div>
+                            <div class="tm-indcon"><span class="tm-label">总量</span><span class="tm-count">{{ $redisSeckill->numbers }}</span></div>
                         </li>
                         <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
-                            <div  class="tm-indcon"><span class="tm-label">已抢购</span><span class="tm-count" id="likes_count">{{ $seckill->safe_count }}</span></div>
+                            <div  class="tm-indcon"><span class="tm-label">已抢购</span><span class="tm-count" id="likes_count">{{ $redisSeckill->safe_count }}</span></div>
                         </li>
                     </ul>
                     <div class="clear"></div>
@@ -121,7 +123,7 @@
                 <div class="pay">
                     <div class="clearfix tb-btn">
                         @auth
-                            @if ($seckill->is_start)
+                            @if ($redisSeckill->is_start)
                                 <a  style="width: 100%" href="javascript:;" id="nowBug" >立即抢购</a>
                             @else
                                 <a  style="width: 100%" href="javascript:;" id="countDown"></a>
@@ -129,7 +131,8 @@
                             @endif    
                         @endauth
                         @guest
-                            <a href="/login?redirect_url={{ url()->current() }}">请先登录</a>
+                            <span style="color: #666">请登录后再操作</span>
+                            <a href="/login?redirect_url={{ url()->current() }}" style="width: 100%" title="请先登录" id="countDown">立即抢购</a>
                         @endguest
                     </div>
                     <div class="clear"></div>
@@ -148,7 +151,7 @@
 @section('script')
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
-        var timestamp = {{ $seckill->diff_time }};
+        var timestamp = {{ $redisSeckill->diff_time }};
         var timer = null;
         var step = 0.5;
 
@@ -171,9 +174,33 @@
                     timestamp -= step;
                 }, 500);
             }
+
+            $('#nowBug').click(function () {
+
+                var address_id = $('#address_id').val();
+
+                var parameters = {address_id: address_id, _token: "{{ csrf_token() }}"};
+                $.post('/user/seckills/{{ $redisSeckill->id }}', parameters, function (res) {
+
+                    console.log(res);
+                    if (res.code != 200) {
+
+                        layer.alert(res.msg, {
+                            icon: 2,
+                            title: '错误'
+                        });
+
+                        return;
+                    }
+
+                    // 提交表单
+                    document.write(res.data.form);
+                })
+            });
         });
 
 
+        // 转换时间戳为倒计时
         function transTime(timestamp)
         {
             var result = "";
