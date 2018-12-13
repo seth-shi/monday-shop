@@ -122,7 +122,8 @@ class SeckillController extends PaymentController
         // 加一个延时队列，如果未付款，自动取消订单
 
         // 生成支付信息
-        $form = (string) $this->buildPayForm($masterOrder, (new Agent)->isMobile());
+        $form = $this->buildPayForm($masterOrder, (new Agent)->isMobile())->getContent();
+
         return responseJson(200, '抢购成功', compact('form'));
     }
 
