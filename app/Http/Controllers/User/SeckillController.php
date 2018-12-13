@@ -170,8 +170,6 @@ class SeckillController extends PaymentController
      * @param Product $product
      * @param         $number
      * @return array
-     * @throws OrderException
-     * @throws \App\Exceptions\OrderException
      */
     protected function buildOrderDetail(Product $product, $number)
     {
@@ -181,7 +179,7 @@ class SeckillController extends PaymentController
         ];
 
         // 价格为秒杀的价格, 直接从 redis 中读取
-        $attribute['price'] = $this->redisSeckill->price;
+        $attribute['price'] = ceilTwoPrice($this->redisSeckill->price);
         $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['numbers']);
 
         return $attribute;

@@ -62,7 +62,7 @@ function fixStrLength($str, $length, $padString = '0', $padType = STR_PAD_LEFT)
  */
 function ceilTwoPrice($price)
 {
-    return floor($price * 100) / 100;
+    return round($price, 2);
 }
 
 
