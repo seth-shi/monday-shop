@@ -11,7 +11,7 @@ class SeckillsTablesSeeder extends Seeder
      */
     public function run()
     {
-        if (setting('is_open_seckill') == 0) {
+        if (setting('is_open_seckill') == 1) {
 
             \App\Models\Product::query()->take(9)->get()->map(function (\App\Models\Product $product) {
 
