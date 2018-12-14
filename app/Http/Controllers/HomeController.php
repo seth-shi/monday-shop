@@ -18,6 +18,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // TODO, 全部数据存入 redis，
         // 取出后台排序好的九个分类，并且关联出商品的总数
         $categories = Category::query()->withCount('products')->orderBy('order')->take(9)->get();
         $hotProducts = Product::query()->withCount('users')->orderBy('safe_count', 'desc')->take(3)->get();
