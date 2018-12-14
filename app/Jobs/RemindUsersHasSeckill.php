@@ -42,11 +42,13 @@ class RemindUsersHasSeckill implements ShouldQueue
         // 拿出收藏的用户
         $product = $this->seckill->product;
 
-        $emails = $product->users()
-                          ->get()
-                          ->pluck('email');
+        $product->users()
+                ->get()
+                ->map(function (User $user) use ($product) {
 
-        // TODO 发送秒杀活动邮件还有点问题
-        Mail::to($emails)->send(new RemindUserHasSeckillEmail($this->seckill, $product));
+                    Mail::to($user->email)->send(new RemindUserHasSeckillEmail($this->seckill, $product));
+                });
+
+
     }
 }

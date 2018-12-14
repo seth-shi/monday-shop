@@ -1,16 +1,6 @@
 <?php
 
 
-use App\Mail\SubscribesNotice;
-
-Route::get('test', function () {
-
-    dd(Mail::to('1033404553@qq.com')->sendNow(new SubscribesNotice()));
-
-    $seckill = \App\Models\Seckill::query()->firstOrFail();
-
-    Mail::to('1033404553')->send(new \App\Mail\RemindUserHasSeckillEmail($seckill, $seckill->product));
-});
 /****************************************
  * 互联登录的路由，包括 github, QQ， 微博 登录
  ****************************************/

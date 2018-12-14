@@ -42,8 +42,10 @@ class SendSubscribeEmail extends Command
     {
         Subscribe::query()
                  ->get()
-                 ->each(function(Subscribe $item){
-                     Mail::to($item->email)->sendNow(new SubscribesNotice());
+                 ->map(function(Subscribe $item){
+
+                     // 不要一次 to 多个用户，会暴露其他人的邮箱
+                     Mail::to($item->email)->send(new SubscribesNotice());
                  });
     }
 }
