@@ -54,7 +54,7 @@ class PaymentController extends Controller
 
             if ($request->has('product_id')) {
 
-                $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('number'));
+                $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('numbers'));
             } else {
 
                 $this->storeCarsOrder($masterOrder);
@@ -68,6 +68,7 @@ class PaymentController extends Controller
         }
 
         DB::commit();
+
 
         // 生成支付信息
         return $this->buildPayForm($masterOrder, (new Agent)->isMobile());
