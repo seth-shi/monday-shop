@@ -7,11 +7,8 @@ use App\Console\Commands\CountSite;
 use App\Console\Commands\DelExpireSecKill;
 use App\Console\Commands\SendSubscribeEmail;
 use App\Console\Commands\UpdateCacheHomeData;
-use App\Mail\SubscribesNotice;
-use DB;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Mail;
 
 class Kernel extends ConsoleKernel
 {

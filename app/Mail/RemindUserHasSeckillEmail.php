@@ -34,6 +34,6 @@ class RemindUserHasSeckillEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.seckills');
+        return $this->markdown('emails.seckills');
     }
 }

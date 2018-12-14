@@ -7,15 +7,13 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Cache;
 
 class SubscribesNotice extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $subject = '星期一商城订阅消息';
-    public $latest;
-    public $hottest;
-    public $likest;
 
 
     public function __construct()
@@ -27,10 +25,20 @@ class SubscribesNotice extends Mailable
     public function build()
     {
 
-        $this->latest = Product::query()->latest()->first();
-        $this->hottest = Product::query()->orderBy('safe_count', 'desc')->first();
-        $this->likest = Product::query()->withCount('users')->orderBy('users_count', 'desc')->first();
+        $latest = Cache::remember('subscribes:latest', 60, function () {
 
-        return $this->markdown('emails.subscribes');
+            return Product::query()->latest()->first();
+        });
+        $hottest =  Cache::remember('subscribes:latest', 60, function () {
+
+            return Product::query()->orderBy('safe_count', 'desc')->first();
+        });
+        $likest = Cache::remember('subscribes:latest', 60, function () {
+
+            return Product::query()->withCount('users')->orderBy('users_count', 'desc')->first();
+        });
+
+
+        return $this->markdown('emails.subscribes', compact('likest', 'latest', 'hottest'));
     }
 }

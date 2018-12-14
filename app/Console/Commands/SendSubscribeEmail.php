@@ -14,7 +14,7 @@ class SendSubscribeEmail extends Command
      *
      * @var string
      */
-    protected $signature = 'send:subscribes';
+    protected $signature = 'moon:send-subscribes';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class SendSubscribeEmail extends Command
         Subscribe::query()
                  ->get()
                  ->each(function(Subscribe $item){
-                     Mail::to($item->email)->queue(new SubscribesNotice());
+                     Mail::to($item->email)->sendNow(new SubscribesNotice());
                  });
     }
 }
