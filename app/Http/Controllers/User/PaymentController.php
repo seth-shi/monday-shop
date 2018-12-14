@@ -56,11 +56,10 @@ class PaymentController extends Controller
 
             if ($request->has('product_id')) {
 
-                $detail = $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('numbers'));
-                $details = collect($detail);
+                $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('numbers'));
             } else {
 
-                $details = $this->storeCarsOrder($masterOrder);
+                $this->storeCarsOrder($masterOrder);
             }
 
         } catch (\Exception $e) {
@@ -74,7 +73,7 @@ class PaymentController extends Controller
 
         // 当订单超过三十分钟未付款，自动取消订单
         $delay = Carbon::now()->addMinute(setting('order_un_pay_auto_cancel_time', 30));
-        CancelUnPayOrder::dispatch($masterOrder, $details)->delay($delay);
+        CancelUnPayOrder::dispatch($masterOrder)->delay($delay);
 
         // 生成支付信息
         return $this->buildPayForm($masterOrder, (new Agent)->isMobile());

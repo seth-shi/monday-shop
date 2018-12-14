@@ -49,7 +49,7 @@ class OrderTransform extends Transform
                 $text = '微信支付';
                 break;
             case Order::PAY_STATUSES['UN_PAY_CANCEL']:
-                $text = '未付款自动取消';
+                $text = '超时未付款系统自动取消';
                 break;
             default:
                 $text = '未知状态';

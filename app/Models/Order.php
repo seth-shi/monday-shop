@@ -83,7 +83,7 @@ class Order extends Model
         // 阿里支付，微信支付
         'ALI' => 1,
         'WEIXIN' => 2,
-        // 取消订单
+        // 超时系统取消订单
         'UN_PAY_CANCEL' => 3,
     ];
 
