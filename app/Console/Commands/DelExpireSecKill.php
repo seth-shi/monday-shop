@@ -14,7 +14,7 @@ class DelExpireSecKill extends Command
      *
      * @var string
      */
-    protected $signature = 'del:seckills';
+    protected $signature = 'moon:del-seckills';
 
     /**
      * 删除过期的秒杀

@@ -127,16 +127,28 @@
                     <p class="mb-20 color-mid">每周六上午八点将发送一封商品推荐信息给你 <br />(测试阶段将为每天发送一封订阅邮件)</p>
 
                         <div class="input-group mb-10">
-                            <input  type="email" id="subscribe_email" class="form-control bg-white" value="{{ auth()->user()->subscribe->email ?? auth()->user()->email ?? '' }}" placeholder="Email Address" {{ isset(auth()->user()->subscribe) ? 'disabled' : ''  }}  required="required">
-                            <span class="input-group-btn">
-                                @auth
-                                    <button class="btn" id="subscribe_btn" type="button" style="{{ auth()->user()->subscribe()->exists() ? 'display: none;' : '' }}">订阅</button>
-                                    <button  type="button"  id="desubscribe_btn"  class="btn btn-warning"style="{{ auth()->user()->subscribe()->exists() ? '' : 'display: none;' }}">取消订阅</button>
-                                @endauth
-                                @guest
-                                    <button class="btn" id="login_subscribe_btn" type="button">订阅</button>
-                                @endguest
-                            </span>
+
+                            @if ($loginUser)
+                                <input  type="email" id="subscribe_email" class="form-control bg-white"
+                                        value="{{ $loginUser->subscribe->email ?? optional($loginUser)->email }}"
+                                        placeholder="请输入邮箱地址"
+                                        {{ $loginUser->subscribe ? 'disabled' : ''  }}
+                                required="required">
+                                <span class="input-group-btn">
+                                    <button class="btn {{ $loginUser->subscribe ? 'btn-warning' : '' }}" id="subscribe" type="button">
+                                        {{ $loginUser->subscribe ? '取消订阅' : '订阅' }}
+                                    </button>
+                                 </span>
+                            @else
+                                <input  type="email" id="subscribe_email" class="form-control bg-white"
+                                        value=""
+                                        placeholder="请输入邮箱地址"
+                                        required="required">
+                                <span class="input-group-btn">
+                                    <button class="btn" id="login_subscribe_btn" type="button" style="">订阅</button>
+                                 </span>
+                            @endif
+
                         </div>
 
                     <p class="color-muted"><small>我们永远不会与第三方分享您的电子邮件地址.</small> </p>
@@ -157,43 +169,33 @@
 
         var csrf_token = "{{ csrf_token() }}";
         // 订阅邮件
-        $('#subscribe_btn').click(function(){
+        $('#subscribe').click(function(){
             var _url = "user/subscribe";
             var _email = $('#subscribe_email').val();
             var that = $(this);
             that.attr('disabled', true);
 
-            $.post(_url, {email:_email, _token:csrf_token}, function(res){
-
+            $.post(_url, {email:_email, _token:csrf_token, _method: "PUT"}, function(res){
                 that.attr('disabled', false);
 
+                // 取消订阅成功
                 if (res.code == 200) {
-                    that.hide().next().show();
-                    layer.msg(res.msg, {icon: 1});
-                } else {
+
+                    $('#subscribe_email').attr('disabled', false);
+                    that.text('订阅').removeClass('btn-warning');
+                } else if (res.code == 201) {
+
+                    $('#subscribe_email').attr('disabled', true);
+                    that.text('取消订阅').addClass('btn-warning');
+                }else {
                     layer.msg(res.msg, {icon: 2});
+                    return;
                 }
 
+                layer.msg(res.msg, {icon: 1});
             });
         });
 
-        $('#desubscribe_btn').click(function(){
-            var _url = "user/desubscribe";
-            var that = $(this);
-            that.attr('disabled', true);
-
-            $.post(_url, {_token:csrf_token}, function(res){
-                that.attr('disabled', false);
-
-                if (res.code == 200) {
-                    that.hide().prev().show();
-                    layer.msg(res.msg, {icon: 1});
-                } else {
-                    layer.msg(res.msg, {icon: 2});
-                }
-
-            });
-        });
 
 
         $('#login_subscribe_btn').click(function() {

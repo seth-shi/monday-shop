@@ -92,38 +92,21 @@ class UserController extends Controller
 
     public function subscribe(Request $request)
     {
-        $response = [
-            'code' => 402,
-            'msg' => '服务器出错，请稍后再试',
-        ];
+        $query = $this->user()->subscribe();
 
-        if ($this->user()->subscribe()->create($request->only('email'))) {
-            $response = [
-                'code' => 200,
-                'msg' => '订阅成功',
-            ];
+        // 取消订阅
+        if ((clone $query)->exists()) {
+
+            $query->delete();
+
+            return responseJson(200, '取消订阅成功');
         }
 
-        return $response;
+        // 订阅邮件
+        $query->create($request->only('email'));
+
+        return responseJson(201, '订阅成功');
     }
-
-    public function deSubscribe()
-    {
-        $response = [
-            'code' => 402,
-            'msg' => '服务器出错，请稍后再试',
-        ];
-
-        if ($this->user()->subscribe()->delete()) {
-            $response = [
-                'code' => 200,
-                'msg' => '取消订阅成功',
-            ];
-        }
-
-        return $response;
-    }
-
 
     /**
      * 用户上传头像

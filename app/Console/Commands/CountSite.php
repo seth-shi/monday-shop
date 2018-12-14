@@ -15,7 +15,7 @@ class CountSite extends Command
      *
      * @var string
      */
-    protected $signature = 'count:site';
+    protected $signature = 'moon:count-site';
 
     /**
      * The console command description.
