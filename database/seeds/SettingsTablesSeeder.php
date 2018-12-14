@@ -23,6 +23,12 @@ class SettingsTablesSeeder extends Seeder
                 'type' => 'switch',
                 'description' => '是否开始秒杀功能模块（需要配置好 redis）'
             ],
+            [
+                'index_name' => 'order_un_pay_auto_cancel_time',
+                'value' => 30,
+                'type' => 'number',
+                'description' => '用户下订单之后，多久未付款自动取消订单。单位为分钟'
+            ],
         ];
 
         $now = \Carbon\Carbon::now()->toDateTimeString();
