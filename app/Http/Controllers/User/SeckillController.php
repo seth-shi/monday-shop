@@ -100,7 +100,7 @@ class SeckillController extends PaymentController
 
             // 创建一个秒杀主表订单和明细表订单，默认数量一个
             $masterOrder = $this->newMasterOrder($addressId)->setAttribute('type', Order::TYPES['SEC_KILL']);
-            $detail = $this->storeSingleOrder($masterOrder, $redisSeckill->product->uuid, 1);
+            $this->storeSingleOrder($masterOrder, $redisSeckill->product->uuid, 1);
 
         } catch (\Exception $e) {
 
@@ -123,7 +123,7 @@ class SeckillController extends PaymentController
 
         // 当订单超过三十分钟未付款，自动取消订单
         $delay = Carbon::now()->addMinute(setting('order_un_pay_auto_cancel_time', 30));
-        CancelUnPayOrder::dispatch($masterOrder, collect($detail))->delay($delay);
+        CancelUnPayOrder::dispatch($masterOrder)->delay($delay);
 
         // 生成支付信息
         $form = $this->buildPayForm($masterOrder, (new Agent)->isMobile())->getContent();
