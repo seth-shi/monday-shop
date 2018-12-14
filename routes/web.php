@@ -60,11 +60,9 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     /****************************************
      * 1. 用户的个人中心
      * 2. 订阅星期一商城以获取新闻
-     * 3. 取消订阅
      ****************************************/
     Route::get('/', 'UserController@index');
-    Route::post('subscribe', 'UserController@subscribe');
-    Route::post('desubscribe', 'UserController@deSubscribe');
+    Route::put('subscribe', 'UserController@subscribe');
 
     /****************************************
      * 1. 修改密码页面
