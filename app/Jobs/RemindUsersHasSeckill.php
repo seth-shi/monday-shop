@@ -46,6 +46,7 @@ class RemindUsersHasSeckill implements ShouldQueue
                           ->get()
                           ->pluck('email');
 
+        // TODO 发送秒杀活动邮件还有点问题
         Mail::to($emails)->send(new RemindUserHasSeckillEmail($this->seckill, $product));
     }
 }

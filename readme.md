@@ -153,6 +153,7 @@ php artisan moon:install
 |`php artisan moon:count-site`|统计站点任务（每天夜里一点执行）|
 |`php artisan moon:del-seckills`|删除秒杀数据 (每小时自动执行一次)|
 |`php artisan moon:update-home`|更新首页数据 (每分钟自动执行一次)|
+|`php artisan moon:send-subscribes`|发送订阅邮件 (每个礼拜六早上八点)|
 |`php artisan queue:work --tries=3`|监听队列(邮件发送，图片裁剪 !!!|
 ## Packages
 | 扩展包 | 一句话描述 | 在本项目中的使用案例 |  
