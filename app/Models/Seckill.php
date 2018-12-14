@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\RemindUsersHasSeckill;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -50,7 +51,7 @@ class Seckill extends Model
     public static function boot()
     {
         parent::boot();
-        // - [x] 秒杀商品，如果用户收藏，发送邮件提醒活动
+
 
         // 存入 redis
         static::created(function (Seckill $seckill) {
@@ -64,7 +65,10 @@ class Seckill extends Model
             // 填充一个 redis 队列，数量为抢购的数量，后面的 9 无意义
             // 当去队列的值时，只需要判断是否为 null，就可以得知还有没有数量
             $fill = array_fill(0, $seckill->numbers, 9);
-            \Redis::connection()->lpush($seckill->getRedisQueueKey(), $fill);
+            \Redis::lpush($seckill->getRedisQueueKey(), $fill);
+
+            // 秒杀商品，如果用户收藏，发送邮件提醒活动
+            RemindUsersHasSeckill::dispatch($seckill);
         });
     }
 

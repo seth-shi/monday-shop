@@ -5,16 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\UserRegister;
 use App\Models\User;
-use Faker\Factory;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Mews\Captcha\CaptchaServiceProvider;
 
 class RegisterController extends Controller
 {
