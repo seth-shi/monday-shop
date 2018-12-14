@@ -36,7 +36,6 @@ class CancelUnPayOrder implements ShouldQueue
         // 未付款设置为取消状态，
         $this->order->status = Order::PAY_STATUSES['UN_PAY_CANCEL'];
         $this->order->save();
-        file_put_contents(__DIR__.'/log.txt', '主订单修改'.PHP_EOL, FILE_APPEND);
 
         // 回滚库存
         $this->order
