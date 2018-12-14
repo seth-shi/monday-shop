@@ -82,7 +82,9 @@ class Order extends Model
         'UN_PAY' => 0,
         // 阿里支付，微信支付
         'ALI' => 1,
-        'WEIXIN' => 2
+        'WEIXIN' => 2,
+        // 取消订单
+        'UN_PAY_CANCEL' => 3,
     ];
 
     public function details()

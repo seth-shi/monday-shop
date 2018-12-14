@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Transforms\UserTransform;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -84,7 +85,6 @@ class UserController extends Controller
     {
         $grid = new Grid(new User);
 
-        // TODO 性别
         // 排序最新的
         $grid->model()->latest();
 
@@ -102,9 +102,8 @@ class UserController extends Controller
         $grid->column('weibo_name', '微博昵称');
         $grid->column('login_count', '登录次数')->sortable();
         $grid->column('is_active', '是否激活')->display(function ($isActive) {
-            return $isActive == User::ACTIVE_STATUS
-                ? "<span class='label' style='color: green;'>激活</span>"
-                : "<span class='label' style='color: red;'>未激活</span>";
+
+            return UserTransform::getInstance()->transStatus($isActive);
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');

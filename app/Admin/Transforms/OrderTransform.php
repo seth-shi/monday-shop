@@ -48,6 +48,9 @@ class OrderTransform extends Transform
             case Order::PAY_STATUSES['WEIXIN']:
                 $text = '微信支付';
                 break;
+            case Order::PAY_STATUSES['UN_PAY_CANCEL']:
+                $text = '未付款自动取消';
+                break;
             default:
                 $text = '未知状态';
                 break;

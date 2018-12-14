@@ -50,6 +50,7 @@ class Seckill extends Model
     public static function boot()
     {
         parent::boot();
+        // - [x] 秒杀商品，如果用户收藏，发送邮件提醒活动
 
         // 存入 redis
         static::created(function (Seckill $seckill) {

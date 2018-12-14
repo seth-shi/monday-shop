@@ -5,11 +5,13 @@ namespace App\Http\Controllers\User;
 use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
+use App\Jobs\CancelUnPayOrder;
 use App\Models\Address;
 use App\Models\Car;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Agent\Agent;
 use Yansongda\Pay\Pay;
@@ -54,10 +56,11 @@ class PaymentController extends Controller
 
             if ($request->has('product_id')) {
 
-                $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('numbers'));
+                $detail = $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('numbers'));
+                $details = collect($detail);
             } else {
 
-                $this->storeCarsOrder($masterOrder);
+                $details = $this->storeCarsOrder($masterOrder);
             }
 
         } catch (\Exception $e) {
@@ -69,6 +72,9 @@ class PaymentController extends Controller
 
         DB::commit();
 
+        // 当订单超过三十分钟未付款，自动取消订单
+        $delay = Carbon::now()->addMinute(setting('order_un_pay_auto_cancel_time', 30));
+        CancelUnPayOrder::dispatch($masterOrder, $details)->delay($delay);
 
         // 生成支付信息
         return $this->buildPayForm($masterOrder, (new Agent)->isMobile());
@@ -80,7 +86,7 @@ class PaymentController extends Controller
      * @param Order $masterOrder
      * @param       $productUuid
      * @param       $numbers
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Model
      * @throws OrderException
      */
     protected function storeSingleOrder(Order $masterOrder, $productUuid, $numbers)
@@ -98,12 +104,13 @@ class PaymentController extends Controller
         $masterOrder->save();
 
 
-        $masterOrder->details()->create($detail);
+        return $masterOrder->details()->create($detail);
     }
 
 
     /**
      * @param Order $masterOrder
+     * @return \Illuminate\Database\Eloquent\Collection
      * @throws OrderException
      */
     protected function storeCarsOrder(Order $masterOrder)
@@ -129,10 +136,12 @@ class PaymentController extends Controller
         $masterOrder->save();
 
         // 订单明细表创建
-        $masterOrder->details()->createMany($details->all());
+        $orderDetails = $masterOrder->details()->createMany($details->all());
 
         // 删除购物车完成
         $this->user()->cars()->delete();
+
+        return $orderDetails;
     }
 
 
