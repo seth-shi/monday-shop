@@ -53,6 +53,52 @@
     * 每天晚上一点进行站点数据统计
 - [ ] 全文搜索
 - [x] **响应式网站**
+
+## Installation
+1. 获取源代码
+* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/DavidNineRoc/monday-shop/archive/master.zip)
+* 或者`git`克隆源代码
+```shell
+git clone git@github.com:DavidNineRoc/monday-shop.git
+```
+2. 安装依赖扩展包
+```shell
+composer install
+```
+3. 生成配置文件(修改其中的配置选项:数据库的一定要修改)
+```shell
+cp .env.example .env
+```
+4. 开启秒杀功能
+    * 安装前可以把`database/seeds/SettingsTablesSeeder.php`中的`is_open_seckill`设置为`1`
+    * 安装之后可以直接通过后台管理系统设置中的配置设置管理
+5. 使用安装命令(会执行执行数据库迁移，填充，等)
+```shell
+php artisan moon:install
+```
+* 任务调度(订阅推荐，数据统计！！！)
+    * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
+    * [linux请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
+* 运行队列处理器(发送订阅邮件等耗时任务)
+    * `Linux`系统: 
+        * `nohup php artisan queue:work --tries=3 &`
+    * `windows`系统直接打开一个命令行窗口，运行命令，不要关闭窗口即可
+        * `php artisan queue:work --tries=3`
+### Commands
+| 命令  | 一句话描述 |
+| ----- | --- |
+|`php artisan moon:install`|安装应用程序|
+|`php artisan moon:uninstall`|卸载网站(清空数据库，缓存，路由)|
+|`php artisan moon:cache`|执行缓存（缓存配置，路由，类映射）|
+|`php artisan moon:clear`|清除缓存|
+|`php artisan moon:copy`|复制项目内置的静态资源|
+|`php artisan moon:delete`|删除项目及上传的基本静态资源|
+|`php artisan moon:count-site`|统计站点任务（每天夜里一点执行）|
+|`php artisan moon:del-seckills`|删除秒杀数据 (每小时自动执行一次)|
+|`php artisan moon:update-home`|更新首页数据 (每分钟自动执行一次)|
+|`php artisan moon:send-subscribes`|发送订阅邮件 (每个礼拜六早上八点)|
+|`php artisan queue:work --tries=3`|监听队列(邮件发送，处理过期的秒杀数据 !!!|
+
 ## 秒杀处理逻辑
 ```php
 
@@ -65,6 +111,7 @@ $id = 9;;
 
 // 填充一个 redis 队列，数量为抢购的数量，后面的 9 无意义
 \Redis::lpush("seckills:{$id},queue", array_fill(0, $seckill->numbers, 9));
+
 ?>
 
 ## 抢购
@@ -110,53 +157,11 @@ Seckill::query()
            // 回滚库存
            // 做更多的事
        };
+       
 ?>
 
 ```
-## Installation
-1. 获取源代码
-* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/DavidNineRoc/monday-shop/archive/master.zip)
-* 或者`git`克隆源代码
-```shell
-git clone git@github.com:DavidNineRoc/monday-shop.git
-```
-2. 安装依赖扩展包
-```shell
-composer install
-```
-3. 生成配置文件(修改其中的配置选项:数据库的一定要修改)
-```shell
-cp .env.example .env
-```
-4. 开启秒杀功能
-    * 安装前可以把`database/seeds/SettingsTablesSeeder.php`中的`is_open_seckill`设置为`1`
-    * 安装之后可以直接通过后台管理系统设置中的配置设置管理
-5. 使用安装命令(会执行执行数据库迁移，填充，等)
-```shell
-php artisan moon:install
-```
-* 任务调度(订阅推荐，数据统计！！！)
-    * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
-    * [linux请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
-* 运行队列处理器(发送订阅邮件等耗时任务)
-    * `Linux`系统: 
-        * `nohup php artisan queue:work --tries=3 &`
-    * `windows`系统直接打开一个命令行窗口，运行命令，不要关闭窗口即可
-        * `php artisan queue:work --tries=3`
-### Commands
-| 命令  | 一句话描述 |
-| ----- | --- |
-|`php artisan moon:install`|安装应用程序|
-|`php artisan moon:uninstall`|卸载网站(清空数据库，缓存，路由)|
-|`php artisan moon:cache`|执行缓存（缓存配置，路由，类映射）|
-|`php artisan moon:clear`|清除缓存|
-|`php artisan moon:copy`|复制项目内置的静态资源|
-|`php artisan moon:delete`|删除项目及上传的基本静态资源|
-|`php artisan moon:count-site`|统计站点任务（每天夜里一点执行）|
-|`php artisan moon:del-seckills`|删除秒杀数据 (每小时自动执行一次)|
-|`php artisan moon:update-home`|更新首页数据 (每分钟自动执行一次)|
-|`php artisan moon:send-subscribes`|发送订阅邮件 (每个礼拜六早上八点)|
-|`php artisan queue:work --tries=3`|监听队列(邮件发送，处理过期的秒杀数据 !!!|
+
 ## Packages
 | 扩展包 | 一句话描述 | 在本项目中的使用案例 |  
 | --- | --- | --- |   
