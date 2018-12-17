@@ -84,7 +84,7 @@ class SeckillController extends PaymentController
         // 开始抢购逻辑,如果从队列中读取不到了，代表已经抢购完成
         if (is_null(Redis::lpop($seckill->getRedisQueueKey()))) {
 
-            return responseJson(403, '已经抢购完成了');
+            return responseJson(403, '已经抢购完了');
         }
 
 

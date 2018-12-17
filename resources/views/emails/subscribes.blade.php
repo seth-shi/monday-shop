@@ -3,19 +3,19 @@
 
 ![{{ $likest->name }}]({{ $likest->thumb }})
 ### {{ $likest->name }}
-> {!! $likest->title !!}
+{!! $likest->title !!}
 [查看详情]({{ url("/products/{$likest->uuid}") }})
 ****
 # 本周最好卖的商品
 ![{{ $hottest->name }}]({{ $hottest->thumb }})
 ### {{ $hottest->name }}
-> {!! $hottest->title !!}
+{!! $hottest->title !!}
 [查看详情]({{ url("/products/{$hottest->uuid}") }})
 ****
 # 本周最新的商品
 ![{{ $latest->name }}]({{ $latest->thumb }})
 ### {{ $latest->name }}
-> {!! $latest->title !!}
+{!! $latest->title !!}
 [查看详情]({{ url("/products/{$latest->uuid}") }})
 ****
 
