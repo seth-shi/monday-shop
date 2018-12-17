@@ -76,7 +76,8 @@ class DelExpireSecKill extends Command
                    $seckill->save();
 
                    // 删除掉秒杀数据
-                   Redis::del($seckill->getAllRedisKey());
+                   $ids = Redis::connection()->keys("seckills:{$seckill->id}:*");
+                   Redis::del($ids);
                });
     }
 }

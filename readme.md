@@ -110,7 +110,7 @@ php artisan moon:install
 $id = 9;;
 
 // 填充一个 redis 队列，数量为抢购的数量，后面的 9 无意义
-\Redis::lpush("seckills:{$id},queue", array_fill(0, $seckill->numbers, 9));
+\Redis::lpush("seckills:{$id}:queue", array_fill(0, $seckill->numbers, 9));
 
 ?>
 
@@ -124,15 +124,15 @@ $userId = auth()->id();
 // 判断是否已经开始了秒杀
 
 // 返回 0，代表当前用户已经抢购过了
-if (0 == Redis::hset("seckills:{$id},users,{$userId}", 'id', $userId)) {
+if (0 == Redis::hset("seckills:{$id}:users:{$userId}", 'id', $userId)) {
 
     return responseJson(403, '你已经抢购过了');
 }
 
 // 如果从队列中读取到了 null，代表已经没有库存
-if (is_null(Redis::lpop("seckills:{$id},queue"))) {
+if (is_null(Redis::lpop("seckills:{$id}:queue"))) {
 
-    return responseJson(403, '已经抢购完成了');
+    return responseJson(403, '已经抢购完了');
 }
 
 // 这里就可以开始入库订单
@@ -149,9 +149,7 @@ Seckill::query()
        ->map(function (Seckill $seckill) {
            
            // 先模糊查找到所有用户 key
-           $ids = Redis::keys("seckills:{$seckill->id},users,*");
-           // 再加一个队列的 redis key
-           $ids[] = "seckills:{$seckill->id},queue";
+           $ids = Redis::keys("seckills:{$seckill->id}:*");
            Redis::del($ids);
            
            // 回滚库存
