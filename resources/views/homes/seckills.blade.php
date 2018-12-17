@@ -20,7 +20,7 @@
                             <!-- end media -->
                         </div>
                         <!-- end col -->
-
+                        <del>222</del> <ins>111</ins>
                         <div class="col-xs-12">
                             <div class="panel-body">
                                 <ul class="deal-meta list-inline mb-10">
@@ -30,9 +30,10 @@
                                 <h5 class="deal-title mb-10">
                                     <a href="#">{{ str_limit($secKill->product->name, 10) }}</a>
                                 </h5>
-                                <p class="mb-15 color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>开始时间: {{ $secKill->start_at }}</p>
+                                <p class="mb-15 text-left color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>开始时间: {{ $secKill->start_at }}</p>
+                                <p class="mb-15 text-left color-muted mb-20 font-12"><i class="lnr lnr-lock mr-10"></i>参考价格: {{ optional($secKill->product)->price }}</p>
                                 <div class="showcode" data-toggle-class="coupon-showen" data-toggle-event="click">
-                                    <div class="coupon-hide">{{ $secKill->price }} ￥</div>
+                                    <div class="coupon-hide"> {{ $secKill->price }} ￥</div>
                                 </div>
                             </div>
                         </div>
