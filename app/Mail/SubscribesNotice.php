@@ -25,19 +25,18 @@ class SubscribesNotice extends Mailable
     public function build()
     {
 
-        $latest = Cache::remember('subscribes:latest', 60, function () {
+        $latest = Cache::remember('subscribes:latest', 1, function () {
 
             return Product::query()->latest()->first();
         });
-        $hottest =  Cache::remember('subscribes:latest', 60, function () {
+        $hottest =  Cache::remember('subscribes:latest', 1, function () {
 
             return Product::query()->orderBy('safe_count', 'desc')->first();
         });
-        $likest = Cache::remember('subscribes:latest', 60, function () {
+        $likest = Cache::remember('subscribes:latest', 1, function () {
 
             return Product::query()->withCount('users')->orderBy('users_count', 'desc')->first();
         });
-
 
         return $this->markdown('emails.subscribes', compact('likest', 'latest', 'hottest'));
     }

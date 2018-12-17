@@ -8,6 +8,7 @@ use App\Models\Seckill;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use Jenssegers\Agent\Agent;
 
 class HomeController extends Controller
@@ -42,18 +43,33 @@ class HomeController extends Controller
         // 秒杀数据
         $secKills = collect()->when(setting('is_open_seckill') == 1, function () {
 
-            // 只要秒杀没有结束，都要查出来
-            $now = Carbon::now()->toDateTimeString();
-            $secKills = Seckill::query()
-                               ->where('end_at', '>=', $now)
-                               ->where('numbers', '>', 0)
-                               ->oldest('start_at')
-                               ->with('product')
-                               ->get();
+            $now = Carbon::now();
 
-            return $secKills;
+            // 只要秒杀没有结束，都要查出来。且还有数量的
+            $keys = Redis::keys('seckills:*:model');
+            $secKills = Redis::connection()->mget($keys);
+
+            // 处理 redis 中的秒杀数据
+            return collect($secKills)->map(function ($json) {
+
+                return json_decode($json);
+            })->filter(function ($model) use ($now) {
+
+                // 已经抢完的秒杀数量
+                if ($model->safe_count == $model->numbers) {
+
+                    return false;
+                }
+
+                // 已经过期的秒杀
+                if ($now->gt(Carbon::make($model->end_at))) {
+
+                    return false;
+                }
+
+                return true;
+            });
         });
-
 
 
         /**
