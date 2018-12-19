@@ -165,7 +165,7 @@
                                     <a  href="javascript:;" >立即购买</a>
                                 @endauth
                                 @guest
-                                    <a href="/login?redirect_url={{ url()->current() }}">立即购买</a>
+                                    <a href="/login">立即购买</a>
                                 @endguest
 
                             </div>

@@ -132,7 +132,7 @@
                         @endauth
                         @guest
                             <span style="color: #666">请登录后再操作</span>
-                            <a href="/login?redirect_url={{ url()->current() }}" style="width: 100%" title="请先登录" id="countDown">立即抢购</a>
+                            <a href="/login" style="width: 100%" title="请先登录" id="countDown">立即抢购</a>
                         @endguest
                     </div>
                     <div class="clear"></div>

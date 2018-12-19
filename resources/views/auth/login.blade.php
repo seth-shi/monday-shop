@@ -15,8 +15,6 @@
 
                                 {{ csrf_field() }}
 
-                                <!-- 把回传页也提交 -->
-                                <input type="hidden" name="redirect_url" value="{{ request()->input('redirect_url') ?? '/' }}">
 
                                 <div class="form-group {{ $errors->has('account') ? ' has-error' : '' }}">
                                     <label class="sr-only">用户名/邮箱</label>

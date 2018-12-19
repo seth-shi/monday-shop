@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -17,19 +18,17 @@ class LoginController extends Controller
     use RedirectsUsers, ThrottlesLogins;
 
     protected $redirectTo = '/';
-    protected $userService;
+
+    // 排除记录的回跳 url, 防止重复跳转
+    protected $except = ['*login*', '*register*'];
+
 
     /**
      * LoginController constructor.
-     * @param UserService $userService
      */
-    public function __construct(UserService $userService)
+    public function __construct()
     {
        $this->middleware('guest')->except('logout');
-       // 跳去登录页之前记住回跳页面
-       $this->middleware('login.after.redirect')->only('showLoginForm');
-
-        $this->userService = $userService;
     }
 
 
@@ -40,6 +39,14 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        $lastUrl = URL::previous();
+
+
+        // 记录上一次的 url，用于登录之后的回跳
+        if (! str_is($this->except, $lastUrl)) {
+
+            session()->put('url.intended', $lastUrl);
+        }
 
         return view('auth.login');
     }
@@ -49,7 +56,7 @@ class LoginController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\Response|void
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request)
+    public function login(Request $request, UserService $userService)
     {
         $this->validateLogin($request);
 
@@ -70,9 +77,12 @@ class LoginController extends Controller
 
             // 如果用户没有激活
             if (! $user->isActive()) {
+
                 // 显示 再次发送激活链接
-                $link = $this->userService->getActiveLink($user);
-                return redirect('login')->withInput()->withErrors([$this->username() => $link]);
+                return redirect('login')->withInput()
+                                        ->withErrors([
+                                            $this->username() => $userService->getActiveLink($user)
+                                        ]);
             }
 
             // 登录用户

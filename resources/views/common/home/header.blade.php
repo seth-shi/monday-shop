@@ -25,7 +25,7 @@
                         @endauth
                         @guest
                             <li><a href="#"><i class="fa fa-user"></i>游客</a></li>
-                            <li><a href="/login?redirect_url={{ url()->current() }}"><i class="fa fa-lock"></i>登录</a>
+                            <li><a href="/login"><i class="fa fa-lock"></i>登录</a>
                             </li>
                             <li><a href="/register"><i class="fa fa-user"></i>注册</a>
                             </li>
