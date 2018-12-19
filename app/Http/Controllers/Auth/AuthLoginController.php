@@ -66,15 +66,16 @@ class AuthLoginController extends Controller
 
         // 如果用户已经登录的，作为绑定账号。跳转到个人中心页面
         if (auth()->check()) {
+
             return redirect('/user/setting')->with('status', '绑定成功');
         }
 
+        // 第三方如果没有登录，那么主动登录
         auth()->login($user, true);
         // 登录次数
         $user->increment('login_count');
 
-        // Do you need to jump to other places? gps:
-        // 是否有前面缓存的跳转 url
+        // 如果 session 中有跳转 url，则跳转
         return redirect()->intended();
     }
 

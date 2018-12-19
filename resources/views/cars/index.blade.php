@@ -57,7 +57,7 @@
                                             <button type="submit"  class="btn btn-lg btn-rounded mr-10">下单</button>
                                             @endauth
                                             @guest
-                                            <a href="login?redirect_url={{ url()->current() }}"  class="btn btn-lg btn-rounded mr-10">下单</a>
+                                            <a href="/login"  class="btn btn-lg btn-rounded mr-10">下单</a>
                                             @endguest
                                         </form>
                                     </section>
