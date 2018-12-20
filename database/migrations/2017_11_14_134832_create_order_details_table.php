@@ -20,7 +20,7 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedInteger('order_id');
             $table->unsignedInteger('product_id');
 
-            $table->integer('numbers')->comment('数量');
+            $table->integer('number')->comment('数量');
             $table->decimal('price', 12, 2)->comment('商品单价');
             $table->decimal('total', 12, 2)->comment('价格小计算');
 

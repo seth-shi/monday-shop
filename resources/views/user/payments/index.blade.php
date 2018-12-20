@@ -103,10 +103,10 @@
 					{{ csrf_field() }}
 
 					总计：
-					<input type="text" class="am-input-sm" value="{{ $product->price * $numbers }}" disabled="disabled">
+					<input type="text" class="am-input-sm" value="{{ $product->price * $number }}" disabled="disabled">
 					<input type="hidden" name="pay_type" value="1">
 					<input type="hidden" name="product_id" value="{{ $product->uuid }}">
-					<input type="hidden" name="numbers" value="{{ $numbers }}">
+					<input type="hidden" name="number" value="{{ $number }}">
 					<input type="hidden" name="address_id" value="{{ $address->id }}">
 
 					<div id="holyshit269" class="submitOrder">

@@ -22,7 +22,7 @@ class StoreSeckillRequest extends FormRequest
         return [
             'category_id' => 'required|exists:categories,id',
             'product_id' => 'required|exists:products,id',
-            'numbers' => 'required|integer|min:1',
+            'number' => 'required|integer|min:1',
             'start_at' => 'required|date|after_or_equal:now',
             'end_at' => 'required|date|after_or_equal:start_at',
         ];

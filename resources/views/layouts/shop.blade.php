@@ -63,6 +63,7 @@
     <!-- Initialize jQuery library                 -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <script src="/assets/shop/js/jquery-1.12.3.min.js"></script>
+    @include('common.home.car')
 
     @yield('style')
 </head>

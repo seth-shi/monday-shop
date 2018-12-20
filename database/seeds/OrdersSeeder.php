@@ -48,16 +48,16 @@ class OrdersSeeder extends Seeder
 
                 $product = Product::query()->inRandomOrder()->first();
 
-                $numbers = mt_rand(1, 9);
+                $number = mt_rand(1, 9);
                 $price = $product->price;
-                $total = ceilTwoPrice($price * $numbers);
+                $total = ceilTwoPrice($price * $number);
                 $product_id = $product->getKey();
 
                 $masterOrder->total += $total;
-                $data[] = compact('numbers', 'price', 'total', 'product_id');
+                $data[] = compact('number', 'price', 'total', 'product_id');
 
-                $product->decrement('count', $numbers);
-                $product->increment('safe_count', $numbers);
+                $product->decrement('count', $number);
+                $product->increment('safe_count', $number);
             }
 
             // 商品数量减少

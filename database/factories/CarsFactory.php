@@ -21,7 +21,7 @@ $factory->define(Car::class, function (Faker $faker) {
     return [
         'user_id' => User::inRandomOrder()->first()->id,
         'product_id' => Product::inRandomOrder()->first()->id,
-        'numbers' => mt_rand(1, 5),
+        'number' => mt_rand(1, 5),
         'created_at' => time(),
         'updated_at' => time()
     ];

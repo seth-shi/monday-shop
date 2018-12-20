@@ -69,7 +69,7 @@ class SeckillController extends Controller
         });
 
         $grid->column('price', '秒杀价');
-        $grid->column('numbers', '秒杀数量');
+        $grid->column('number', '秒杀数量');
         $grid->column('start_at', '开始时间');
         $grid->column('end_at', '结束时间');
         $grid->column('rollback_count', '回滚量');
@@ -107,7 +107,7 @@ class SeckillController extends Controller
 
         $form->number('price', '秒杀价')
              ->default(1);
-        $form->number('numbers', '秒杀数量')
+        $form->number('number', '秒杀数量')
              ->default(1)
              ->help('保证商品的库存数量大于此数量，会从库存中减去');
 
@@ -128,12 +128,12 @@ class SeckillController extends Controller
      */
     public function store(StoreSeckillRequest $request)
     {
-        $numbers = $request->input('numbers', 0);
+        $number = $request->input('number', 0);
         $product = Product::query()->findOrFail($request->input('product_id'));
 
-        if ($numbers > $product->count) {
+        if ($number > $product->count) {
 
-            return back()->withInput()->withErrors(['numbers' => '秒杀数量不能大于库存数量']);
+            return back()->withInput()->withErrors(['number' => '秒杀数量不能大于库存数量']);
         }
 
         DB::beginTransaction();
@@ -142,7 +142,7 @@ class SeckillController extends Controller
 
             // 减去库存数量
             $response = $this->form()->store();
-            $product->decrement('count', $numbers);
+            $product->decrement('count', $number);
 
         } catch (\Exception $e) {
 

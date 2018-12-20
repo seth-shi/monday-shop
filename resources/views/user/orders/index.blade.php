@@ -84,7 +84,7 @@
                                                         </li>
                                                         <li class="td td-number">
                                                             <div class="item-number">
-                                                                <span>×</span>{{ $detail->numbers }}
+                                                                <span>×</span>{{ $detail->number }}
                                                             </div>
                                                         </li>
                                                     </ul>

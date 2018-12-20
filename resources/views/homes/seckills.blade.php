@@ -24,7 +24,7 @@
                         <div class="col-xs-12">
                             <div class="panel-body">
                                 <ul class="deal-meta list-inline mb-10">
-                                    <li class="color-green"><i class="ico lnr lnr-smile mr-5"></i>剩余：{{ $secKill->numbers }}</li>
+                                    <li class="color-green"><i class="ico lnr lnr-smile mr-5"></i>剩余：{{ $secKill->number }}</li>
                                     <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>已抢: {{ $secKill->safe_count }}</li>
                                 </ul>
                                 <h5 class="deal-title mb-10">

@@ -110,7 +110,7 @@ php artisan moon:install
 $id = 9;;
 
 // 填充一个 redis 队列，数量为抢购的数量，后面的 9 无意义
-\Redis::lpush("seckills:{$id}:queue", array_fill(0, $seckill->numbers, 9));
+\Redis::lpush("seckills:{$id}:queue", array_fill(0, $seckill->number, 9));
 
 ?>
 

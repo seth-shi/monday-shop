@@ -22,7 +22,7 @@ class SeckillsTablesSeeder extends Seeder
                 $seckill->category_id = $product->category_id;
                 $seckill->product_id = $product->id;
                 $seckill->price = $product->price / 0.8;
-                $seckill->numbers = $number;
+                $seckill->number = $number;
                 $seckill->start_at = "1971-1-1 00:00:00";
                 $seckill->end_at = "2038-1-1 00:00:00";
                 $seckill->save();

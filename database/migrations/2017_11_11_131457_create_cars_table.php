@@ -17,7 +17,7 @@ class CreateCarsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
 
-            $table->integer('numbers')->default(1)->comment('商品的数量');
+            $table->integer('number')->default(1)->comment('商品的数量');
 
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('user_id');

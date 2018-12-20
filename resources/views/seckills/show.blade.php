@@ -106,7 +106,7 @@
                     <!--销量-->
                     <ul class="tm-ind-panel">
                         <li class="tm-ind-item tm-ind-sumCount canClick">
-                            <div class="tm-indcon"><span class="tm-label">总量</span><span class="tm-count">{{ $redisSeckill->numbers }}</span></div>
+                            <div class="tm-indcon"><span class="tm-label">总量</span><span class="tm-count">{{ $redisSeckill->number }}</span></div>
                         </li>
                         <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
                             <div  class="tm-indcon"><span class="tm-label">已抢购</span><span class="tm-count" id="likes_count">{{ $redisSeckill->safe_count }}</span></div>
