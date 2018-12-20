@@ -30,9 +30,13 @@
                             <a href="/cars">
                                 <span id="car_icon" class="icon lnr lnr-cart"></span>
                                 <div>
-                                    <span id="cart-number" class="cart-number">0</span>
+                                    <span id="cart-number" class="cart-number"
+                                          style="height: 24px; line-height: 30px;">
+                                        <span id="count" title="购物车总数量">0</span>
+                                        <sup id="local" title="本地购物车" style="font-size: 10px">0</sup>
+                                    </span>
                                 </div>
-                                <span class="title" id="car_title">购物车</span>
+                                <span class="title" id="car_title" style="font-size: 12px;">购物车</span>
                             </a>
                         </div>
                         <div class="header-wishlist ml-20">
@@ -49,13 +53,30 @@
 </div>
 
 <!-- End Header Header -->
-
+@include('common.home.car')
 <script>
-    var car_nums_span = document.getElementById('cart-number');
-    @auth
-        car_nums_span.innerText = {{ auth()->user()->cars()->sum('number') }} + '+' + LocalCar.number();
-    @endauth
-    @guest
-        car_nums_span.innerText = LocalCar.number();
-    @endguest
+    let countDom = $('#cart-number #count');
+    let localDom = $('#cart-number #local');
+
+    let localNumber = LocalCar.number();
+    let CountNumber = localNumber;
+
+    @if ($carSum > 0)
+        CountNumber += parseInt({{ $carSum }});
+    @endif
+
+    // 初始化显示购物车数量
+    countDom.text(CountNumber);
+    localDom.text(localNumber);
+
+    // 用于更新购物车数量
+    function renderIncrementCar(number, isLocal)
+    {
+        number = parseInt(number);
+
+        countDom.text(parseInt(countDom.text()) + number);
+        if (isLocal) {
+            localDom.text(parseInt(localDom.text()) + number);
+        }
+    }
 </script>

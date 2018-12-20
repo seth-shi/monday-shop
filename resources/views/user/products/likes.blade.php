@@ -52,13 +52,13 @@
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
 
-        var _url = "/user/likes/";
-        var token = "{{ csrf_token() }}";
+        let _url = "/user/likes/";
+        let token = "{{ csrf_token() }}";
 
         $('.de_likes_btn').click(function(){
-            var that = $(this);
-            var product_id = $(this).data('id');
-            var url = _url + product_id;
+            let that = $(this);
+            let product_id = $(this).data('id');
+            let url = _url + product_id;
 
             $.post(url, {_token:token,_method:'DELETE'}, function(res){
                 layer.msg(res.msg);

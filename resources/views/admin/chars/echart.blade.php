@@ -5,8 +5,8 @@
 
 
         // 今天的注册人数
-        var charts = [];
-        var myChart = echarts.init(document.getElementById('todayRegister'));
+        let charts = [];
+        let myChart = echarts.init(document.getElementById('todayRegister'));
         myChart.setOption({
             tooltip : {
                 trigger: 'item',
@@ -190,7 +190,7 @@
 
         window.addEventListener('resize', function () {
 
-            for (var i in charts) {
+            for (let i in charts) {
                 charts[i].resize();
             }
         });

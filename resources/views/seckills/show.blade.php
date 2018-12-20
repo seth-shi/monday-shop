@@ -151,9 +151,9 @@
 @section('script')
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
-        var timestamp = {{ $redisSeckill->diff_time }};
-        var timer = null;
-        var step = 0.5;
+        let timestamp = {{ $redisSeckill->diff_time }};
+        let timer = null;
+        let step = 0.5;
 
 
         $(function () {
@@ -177,9 +177,9 @@
 
             $('#nowBug').click(function () {
 
-                var address_id = $('#address_id').val();
+                let address_id = $('#address_id').val();
 
-                var parameters = {address_id: address_id, _token: "{{ csrf_token() }}"};
+                let parameters = {address_id: address_id, _token: "{{ csrf_token() }}"};
                 $.post('/user/seckills/{{ $redisSeckill->id }}', parameters, function (res) {
 
                     console.log(res);
@@ -203,7 +203,7 @@
         // 转换时间戳为倒计时
         function transTime(timestamp)
         {
-            var result = "";
+            let result = "";
 
             if (timestamp >= 86400) {
                 $days = Math.floor(timestamp / 86400);

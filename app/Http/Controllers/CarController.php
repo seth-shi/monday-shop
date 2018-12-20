@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('user.auth')->only('store', 'destroy');
+    }
+
     /**
      * 购物车列表
      *
@@ -38,15 +43,6 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-
-        // 没登录的加入购物车，直接加入 localStorage
-        if (! auth()->check()) {
-            return [
-                'code' => 302,
-                'msg' => '加入本地购物车成功'
-            ];
-        }
-
         /**
          * @var $car Car
          * @var $product Product
@@ -62,43 +58,51 @@ class CarController extends Controller
 
 
         // 如果是同步，则只是赋值，如果是添加购物车则是添加
+        $change = 0;
+        $number = $request->input('number', 1);
+
         if ($request->input('action') == 'sync') {
-            $car->number = $request->input('number', 1);
+
+            $change = $number - $car->number;
+            $car->number = $number;
         } else {
-            $car->number += $request->input('number', 1);
+
+            $car->number += $number;
         }
 
-
         if ($car->number > $product->count) {
-            return [
-                'code' => 403,
-                'msg' => '库存不足'
-            ];
+
+            return responseJson(403, '库存不足');
         }
 
 
         $car->save();
 
-        return ['code' => 200, 'msg' => '加入购物车成功'];
+        return responseJson(200, '加入购物车成功', compact('change'));
     }
 
 
     /**
-     * @param $id
+     * @param $uuid
      * @return array
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        if ($car = Car::query()->find($id)) {
+        try {
+            /**
+             * @var $user User
+             */
+            $user = auth()->user();
+            $product = Product::query()->where('uuid', $uuid)->firstOrFail();
+            $car = $user->cars()->where('product_id', $product->id)->firstOrFail();
             $car->delete();
-        } else {
-            return [
-                'code' => 302,
-                'msg' => '删除本地购物车成功'
-            ];
+
+        } catch (\Exception $e) {
+
+            return responseJson(500, '服务器异常，请稍后再试');
         }
 
-        return ['code' => 200, 'msg' => '删除成功'];
+        return responseJson(200, '删除成功');
     }
 }

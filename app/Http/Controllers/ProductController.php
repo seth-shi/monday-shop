@@ -49,7 +49,7 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('keyword', '');
-        $products = Product::query()->where('name', 'like', "%{$keyword}%")->paginate(10);
+        $products = Product::query()->withCount('users')->where('name', 'like', "%{$keyword}%")->paginate(10);
 
         return view('products.search', compact('products'));
     }
