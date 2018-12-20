@@ -45,7 +45,7 @@ class CancelUnPayOrder implements ShouldQueue
 
                 // 不回滚出售数量
                 $product = $detail->product;
-                $product->increment('count', $detail->numbers);
+                $product->increment('count', $detail->number);
             });
     }
 }

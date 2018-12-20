@@ -132,7 +132,7 @@
                                                 <div class="cart-title number">数量</div>
                         <dd>
                             <input id="min" class="am-btn am-btn-default" type="button" value="-" />
-                            <input id="text_box" name="numbers" type="text" value="1" style="width:30px;" />
+                            <input id="text_box" name="number" type="text" value="1" style="width:30px;" />
                             <input id="add" class="am-btn am-btn-default"  type="button" value="+" />
                             <span id="Stock" class="tb-hidden">库存<span class="stock">{{ $product->count }}</span>件</span>
                         </dd>
@@ -426,12 +426,12 @@
         var Car = {
             addProduct:function(product_id) {
 
-                var numbers = $("input[name=numbers]").val();
+                var number = $("input[name=number]").val();
                 if (! localStorage.getItem(product_id)) {
-                    var product = {name:"{{ $product->name }}", numbers:numbers, price:"{{ $product->price }}"};
+                    var product = {name:"{{ $product->name }}", number:number, price:"{{ $product->price }}"};
                 } else {
                     var product = $.parseJSON(localStorage.getItem(product_id));
-                    product.numbers = parseInt(product.numbers) + parseInt(numbers);
+                    product.number = parseInt(product.number) + parseInt(number);
                 }
                 localStorage.setItem(product_id, JSON.stringify(product))
             }
@@ -445,8 +445,8 @@
             iconImg: $('#jqzoom').attr('src'),
             endFunction:function(element){
 
-                var numbers = $("input[name=numbers]").val();
-                var data = {product_id:"{{ $product->uuid }}",_token:token, numbers:numbers};
+                var number = $("input[name=number]").val();
+                var data = {product_id:"{{ $product->uuid }}",_token:token, number:number};
                 var url = "/cars";
                 $.post(url, data, function(res){
                     console.log(res);
@@ -463,7 +463,7 @@
 
                     layer.msg(res.msg, {icon: 1});
 
-                    car_nums.text(parseInt(car_nums.text())+parseInt(numbers));
+                    car_nums.text(parseInt(car_nums.text())+parseInt(number));
                 });
             }
         });
@@ -471,14 +471,14 @@
         // 现在购买
         $('#nowBug').click(function(){
             var _address_id = $('select[name=address_id]').val();
-            var _numbers = $('input[name=numbers]').val();
+            var _number = $('input[name=number]').val();
             var _product_id = $('input[name=product_id]').val();
 
             /** v请求支付 **/
             var form = $('#pay_form');
             var input = '<input type="hidden" name="address_id" value="'+ _address_id +'">\
                         <input type="hidden" name="product_id" value="'+ _product_id +'">\
-                        <input type="hidden" name="numbers" value="'+ _numbers +'">';
+                        <input type="hidden" name="number" value="'+ _number +'">';
             form.append(input);
             form.submit();
         });

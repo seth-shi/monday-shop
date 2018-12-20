@@ -20,7 +20,7 @@ class CreateSeckillsTable extends Migration
             $table->unsignedInteger('product_id');
 
             $table->decimal('price', 12, 2)->comment('秒杀价');
-            $table->unsignedInteger('numbers')->default(1)->comment('秒杀的数量');
+            $table->unsignedInteger('number')->default(1)->comment('秒杀的数量');
             $table->unsignedInteger('rollback_count')->default(0)->comment('回滚的库存量');
             $table->unsignedInteger('safe_count')->default(0)->comment('卖出的数量');
 

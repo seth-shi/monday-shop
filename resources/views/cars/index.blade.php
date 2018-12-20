@@ -87,7 +87,7 @@
                                     </td>
                                     <td class="prices">{{ $car->product->price }}</td>
                                     <td>
-                                        <input data-id="{{ $car->product->uuid }}" class="quantity-label car_numbers" type="number" value="{{ $car->numbers }}">
+                                        <input data-id="{{ $car->product->uuid }}" class="quantity-label car_number" type="number" value="{{ $car->number }}">
                                     </td>
 
                                     <td>
@@ -120,7 +120,7 @@
 
         // 购物车对象
         var Car = {
-            syncNumbers:function(product_id, numbers) {
+            syncnumber:function(product_id, number) {
 
                 console.log(product_id);
                 if (! localStorage.getItem(product_id)) {
@@ -128,7 +128,7 @@
                     return;
                 } else {
                     var product = $.parseJSON(localStorage.getItem(product_id));
-                    product.numbers = parseInt(numbers);
+                    product.number = parseInt(number);
                 }
                 localStorage.setItem(product_id, JSON.stringify(product))
             }
@@ -148,7 +148,7 @@
                         for (var i in cars) {
                             var product = $.parseJSON(cars[i]);
 
-                            var data = {product_id: i, numbers: product.numbers, _token: token};
+                            var data = {product_id: i, number: product.number, _token: token};
                             var url = "/cars";
                             console.log(product);
 
@@ -189,7 +189,7 @@
                 </td>\
                 <td  class="prices">'+ product.price +'</td>\
                 <td>\
-                <input data-id="'+ procuct_id +'" class="quantity-label car_numbers" type="number" value="'+ product.numbers +'">\
+                <input data-id="'+ procuct_id +'" class="quantity-label car_number" type="number" value="'+ product.number +'">\
                 </td>\
                 <td>\
                 <button type="button" class="close delete_car" data-id="'+  procuct_id +'"  >\
@@ -198,7 +198,7 @@
                 </td>\
                 </tr>';
 
-                cars_prices += product.price * product.numbers;
+                cars_prices += product.price * product.number;
             }
 
             $('#cars_data').append(cars_span);
@@ -233,13 +233,13 @@
 
 
         // 更改购物车数量
-        $('#cart_list').on('change', '.car_numbers', function () {
+        $('#cart_list').on('change', '.car_number', function () {
 
             var id = $(this).data('id');
-            var numbers = $(this).val();
+            var number = $(this).val();
 
 
-            var data = {product_id:id,_token:"{{ csrf_token() }}", numbers:numbers, action:"sync"};
+            var data = {product_id:id,_token:"{{ csrf_token() }}", number:number, action:"sync"};
             var url = "/cars";
             $.post(url, data, function(res){
                 console.log(res);
@@ -252,7 +252,7 @@
 
                 if (res.code == 302) {
 
-                    Car.syncNumbers(id, numbers);
+                    Car.syncnumber(id, number);
                 }
 
                 layer.msg(res.msg, {icon: 1});
@@ -266,18 +266,18 @@
         function getTotal()
         {
             var total = 0;
-            var total_numbers = 0;
+            var total_number = 0;
             $('.prices').each(function(){
                 var price = $(this).text();
-                var numbers = $(this).next().find('input').val();
-                numbers = parseInt(numbers);
+                var number = $(this).next().find('input').val();
+                number = parseInt(number);
 
-                total_numbers += numbers;
-                total += price*numbers;
+                total_number += number;
+                total += price*number;
             });
 
             $('#cars_price').text(total);
-            $('#cart-number').text(total_numbers);
+            $('#cart-number').text(total_number);
         }
     </script>
 @endsection

@@ -57,7 +57,7 @@ class HomeController extends Controller
             })->filter(function ($model) use ($now) {
 
                 // 已经抢完的秒杀数量
-                if ($model->safe_count == $model->numbers) {
+                if ($model->safe_count == $model->number) {
 
                     return false;
                 }
@@ -83,6 +83,8 @@ class HomeController extends Controller
             $loginUser->load('subscribe');
         }
 
+
+        // 重构整个购物车类
         return view(
             'homes.index',
             compact('categories', 'hotProducts', 'latestProducts', 'users', 'secKills', 'loginUser')

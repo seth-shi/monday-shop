@@ -63,13 +63,13 @@ class CarController extends Controller
 
         // 如果是同步，则只是赋值，如果是添加购物车则是添加
         if ($request->input('action') == 'sync') {
-            $car->numbers = $request->input('numbers', 1);
+            $car->number = $request->input('number', 1);
         } else {
-            $car->numbers += $request->input('numbers', 1);
+            $car->number += $request->input('number', 1);
         }
 
 
-        if ($car->numbers > $product->count) {
+        if ($car->number > $product->count) {
             return [
                 'code' => 403,
                 'msg' => '库存不足'

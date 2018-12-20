@@ -2,7 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ShareCarSum;
+use App\Http\Middleware\UserAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+
 
 class Kernel extends HttpKernel
 {
@@ -57,6 +60,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'user.auth' => \App\Http\Middleware\UserAuth::class,
+
+        'user.auth' => UserAuth::class,
+        'user.cars' => ShareCarSum::class,
     ];
 }

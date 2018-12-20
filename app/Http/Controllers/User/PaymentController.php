@@ -56,7 +56,7 @@ class PaymentController extends Controller
 
             if ($request->has('product_id')) {
 
-                $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('numbers'));
+                $this->storeSingleOrder($masterOrder, $request->input('product_id'), $request->input('number'));
             } else {
 
                 $this->storeCarsOrder($masterOrder);
@@ -84,11 +84,11 @@ class PaymentController extends Controller
      *
      * @param Order $masterOrder
      * @param       $productUuid
-     * @param       $numbers
+     * @param       $number
      * @return \Illuminate\Database\Eloquent\Model
      * @throws OrderException
      */
-    protected function storeSingleOrder(Order $masterOrder, $productUuid, $numbers)
+    protected function storeSingleOrder(Order $masterOrder, $productUuid, $number)
     {
         /**
          * @var $product Product
@@ -97,7 +97,7 @@ class PaymentController extends Controller
         $product = Product::query()->where('uuid', $productUuid)->firstOrFail();
 
         // 明细表
-        $detail = $this->buildOrderDetail($product, $numbers);
+        $detail = $this->buildOrderDetail($product, $number);
         $masterOrder->name = $product->name;
         $masterOrder->total = $detail['total'];
         $masterOrder->save();
@@ -123,7 +123,7 @@ class PaymentController extends Controller
         // 明细表
         $details = $cars->map(function (Car $car) use ($masterOrder) {
 
-            return $this->buildOrderDetail($car->product, $car->numbers);
+            return $this->buildOrderDetail($car->product, $car->number);
         });
 
         // 商品的名字，用多个商品拼接
@@ -201,10 +201,10 @@ class PaymentController extends Controller
 
         $attribute =  [
             'product_id' => $product->id,
-            'numbers' => $number
+            'number' => $number
         ];
         $attribute['price'] = $product->price;
-        $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['numbers']);
+        $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['number']);
 
         return $attribute;
     }

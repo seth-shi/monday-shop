@@ -47,19 +47,15 @@
         </div>
     </div>
 </div>
+
 <!-- End Header Header -->
 
 <script>
     var car_nums_span = document.getElementById('cart-number');
     @auth
-        car_nums_span.innerText = parseInt("{{ auth()->user()->cars->sum('numbers') }}");
+        car_nums_span.innerText = {{ auth()->user()->cars()->sum('number') }} + '+' + LocalCar.number();
     @endauth
     @guest
-        var numbers = 0;
-        for (var i in localStorage) {
-            var json = $.parseJSON(localStorage[i]);
-            numbers += parseInt(json.numbers);
-        }
-        car_nums_span.innerText = numbers;
+        car_nums_span.innerText = LocalCar.number();
     @endguest
 </script>

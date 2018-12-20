@@ -1,56 +1,27 @@
 <?php
 
 /****************************************
- * 互联登录的路由，包括 github, QQ， 微博 登录
+ * 商城前台路由组
  ****************************************/
-Auth::routes();
+Route::middleware('user.cars')->group(function () {
 
-Route::namespace('Auth')->group(function(){
+    Route::get('/', 'HomeController@index');
 
-    // 获取验证码
-    Route::get('captcha', 'RegisterController@captcha');
+    // 1. 通过商品拼音首字母得到商品列表
+    // 2. 搜索商品
+    Route::get('products/pinyin/{pinyin}', 'ProductController@getProductsByPinyin');
+    Route::get('products/search', 'ProductController@search');
 
-    /****************************************
-     * 1. 激活账号的路由
-     * 2. 重新发送激活链接的路由
-     ****************************************/
-    Route::get('register/active/{token}', 'UserController@activeAccount');
-    // again send active link
-    Route::get('register/again/send/{id}', 'UserController@sendActiveMail');
+    // 1. 商品分类的资源路由，
+    // 2. 商品的资源路由哦
+    // 3. 购物车的资源路由
+    Route::resource('categories', 'CategoryController')->only('index', 'show');
+    Route::resource('products', 'ProductController')->only('index', 'show');
+    Route::resource('cars', 'CarController');
 
-    /****************************************
-     * 互联登录的路由，包括 github, QQ， 微博 登录
-     ****************************************/
-    Route::get('auth/oauth', 'AuthLoginController@redirectToAuth');
-    Route::get('auth/oauth/callback', 'AuthLoginController@handleCallback');
-    Route::get('/auth/oauth/unbind', 'AuthLoginController@unBind');
+    // 秒杀商品
+    Route::get('seckills/{id}', 'User\SeckillController@show');
 });
-
-/****************************************
- * 主页相关的路由
- ****************************************/
-Route::get('/', 'HomeController@index');
-
-
-
-/****************************************
- * 1. 通过商品拼音首字母得到商品列表
- * 2. 搜索商品
- ****************************************/
-Route::get('products/pinyin/{pinyin}', 'ProductController@getProductsByPinyin');
-Route::get('products/search', 'ProductController@search');
-
-/****************************************
- * 1. 商品分类的资源路由，
- * 2. 商品的资源路由哦
- * 3. 购物车的资源路由
- ****************************************/
-Route::resource('categories', 'CategoryController')->only('index', 'show');
-Route::resource('products', 'ProductController')->only('index', 'show');
-Route::resource('cars', 'CarController');
-
-// 秒杀商品
-Route::get('seckills/{id}', 'User\SeckillController@show');
 
 /****************************************
  * 用户相关的路由
@@ -114,6 +85,33 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
 
     // 秒杀的订单创建接口
     Route::post('seckills/{id}', 'SeckillController@storeSeckill');
+});
+
+
+/****************************************
+ * 互联登录的路由，包括 github, QQ， 微博 登录
+ ****************************************/
+Auth::routes();
+
+Route::namespace('Auth')->group(function(){
+
+    // 获取验证码
+    Route::get('captcha', 'RegisterController@captcha');
+
+    /****************************************
+     * 1. 激活账号的路由
+     * 2. 重新发送激活链接的路由
+     ****************************************/
+    Route::get('register/active/{token}', 'UserController@activeAccount');
+    // again send active link
+    Route::get('register/again/send/{id}', 'UserController@sendActiveMail');
+
+    /****************************************
+     * 互联登录的路由，包括 github, QQ， 微博 登录
+     ****************************************/
+    Route::get('auth/oauth', 'AuthLoginController@redirectToAuth');
+    Route::get('auth/oauth/callback', 'AuthLoginController@handleCallback');
+    Route::get('/auth/oauth/unbind', 'AuthLoginController@unBind');
 });
 
 // 支付通知的接口

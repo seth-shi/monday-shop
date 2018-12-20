@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\Car
  *
  * @property int $id
- * @property int $numbers 商品的数量
+ * @property int $number 商品的数量
  * @property int $product_id
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Car query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Car whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Car whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Car whereNumbers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Car whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Car whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Car whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Car whereUserId($value)
@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
 class Car extends Model
 {
     protected $table = 'cars';
-    protected $fillable = ['numbers', 'user_id', 'product_id'];
+    protected $fillable = ['number', 'user_id', 'product_id'];
 
     public function user()
     {

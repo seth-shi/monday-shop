@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
  * @property int $id
  * @property int $order_id
  * @property int $product_id
- * @property int $numbers 数量
+ * @property int $number 数量
  * @property float $price 商品单价
  * @property float $total 价格小计算
  * @property int $is_commented 订单是否评论过
@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Cache;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderDetail whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderDetail whereIsCommented($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderDetail whereNumbers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderDetail wherenumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderDetail whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderDetail wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderDetail whereProductId($value)
@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Cache;
 class OrderDetail extends Model
 {
     protected $table = 'order_details';
-    protected $fillable = ['numbers', 'product_id', 'order_id', 'price', 'total'];
+    protected $fillable = ['number', 'product_id', 'order_id', 'price', 'total'];
 
     public $timestamps = false;
 
@@ -70,7 +70,7 @@ class OrderDetail extends Model
         static::created(function ($model) {
 
             // 有过有取消订单功能，记得减去数量
-            Cache::increment("site_counts:product_sale_number_count", $model->numbers);
+            Cache::increment("site_counts:product_sale_number_count", $model->number);
         });
     }
 }

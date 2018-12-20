@@ -179,12 +179,12 @@ class SeckillController extends PaymentController
     {
         $attribute =  [
             'product_id' => $product->id,
-            'numbers' => $number
+            'number' => $number
         ];
 
         // 价格为秒杀的价格, 直接从 redis 中读取
         $attribute['price'] = ceilTwoPrice($this->redisSeckill->price);
-        $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['numbers']);
+        $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['number']);
 
         return $attribute;
     }

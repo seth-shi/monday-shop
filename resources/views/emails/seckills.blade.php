@@ -7,7 +7,7 @@
 
 秒杀开始时间：**{{ $seckill->start_at }}**
 
-活动数量：**{{ $seckill->numbers }}**
+活动数量：**{{ $seckill->number }}**
 
 [查看详情]({{ url("/seckills/{$seckill->id}") }})
 ****
