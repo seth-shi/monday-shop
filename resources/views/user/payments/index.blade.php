@@ -131,7 +131,7 @@
 
 <script>
 	// $('#pay-list li').click(function () {
-	// 	var id = $(this).data('id');
+	// 	let id = $(this).data('id');
 	// 	$('input[name=pay_type]').val(id);
     // });
 </script>

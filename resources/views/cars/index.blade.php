@@ -87,11 +87,11 @@
                                     </td>
                                     <td class="prices">{{ $car->product->price }}</td>
                                     <td>
-                                        <input data-id="{{ $car->product->uuid }}" class="quantity-label car_number" type="number" value="{{ $car->number }}">
+                                        <input data-id="{{ $car->product->uuid }}" class="quantity-label car_number" type="number" value="{{ $car->number }}" id="{{ $car->product->uuid }}">
                                     </td>
 
                                     <td>
-                                        <button data-id="{{ $car->id }}" class="close delete_car" type="button" >
+                                        <button data-number="{{ $car->number }}" data-id="{{ $car->product->uuid }}" class="close delete_car" type="button" >
                                             <i class="fa fa-trash-o"></i>
                                         </button>
                                     </td>
@@ -113,163 +113,153 @@
 @section('script')
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
-        var cars_span = '';
-        var cars = localStorage;
-        var cars_prices = 0;
-        var token = "{{ csrf_token() }}";
+        let token = "{{ csrf_token() }}";
 
-        // 购物车对象
-        var Car = {
-            syncnumber:function(product_id, number) {
-
-                console.log(product_id);
-                if (! localStorage.getItem(product_id)) {
-                    alert('非法添加');
-                    return;
-                } else {
-                    var product = $.parseJSON(localStorage.getItem(product_id));
-                    product.number = parseInt(number);
-                }
-                localStorage.setItem(product_id, JSON.stringify(product))
-            }
-        };
 
 
         @auth
             syncCarsToDatabase();
             function syncCarsToDatabase()
             {
-                if (localStorage.length > 0) {
+                if (LocalCar.number() > 0) {
                     layer.confirm('是否同步本地购物车到本账户下', {
-                        btn: ['是', '否'],
+                        btn: ['是', '放弃本地购物车']
                     }, function(){
                         layer.closeAll();
-                        var cars = localStorage;
-                        for (var i in cars) {
-                            var product = $.parseJSON(cars[i]);
 
-                            var data = {product_id: i, number: product.number, _token: token};
-                            var url = "/cars";
-                            console.log(product);
+                        let cars = LocalCar.all();
+                        for (let i in cars) {
+
+                            let product = cars[i];
+
+                            let data = {product_id: product.id, number: product.number, _token: token};
+                            let url = "/cars";
 
                             $.post(url, data, function (res) {
 
-                                if (res.code != 302 && res.code != 200) {
+                                if (res.code != 200) {
 
                                     layer.msg(res.msg, {icon: 2});
                                     return;
                                 }
 
-                                layer.msg('同步购物车成功，请刷新查看');
+                                // 更新 DOM，如果已经有了这个元素，那么加数量，
+                                // 如果是没有的，新增加 DOM
+                                let dom = $('#' + product.id);
+                                if (dom.length > 0) {
+                                    dom.val(parseInt(dom.val()) + product.number);
+                                } else {
+                                    // 增加 DOM
+                                    let html = buildCarDom(product.id, product.name, product.number, product.price);
+                                    $('#cars_data').append(html);
+                                }
+
+                                layer.msg('同步 ['+ product.name +'] 商品到购物车成功');
                             });
                         }
 
-                        localStorage.clear();
-                    }, function(){});
+                        LocalCar.flush();
+
+                    }, function () {
+
+                        LocalCar.flush();
+                        layer.msg('清除本地购物车成功');
+                    });
                 }
             }
         @endauth
 
         @guest
-            for (var i in cars) {
+            let localCars = LocalCar.all();
+            let dom = '';
 
-                var procuct_id = i;
-                var product = cars[i];
-                product = $.parseJSON(product);
+            for (let i in localCars) {
 
-                cars_span += '<tr class="panel alert local-car">\
-                <td>\
-                <div class="media-body valign-middle">\
-                <h6 class="title mb-15 t-uppercase">\
-                <a href="/products/'+ i +'">\
-                    '+ product.name +'\
-                </a>\
-                </h6>\
-                </div>\
-                </td>\
-                <td  class="prices">'+ product.price +'</td>\
-                <td>\
-                <input data-id="'+ procuct_id +'" class="quantity-label car_number" type="number" value="'+ product.number +'">\
-                </td>\
-                <td>\
-                <button type="button" class="close delete_car" data-id="'+  procuct_id +'"  >\
-                <i class="fa fa-trash-o"></i>\
-                </button>\
-                </td>\
-                </tr>';
-
-                cars_prices += product.price * product.number;
+                let product = localCars[i];
+                dom += buildCarDom(product.id, product.name, product.number, product.price);
             }
 
-            $('#cars_data').append(cars_span);
+            $('#cars_data').append(dom);
             getTotal();
 
          @endguest
 
-        var cars_url = "/cars/";
 
+        // 删除购物车
         $("#cart_list").on('click', '.delete_car', function () {
 
-            console.log(1);
-            var that = $(this);
-            var id = that.data('id');
-            var _url = cars_url + id;
-            $.post(_url, {_token:token,_method:'DELETE'}, function(res){
+            let that = $(this);
+            let id = that.data('id');
 
-                if (res.code != 302 && res.code != 200) {
+            @auth
+                let _url = "/cars/" + id;
+                $.post(_url, {_token:token,_method:'DELETE'}, function(res){
 
-                    layer.msg(res.msg, {icon: 2});
-                    return;
-                }
+                    if (res.code != 302 && res.code != 200) {
 
-                if (res.code == 302) {
-                    localStorage.removeItem(id);
-                }
+                        layer.msg(res.msg, {icon: 2});
+                        return;
+                    }
 
+                    that.parent().parent().remove();
+                    getTotal();
+                    renderIncrementCar(- that.data('number'), false);
+                });
+            @endauth
+            @guest
+                LocalCar.delete(id);
                 that.parent().parent().remove();
                 getTotal();
-            });
+                renderIncrementCar(- that.data('number'), true);
+            @endguest
+
         });
 
 
         // 更改购物车数量
         $('#cart_list').on('change', '.car_number', function () {
 
-            var id = $(this).data('id');
-            var number = $(this).val();
+            let id = $(this).data('id');
+            let number = $(this).val();
 
 
-            var data = {product_id:id,_token:"{{ csrf_token() }}", number:number, action:"sync"};
-            var url = "/cars";
-            $.post(url, data, function(res){
-                console.log(res);
+            @auth
+                let data = {product_id:id,_token:"{{ csrf_token() }}", number:number, action:"sync"};
+                $.post("/cars", data, function(res){
 
-                if (res.code != 302 && res.code != 200) {
+
+                if (res.code != 200) {
 
                     layer.msg(res.msg, {icon: 2});
                     return;
                 }
 
-                if (res.code == 302) {
-
-                    Car.syncnumber(id, number);
-                }
-
                 layer.msg(res.msg, {icon: 1});
-
+                renderIncrementCar(res.data.change, false);
                 getTotal();
             });
+            @endauth
+            @guest
+                let change = LocalCar.syncNumber(id, number);
+                layer.msg('本地修改成功', {icon: 1});
+                renderIncrementCar(change, true);
+                getTotal();
+            @endguest
+
+
+
 
         });
 
+        // 更新总价
         getTotal();
         function getTotal()
         {
-            var total = 0;
-            var total_number = 0;
+            let total = 0;
+            let total_number = 0;
             $('.prices').each(function(){
-                var price = $(this).text();
-                var number = $(this).next().find('input').val();
+                let price = $(this).text();
+                let number = $(this).next().find('input').val();
                 number = parseInt(number);
 
                 total_number += number;
@@ -277,7 +267,33 @@
             });
 
             $('#cars_price').text(total);
-            $('#cart-number').text(total_number);
+        }
+
+        /**
+         * 构建购物车的 dom
+         */
+        function buildCarDom(id, name, number, price)
+        {
+            return '<tr class="panel alert local-car">\
+                <td>\
+                <div class="media-body valign-middle">\
+                <h6 class="title mb-15 t-uppercase">\
+                <a href="/products/'+ id +'">\
+                    '+ name +'\
+                </a>\
+                </h6>\
+                </div>\
+                </td>\
+                <td  class="prices">'+ price +'</td>\
+                <td>\
+                <input data-id="'+ id +'" class="quantity-label car_number" type="number" value="'+ number +'">\
+                </td>\
+                <td>\
+                <button type="button" class="close delete_car" data-number="'+ price +'" data-id="'+ id +'"  >\
+                <i class="fa fa-trash-o"></i>\
+                </button>\
+                </td>\
+                </tr>';
         }
     </script>
 @endsection

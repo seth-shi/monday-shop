@@ -135,7 +135,7 @@
 @section('script')
     <script>
         $('.like-deal').click(function(){
-            var id = $(this).data('id');
+            let id = $(this).data('id');
 
             alert('收藏商品ID ' + id);
 

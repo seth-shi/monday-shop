@@ -389,14 +389,14 @@
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script src="/js/jquery-addShopping.js"></script>
     <script>
-        var product_id = $('input[name=product_id]').val();
-        var _url = "/user/likes/" + product_id;
-        var token = "{{ csrf_token() }}";
-        var likes_nums = $('#likes_count');
+        let product_id = $('input[name=product_id]').val();
+        let _url = "/user/likes/" + product_id;
+        let token = "{{ csrf_token() }}";
+        let likes_nums = $('#likes_count');
 
         // 收藏
         $('#likes_btn').click(function(){
-            var that = $(this);
+            let that = $(this);
 
             $.post(_url, {_token:token, _method: 'PUT'}, function(res){
                 layer.msg(res.msg);
@@ -421,62 +421,48 @@
             });
         });
 
-
-        // 购物车对象
-        var Car = {
-            addProduct:function(product_id) {
-
-                var number = $("input[name=number]").val();
-                if (! localStorage.getItem(product_id)) {
-                    var product = {name:"{{ $product->name }}", number:number, price:"{{ $product->price }}"};
-                } else {
-                    var product = $.parseJSON(localStorage.getItem(product_id));
-                    product.number = parseInt(product.number) + parseInt(number);
-                }
-                localStorage.setItem(product_id, JSON.stringify(product))
-            }
-        };
-
         // 加入购物车
-        var car_nums = $('#cart-number');
         $('#addCar').shoping({
             endElement:"#car_icon",
             iconCSS: "",
             iconImg: $('#jqzoom').attr('src'),
             endFunction:function(element){
 
-                var number = $("input[name=number]").val();
-                var data = {product_id:"{{ $product->uuid }}",_token:token, number:number};
-                var url = "/cars";
-                $.post(url, data, function(res){
-                    console.log(res);
+                let number = $("input[name=number]").val();
 
-                    if (res.code != 302 && res.code != 200) {
 
-                        layer.msg(res.msg, {icon: 2});
-                        return;
-                    }
+                @auth
+                    let data = {product_id:"{{ $product->uuid }}",_token:token, number:number};
+                    $.post("/cars", data, function(res){
 
-                    if (res.code == 302) {
-                        Car.addProduct(product_id);
-                    }
+                        if (res.code != 200) {
+                            layer.msg(res.msg, {icon: 2});
+                            return;
+                        }
 
-                    layer.msg(res.msg, {icon: 1});
-
-                    car_nums.text(parseInt(car_nums.text())+parseInt(number));
-                });
+                        // 更新购物车显示数量
+                        renderIncrementCar(number, false);
+                        layer.msg(res.msg, {icon: 1});
+                    });
+                @endauth
+                @guest
+                    LocalCar.increment("{{ $product->uuid }}", "{{ $product->name }}", number, {{ $product->price }});
+                    // 更新购物车显示数量
+                    renderIncrementCar(number, true);
+                    layer.msg('加入本地购物车成功', {icon: 1});
+                @endguest
             }
         });
 
         // 现在购买
         $('#nowBug').click(function(){
-            var _address_id = $('select[name=address_id]').val();
-            var _number = $('input[name=number]').val();
-            var _product_id = $('input[name=product_id]').val();
+            let _address_id = $('select[name=address_id]').val();
+            let _number = $('input[name=number]').val();
+            let _product_id = $('input[name=product_id]').val();
 
             /** v请求支付 **/
-            var form = $('#pay_form');
-            var input = '<input type="hidden" name="address_id" value="'+ _address_id +'">\
+            let form = $('#pay_form');
+            let input = '<input type="hidden" name="address_id" value="'+ _address_id +'">\
                         <input type="hidden" name="product_id" value="'+ _product_id +'">\
                         <input type="hidden" name="number" value="'+ _number +'">';
             form.append(input);
@@ -486,12 +472,12 @@
         // 评论按钮
         $('#comment_btn').click(function () {
 
-            var _id = $('#comment_detail').val();
-            var _score = $('#comment_score').val();
-            var _content = $('#comment_content').val();
-            var that = $(this);
+            let _id = $('#comment_detail').val();
+            let _score = $('#comment_score').val();
+            let _content = $('#comment_content').val();
+            let that = $(this);
 
-            var data = {id:_id, score:_score, content:_content};
+            let data = {id:_id, score:_score, content:_content};
             that.attr('disabled', true);
             $.post('/user/comments', data, function (res) {
                 that.attr('disabled', false);
@@ -503,6 +489,26 @@
                 }
 
             });
+        });
+
+
+        // 增加和减少按钮
+        $('#min').click(function () {
+
+            let val = $('input[name=number]').val();
+            val = parseInt(val);
+
+            if (val == 1) {
+                layer.msg('不能再减少了');
+                return;
+            }
+
+            $('input[name=number]').val(val - 1);
+        });
+        $('#add').click(function () {
+            let val = $('input[name=number]').val();
+
+            $('input[name=number]').val(parseInt(val) + 1);
         });
     </script>
 @endsection

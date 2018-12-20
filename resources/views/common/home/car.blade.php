@@ -64,6 +64,25 @@
         return LocalCar._storeProduct(key, product);
     };
 
+    // 同步数量
+    LocalCar.syncNumber = function (key, number) {
+
+        let change = 0;
+        let product = LocalCar.get(key);
+
+        if (! product) {
+
+            return false;
+        }
+
+        change = number - product.number;
+        product.number = number;
+
+        LocalCar._storeProduct(key, product);
+
+        return change;
+    };
+
     // 获取所有
     LocalCar.all = function () {
 
@@ -109,6 +128,7 @@
 
         return number;
     };
+
 
     /****************************************
      * 私有方法

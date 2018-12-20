@@ -54,7 +54,7 @@
                                                 <div class="pr-md-10">
                                                     <div class="rating mb-10">
                                                         <div class="mb-10">
-                                                            收藏人数 <span class="rating-count rating">{{ $product->users->count() }}</span>
+                                                            收藏人数 <span class="rating-count rating">{{ $product->users_count }}</span>
                                                         </div>
                                                     </div>
                                                     <h3 class="deal-title mb-10">
@@ -63,7 +63,7 @@
                                                         </a>
                                                     </h3>
                                                     <p class="text-muted mb-20">
-                                                        {{ $product->title }}
+                                                        {!! $product->title !!}
                                                     </p>
                                                 </div>
                                                 <div class="deal-price pos-r mb-15">
@@ -142,7 +142,7 @@
 @section('script')
     <script>
         $('.like-deal').click(function(){
-            var id = $(this).data('id');
+            let id = $(this).data('id');
 
             alert('收藏商品ID ' + id);
 

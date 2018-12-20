@@ -144,9 +144,9 @@
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
         $('.delete_address').click(function(){
-            var id = $(this).data('id');
-            var _url = "/user/addresses/" + id;
-            var that = $(this);
+            let id = $(this).data('id');
+            let _url = "/user/addresses/" + id;
+            let that = $(this);
 
             $.post(_url, {_token:'{{ csrf_token() }}', _method:'DELETE'}, function(res){
                 if (res.code == 200) {
@@ -159,8 +159,8 @@
     </script>
     <script>
         $('.default_addr').click(function(){
-            var id = $(this).data('id');
-            var _url = "/user/addresses/default/" + id;
+            let id = $(this).data('id');
+            let _url = "/user/addresses/default/" + id;
 
             $.post(_url, {_token:'{{ csrf_token() }}'}, function(res){
                 if (res.code == 200) {
@@ -172,14 +172,14 @@
         });
         
         $('select[name=province_id]').change(function () {
-            var id = $(this).val();
-            var url = "/user/addresses/cities?province_id=" + id;
+            let id = $(this).val();
+            let url = "/user/addresses/cities?province_id=" + id;
 
             $.get(url, function(res){
 
 
-                var text = '';
-                for (var i in res) {
+                let text = '';
+                for (let i in res) {
 
                     text += '<option value="'+ res[i].id +'">'+ res[i].name +'</option>';
                 }

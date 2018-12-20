@@ -142,9 +142,9 @@
     <script>
        function handleDelete(id)
        {
-           var url = "/user/orders/" + id;
+           let url = "/user/orders/" + id;
 
-           var form = document.getElementById('delete-form');
+           let form = document.getElementById('delete-form');
            form.action = url;
            form.submit();
        }

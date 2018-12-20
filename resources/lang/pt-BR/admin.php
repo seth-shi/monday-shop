@@ -25,7 +25,7 @@ return [
     'reset'        => 'Resetar',
     'export'       => 'Exportar',
     'batch_delete' => 'Apagar vários',
-    'save'         => 'Salvar',
+    'save'         => 'Sallet',
     'refresh'      => 'Atualizar',
     'order'        => 'Ordenar',
     'expand'       => 'Expandir',

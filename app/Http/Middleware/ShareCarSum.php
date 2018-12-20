@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Contracts\View\Factory as ViewFactory;
@@ -37,13 +38,17 @@ class ShareCarSum
     {
         // 如果用户已经登录，那么就是他的数量，如果用户没有登录，那么就是 0
         $sum = 0;
-        if (auth()->check()) {
+        /**
+         * @var $user User
+         */
+        if ($user = auth()->user()) {
 
-            $sum = auth()->user()->cars()->sum('number');
+            $sum = $user->cars()->sum('number');
         }
 
+
         $this->view->share(
-            'car_sum_count', $sum
+            'carSum', $sum
         );
 
 

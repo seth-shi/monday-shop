@@ -64,23 +64,23 @@
 
 @section('script')
     <script>
-        var url = "/products/pinyin/";
-        var loadImg = '<div style="background: #ddd"><img src="/images/loading.svg" style="width: 100%; height: auto;" alt=""></div>';
-        var dataContainer = $('#data');
+        let url = "/products/pinyin/";
+        let loadImg = '<div style="background: #ddd"><img src="/images/loading.svg" style="width: 100%; height: auto;" alt=""></div>';
+        let dataContainer = $('#data');
 
         $('.pinyinBtn').click(function(){
-            var pinyin = $(this).data('pinyin');
-            var _url = url +  pinyin;
+            let pinyin = $(this).data('pinyin');
+            let _url = url +  pinyin;
             dataContainer.html(loadImg);
 
             $.get(_url, function(res){
 
-                var str = '';
+                let str = '';
 
-                for (var i in res) {
-                    var products = res[i];
+                for (let i in res) {
+                    let products = res[i];
                     str += '<li class="col-sm-4"><ul>';
-                    for (var j in products) {
+                    for (let j in products) {
                         str += "<li><a href="+ url + products[j]['id'] +">"+ products[j]['name'] +"</a></li>";
                     }
                     str += '</ul></li>';

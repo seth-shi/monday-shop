@@ -153,7 +153,7 @@
     <script src="/assets/admin/lib/layui/layui.js"></script>
     <script>
         layui.use('upload', function() {
-            var $ = layui.jquery
+            let $ = layui.jquery
                 ,upload = layui.upload;
 
 

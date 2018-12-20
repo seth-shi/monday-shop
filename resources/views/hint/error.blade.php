@@ -30,11 +30,11 @@
         <b id="wait">3</b></p>
 </div>
 <script type="text/javascript">(function() {
-        var wait = document.getElementById('wait'),
+        let wait = document.getElementById('wait'),
             href = document.getElementById('href').href;
 
-        var interval = setInterval(function() {
-                var time = --wait.innerHTML;
+        let interval = setInterval(function() {
+                let time = --wait.innerHTML;
                 if (time <= 0) {
                     location.href = href;
                     clearInterval(interval);

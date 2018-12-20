@@ -167,12 +167,12 @@
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
 
-        var csrf_token = "{{ csrf_token() }}";
+        let csrf_token = "{{ csrf_token() }}";
         // 订阅邮件
         $('#subscribe').click(function(){
-            var _url = "user/subscribe";
-            var _email = $('#subscribe_email').val();
-            var that = $(this);
+            let _url = "user/subscribe";
+            let _email = $('#subscribe_email').val();
+            let that = $(this);
             that.attr('disabled', true);
 
             $.post(_url, {email:_email, _token:csrf_token, _method: "PUT"}, function(res){
