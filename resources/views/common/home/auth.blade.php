@@ -33,7 +33,7 @@
     <!-- PAGE FAVICON                              -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="apple-touch-icon" href="/assets/shop/images/favicon/apple-touch-icon.png">
-    <link rel="icon" href="/assets/shop/images/favicon/favicon.ico'">
+    <link rel="icon" href="/assets/shop/images/favicon/favicon.ico">
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Include CSS Filess                        -->

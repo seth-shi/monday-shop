@@ -158,11 +158,13 @@
                             });
                         }
 
+                        localDom.text(0);
                         LocalCar.flush();
 
                     }, function () {
 
                         LocalCar.flush();
+                        localDom.text(0);
                         layer.msg('清除本地购物车成功');
                     });
                 }
