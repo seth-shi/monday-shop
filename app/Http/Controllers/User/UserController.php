@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Exceptions\UploadException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateOwnRequest;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\UploadServe;
@@ -48,12 +49,13 @@ class UserController extends Controller
         ], [
            'avatar.required' => '头像不能为空',
            'sex.in' => '性别格式不对',
-           'name.unique' => '用户名已经存在',
-           'name.email' => '邮箱已经存在',
         ]);
 
+        // 除了第三方授权登录的用户导致没有名字之外
+        // 其他用户是不允许修改用户名和邮箱
         $user->sex= $request->input('sex');
         $user->avatar= $request->input('avatar');
+
 
         // 如果当前用户第一次修改用户名
         if ($user->is_init_name && $request->filled('name')) {
