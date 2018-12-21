@@ -6,18 +6,10 @@
 * 账号：`admin`
 * 密码：`admin`
 ****
-* 首页图
 ![PC首页](public/media/index_pc.png)
-
-* 个人中心
-![PC首页](public/media/map_center.png)
-****
-* 后台仪表盘
+![个人中心](public/media/map_center.png)
 ![后台仪表盘](public/media/admin/dash_board.png)
-****
-* 后台订单列表
-![商品列表](public/media/admin/orders.png)
-
+![后台订单列表](public/media/admin/orders.png)
 ## Feture
 - [x] **首页数据全走缓存（推荐使用`Redis`驱动）**
     * [x] 未登录的首页，零数据库查询，通过缓存驱动
@@ -162,15 +154,15 @@ Seckill::query()
 ```
 
 ## Packages
-| 扩展包 | 一句话描述 | 在本项目中的使用案例 |  
-| --- | --- | --- |   
+| 扩展包 | 一句话描述 | 在本项目中的使用案例 |
+| --- | --- | --- |
 |[z-song/laravel-admin](https://github.com/z-song/laravel-admin)|后台|快速搭建后台系统|
 |[mews/captcha](https://github.com/mewebstudio/captcha)|验证码|登录注册功能使用验证码验证|
 |[overtrue/laravel-socialite](https://github.com/overtrue/laravel-socialite)|第三方登录|用户登录可以使用Github,QQ,新浪微博|
-|[intervention/image](https://github.com/Intervention/image)|图片处理|是为 Laravel 定制的图片处理工具，加水印|  
-|[webpatser/laravel-uuid](https://github.com/webpatser/laravel-uuid)|uuid生成|商品添加增加一个uuid，订单号|  
-|[renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)|压缩页面DOM|打包优化您的网站自动导致35％以上的优化（已移除使用）|  
-|[overtrue/laravel-pinyin](https://github.com/overtrue/laravel-pinyin)|汉语拼音翻译|分类首字母查询|  
+|[intervention/image](https://github.com/Intervention/image)|图片处理|是为 Laravel 定制的图片处理工具，加水印|
+|[webpatser/laravel-uuid](https://github.com/webpatser/laravel-uuid)|uuid生成|商品添加增加一个uuid，订单号|
+|[renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)|压缩页面DOM|打包优化您的网站自动导致35％以上的优化（已移除使用）|
+|[overtrue/laravel-pinyin](https://github.com/overtrue/laravel-pinyin)|汉语拼音翻译|分类首字母查询|
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
