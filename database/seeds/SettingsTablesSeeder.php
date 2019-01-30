@@ -19,7 +19,7 @@ class SettingsTablesSeeder extends Seeder
             ],
             [
                 'index_name' => 'is_open_seckill',
-                'value' => 1,
+                'value' => 0,
                 'type' => 'switch',
                 'description' => '是否开始秒杀功能模块（需要配置好 redis）'
             ],
