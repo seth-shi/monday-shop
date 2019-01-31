@@ -169,7 +169,7 @@ class Order extends Model
         for ($i = 0; $i < $try; ++ $i) {
             $no = $prefix . fixStrLength(random_int(0, 9999), 5) . $suffix;
 
-            if (! self::query()->where('no', $no)->exists()) {
+            if (self::query()->where('no', $no)->doesntExist()) {
                 return $no;
             }
         }

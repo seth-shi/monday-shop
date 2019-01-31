@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Seckill;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\URL;
@@ -43,35 +44,41 @@ class HomeController extends Controller
         });
 
         // 秒杀数据
-        $secKills = collect()->when(setting('is_open_seckill') == 1, function () {
+        $secKills = collect();
+        if (setting('is_open_seckill') == 1) {
 
-            $now = Carbon::now();
 
             // 只要秒杀没有结束，都要查出来。且还有数量的
             $keys = Redis::keys('seckills:*:model');
-            $secKills = Redis::connection()->mget($keys);
 
-            // 处理 redis 中的秒杀数据
-            return collect($secKills)->map(function ($json) {
+            // 只有当有 key 的时候,采取通过 mget 取,否则会产生错误
+            $secKills = $secKills->when($keys, function (Collection $collection, $keys) {
 
-                return json_decode($json);
-            })->filter(function ($model) use ($now) {
+                $secKills = Redis::connection()->mget($keys);
 
-                // 已经抢完的秒杀数量
-                if ($model->safe_count == $model->number) {
+                // 处理 redis 中的秒杀数据
+                $now = Carbon::now();
+                return $collection->union($secKills)
+                                  ->map(function ($json) {
 
-                    return false;
-                }
+                                      return json_decode($json);
+                                  })
+                                  ->filter(function ($model) use ($now) {
 
-                // 已经过期的秒杀
-                if ($now->gt(Carbon::make($model->end_at))) {
+                                      // 已经抢完的秒杀数量
+                                      if ($model->safe_count == $model->number) {
+                                          return false;
+                                      }
 
-                    return false;
-                }
+                                      // 已经过期的秒杀
+                                      if ($now->gt(Carbon::make($model->end_at))) {
+                                          return false;
+                                      }
 
-                return true;
+                                      return true;
+                                  });
             });
-        });
+        }
 
 
         /**

@@ -149,7 +149,7 @@ class Product extends Model
         static::deleted(function ($model) {
 
             // 没有这个拼音了，删去
-            if (! Product::query()->where('first_pinyin', $model->first_pinyin)->exists()) {
+            if (Product::query()->where('first_pinyin', $model->first_pinyin)->doesntExist()) {
                 ProductPinYin::query()->where('pinyin', $model->first_pinyin)->delete();
             }
         });
