@@ -19,7 +19,7 @@ class UserController extends Controller
     {
 
         $user = $this->user();
-        $user->cars_count = $user->cars()->count();
+        $user->cars_count = $user->cars()->sum('number');
         $user->orders_count = $user->orders()->count();
         $user->likeProducts = $user->products()->latest()->take(9)->get();
 
