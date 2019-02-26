@@ -72,7 +72,7 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     Route::resource('orders', 'OrderController')->only('index', 'show', 'destroy');
 
     // 评论商品
-    Route::post('comments', 'CommentCOntroller@store');
+    Route::post('comments', 'CommentController@store');
 
     /****************************************
      * 1. 订单的创建（包括直接下单和购物车下单
@@ -109,7 +109,7 @@ Route::namespace('Auth')->group(function(){
     /****************************************
      * 互联登录的路由，包括 github, QQ， 微博 登录
      ****************************************/
-    Route::get('auth/oauth', 'AuthLoginController@redirectToAuth');
+    Route::get('auth/oauth', 'AuthLoginuser/commentsController@redirectToAuth');
     Route::get('auth/oauth/callback', 'AuthLoginController@handleCallback');
     Route::get('/auth/oauth/unbind', 'AuthLoginController@unBind');
 });
