@@ -109,7 +109,7 @@ Route::namespace('Auth')->group(function(){
     /****************************************
      * 互联登录的路由，包括 github, QQ， 微博 登录
      ****************************************/
-    Route::get('auth/oauth', 'AuthLoginuser/commentsController@redirectToAuth');
+    Route::get('auth/oauth', 'AuthLoginController@redirectToAuth');
     Route::get('auth/oauth/callback', 'AuthLoginController@handleCallback');
     Route::get('/auth/oauth/unbind', 'AuthLoginController@unBind');
 });
