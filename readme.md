@@ -7,6 +7,7 @@
 * 密码：`admin`
 ****
 ![PC首页](public/media/index_pc.png)
+![订单](public/media/store_order.gif)
 ![个人中心](public/media/map_center.png)
 ![后台仪表盘](public/media/admin/dash_board.png)
 ![后台订单列表](public/media/admin/orders.png)
