@@ -115,5 +115,5 @@ Route::namespace('Auth')->group(function(){
 });
 
 // 支付通知的接口
-Route::get('pay/return', 'PaymentNotificationController@payReturn');
+Route::get('pay/return', 'PaymentNotificationController@payReturn')->middleware('user.cars');
 Route::post('pay/notify', 'PaymentNotificationController@payNotify');
