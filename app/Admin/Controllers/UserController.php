@@ -100,6 +100,8 @@ class UserController extends Controller
         $grid->column('github_name', 'Github昵称');
         $grid->column('qq_name', 'QQ昵称');
         $grid->column('weibo_name', '微博昵称');
+        $grid->column('score_all', '总积分')->sortable();
+        $grid->column('score_now', '剩余积分')->sortable();
         $grid->column('login_count', '登录次数')->sortable();
         $grid->column('is_active', '是否激活')->display(function ($isActive) {
 
@@ -147,6 +149,21 @@ class UserController extends Controller
         });
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
+
+
+        $show->scoreLogs('积分', function (Grid $grid) {
+
+            $grid->model()->latest();
+            $grid->column('description', '描述');
+            $grid->column('score', '积分');
+            $grid->column('created_at', '创建时间');
+
+            $grid->disableActions();
+            $grid->disableCreateButton();
+            $grid->disableFilter();
+            $grid->disableTools();
+            $grid->disableRowSelector();
+        });
 
         return $show;
     }
