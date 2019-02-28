@@ -92,7 +92,6 @@ class HomeController extends Controller
         }
 
 
-        // 重构整个购物车类
         return view(
             'homes.index',
             compact('categories', 'hotProducts', 'latestProducts', 'users', 'secKills', 'loginUser')

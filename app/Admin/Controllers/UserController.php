@@ -191,6 +191,14 @@ class UserController extends Controller
 
         $form->switch('is_active', '激活');
 
+        // 加密密码
+        $form->saving(function (Form $form) {
+
+            if ($form->password && $form->model()->password != $form->password) {
+                $form->password = bcrypt($form->password);
+            }
+        });
+
         return $form;
     }
 }
