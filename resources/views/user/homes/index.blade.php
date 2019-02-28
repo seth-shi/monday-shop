@@ -13,7 +13,10 @@
                             <a href="/user/setting">
                                 <img src="{{ $user->avatar }}">
                             </a>
-                            <em class="s-name">{{ $user->name }}<span class="vip1"></span></em>
+                            <em class="s-name">
+                                {{ $user->name }}
+                                <img src="{{ imageUrl($level->icon) }}" alt="{{ $level->name }}" title="{{ $level->name }}" style="width: 32px; height: 32px;">
+                            </em>
 
                         </div>
                         <div class="m-right">
@@ -44,6 +47,19 @@
                     </ul>
                 </div>
 
+                <!-- 积分获取记录 -->
+                <div class="m-order">
+                    <div class="s-bar">
+                        <i class="s-icon"></i> 我的积分 <span style="color: red;">{{ $user->score_all }}</span>
+                        <a class="i-load-more-item-shadow" href="/user/orders">查看更多 </a>
+                    </div>
+                    @foreach ($scoreLogs as $log)
+                        <div style="padding: 5px 10px;border-bottom: 1px solid #ddd;">
+                            {{ $log->description }} <span style="float: right; color: green;"> + {{ $log->score }}</span>
+                        </div>
+                    @endForeach
+                </div>
+
                 <!--收藏夹 -->
                 <div >
                     <div class="s-bar">我的收藏</div>
@@ -70,9 +86,6 @@
                             </div>
                         @endforeach
                     </div>
-
-                    <div class="s-more-btn i-load-more-item"><a href="/user/likes">更多</a></div>
-
                 </div>
 
             </div>

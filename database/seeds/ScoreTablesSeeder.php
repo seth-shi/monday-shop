@@ -17,12 +17,14 @@ class ScoreTablesSeeder extends Seeder
         $levelModels = [
             [
                 'name' => '心心会员',
+                'icon' => 'images/vip1.png',
                 'level' => 1,
                 'min_score' => 0,
                 'can_delete' => 0,
             ],
             [
                 'name' => '会员',
+                'icon' => 'images/vip2.png',
                 'level' => 2,
                 'min_score' => 99,
                 'can_delete' => 1,
@@ -59,7 +61,7 @@ class ScoreTablesSeeder extends Seeder
                 'max_times' => 7,
             ],
             [
-                'description' => '会员 %username% 查看了%times%个商品',
+                'description' => '会员 %username% 在 %date% 查看了%times%个商品',
                 'index_code' => ScoreRule::INDEX_REVIEW_PRODUCT,
                 'score' => 5,
                 'max_times' => 10,
