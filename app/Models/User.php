@@ -149,6 +149,12 @@ class User extends Authenticatable
         return $lastStr . $hiddenStr;
     }
 
+
+    public function scoreLogs()
+    {
+        return $this->hasMany(ScoreLog::class, 'user_id');
+    }
+
     public function addresses()
     {
         return $this->hasMany(Address::class);

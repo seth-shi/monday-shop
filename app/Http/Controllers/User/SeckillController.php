@@ -27,10 +27,15 @@ class SeckillController extends PaymentController
 
         $product = $redisSeckill->product;
 
-        // 如果登录返回所有地址列表，如果没有，则返回一个空集合
-        $addresses = collect()->when(auth()->user(), function ($coll, User $user) {
-            return $user->addresses()->get();
-        });
+        /**
+         * @var $user User
+         * 如果登录返回所有地址列表，如果没有，则返回一个空集合
+         */
+        $addresses = collect();
+        if ($user = auth()->user()) {
+
+            $addresses = $user->addresses()->get();
+        }
 
 
         return view('seckills.show', compact('redisSeckill', 'product', 'addresses'));

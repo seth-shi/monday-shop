@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Product;
 use App\Models\ScoreLog;
 use App\Models\ScoreRule;
 use App\Models\User;
@@ -26,13 +27,14 @@ class ScoreLogServe
          * 每天都有一个登录用户的 key,通过定时任务删除
          * 如果这个用户已经记录过了,那么可以跳过
          */
-        $cacheKey = "{$today->toDateString()}_login_users";
+        $cacheKey = $this->loginKey($today->toDateString());
         $ids = Cache::get($cacheKey, collect());
         if ($ids->contains($user->id)) {
             return false;
         }
+
         $ids->push($user->id);
-        Cache::put($cacheKey, $ids);
+        Cache::put($cacheKey, $ids, 60*24);
 
         // 登录总是送这么多积分
         $rule = ScoreRule::query()->where('index_code', ScoreRule::INDEX_LOGIN)->firstOrFail();
@@ -83,6 +85,75 @@ class ScoreLogServe
             $scoreLog->save();
         }
 
-        $user->save();
+        return $user->save();
+    }
+
+    /**
+     * 浏览商品增加积分
+     *
+     * @param User    $user
+     * @param Product $product
+     * @return bool
+     */
+    public function browseProductAddScore(User $user, Product $product)
+    {
+        $today = Carbon::today();
+
+        /**
+         * @var $browseProducts Collection
+         * @var $userBrowseProducts Collection
+         * 每天都有一个登录用户的 key,通过定时任务删除
+         * 如果这个用户已经记录过了,那么可以跳过
+         */
+        $cacheKey = $this->browseKey($today->toDateString());
+
+        // 浏览的格式如下
+        // ['user1_id' => [1, 2, 3, 4]]
+        $browseProducts = Cache::get($cacheKey, collect());
+        $userBrowseProducts = $browseProducts->get($user->id, collect());
+
+        // 如果用户今天已经浏览过了这个商品,那么就不会再记录
+        if ($userBrowseProducts->contains($product->id)) {
+            return false;
+        }
+
+        $browseProducts->put($user->id, $userBrowseProducts->push($product->id));
+        Cache::put($cacheKey, $browseProducts, 60*24);
+
+
+        // 查询是否达到增加积分
+        $rule = ScoreRule::query()
+                         ->where('index_code', ScoreRule::INDEX_REVIEW_PRODUCT)
+                         ->where('max_times', $userBrowseProducts->count())
+                         ->first();
+
+
+        if ($rule) {
+
+            $user->score_all += $rule->score;
+            $user->score_now += $rule->score;
+            $user->save();
+
+            $scoreLog = new ScoreLog();
+            $scoreLog->rule_id = $rule->id;
+            $scoreLog->user_id = $user->id;
+            $scoreLog->score = $rule->score;
+            $scoreLog->description = str_replace(
+                ['%username%', '%date%', '%times%'],
+                [$user->name, $today->toDateString(), $rule->max_times],
+                $rule->description
+            );
+            $scoreLog->save();
+        }
+    }
+
+    public function loginKey($date)
+    {
+        return "{$date}_login_users";
+    }
+
+    public function browseKey($date)
+    {
+        return "{$date}_browse_products";
     }
 }

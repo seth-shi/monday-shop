@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\CountRegisterNumber;
 use App\Console\Commands\CountSite;
+use App\Console\Commands\DelExpireScoreData;
 use App\Console\Commands\DelExpireSecKill;
 use App\Console\Commands\SendSubscribeEmail;
 use App\Console\Commands\UpdateCacheHomeData;
@@ -35,6 +36,10 @@ class Kernel extends ConsoleKernel
         $schedule->command(CountSite::class)->dailyAt('01:00');
         // 每小时执行一次, 回滚秒杀过期的数据
         $schedule->command(DelExpireSecKill::class)->hourly();
+
+        // 每天夜里十二点执行删除昨天过期的积分数据
+        $schedule->command(DelExpireScoreData::class)->dailyAt('00:00');
+
         // 每钟更新一次首页数据
         $schedule->command(UpdateCacheHomeData::class)->everyMinute();
     }

@@ -18,6 +18,7 @@ class CreateLevelsTable extends Migration
 
             $table->string('name')->comment('等级的名字');
             $table->integer('level')->comment('等级');
+            $table->integer('icon')->nullable()->comment('等级的图标');
             $table->bigInteger('min_score')->comment('阶级分的下限');
             $table->tinyInteger('can_delete')->default(1)->comment('是否可以删除');
 

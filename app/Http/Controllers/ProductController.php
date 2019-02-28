@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductPinYin;
 use App\Models\User;
+use App\Services\ScoreLogServe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,11 +58,17 @@ class ProductController extends Controller
     /**
      * 单个商品显示
      *
-     * @param Product $product
+     * @param $uuid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Product $product)
+    public function show($uuid)
     {
+        /**
+         * @var $user User|null
+         */
+        $product = Product::query()->where('uuid', $uuid)->firstOrFail();
+        $user = auth()->user();
+
         // 同类商品推荐
         $recommendProducts = Product::query()
                                     ->where('category_id', $product->category_id)
@@ -80,16 +87,20 @@ class ProductController extends Controller
         $product->userIsLike = $product->users()->where('id', auth()->id())->exists();
 
         // 如果登录返回所有地址列表，如果没有，则返回一个空集合
-        $addresses = collect()->when(auth()->user(), function ($coll, User $user) {
-            return $user->addresses()->get();
-        });
-        // 可评论的订单
-        $orderDetails = collect()->when(auth()->user(), function ($coll, User $user) use ($product) {
+        $addresses = collect();
+        $orderDetails = collect();
+        if ($user) {
 
-            // 找到此商品下未评论的订单
-            return $user->orderDetails()->with('order')->where('is_commented', 0)->where('product_id', $product->id)->get();
-        });
+            $addresses = $user->addresses()->get();
+            $orderDetails = $user->orderDetails()
+                                 ->with('order')
+                                 ->where('is_commented', 0)
+                                 ->where('product_id', $product->id)
+                                 ->get();
 
+            // 浏览商品增加积分
+            (new ScoreLogServe)->browseProductAddScore($user, $product);
+        }
 
         return view('products.show', compact('product', 'addresses', 'recommendProducts', 'orderDetails'));
     }

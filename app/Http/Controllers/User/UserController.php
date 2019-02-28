@@ -4,11 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Exceptions\UploadException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateOwnRequest;
+use App\Models\Level;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\UploadServe;
-use Auth;
 use Hash;
 use Illuminate\Http\Request;
 
@@ -17,15 +16,27 @@ class UserController extends Controller
 
     public function index()
     {
-
+        /**
+         * @var $user User
+         */
         $user = $this->user();
         $user->cars_count = $user->cars()->sum('number');
         $user->orders_count = $user->orders()->count();
         $user->likeProducts = $user->products()->latest()->take(9)->get();
 
+        // 查出用户的等级
+        $level = Level::query()
+                      ->where('min_score', '<=', $user->score_all)
+                      ->orderBy('min_score', 'desc')
+                      ->first();
+
+        // 获取所有积分记录
+        $scoreLogs = $user->scoreLogs()->latest()->limit(5)->get();
+
+
         $hotProduct = Product::query()->where('safe_count', 'desc')->first();
 
-        return view('user.homes.index', compact('user', 'hotProduct'));
+        return view('user.homes.index', compact('user', 'hotProduct', 'level', 'scoreLogs'));
     }
 
 
