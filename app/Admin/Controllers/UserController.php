@@ -135,9 +135,7 @@ class UserController extends Controller
             return User::SEXES[$sex] ?? '未知';
         });
         $show->field('email', '邮箱');
-        $show->field('avatar', '头像')->as(function ($avatar) {
-            return image($avatar);
-        });
+        $show->field('avatar', '头像')->image();
         $show->field('github_name', 'Github昵称');
         $show->field('qq_name', 'QQ昵称');
         $show->field('weibo_name', '微博昵称');
@@ -194,9 +192,12 @@ class UserController extends Controller
         // 加密密码
         $form->saving(function (Form $form) {
 
-            if ($form->password && $form->model()->password != $form->password) {
+            if ($form->password) {
                 $form->password = bcrypt($form->password);
+            } else {
+                $form->password = $form->model()->password;
             }
+
         });
 
         return $form;

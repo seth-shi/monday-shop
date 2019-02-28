@@ -61,7 +61,7 @@
     let localNumber = LocalCar.number();
     let CountNumber = localNumber;
 
-    @if ($carSum > 0)
+    @if ($carSum ?? 0 > 0)
         CountNumber += parseInt({{ $carSum }});
     @endif
 
