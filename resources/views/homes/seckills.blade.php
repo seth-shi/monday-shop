@@ -25,7 +25,7 @@
                             <div class="panel-body">
                                 <ul class="deal-meta list-inline mb-10">
                                     <li class="color-green"><i class="ico lnr lnr-smile mr-5"></i>剩余：{{ $secKill->number }}</li>
-                                    <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>已抢: {{ $secKill->safe_count }}</li>
+                                    <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>已抢: {{ $secKill->sale_count }}</li>
                                 </ul>
                                 <h5 class="deal-title mb-10">
                                     <a href="#">{{ str_limit($secKill->product->name, 10) }}</a>

@@ -182,7 +182,7 @@ class PaymentController extends Controller
         }
 
         $product->setAttribute('count', $product->count - $number)
-                ->setAttribute('safe_count', $product->safe_count + $number)
+                ->setAttribute('sale_count', $product->sale_count + $number)
                 ->save();
     }
 

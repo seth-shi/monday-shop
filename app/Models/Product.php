@@ -21,7 +21,7 @@ use Ramsey\Uuid\Uuid;
  * @property float $original_price 商品原本的价格
  * @property string $thumb 商品的缩略图
  * @property array $pictures 图片的列表
- * @property int $safe_count 出售的数量
+ * @property int $sale_count 出售的数量
  * @property int $count 商品库存量
  * @property string|null $pinyin 商品名的拼音
  * @property string|null $first_pinyin 商品名的拼音的首字母

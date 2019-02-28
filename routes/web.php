@@ -71,6 +71,9 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     Route::post('orders/single', 'OrderController@single');
     Route::resource('orders', 'OrderController')->only('index', 'show', 'destroy');
 
+    // 用户的积分
+    Route::get('scores', 'UserController@indexScores');
+
     // 评论商品
     Route::post('comments', 'CommentController@store');
 

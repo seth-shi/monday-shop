@@ -51,13 +51,13 @@
                 <div class="m-order">
                     <div class="s-bar">
                         <i class="s-icon"></i> 我的积分 <span style="color: red;">{{ $user->score_all }}</span>
-                        <a class="i-load-more-item-shadow" href="/user/orders">查看更多 </a>
+                        <a class="i-load-more-item-shadow" href="/user/scores">查看更多 </a>
                     </div>
                     @foreach ($scoreLogs as $log)
                         <div style="padding: 5px 10px;border-bottom: 1px solid #ddd;">
                             {{ $log->description }} <span style="float: right; color: green;"> + {{ $log->score }}</span>
                         </div>
-                    @endForeach
+                    @endforeach
                 </div>
 
                 <!--收藏夹 -->
@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="s-title"><a href="/products/{{ $product->uuid }}" title="{{ $product->name }}">{{ $product->name }}</a></div>
                                     <div class="s-extra-box">
-                                        <span class="s-sales">销量: {{ $product->safe_count }}</span>
+                                        <span class="s-sales">销量: {{ $product->sale_count }}</span>
                                     </div>
                                 </div>
                             </div>

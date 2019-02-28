@@ -8,8 +8,8 @@ use App\Models\Level;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\UploadServe;
-use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -34,11 +34,23 @@ class UserController extends Controller
         $scoreLogs = $user->scoreLogs()->latest()->limit(5)->get();
 
 
-        $hotProduct = Product::query()->where('safe_count', 'desc')->first();
+        $hotProduct = Product::query()->where('sale_count', 'desc')->first();
 
         return view('user.homes.index', compact('user', 'hotProduct', 'level', 'scoreLogs'));
     }
 
+
+    public function indexScores()
+    {
+        /**
+         * @var $user User
+         */
+        $user = $this->user();
+
+        $logs = $user->scoreLogs()->latest()->paginate(10);
+
+        return view('user.scores.index', compact('user', 'logs'));
+    }
 
 
     public function setting()

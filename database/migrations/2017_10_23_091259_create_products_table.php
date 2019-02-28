@@ -26,7 +26,7 @@ class CreateProductsTable extends Migration
             $table->string('thumb')->comment('商品的缩略图');
             $table->text('pictures')->comment('图片的列表');
 
-            $table->integer('safe_count')->default(0)->comment('出售的数量');
+            $table->integer('sale_count')->default(0)->comment('出售的数量');
             $table->integer('count')->comment('商品库存量');
 
 

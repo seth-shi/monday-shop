@@ -180,6 +180,6 @@ class CategoryController extends Controller
         $category = Category::query()->findOrFail($id);
 
         // 尽量促销卖得少的商品
-        return $category->products()->orderBy('safe_count', 'desc')->get(['id', 'name as text']);
+        return $category->products()->orderBy('sale_count', 'desc')->get(['id', 'name as text']);
     }
 }

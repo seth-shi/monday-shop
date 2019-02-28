@@ -32,7 +32,7 @@ class HomeController extends Controller
         });
         $hotProducts = Cache::rememberForever('home:hottest', function () {
 
-            return Product::query()->withCount('users')->orderBy('safe_count', 'desc')->take(3)->get();
+            return Product::query()->withCount('users')->orderBy('sale_count', 'desc')->take(3)->get();
         });
         $latestProducts = Cache::rememberForever('home:latest', function () {
 
@@ -66,7 +66,7 @@ class HomeController extends Controller
                                   ->filter(function ($model) use ($now) {
 
                                       // 已经抢完的秒杀数量
-                                      if ($model->safe_count == $model->number) {
+                                      if ($model->sale_count == $model->number) {
                                           return false;
                                       }
 
