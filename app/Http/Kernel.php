@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\RecordUserLoginDays;
 use App\Http\Middleware\ShareCarSum;
 use App\Http\Middleware\UserAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -38,6 +39,9 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            // 用于记录用户连续登录天数的中间件
+            RecordUserLoginDays::class,
         ],
 
         'api' => [
