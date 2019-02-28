@@ -9,6 +9,7 @@
 ![PC首页](public/media/index_pc.png)
 ![支付](public/media/pay.gif)
 ![个人中心](public/media/map_center.png)
+![积分模块](public/media/score.png)
 ![后台仪表盘](public/media/admin/dash_board.png)
 ![后台订单列表](public/media/admin/orders.png)
 ## Feture
@@ -17,6 +18,10 @@
     * [x] 计划任务每分钟会更新一次首页数据
     * [x] 开启秒杀模块，零数据库查询，通过`Redis`驱动
     * [ ] 登录之后首页零数据库查询，`Session`驱动数据
+- [x] 积分功能
+    * [x] 每日首次登录(访问网站)得到积分
+    * [x] 连续登录 n 天得到积分
+    * [x] 当天浏览商品数量 n 个得到积分
 - [x] 秒杀功能
     * 秒杀过期，自动回退库存
     * 使用延时队列，当订单超过三十分钟(可配置)未付款，自动取消订单

@@ -34,6 +34,8 @@ Route::group([
     // 会员管理
     $router->resource('users', 'UserController');
 
+    // TODO 积分规则, 积分等级
+
     // 富文本图片上传
     $router->post('upload/editor', 'UploadController@uploadByEditor');
     // 通过分类异步加载商品下拉列表
