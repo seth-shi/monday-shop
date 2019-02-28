@@ -48,7 +48,7 @@ class CreateUsersTable extends Migration
             $table->bigInteger('score_all')->default(0)->comment('用户的总积分');
             $table->bigInteger('score_now')->default(0)->comment('用户剩余的积分');
             $table->integer('login_days')->default(0)->comment('用户连续登录天数');
-            $table->date('last_login_time')->nullable()->comment('上一次登录的日期,用于计算连续登录');
+            $table->date('last_login_date')->nullable()->comment('上一次登录的日期,用于计算连续登录');
 
             $table->rememberToken()->comment('laravel中的记住我');
             $table->timestamps();
