@@ -31,7 +31,7 @@ class SubscribesNotice extends Mailable
         });
         $hottest =  Cache::remember('subscribes:latest', 1, function () {
 
-            return Product::query()->orderBy('safe_count', 'desc')->first();
+            return Product::query()->orderBy('sale_count', 'desc')->first();
         });
         $likest = Cache::remember('subscribes:latest', 1, function () {
 

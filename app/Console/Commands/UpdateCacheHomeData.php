@@ -42,7 +42,7 @@ class UpdateCacheHomeData extends Command
     public function handle()
     {
         $categories = Category::query()->withCount('products')->orderBy('order')->take(9)->get();
-        $hotProducts = Product::query()->withCount('users')->orderBy('safe_count', 'desc')->take(3)->get();
+        $hotProducts = Product::query()->withCount('users')->orderBy('sale_count', 'desc')->take(3)->get();
         $latestProducts = Product::query()->withCount('users')->latest()->take(9)->get();
         $users = User::query()->orderBy('login_count', 'desc')->take(10)->get(['avatar', 'name']);
 

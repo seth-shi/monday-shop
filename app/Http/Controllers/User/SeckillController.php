@@ -123,7 +123,7 @@ class SeckillController extends PaymentController
         DB::commit();
 
         // 数量减 -
-        $redisSeckill->safe_count += 1;
+        $redisSeckill->sale_count += 1;
         Redis::set($seckill->getRedisModelKey(), json_encode($redisSeckill));
 
 

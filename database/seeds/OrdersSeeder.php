@@ -57,7 +57,7 @@ class OrdersSeeder extends Seeder
                 $data[] = compact('number', 'price', 'total', 'product_id');
 
                 $product->decrement('count', $number);
-                $product->increment('safe_count', $number);
+                $product->increment('sale_count', $number);
             }
 
             // 商品数量减少

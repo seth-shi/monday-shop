@@ -60,8 +60,8 @@ class DelExpireSecKill extends Command
 
                    // 恢复剩余的库存量
                    // 恢复库存数量
-                   if ($redisSeckill['safe_count'] != 0) {
-                       $product->increment('safe_count', $redisSeckill['safe_count']);
+                   if ($redisSeckill['sale_count'] != 0) {
+                       $product->increment('sale_count', $redisSeckill['sale_count']);
                    }
 
                    if ($surplus != 0) {
@@ -70,7 +70,7 @@ class DelExpireSecKill extends Command
 
 
                    // 同步 redis 数据到数据库中
-                   $seckill->safe_count += $redisSeckill['safe_count'];
+                   $seckill->sale_count += $redisSeckill['sale_count'];
                    $seckill->rollback_count += $surplus;
                    $seckill->is_rollback = 1;
                    $seckill->save();

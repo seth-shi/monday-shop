@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $product_id
  * @property int $number 秒杀的数量
- * @property int $safe_count 卖出的数量
+ * @property int $sale_count 卖出的数量
  * @property string $start_at 抢购开始时间
  * @property string $end_at 抢购结束时间
  * @property \Illuminate\Support\Carbon|null $created_at

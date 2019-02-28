@@ -98,7 +98,7 @@ class ProductController extends Controller
 
             return $price . '/' . $this->original_price;
         });
-        $grid->column('safe_count', '售出数量')->sortable();
+        $grid->column('sale_count', '售出数量')->sortable();
         $grid->column('count', '库存量')->sortable();
         $grid->column('deleted_at', '是否上架')->display(function ($isAlive) {
 
@@ -157,7 +157,7 @@ class ProductController extends Controller
         $show->field('price', '价格')->as(function ($price) {
             return $price . '/' . $this->original_price;
         });
-        $show->field('safe_count', '售出数量');
+        $show->field('sale_count', '售出数量');
         $show->field('count', '库存量');
         $show->field('deleted_at', '是否上架')->as(function ($isAlive) {
             return is_null($isAlive) ? '上架' : '下架';
