@@ -44,6 +44,12 @@ class CreateUsersTable extends Migration
             $table->boolean('is_init_email')->default(0)->comment('是否是初始邮箱，是的话可以修改邮箱');
             $table->boolean('is_init_password')->default(0)->comment('是否是初始密码，是的话可以不用输入旧密码直接修改');
 
+
+            $table->bigInteger('score_all')->default(0)->comment('用户的总积分');
+            $table->bigInteger('score_now')->default(0)->comment('用户剩余的积分');
+            $table->integer('login_days')->default(0)->comment('用户连续登录天数');
+            $table->date('last_login_time')->nullable()->comment('上一次登录的日期,用于计算连续登录');
+
             $table->rememberToken()->comment('laravel中的记住我');
             $table->timestamps();
         });
