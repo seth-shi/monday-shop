@@ -13,6 +13,7 @@ use Illuminate\Auth\SessionGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
+use Intervention\Image\ImageManager;
 use Jenssegers\Agent\Agent;
 
 class SeckillController extends PaymentController

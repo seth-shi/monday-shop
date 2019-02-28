@@ -184,8 +184,13 @@ class UserController extends Controller
 
             return $rules;
         });
+        // dd(windows_os());
         $form->password('password', '密码');
-        $form->image('avatar', '头像')->uniqueName()->move('avatars');
+        $avatar = $form->image('avatar', '头像')->uniqueName()->move('avatars');
+
+        if (! windows_os()) {
+            $avatar->crop(90, 90);;
+        }
 
         $form->switch('is_active', '激活');
 
