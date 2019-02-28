@@ -189,7 +189,7 @@ class UserController extends Controller
         $avatar = $form->image('avatar', '头像')->uniqueName()->move('avatars');
 
         if (! windows_os()) {
-            $avatar->crop(90, 90);;
+            $avatar->resize(160, 160);;
         }
 
         $form->switch('is_active', '激活');
