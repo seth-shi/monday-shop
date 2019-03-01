@@ -29,7 +29,7 @@ class SeckillController extends Controller
     {
         return $content
             ->header('秒杀列表')
-            ->description('description')
+            ->description('')
             ->body($this->grid());
     }
 
@@ -43,7 +43,7 @@ class SeckillController extends Controller
     {
         return $content
             ->header('新建秒杀')
-            ->description('description')
+            ->description('')
             ->body($this->form());
     }
 

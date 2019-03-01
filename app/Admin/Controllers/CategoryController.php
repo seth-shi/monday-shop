@@ -30,7 +30,7 @@ class CategoryController extends Controller
     {
         return $content
             ->header('商品分类')
-            ->description('description')
+            ->description('')
             ->row(function (Row $row) {
 
                 // 只能在同一级排序拖动，不允许二级
@@ -73,7 +73,7 @@ class CategoryController extends Controller
     {
         return $content
             ->header('详情')
-            ->description('description')
+            ->description('')
             ->body($this->detail($id));
     }
 
@@ -88,7 +88,7 @@ class CategoryController extends Controller
     {
         return $content
             ->header('编辑')
-            ->description('description')
+            ->description('')
             ->body($this->form()->edit($id));
     }
 

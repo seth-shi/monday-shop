@@ -29,7 +29,7 @@ class UserController extends Controller
     {
         return $content
             ->header('会员列表')
-            ->description('description')
+            ->description('')
             ->body($this->grid());
     }
 
@@ -43,8 +43,8 @@ class UserController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('详情')
+            ->description('')
             ->body($this->detail($id));
     }
 
@@ -59,7 +59,7 @@ class UserController extends Controller
     {
         return $content
             ->header('Edit')
-            ->description('description')
+            ->description('')
             ->body($this->form()->edit($id));
     }
 
@@ -72,8 +72,8 @@ class UserController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+            ->header('新建')
+            ->description('')
             ->body($this->form());
     }
 

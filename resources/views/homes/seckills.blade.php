@@ -20,7 +20,6 @@
                             <!-- end media -->
                         </div>
                         <!-- end col -->
-                        <del>222</del> <ins>111</ins>
                         <div class="col-xs-12">
                             <div class="panel-body">
                                 <ul class="deal-meta list-inline mb-10">

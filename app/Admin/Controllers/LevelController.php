@@ -23,8 +23,8 @@ class LevelController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('列表')
+            ->description('')
             ->body($this->grid());
     }
 
@@ -38,8 +38,8 @@ class LevelController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('详情')
+            ->description('')
             ->body($this->detail($id));
     }
 
@@ -54,7 +54,7 @@ class LevelController extends Controller
     {
         return $content
             ->header('Edit')
-            ->description('description')
+            ->description('')
             ->body($this->form()->edit($id));
     }
 
@@ -67,8 +67,8 @@ class LevelController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+            ->header('新建')
+            ->description('')
             ->body($this->form());
     }
 

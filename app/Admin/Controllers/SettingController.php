@@ -24,7 +24,7 @@ class SettingController extends Controller
     {
         return $content
             ->header('配置列表')
-            ->description('description')
+            ->description('')
             ->body($this->grid());
     }
 
@@ -39,7 +39,7 @@ class SettingController extends Controller
     {
         return $content
             ->header('配置详情')
-            ->description('description')
+            ->description('')
             ->body($this->detail($id));
     }
 
@@ -54,7 +54,7 @@ class SettingController extends Controller
     {
         return $content
             ->header('Edit')
-            ->description('description')
+            ->description('')
             ->body($this->editForm($id)->edit($id));
     }
 
@@ -69,7 +69,7 @@ class SettingController extends Controller
 
         $grid->column('id');
         $grid->column('index_name', '索引名');
-        $grid->column('value', '配置值');
+        $grid->column('value', '配置值')->editable();
         $grid->column('description', '描述');
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
