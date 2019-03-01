@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Transforms\UserTransform;
+use App\Models\Level;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -85,6 +86,8 @@ class UserController extends Controller
     {
         $grid = new Grid(new User);
 
+        $levels = Level::query()->orderBy('min_score', 'desc')->get();
+
         // 排序最新的
         $grid->model()->latest();
 
@@ -93,13 +96,18 @@ class UserController extends Controller
         $grid->column('sex', '性别')->display(function ($sex) {
             return User::SEXES[$sex] ?? '未知';
         });
-        $grid->column('email', '邮箱');
-        $grid->column('avatar', '头像')->display(function ($avatar) {
-            return image($avatar);
+        $grid->column('email', '邮箱')->display(function ($email) {
+            return str_limit($email, 20);
         });
-        $grid->column('github_name', 'Github昵称');
-        $grid->column('qq_name', 'QQ昵称');
-        $grid->column('weibo_name', '微博昵称');
+        $grid->column('avatar', '头像')->image('', 50, 50);
+        $grid->column('github_name', 'Github');
+        $grid->column('qq_name', 'QQ');
+        $grid->column('weibo_name', '微博');
+        $grid->column('level', '等级')->display(function () use ($levels) {
+
+            $level = $levels->where('min_score', '<=', $this->score_all)->first();
+            return optional($level)->name;
+        });
         $grid->column('score_all', '总积分')->sortable();
         $grid->column('score_now', '剩余积分')->sortable();
         $grid->column('login_count', '登录次数')->sortable();

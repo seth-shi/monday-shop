@@ -91,9 +91,7 @@ class ProductController extends Controller
         $grid->column('name', '商品名')->display(function ($name) {
             return str_limit($name, 30);
         });
-        $grid->column('thumb', '首图')->display(function ($thumb) {
-            return image($thumb);
-        });
+        $grid->column('thumb', '首图')->image('', 50, 50);
         $grid->column('price', '价格')->display(function ($price) {
 
             return $price . '/' . $this->original_price;

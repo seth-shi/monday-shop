@@ -20,6 +20,7 @@ class CreateScoreRulesTable extends Migration
             $table->string('index_code')->comment('1: 连续登录送的积分, 2: 查看商品数量送积分, 3 其他');
             $table->integer('score')->comment('增加多少的积分');
             $table->integer('max_times')->default(0)->comment('次数, 连续多少天的天数,查看商品的数量');
+            $table->tinyInteger('can_delete')->default(1)->comment('是否可以删除');
 
             $table->timestamps();
         });

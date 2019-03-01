@@ -41,30 +41,35 @@ class ScoreTablesSeeder extends Seeder
                 'index_code' => ScoreRule::INDEX_REGISTER,
                 'score' => 20,
                 'max_times' => 0,
+                'can_delete' => 0,
             ],
             [
                 'description' => '会员 %username% 在 %time% 进行了登录。',
                 'index_code' => ScoreRule::INDEX_LOGIN,
                 'score' => 5,
                 'max_times' => 0,
+                'can_delete' => 0,
             ],
             [
                 'description' => '会员 %username% 从 %start_date% 到 %end_date% 连续登录%days%天。',
                 'index_code' => ScoreRule::INDEX_CONTINUE_LOGIN,
                 'score' => 20,
                 'max_times' => 3,
+                'can_delete' => 0,
             ],
             [
                 'description' => '会员 %username% 从 %start_date% 到 %end_date% 连续登录%days%天。',
                 'index_code' => ScoreRule::INDEX_CONTINUE_LOGIN,
                 'score' => 50,
                 'max_times' => 7,
+                'can_delete' => 1,
             ],
             [
                 'description' => '会员 %username% 在 %date% 查看了%times%个商品',
                 'index_code' => ScoreRule::INDEX_REVIEW_PRODUCT,
                 'score' => 5,
                 'max_times' => 10,
+                'can_delete' => 0,
             ],
         ];
 
