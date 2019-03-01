@@ -108,6 +108,18 @@ class SeckillController extends PaymentController
             $masterOrder = $this->newMasterOrder($addressId)->setAttribute('type', Order::TYPES['SEC_KILL']);
             $this->storeSingleOrder($masterOrder, $redisSeckill->product->uuid, 1);
 
+            // 数量减 -
+            $redisSeckill->sale_count += 1;
+            Redis::set($seckill->getRedisModelKey(), json_encode($redisSeckill));
+
+
+            // 当订单超过三十分钟未付款，自动取消订单
+            $delay = Carbon::now()->addMinute(setting('order_un_pay_auto_cancel_time', 30));
+            CancelUnPayOrder::dispatch($masterOrder)->delay($delay);
+
+            // 生成支付信息
+            $form = $this->buildPayForm($masterOrder, (new Agent)->isMobile())->getContent();
+
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -122,17 +134,6 @@ class SeckillController extends PaymentController
 
         DB::commit();
 
-        // 数量减 -
-        $redisSeckill->sale_count += 1;
-        Redis::set($seckill->getRedisModelKey(), json_encode($redisSeckill));
-
-
-        // 当订单超过三十分钟未付款，自动取消订单
-        $delay = Carbon::now()->addMinute(setting('order_un_pay_auto_cancel_time', 30));
-        CancelUnPayOrder::dispatch($masterOrder)->delay($delay);
-
-        // 生成支付信息
-        $form = $this->buildPayForm($masterOrder, (new Agent)->isMobile())->getContent();
 
         return responseJson(200, '抢购成功', compact('form'));
     }

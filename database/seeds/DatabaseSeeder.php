@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProvincesTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
 
+
+        // 等级数据表
+        $this->call(ScoreTablesSeeder::class);
+
         $this->call(UsersTableSeeder::class);
         $this->call(AdminTablesSeeder::class);
         $this->call(CategoriesTableSeeder::class);

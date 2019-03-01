@@ -34,7 +34,8 @@ Route::group([
     // 会员管理
     $router->resource('users', 'UserController');
 
-    // TODO 积分规则, 积分等级
+
+    // 积分规则, 积分等级
     $router->resource('score_rules', 'ScoreRuleController');
     $router->resource('levels', 'LevelController');
 

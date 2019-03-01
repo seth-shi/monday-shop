@@ -29,7 +29,7 @@ class OrderController extends Controller
     {
         return $content
             ->header('订单列表')
-            ->description('description')
+            ->description('')
             ->body($this->grid());
     }
 
@@ -43,8 +43,8 @@ class OrderController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('详情')
+            ->description('')
             ->body($this->detail($id));
     }
 
