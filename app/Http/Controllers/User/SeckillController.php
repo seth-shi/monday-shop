@@ -132,6 +132,7 @@ class SeckillController extends PaymentController
 
         // 数量减 -
         $redisSeckill->sale_count += 1;
+        $redisSeckill->number -= 1;
         Redis::set($seckill->getRedisModelKey(), json_encode($redisSeckill));
         // 存储抢购成功的用户名
         $user = auth()->user();
