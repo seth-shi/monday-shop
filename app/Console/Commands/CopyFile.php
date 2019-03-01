@@ -56,6 +56,11 @@ class CopyFile extends BaseCommand
         $to = storage_path('app/public/avatars');
         $this->filesystem->copyDirectory($from, $to);
 
+        // 默认头像
+        $from = storage_path('app/resources/images');
+        $to = storage_path('app/public/images');
+        $this->filesystem->copyDirectory($from, $to);
+
         $this->info('copy file success');
     }
 }

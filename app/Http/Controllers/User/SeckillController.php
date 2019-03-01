@@ -37,7 +37,6 @@ class SeckillController extends PaymentController
             $addresses = $user->addresses()->get();
         }
 
-
         return view('seckills.show', compact('redisSeckill', 'product', 'addresses'));
     }
 
