@@ -105,10 +105,10 @@
 
                     <!--销量-->
                     <ul class="tm-ind-panel">
-                        <li class="tm-ind-item tm-ind-sumCount canClick">
+                        <li class="tm-ind-item tm-ind-sumCount" style="cursor:default;">
                             <div class="tm-indcon"><span class="tm-label">总量</span><span class="tm-count">{{ $redisSeckill->number }}</span></div>
                         </li>
-                        <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
+                        <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3" id="bought">
                             <div  class="tm-indcon"><span class="tm-label">已抢购</span><span class="tm-count" id="likes_count">{{ $redisSeckill->sale_count }}</span></div>
                         </li>
                     </ul>
@@ -178,11 +178,14 @@
             $('#nowBug').click(function () {
 
                 let address_id = $('#address_id').val();
+                let that = $(this);
+                that.hide();
+                layer.msg('抢购中, 请耐心等待');
 
                 let parameters = {address_id: address_id, _token: "{{ csrf_token() }}"};
                 $.post('/user/seckills/{{ $redisSeckill->id }}', parameters, function (res) {
 
-                    console.log(res);
+                    that.show();
                     if (res.code != 200) {
 
                         layer.alert(res.msg, {
@@ -197,6 +200,15 @@
                     document.write(res.data.form);
                 })
             });
+        });
+
+
+        // 查看已经购买的人
+        $('#bought').click(function () {
+
+            $.get();
+            layer.tips('Hi，我是tips', '#bought');
+
         });
 
 
