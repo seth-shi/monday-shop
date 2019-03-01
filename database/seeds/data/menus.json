@@ -2,7 +2,7 @@
   "id": 1,
   "parent_id": 0,
   "order": 1,
-  "title": "仪表盘",
+  "title": "\u4eea\u8868\u76d8",
   "icon": "fa-bar-chart",
   "uri": "\/",
   "created_at": null,
@@ -10,136 +10,163 @@
 }, {
   "id": 2,
   "parent_id": 0,
-  "order": 9,
-  "title": "系统管理",
+  "order": 13,
+  "title": "\u7cfb\u7edf\u7ba1\u7406",
   "icon": "fa-tasks",
   "uri": "",
   "created_at": null,
-  "updated_at": "2018-12-04 17:36:16"
+  "updated_at": "2019-02-28 17:55:18"
 }, {
   "id": 3,
   "parent_id": 2,
-  "order": 11,
-  "title": "管理员",
+  "order": 14,
+  "title": "\u7ba1\u7406\u5458",
   "icon": "fa-users",
   "uri": "auth\/users",
   "created_at": null,
-  "updated_at": "2018-12-05 09:17:39"
+  "updated_at": "2019-02-28 19:11:45"
 }, {
   "id": 4,
   "parent_id": 2,
-  "order": 12,
-  "title": "角色",
+  "order": 16,
+  "title": "\u89d2\u8272",
   "icon": "fa-user",
   "uri": "auth\/roles",
   "created_at": null,
-  "updated_at": "2018-12-05 09:17:40"
+  "updated_at": "2019-02-28 17:55:18"
 }, {
   "id": 5,
   "parent_id": 2,
-  "order": 13,
-  "title": "权限",
+  "order": 17,
+  "title": "\u6743\u9650",
   "icon": "fa-ban",
   "uri": "auth\/permissions",
   "created_at": null,
-  "updated_at": "2018-12-05 09:17:40"
+  "updated_at": "2019-02-28 17:55:18"
 }, {
   "id": 6,
   "parent_id": 2,
-  "order": 14,
-  "title": "菜单",
+  "order": 18,
+  "title": "\u83dc\u5355",
   "icon": "fa-bars",
   "uri": "auth\/menu",
   "created_at": null,
-  "updated_at": "2018-12-05 09:17:32"
+  "updated_at": "2019-02-28 17:55:18"
 }, {
   "id": 7,
   "parent_id": 2,
-  "order": 15,
-  "title": "操作日志",
+  "order": 19,
+  "title": "\u64cd\u4f5c\u65e5\u5fd7",
   "icon": "fa-history",
   "uri": "auth\/logs",
   "created_at": null,
-  "updated_at": "2018-12-05 09:17:32"
+  "updated_at": "2019-02-28 17:55:19"
 }, {
   "id": 8,
   "parent_id": 0,
   "order": 2,
-  "title": "会员管理",
+  "title": "\u4f1a\u5458\u7b49\u7ea7",
+  "icon": "fa-user",
+  "uri": null,
+  "created_at": "2019-02-28 17:50:47",
+  "updated_at": "2019-02-28 17:51:50"
+}, {
+  "id": 9,
+  "parent_id": 8,
+  "order": 3,
+  "title": "\u4f1a\u5458",
   "icon": "fa-user",
   "uri": "users",
   "created_at": null,
-  "updated_at": "2018-12-04 17:36:15"
+  "updated_at": "2019-02-28 17:51:34"
 }, {
-  "id": 9,
+  "id": 10,
+  "parent_id": 8,
+  "order": 4,
+  "title": "\u7b49\u7ea7",
+  "icon": "fa-user-md",
+  "uri": "levels",
+  "created_at": "2019-02-28 17:55:01",
+  "updated_at": "2019-02-28 17:55:16"
+}, {
+  "id": 11,
+  "parent_id": 8,
+  "order": 5,
+  "title": "\u79ef\u5206\u89c4\u5219",
+  "icon": "fa-balance-scale",
+  "uri": "score_rules",
+  "created_at": "2019-02-28 17:53:11",
+  "updated_at": "2019-02-28 17:55:17"
+}, {
+  "id": 12,
   "parent_id": 0,
-  "order": 3,
-  "title": "商品管理",
+  "order": 6,
+  "title": "\u5546\u54c1\u7ba1\u7406",
   "icon": "fa-product-hunt",
   "uri": null,
   "created_at": null,
-  "updated_at": "2018-12-04 17:36:15"
+  "updated_at": "2019-02-28 17:55:17"
 }, {
-  "id": 10,
-  "parent_id": 0,
-  "order": 6,
-  "title": "订单管理",
-  "icon": "fa-shopping-basket",
-  "uri": null,
-  "created_at": null,
-  "updated_at": "2018-12-04 17:36:15"
-}, {
-  "id": 11,
-  "parent_id": 9,
-  "order": 4,
-  "title": "分类",
+  "id": 13,
+  "parent_id": 12,
+  "order": 7,
+  "title": "\u5206\u7c7b",
   "icon": "fa-align-justify",
   "uri": "categories",
   "created_at": null,
-  "updated_at": "2018-12-04 17:36:15"
+  "updated_at": "2019-02-28 19:11:44"
 }, {
-  "id": 12,
-  "parent_id": 10,
+  "id": 14,
+  "parent_id": 12,
   "order": 8,
-  "title": "评论",
-  "icon": "fa-comments",
-  "uri": "comments",
-  "created_at": null,
-  "updated_at": "2018-12-04 17:36:15"
-}, {
-  "id": 13,
-  "parent_id": 9,
-  "order": 5,
-  "title": "商品",
+  "title": "\u5546\u54c1",
   "icon": "fa-product-hunt",
   "uri": "products",
   "created_at": null,
-  "updated_at": "2018-12-04 17:36:15"
-}, {
-  "id": 14,
-  "parent_id": 10,
-  "order": 7,
-  "title": "订单",
-  "icon": "fa-indent",
-  "uri": "orders",
-  "created_at": null,
-  "updated_at": "2018-12-04 17:36:15"
+  "updated_at": "2019-02-28 19:11:44"
 }, {
   "id": 15,
-  "parent_id": 2,
-  "order": 10,
-  "title": "配置",
-  "icon": "fa-database",
-  "uri": "settings",
-  "created_at": "2018-12-04 17:37:45",
-  "updated_at": "2018-12-05 09:17:39"
-}, {
-  "id": 16,
-  "parent_id": 9,
-  "order": 0,
-  "title": "秒杀商品",
+  "parent_id": 12,
+  "order": 9,
+  "title": "\u79d2\u6740\u5546\u54c1",
   "icon": "fa-dashboard",
   "uri": "seckills",
   "created_at": "2018-12-05 09:25:02",
-  "updated_at": "2018-12-05 09:25:17"
+  "updated_at": "2019-02-28 19:11:44"
+}, {
+  "id": 16,
+  "parent_id": 0,
+  "order": 10,
+  "title": "\u8ba2\u5355\u7ba1\u7406",
+  "icon": "fa-shopping-basket",
+  "uri": null,
+  "created_at": null,
+  "updated_at": "2019-02-28 17:55:17"
+}, {
+  "id": 17,
+  "parent_id": 16,
+  "order": 12,
+  "title": "\u8bc4\u8bba",
+  "icon": "fa-comments",
+  "uri": "comments",
+  "created_at": null,
+  "updated_at": "2019-02-28 17:55:18"
+}, {
+  "id": 18,
+  "parent_id": 16,
+  "order": 11,
+  "title": "\u8ba2\u5355",
+  "icon": "fa-indent",
+  "uri": "orders",
+  "created_at": null,
+  "updated_at": "2019-02-28 17:55:17"
+}, {
+  "id": 35,
+  "parent_id": 2,
+  "order": 15,
+  "title": "\u914d\u7f6e",
+  "icon": "fa-database",
+  "uri": "settings",
+  "created_at": "2018-12-04 17:37:45",
+  "updated_at": "2019-02-28 19:11:45"
 }]
