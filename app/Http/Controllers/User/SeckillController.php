@@ -82,7 +82,7 @@ class SeckillController extends PaymentController
         }
 
         // 返回 0，代表之前已经设置过了，代表已经抢过
-        if (0 == Redis::connection()->hset($seckill->getUsersKey($userId), 'id', $userId)) {
+        if (0 == Redis::hset($seckill->getUsersKey($userId), 'id', $userId)) {
 
             return responseJson(403, '你已经抢购过了');
         }
@@ -108,10 +108,6 @@ class SeckillController extends PaymentController
             $masterOrder = $this->newMasterOrder($addressId)->setAttribute('type', Order::TYPES['SEC_KILL']);
             $this->storeSingleOrder($masterOrder, $redisSeckill->product->uuid, 1);
 
-            // 数量减 -
-            $redisSeckill->sale_count += 1;
-            Redis::set($seckill->getRedisModelKey(), json_encode($redisSeckill));
-
 
             // 当订单超过三十分钟未付款，自动取消订单
             $delay = Carbon::now()->addMinute(setting('order_un_pay_auto_cancel_time', 30));
@@ -134,8 +130,30 @@ class SeckillController extends PaymentController
 
         DB::commit();
 
+        // 数量减 -
+        $redisSeckill->sale_count += 1;
+        Redis::set($seckill->getRedisModelKey(), json_encode($redisSeckill));
+        // 存储抢购成功的用户名
+        $user = auth()->user();
+        Redis::hset($seckill->getUsersKey($userId), 'name', $user->hidden_name);
+
+
 
         return responseJson(200, '抢购成功', compact('form'));
+    }
+
+    public function getSeckillUsers($id)
+    {
+        $seckill = new Seckill(compact('id'));
+        $keys = Redis::keys($seckill->getUsersKey('*'));
+
+        $users = collect();
+        foreach ($keys as $key) {
+
+            $users->push(Redis::hget($key, 'name'));
+        }
+
+        return responseJson(200, $users);
     }
 
     /**

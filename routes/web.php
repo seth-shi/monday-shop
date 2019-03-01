@@ -21,6 +21,8 @@ Route::middleware('user.cars')->group(function () {
 
     // 秒杀商品
     Route::get('seckills/{id}', 'User\SeckillController@show');
+    // 获取已经秒杀的人名
+    Route::get('seckills/{id}/users', 'User\SeckillController@getSeckillUsers');
 });
 
 /****************************************

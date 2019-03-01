@@ -95,6 +95,7 @@ class Seckill extends Model
         return "seckills:{$this->id}:users:{$id}";
     }
 
+
     /**
      * 存储模型 json 字符串
      *
