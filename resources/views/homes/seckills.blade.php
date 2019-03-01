@@ -27,7 +27,7 @@
                                     <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>已抢: {{ $secKill->sale_count }}</li>
                                 </ul>
                                 <h5 class="deal-title mb-10">
-                                    <a href="#">{{ str_limit($secKill->product->name, 10) }}</a>
+                                    <a href="/seckills/{{ $secKill->id }}">{{ str_limit($secKill->product->name, 10) }}</a>
                                 </h5>
                                 <p class="mb-15 text-left color-muted mb-20 font-12"><i class="lnr lnr-clock mr-10"></i>开始时间: {{ $secKill->start_at }}</p>
                                 <p class="mb-15 text-left color-muted mb-20 font-12"><i class="lnr lnr-lock mr-10"></i>参考价格: {{ optional($secKill->product)->price }}</p>

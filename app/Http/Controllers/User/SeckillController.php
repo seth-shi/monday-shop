@@ -153,7 +153,7 @@ class SeckillController extends PaymentController
             $users->push(Redis::hget($key, 'name'));
         }
 
-        return responseJson(200, $users);
+        return responseJson(200, 'success', $users);
     }
 
     /**

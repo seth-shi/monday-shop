@@ -206,8 +206,22 @@
         // 查看已经购买的人
         $('#bought').click(function () {
 
-            $.get();
-            layer.tips('Hi，我是tips', '#bought');
+            $.get('/seckills/{{ $redisSeckill->id }}/users', function (res) {
+
+                if (res.code != 200) {
+                    alert(res.msg);
+                    return;
+                }
+
+                let persons = '';
+                for (let i in res.data) {
+
+                    persons += res.data[i] + "<br/>";
+                }
+
+                layer.tips(persons, '#bought');
+            });
+
 
         });
 
