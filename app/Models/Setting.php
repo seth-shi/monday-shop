@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * App\Models\Setting
@@ -34,6 +35,8 @@ class Setting extends Model
         'textarea', 'number', 'switch', 'dateTime', 'text'
     ];
 
+    const CACHE_NAME = 'setting:';
+
     public function getTypeAttribute($value)
     {
         if (in_array($value, $this->allowTypes)) {
@@ -42,5 +45,20 @@ class Setting extends Model
         }
 
         return 'text';
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function (Setting $setting) {
+
+            Cache::forever(static::cacheName($setting->index_name), $setting->value);
+        });
+    }
+
+    public static function cacheName($name)
+    {
+        return self::CACHE_NAME . $name;
     }
 }
