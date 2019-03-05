@@ -127,25 +127,6 @@ class SettingController extends Controller
         return $form;
     }
 
-
-    /**
-     * 修改做一些额外的操作
-     *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function update($id)
-    {
-        $response = $this->editForm($id)->update($id);
-
-        // 使缓存失效
-        $setting = Setting::query()->findOrFail($id);
-        \Cache::forget("settings:{$setting->index_name}");
-
-        return $response;
-    }
-
-
     /**
      * 禁止删除
      *
