@@ -10,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CancelUnPayOrder implements ShouldQueue
+class CancelUnPayOrder
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -40,6 +40,7 @@ class CancelUnPayOrder implements ShouldQueue
         // 回滚库存
         $this->order
             ->details()
+            ->with('product')
             ->get()
             ->map(function (OrderDetail $detail) {
 
