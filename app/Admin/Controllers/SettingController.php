@@ -112,6 +112,10 @@ class SettingController extends Controller
         return $show;
     }
 
+    public function update($id)
+    {
+        return $this->editForm($id)->update($id);
+    }
 
     protected function editForm($id)
     {
