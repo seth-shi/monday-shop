@@ -19,21 +19,8 @@ class UsersTableSeeder extends Seeder
 
         collect($data)->map(function ($userData) {
 
-
-
+            User::query()->create($userData);
         });
 
-        /**
-         * @var $users \Illuminate\Database\Eloquent\Collection
-         */
-        $users = factory(User::class, 10)->create();
-
-        $users->put(null, $firstUser)->each(function ($u) {
-
-            // default select address
-            factory(Address::class, 1)->create(['user_id' => $u->id, 'is_default' => 1]);
-            $count = mt_rand(1, 2);
-            factory(Address::class, $count)->create(['user_id' => $u->id]);
-        });
     }
 }
