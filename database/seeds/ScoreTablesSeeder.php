@@ -65,7 +65,7 @@ class ScoreTablesSeeder extends Seeder
                 'can_delete' => 1,
             ],
             [
-                'replace_text' => ':date查看了:number个商品',
+                'replace_text' => ':date浏览了:number个商品',
                 'index_code' => ScoreRule::INDEX_REVIEW_PRODUCT,
                 'score' => 5,
                 'times' => 10,

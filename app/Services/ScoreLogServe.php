@@ -30,12 +30,12 @@ class ScoreLogServe
          */
         $cacheKey = $this->loginKey($today->toDateString());
         $ids = Cache::get($cacheKey, collect());
-
-        if ($ids->contains($user->id)) {
+        // 使用哈希, 而不是 contains, 数量多了哈希速度远远快于 contains
+        if ($ids->has($user->id)) {
             return false;
         }
 
-        $ids->push($user->id);
+        $ids->put($user->id, null);
         Cache::put($cacheKey, $ids, 60*24);
 
         // 每次登录总是送这么多积分
@@ -108,14 +108,15 @@ class ScoreLogServe
         // 浏览的格式如下
         // ['user1_id' => [1, 2, 3, 4]]
         $browseProducts = Cache::get($cacheKey, collect());
+
         $userBrowseProducts = $browseProducts->get($user->id, collect());
 
         // 如果用户今天已经浏览过了这个商品,那么就不会再记录
-        if ($userBrowseProducts->contains($product->id)) {
+        if ($userBrowseProducts->has($product->id)) {
             return;
         }
 
-        $browseProducts->put($user->id, $userBrowseProducts->push($product->id));
+        $browseProducts->put($user->id, $userBrowseProducts->put($product->id, null));
         Cache::put($cacheKey, $browseProducts, 60*24);
 
 
@@ -162,8 +163,8 @@ class ScoreLogServe
         $addScore = ceil($order->total * $rule->score);
 
         $user = $order->user;
-        $user->score_all += $rule->score;
-        $user->score_now += $rule->score;
+        $user->score_all += $addScore;
+        $user->score_now += $addScore;
         $user->save();
 
         $scoreLog = new ScoreLog();
