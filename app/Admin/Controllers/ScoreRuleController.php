@@ -25,7 +25,7 @@ class ScoreRuleController extends Controller
     {
         return $content
             ->header('列表')
-            ->description('两个 % 包围起来的是变量模板')
+            ->description(':xxx 是变量模板,建议不要操作')
             ->body($this->grid());
     }
 
@@ -86,13 +86,24 @@ class ScoreRuleController extends Controller
 
         $grid->column('id', 'id');
         $grid->column('description', '描述');
+        $grid->column('replace_text', '替换文本');
         $grid->column('score', '积分');
-        $grid->column('times', '次数');
-        $grid->column('can_delete', '删除')->display(function ($is) {
-            return $is ? '是' : '否';
+        $grid->column('times', '次数')->display(function ($times) {
+
+            return $times ? $times : '';
         });
+
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
+
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+
+            $rule = $actions->row;
+            if (! $rule->can_delete) {
+                $actions->disableDelete();
+            }
+
+        });
 
         return $grid;
     }
@@ -109,8 +120,12 @@ class ScoreRuleController extends Controller
 
         $show->field('id', 'id');
         $show->field('description', '描述');
+        $show->field('replace_text', '替换文本');
         $show->field('score', '积分');
-        $show->field('times', '次数');
+        $show->field('times', '次数')->as(function ($times) {
+
+            return $times ? $times : '';
+        });
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
 
@@ -141,6 +156,7 @@ class ScoreRuleController extends Controller
 
             // 只有当时连续登录和修改的才有次数
             $scoreRule = ScoreRule::query()->findOrFail($id);
+            $form->textarea('replace_text', '替换文本');
             $form->textarea('description', '描述');
 
             if (array_key_exists($scoreRule->index_code, $options)) {
@@ -166,6 +182,7 @@ class ScoreRuleController extends Controller
                                  ->firstOrFail();
 
                 $form->model()->description = $rule->description;
+                $form->model()->replace_text = $rule->replace_text;
             }
 
         });
@@ -187,9 +204,9 @@ class ScoreRuleController extends Controller
         if (! $rule->can_delete) {
 
             return response()->json([
-                                        'status'  => false,
-                                        'message' => '这个等级不允许删除',
-                                    ]);
+                'status'  => false,
+                'message' => '这个等级不允许删除',
+            ]);
         }
 
         if ($rule->delete()) {

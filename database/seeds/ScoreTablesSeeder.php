@@ -38,6 +38,7 @@ class ScoreTablesSeeder extends Seeder
         $values = [
             [
                 'replace_text' => ':time成为注册会员。',
+                'description' => '注册赠送积分',
                 'index_code' => ScoreRule::INDEX_REGISTER,
                 'score' => 20,
                 'times' => 0,
@@ -45,6 +46,7 @@ class ScoreTablesSeeder extends Seeder
             ],
             [
                 'replace_text' => ':time进行了登录。',
+                'description' => '每日登录赠送积分',
                 'index_code' => ScoreRule::INDEX_LOGIN,
                 'score' => 5,
                 'times' => 0,
@@ -52,6 +54,7 @@ class ScoreTablesSeeder extends Seeder
             ],
             [
                 'replace_text' => '从:start_date到:end_date连续登录:days天。',
+                'description' => '连续登录赠送积分',
                 'index_code' => ScoreRule::INDEX_CONTINUE_LOGIN,
                 'score' => 20,
                 'times' => 3,
@@ -59,6 +62,7 @@ class ScoreTablesSeeder extends Seeder
             ],
             [
                 'replace_text' => '从:start_date到:end_date连续登录:days天。',
+                'description' => '连续登录赠送积分',
                 'index_code' => ScoreRule::INDEX_CONTINUE_LOGIN,
                 'score' => 50,
                 'times' => 7,
@@ -66,6 +70,7 @@ class ScoreTablesSeeder extends Seeder
             ],
             [
                 'replace_text' => ':date浏览了:number个商品',
+                'description' => '浏览商品赠送积分',
                 'index_code' => ScoreRule::INDEX_REVIEW_PRODUCT,
                 'score' => 5,
                 'times' => 10,
