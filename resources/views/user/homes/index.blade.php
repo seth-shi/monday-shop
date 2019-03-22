@@ -54,7 +54,7 @@
                         <a class="i-load-more-item-shadow" href="/user/scores">查看更多 </a>
                     </div>
                     @foreach ($scoreLogs as $log)
-                        <div style="padding: 5px 10px;border-bottom: 1px solid #ddd;">
+                        <div style="padding: 5px 10px;border-bottom: 1px solid #ddd; min-height: 30px;">
                             {{ $log->description }} <span style="float: right; color: green;"> + {{ $log->score }}</span>
                         </div>
                     @endforeach

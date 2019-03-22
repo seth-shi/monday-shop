@@ -36,20 +36,23 @@ class OrderTransform extends Transform
     {
         switch ($status) {
 
-            case Order::PAY_STATUSES['REFUND']:
+            case Order::STATUSES['REFUND']:
                 $text = '退款';
                 break;
-            case Order::PAY_STATUSES['UN_PAY']:
+            case Order::STATUSES['UN_PAY']:
                 $text = '未支付';
                 break;
-            case Order::PAY_STATUSES['ALI']:
+            case Order::STATUSES['ALI']:
                 $text = '阿里支付';
                 break;
-            case Order::PAY_STATUSES['WEIXIN']:
+            case Order::STATUSES['WEIXIN']:
                 $text = '微信支付';
                 break;
-            case Order::PAY_STATUSES['UN_PAY_CANCEL']:
+            case Order::STATUSES['UN_PAY_CANCEL']:
                 $text = '超时未付款系统自动取消';
+                break;
+            case Order::STATUSES['COMPLETE']:
+                $text = '完成';
                 break;
             default:
                 $text = '未知状态';

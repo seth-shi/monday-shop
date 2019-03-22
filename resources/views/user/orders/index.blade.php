@@ -102,14 +102,18 @@
                                                     </div>
                                                 </li>
                                                 <li class="td td-change">
-                                                    @if ($order->status == \App\Models\Order::PAY_STATUSES['ALI'])
-                                                        <a href="/user/pay/orders/{{ $order->id }}/refund" class="am-btn am-btn-danger anniu delete_btn">退款</a>
+                                                    @if ($order->status == \App\Models\Order::STATUSES['ALI'])
+
+                                                        <a href="/user/orders/{{ $order->id }}/complete" class="am-btn am-btn-success anniu complete_btn" data-score="{{ $order->score }}">完成</a>
                                                         <hr>
-                                                    @elseif ($order->status == \App\Models\Order::PAY_STATUSES['UN_PAY'])
-                                                        <a href="/user/pay/orders/{{ $order->id }}/again" class="am-btn am-btn-danger anniu delete_btn">去付款</a>
+                                                        <a href="/user/pay/orders/{{ $order->id }}/refund" class="am-btn am-btn-default anniu">退款</a>
+
+                                                    @elseif ($order->status == \App\Models\Order::STATUSES['UN_PAY'])
+                                                        <a href="/user/pay/orders/{{ $order->id }}/again" class="am-btn am-btn-danger anniu">去付款</a>
                                                         <hr>
+                                                        <a href="javascript:;" data-id="{{ $order->id }}" class="am-btn am-btn-default anniu delete_btn">删除订单</a>
                                                     @endif
-                                                        <a href="javascript:;" onclick="handleDelete({{ $order->id }})" class="am-btn am-btn-danger anniu delete_btn">删除订单</a>
+
                                                 </li>
                                                 <div class="move-right">
 
@@ -139,14 +143,28 @@
 @endsection
 
 @section('script')
+    <script src="/assets/shop/js/jquery-1.12.3.min.js"></script>
+    <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
-       function handleDelete(id)
-       {
+        $(function () {
+
+            // 显示可增加多少积分
+            $('.complete_btn').each(function () {
+
+                let score = $(this).data('score');
+
+                layer.tips('完成订单预计可得<span style="color: red; font-weight: bold;">'+score+'</span>积分', $(this),  {tips:1, tipsMore: true});
+            });
+        });
+
+       $('.delete_btn').click(function (){
+
+           let id = $(this).data('id');
            let url = "/user/orders/" + id;
 
            let form = document.getElementById('delete-form');
            form.action = url;
            form.submit();
-       }
+       });
     </script>
 @endsection

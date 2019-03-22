@@ -37,7 +37,7 @@ class RefundController extends Controller
             $response = $pay->refund($refundData);
             $order->pay_refund_fee = $response->get('refund_fee');
             $order->pay_trade_no = $response->get('trade_no');
-            $order->status = Order::PAY_STATUSES['REFUND'];
+            $order->status = Order::STATUSES['REFUND'];
             $order->save();
 
         } catch (\Exception $e) {
@@ -58,7 +58,7 @@ class RefundController extends Controller
         }
 
         // 订单必须在支付了，才可才可以退款
-        if ($order->status != Order::PAY_STATUSES['ALI']) {
+        if ($order->status != Order::STATUSES['ALI']) {
             abort(403, '订单当前状态禁止退款');
         }
     }

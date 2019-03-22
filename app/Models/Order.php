@@ -75,7 +75,7 @@ class Order extends Model
     ];
 
     // 订单状态
-    const PAY_STATUSES = [
+    const STATUSES = [
         // 退款
         'REFUND' => -1,
         // 未支付
@@ -85,6 +85,8 @@ class Order extends Model
         'WEIXIN' => 2,
         // 超时系统取消订单
         'UN_PAY_CANCEL' => 3,
+        // 订单完成, 完成之后的订单不允许退款
+        'COMPLETE' => 4,
     ];
 
     public function details()
@@ -125,7 +127,7 @@ class Order extends Model
         static::saved(function ($model) {
 
             // 支付
-            if ($model->status == self::PAY_STATUSES['ALI']) {
+            if ($model->status == self::STATUSES['ALI']) {
                 // 订单成交量
                 Cache::increment("site_counts:order_pay_count");
 
@@ -139,7 +141,7 @@ class Order extends Model
                 Cache::set("site_counts:sale_money_count", $money);
             }
             // 退款
-            elseif ($model->status == self::PAY_STATUSES['REFUND']) {
+            elseif ($model->status == self::STATUSES['REFUND']) {
 
                 $currMoney = Cache::get('site_counts:sale_money_count', 0);
                 if (function_exists('bcsub')) {
