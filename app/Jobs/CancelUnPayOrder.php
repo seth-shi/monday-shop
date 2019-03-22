@@ -34,7 +34,7 @@ class CancelUnPayOrder implements ShouldQueue
     public function handle()
     {
         // 未付款设置为取消状态，
-        $this->order->status = Order::PAY_STATUSES['UN_PAY_CANCEL'];
+        $this->order->status = Order::STATUSES['UN_PAY_CANCEL'];
         $this->order->save();
 
         // 回滚库存

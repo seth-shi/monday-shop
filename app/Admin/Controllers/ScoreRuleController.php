@@ -87,7 +87,7 @@ class ScoreRuleController extends Controller
         $grid->column('id', 'id');
         $grid->column('description', '描述');
         $grid->column('score', '积分');
-        $grid->column('max_times', '次数');
+        $grid->column('times', '次数');
         $grid->column('can_delete', '删除')->display(function ($is) {
             return $is ? '是' : '否';
         });
@@ -110,7 +110,7 @@ class ScoreRuleController extends Controller
         $show->field('id', 'id');
         $show->field('description', '描述');
         $show->field('score', '积分');
-        $show->field('max_times', '次数');
+        $show->field('times', '次数');
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
 
@@ -145,12 +145,12 @@ class ScoreRuleController extends Controller
 
             if (array_key_exists($scoreRule->index_code, $options)) {
 
-                $form->number('max_times', '次数');
+                $form->number('times', '次数');
             }
 
         } else {
 
-            $form->number('max_times', '次数');
+            $form->number('times', '次数');
         }
 
 

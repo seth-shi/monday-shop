@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ScoreLog;
 use App\Models\ScoreRule;
@@ -29,6 +30,7 @@ class ScoreLogServe
          */
         $cacheKey = $this->loginKey($today->toDateString());
         $ids = Cache::get($cacheKey, collect());
+
         if ($ids->contains($user->id)) {
             return false;
         }
@@ -36,7 +38,7 @@ class ScoreLogServe
         $ids->push($user->id);
         Cache::put($cacheKey, $ids, 60*24);
 
-        // 登录总是送这么多积分
+        // 每次登录总是送这么多积分
         $rule = ScoreRule::query()->where('index_code', ScoreRule::INDEX_LOGIN)->firstOrFail();
 
         $user->score_all += $rule->score;
@@ -46,11 +48,7 @@ class ScoreLogServe
         $scoreLog->rule_id = $rule->id;
         $scoreLog->user_id = $user->id;
         $scoreLog->score = $rule->score;
-        $scoreLog->description = str_replace(
-            ['%username%', '%time%'],
-            [$user->name, $now->toDateTimeString()],
-            $rule->description
-        );
+        $scoreLog->description = str_replace(':time', $now->toDateTimeString(), $rule->replace_text);
         $scoreLog->save();
 
         // 看是否达到连续登录的条件
@@ -63,12 +61,12 @@ class ScoreLogServe
         // 看是否能达到连续登录送积分
         $continueLoginRule = ScoreRule::query()
                                       ->where('index_code', ScoreRule::INDEX_CONTINUE_LOGIN)
-                                      ->where('max_times', $user->login_days)
+                                      ->where('times', $user->login_days)
                                       ->first();
         // 如果满足了连续登录的要求
         if ($continueLoginRule) {
 
-            $firstDay = $today->copy()->subDay($continueLoginRule->max_times)->toDateString();
+            $firstDay = $today->copy()->subDay($continueLoginRule->times)->toDateString();
 
             $user->score_all += $continueLoginRule->score;
             $user->score_now += $continueLoginRule->score;
@@ -78,9 +76,9 @@ class ScoreLogServe
             $scoreLog->user_id = $user->id;
             $scoreLog->score = $continueLoginRule->score;
             $scoreLog->description = str_replace(
-                ['%username%', '%start_date%', '%end_date%', '%days%'],
-                [$user->name, $firstDay, $today->toDateString(), $continueLoginRule->max_times],
-                $continueLoginRule->description
+                [':start_date', ':end_date', ':days天'],
+                [$firstDay, $today->toDateString(), $continueLoginRule->times],
+                $continueLoginRule->replace_text
             );
             $scoreLog->save();
         }
@@ -93,7 +91,7 @@ class ScoreLogServe
      *
      * @param User    $user
      * @param Product $product
-     * @return bool
+     * @return void
      */
     public function browseProductAddScore(User $user, Product $product)
     {
@@ -114,17 +112,18 @@ class ScoreLogServe
 
         // 如果用户今天已经浏览过了这个商品,那么就不会再记录
         if ($userBrowseProducts->contains($product->id)) {
-            return false;
+            return;
         }
 
         $browseProducts->put($user->id, $userBrowseProducts->push($product->id));
         Cache::put($cacheKey, $browseProducts, 60*24);
 
 
+        // TODO 后续优化缓存起来
         // 查询是否达到增加积分
         $rule = ScoreRule::query()
                          ->where('index_code', ScoreRule::INDEX_REVIEW_PRODUCT)
-                         ->where('max_times', $userBrowseProducts->count())
+                         ->where('times', $userBrowseProducts->count())
                          ->first();
 
 
@@ -139,12 +138,44 @@ class ScoreLogServe
             $scoreLog->user_id = $user->id;
             $scoreLog->score = $rule->score;
             $scoreLog->description = str_replace(
-                ['%username%', '%date%', '%times%'],
-                [$user->name, $today->toDateString(), $rule->max_times],
-                $rule->description
+                [':date', ':number'],
+                [$today->toDateString(), $rule->times],
+                $rule->replace_text
             );
             $scoreLog->save();
         }
+    }
+
+    /**
+     * 完成订单增加积分
+     *
+     * @param Order $order
+     */
+    public function completeOrderAddSCore(Order $order)
+    {
+        // 订单完成增加积分
+        $rule = ScoreRule::query()
+                         ->where('index_code', ScoreRule::INDEX_COMPLETE_ORDER)
+                         ->firstOrFail();
+
+        // 计算积分和钱的比例
+        $addScore = ceil($order->total * $rule->score);
+
+        $user = $order->user;
+        $user->score_all += $rule->score;
+        $user->score_now += $rule->score;
+        $user->save();
+
+        $scoreLog = new ScoreLog();
+        $scoreLog->rule_id = $rule->id;
+        $scoreLog->user_id = $user->id;
+        $scoreLog->score = $addScore;
+        $scoreLog->description = str_replace(
+            [':time', ':no'],
+            [Carbon::now()->toDateTimeString(), $order->no],
+            $rule->replace_text
+        );
+        $scoreLog->save();
     }
 
     public function loginKey($date)

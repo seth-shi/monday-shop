@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
 
             $table->unsignedInteger('user_id');
             $table->decimal('total', 12, 2)->comment('总计价格');
-            $table->tinyInteger('status')->default(Order::PAY_STATUSES['UN_PAY'])->comment('-1：退款， 0：未支付订单，1:支付宝支付， 2：微信 3：超时取消');
+            $table->tinyInteger('status')->default(Order::STATUSES['UN_PAY'])->comment('-1：退款， 0：未支付订单，1:支付宝支付， 2：微信 3：超时取消, 4. 完成');
 
             $table->tinyInteger('type')->default(Order::TYPES['COMMON'])->comment('订单类型,1普通订单，2秒杀订单');
 
