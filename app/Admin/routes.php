@@ -10,8 +10,8 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index');
     $router->fallback('HomeController@noFound');
+    $router->get('/', 'HomeController@index');
 
     // 系统的配置
     $router->resource('settings', 'SettingController')->only('index', 'show', 'edit', 'update');
