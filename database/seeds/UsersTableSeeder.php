@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
+    const DATA_PATH = __DIR__ . '/data/users.json';
     /**
      * Run the database seeds.
      *
@@ -13,7 +14,14 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $firstUser = factory(User::class)->create(['email' => 'david@qq.com', 'name' => 'david']);
+        $data = json_decode(file_get_contents(self::DATA_PATH), true);
+
+
+        collect($data)->map(function ($userData) {
+
+
+
+        });
 
         /**
          * @var $users \Illuminate\Database\Eloquent\Collection
