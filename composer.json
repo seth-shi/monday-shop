@@ -50,7 +50,10 @@
         "laravel": {
             "dont-discover": [
                 "jenssegers/agent",
-                "intervention/image"
+                "intervention/image",
+                "encore/laravel-admin",
+                "laravel-admin-ext/backup",
+                "spatie/laravel-backup"
             ]
         }
     },

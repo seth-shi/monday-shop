@@ -76,6 +76,6 @@ class HomeController extends Controller
      */
     public function noFound()
     {
-        return view('errors.404');
+        return redirect('admin');
     }
 }
