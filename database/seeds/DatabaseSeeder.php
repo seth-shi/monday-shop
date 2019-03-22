@@ -37,8 +37,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LikesProductsTableSeeder::class);
         $this->call(CarsTableSeeder::class);
 
-        // 生成一些订单数据
-        $this->call(OrdersSeeder::class);
         // 秒杀数据
         $this->call(SeckillsTablesSeeder::class);
     }
