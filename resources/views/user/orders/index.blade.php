@@ -104,7 +104,7 @@
                                                 <li class="td td-change">
                                                     @if ($order->status == \App\Models\Order::STATUSES['ALI'])
 
-                                                        <a href="/user/orders/{{ $order->id }}/complete" class="am-btn am-btn-success anniu complete_btn" data-score="{{ $order->score }}">完成</a>
+                                                        <a href="/user/orders/{{ $order->id }}/complete/score" class="am-btn am-btn-success anniu complete_btn" data-score="{{ $order->score }}">完成</a>
                                                         <hr>
                                                         <a href="/user/pay/orders/{{ $order->id }}/refund" class="am-btn am-btn-default anniu">退款</a>
 

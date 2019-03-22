@@ -45,6 +45,9 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault(function () {
+
+            return new User(['avatar' => 'avatars/default/' . array_random(User::DEFAULT_AVATARS)]);
+        });
     }
 }
