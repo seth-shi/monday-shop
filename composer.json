@@ -12,7 +12,6 @@
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.4",
         "jenssegers/agent": "^2.6",
-        "laravel-admin-ext/backup": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "overtrue/pinyin": "~4.0",
@@ -51,9 +50,7 @@
             "dont-discover": [
                 "jenssegers/agent",
                 "intervention/image",
-                "encore/laravel-admin",
-                "laravel-admin-ext/backup",
-                "spatie/laravel-backup"
+                "encore/laravel-admin"
             ]
         }
     },

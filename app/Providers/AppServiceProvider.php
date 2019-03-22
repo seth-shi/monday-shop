@@ -3,12 +3,10 @@
 namespace App\Providers;
 
 use Encore\Admin\AdminServiceProvider;
-use Encore\Admin\Backup\BackupServiceProvider as AdminBackupServiceProvider;
 use Encore\Admin\Facades\Admin;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Backup\BackupServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,8 +26,6 @@ class AppServiceProvider extends ServiceProvider
             AliasLoader::getInstance()->alias('Admin', Admin::class);
 
             $this->app->register(AdminServiceProvider::class);
-            $this->app->register(BackupServiceProvider::class);
-            $this->app->register(AdminBackupServiceProvider::class);
         }
     }
 
