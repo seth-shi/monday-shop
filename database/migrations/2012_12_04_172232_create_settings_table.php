@@ -16,7 +16,7 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('index_name')->index()->comment('配置的索引名');
+            $table->string('index_code')->index()->comment('配置的索引名');
             $table->string('value')->index()->comment('配置的索引值');
             $table->string('description')->comment('配置的描述');
             $table->string('type')->default('text')->comment('配置值的类型');

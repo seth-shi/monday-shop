@@ -79,7 +79,7 @@ function setting($indexName, $default = null)
 
     $value = Cache::rememberForever($key, function () use ($indexName) {
 
-        return \App\Models\Setting::query()->where('index_name', $indexName)->value('value');
+        return \App\Models\Setting::query()->where('index_code', $indexName)->value('value');
     });
 
     if ($value) {
