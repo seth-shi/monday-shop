@@ -12,19 +12,19 @@ class SettingsTablesSeeder extends Seeder
     {
         $settings = [
             [
-                'index_name' => 'user_init_password',
+                'index_code' => 'user_init_password',
                 'value' => '123456',
                 'type' => 'text',
                 'description' => '注册用户的初始密码'
             ],
             [
-                'index_name' => 'is_open_seckill',
+                'index_code' => 'is_open_seckill',
                 'value' => 0,
                 'type' => 'switch',
                 'description' => '是否开始秒杀功能模块（需要配置好 redis）'
             ],
             [
-                'index_name' => 'order_un_pay_auto_cancel_time',
+                'index_code' => 'order_un_pay_auto_cancel_time',
                 'value' => 30,
                 'type' => 'number',
                 'description' => '用户下订单之后，多久未付款自动取消订单。单位为分钟'

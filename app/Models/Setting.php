@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
  * App\Models\Setting
  *
  * @property int $id
- * @property string $index_name 配置的索引名
+ * @property string $index_code 配置的索引名
  * @property string $value 配置的索引值
  * @property string $description 配置的描述
  * @property string $type 配置值的类型
@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Cache;
  */
 class Setting extends Model
 {
-    protected $fillable = ['index_name', 'value', 'description', 'created_at', 'updated_at'];
+    protected $fillable = ['index_code', 'value', 'description', 'created_at', 'updated_at'];
 
     protected $allowTypes = [
         'textarea', 'number', 'switch', 'dateTime', 'text'
@@ -53,7 +53,7 @@ class Setting extends Model
 
         static::saving(function (Setting $setting) {
 
-            Cache::forever(static::cacheName($setting->index_name), $setting->value);
+            Cache::forever(static::cacheName($setting->index_code), $setting->value);
         });
     }
 

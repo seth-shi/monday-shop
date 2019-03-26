@@ -68,7 +68,7 @@ class SettingController extends Controller
         $grid = new Grid(new Setting);
 
         $grid->column('id');
-        $grid->column('index_name', '索引名');
+        $grid->column('index_code', '索引名');
         $grid->column('value', '配置值')->editable();
         $grid->column('description', '描述');
         $grid->column('created_at', '创建时间');
@@ -86,7 +86,7 @@ class SettingController extends Controller
         $grid->filter(function (Grid\Filter $filter) {
 
             $filter->disableIdFilter();
-            $filter->like('index_name', '索引名');
+            $filter->like('index_code', '索引名');
         });
 
         return $grid;
@@ -103,7 +103,7 @@ class SettingController extends Controller
         $show = new Show(Setting::query()->findOrFail($id));
 
         $show->field('id');
-        $show->field('index_name', '索引名');
+        $show->field('index_code', '索引名');
         $show->field('value', '配置值');
         $show->field('description', '描述');
         $show->field('created_at', '创建时间');
@@ -124,7 +124,7 @@ class SettingController extends Controller
 
         $setting = Setting::query()->findOrFail($id);
 
-        $form->text('index_name', '索引名')->disable();
+        $form->text('index_code', '索引名')->disable();
         $form->{$setting->type}('value', '配置值');
         $form->text('description', '描述');
 
