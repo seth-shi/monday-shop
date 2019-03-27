@@ -47,6 +47,6 @@ class DelExpireScoreData extends Command
         $serve = new ScoreLogServe();
 
         Cache::delete($serve->loginKey($yesterday));
-        Cache::delete($serve->browseKey($yesterday));
+        Cache::delete($serve->visitedKey($yesterday));
     }
 }

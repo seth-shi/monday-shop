@@ -3,14 +3,6 @@
 
 @section('style')
     <link href="/assets/user/css/score_personal.css" rel="stylesheet" type="text/css">
-    <link href="/assets/shop/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <style>
-        li span.current {
-
-            cursor: not-allowed;
-            background: #aaa;
-        }
-    </style>
 @endsection
 
 @section('main')
@@ -24,6 +16,20 @@
             <div class="pointsTitle">
                 <div class="usable">总积分<span>{{ $user->score_all }}</span></div>
                 <div class="signIn"><i class="am-icon-calendar">可用积分: {{ $user->score_now }} </i></div>
+            </div>
+            <div class="pointlist" style="padding: 0px 10px;">
+                <div class="pointTitle">
+                    <span>积分规则</span>
+                </div>
+                @foreach ($rules as $rule)
+                    <div style="padding-top: 3px;">
+                        {{ $rule->description }} <span style="color: green;">+{{ $rule->score }}</span>
+                        <span class="pointNum">{{ $rule->completed_times }}/{{ $rule->times }}</span>
+                        <div class="am-progress am-progress-xs">
+                            <div class="am-progress-bar am-progress-bar-success" style="width: {{ $rule->plan }}%"></div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
             <div class="pointlist" style="padding: 0px 10px;">
                 <div class="pointTitle">
@@ -43,6 +49,7 @@
 
                 {{ $logs->links() }}
             </div>
+
         </div>
     </div>
 @endsection

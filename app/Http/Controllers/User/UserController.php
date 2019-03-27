@@ -6,9 +6,14 @@ use App\Exceptions\UploadException;
 use App\Http\Controllers\Controller;
 use App\Models\Level;
 use App\Models\Product;
+use App\Models\ScoreRule;
 use App\Models\User;
+use App\Services\ScoreLogServe;
 use App\Services\UploadServe;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -47,9 +52,45 @@ class UserController extends Controller
          */
         $user = $this->user();
 
+        /**
+         * 显示所有可能的任务
+         *
+         * @var $rules Collection
+         */
+        $rules = Cache::rememberForever(ScoreRule::CACHE_KEY, function () {
+
+            return ScoreRule::query()
+                            ->whereIn('index_code', ScoreRule::OPEN_RULES)
+                            ->orderBy('index_code')
+                            ->orderBy('score')
+                            ->get();
+        });
+
+        // 连续登录, 浏览商品特殊处理
+        $loginDays = $user->login_days;
+        // 浏览的数量
+        $visitedNumber = (new ScoreLogServe)->getUserVisitedNumber(Carbon::today()->toDateString(), $user->id);
+
+        // 如果 completed_times === times 那么代表这个任务完成了
+        $rules->transform(function (ScoreRule $rule) use ($loginDays, $visitedNumber) {
+
+                  if ($rule->index_code == ScoreRule::INDEX_CONTINUE_LOGIN) {
+
+                      $rule->completed_times = $loginDays > $rule->times ? $rule->times : $loginDays;
+
+                  } elseif ($rule->index_code == ScoreRule::INDEX_REVIEW_PRODUCT) {
+
+                      $rule->completed_times = $visitedNumber > $rule->times ? $rule->times : $visitedNumber;
+                  }
+
+                  $rule->plan = ($rule->completed_times / $rule->times) * 100;
+
+                  return $rule;
+              });
+
         $logs = $user->scoreLogs()->latest()->paginate(10);
 
-        return view('user.scores.index', compact('user', 'logs'));
+        return view('user.scores.index', compact('user', 'logs', 'rules'));
     }
 
 
@@ -61,23 +102,24 @@ class UserController extends Controller
     }
 
 
-
     public function update(Request $request)
     {
         $user = $this->user();
 
-        $this->validate($request, [
+        $this->validate(
+            $request, [
             'avatar' => 'required',
             'sex' => 'in:0,1',
         ], [
-           'avatar.required' => '头像不能为空',
-           'sex.in' => '性别格式不对',
-        ]);
+                'avatar.required' => '头像不能为空',
+                'sex.in' => '性别格式不对',
+            ]
+        );
 
         // 除了第三方授权登录的用户导致没有名字之外
         // 其他用户是不允许修改用户名和邮箱
-        $user->sex= $request->input('sex');
-        $user->avatar= $request->input('avatar');
+        $user->sex = $request->input('sex');
+        $user->avatar = $request->input('avatar');
 
 
         // 如果当前用户第一次修改用户名
@@ -177,14 +219,16 @@ class UserController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $this->validate($request, [
+        $this->validate(
+            $request, [
             'password' => 'required|min:6|confirmed',
         ], [
-            'old_password.required' => '旧密码不能为空',
-            'password.required' => '新密码不能为空',
-            'password.min' => '新密码必须大于6位',
-            'password.confirmed' => '两次密码不一致',
-        ]);
+                'old_password.required' => '旧密码不能为空',
+                'password.required' => '新密码不能为空',
+                'password.min' => '新密码必须大于6位',
+                'password.confirmed' => '两次密码不一致',
+            ]
+        );
 
         $user = $request->user();
         // 如果是从未设置过密码就就不用验证旧密码

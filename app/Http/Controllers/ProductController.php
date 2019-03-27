@@ -99,7 +99,7 @@ class ProductController extends Controller
                                  ->get();
 
             // 浏览商品增加积分
-            (new ScoreLogServe)->browseProductAddScore($user, $product);
+            (new ScoreLogServe)->visitedProductAddScore($user, $product);
         }
 
         return view('products.show', compact('product', 'addresses', 'recommendProducts', 'orderDetails'));
