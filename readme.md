@@ -10,6 +10,7 @@
 ![支付](public/media/pay.gif)
 ![个人中心](public/media/map_center.png)
 ![积分模块](public/media/score.png)
+![积分详情](public/media/score_detail.png)
 ![后台仪表盘](public/media/admin/dash_board.png)
 ![后台订单列表](public/media/admin/orders.png)
 ## Feture

@@ -93,38 +93,38 @@ class ScoreLogServe
      * @param Product $product
      * @return void
      */
-    public function browseProductAddScore(User $user, Product $product)
+    public function visitedProductAddScore(User $user, Product $product)
     {
         $today = Carbon::today();
 
         /**
-         * @var $browseProducts Collection
-         * @var $userBrowseProducts Collection
+         * @var $visitedProducts Collection
+         * @var $userVisitedProducts Collection
          * 每天都有一个登录用户的 key,通过定时任务删除
          * 如果这个用户已经记录过了,那么可以跳过
          */
-        $cacheKey = $this->browseKey($today->toDateString());
+        $cacheKey = $this->visitedKey($today->toDateString());
 
         // 浏览的格式如下
         // ['user1_id' => [1, 2, 3, 4]]
-        $browseProducts = Cache::get($cacheKey, collect());
+        $visitedProducts = Cache::get($cacheKey, collect());
 
-        $userBrowseProducts = $browseProducts->get($user->id, collect());
+        $userVisitedProducts = $visitedProducts->get($user->id, collect());
 
         // 如果用户今天已经浏览过了这个商品,那么就不会再记录
-        if ($userBrowseProducts->has($product->id)) {
+        if ($userVisitedProducts->has($product->id)) {
             return;
         }
 
-        $browseProducts->put($user->id, $userBrowseProducts->put($product->id, null));
-        Cache::put($cacheKey, $browseProducts, 60*24);
+        $visitedProducts->put($user->id, $userVisitedProducts->put($product->id, null));
+        Cache::put($cacheKey, $visitedProducts, 60*24);
 
 
         // TODO 后续优化缓存起来
         // 查询是否达到增加积分
         $rule = ScoreRule::query()
                          ->where('index_code', ScoreRule::INDEX_REVIEW_PRODUCT)
-                         ->where('times', $userBrowseProducts->count())
+                         ->where('times', $userVisitedProducts->count())
                          ->first();
 
 
@@ -179,13 +179,31 @@ class ScoreLogServe
         $scoreLog->save();
     }
 
+    /**
+     * 获取用户浏览器的数量
+     * @param $date
+     * @param $userId
+     * @return int
+     */
+    public function getUserVisitedNumber($date, $userId)
+    {
+        /**
+         * @var $visitedProducts Collection
+         * @var $userVisitedProducts Collection
+         */
+        $visitedProducts = Cache::get($this->visitedKey($date), collect());
+        $userVisitedProducts = $visitedProducts->get($userId, collect());
+
+        return $userVisitedProducts->count();
+    }
+
     public function loginKey($date)
     {
         return "{$date}_login_users";
     }
 
-    public function browseKey($date)
+    public function visitedKey($date)
     {
-        return "{$date}_browse_products";
+        return "{$date}_visited_products";
     }
 }
