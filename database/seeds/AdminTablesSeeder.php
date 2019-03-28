@@ -68,7 +68,7 @@ class AdminTablesSeeder extends Seeder
 
         // add default menus.
         Menu::truncate();
-        $menusJson = json_decode(file_get_contents(__DIR__.'/data/menus.json'), true);
+        $menusJson = json_decode(file_get_contents(__DIR__.'/../data/menus.json'), true);
         Menu::insert($menusJson);
 
         // add role to menu.

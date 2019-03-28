@@ -16,9 +16,9 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        $productsData = $this->buildCollectionByJsonFile(__DIR__ . '/data/products.json');
-        $contentsData = $this->buildCollectionByJsonFile(__DIR__ . '/data/descriptions.json');
-        $picturesData = $this->buildCollectionByJsonFile(__DIR__ . '/data/pictures.json')->map(function ($picture) {
+        $productsData = $this->buildCollectionByJsonFile(__DIR__ . '/../data/products.json');
+        $contentsData = $this->buildCollectionByJsonFile(__DIR__ . '/../data/descriptions.json');
+        $picturesData = $this->buildCollectionByJsonFile(__DIR__ . '/../data/pictures.json')->map(function ($picture) {
             return $this->pictureBasePath . $picture;
         });
 

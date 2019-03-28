@@ -53,7 +53,7 @@
                                 @foreach ($orders as $order)
                                     <div class="order-status5">
                                         <div class="order-title">
-                                            <div class="dd-num" style="max-width: 400px">订单编号：<a href="javascript:;">{{ $order->no }}</a></div>
+                                            <div class="dd-num" style="max-width: 400px">订单编号：<a href="/user/orders/{{ $order->id }}">{{ $order->no }}</a></div>
                                             <span>成交时间：{{ $order->created_at }}</span>
                                             <!--    <em>店铺：小桔灯</em>-->
                                         </div>
@@ -65,7 +65,7 @@
                                                     <ul class="item-list">
                                                         <li class="td td-item">
                                                             <div class="item-pic">
-                                                                <a href="#" class="J_MakePoint">
+                                                                <a href="/products/{{ $detail->product->uuid }}" class="J_MakePoint">
                                                                     <img src="{{ $detail->product->thumb}}" style="width: 80px; height: 80px;" class="itempic J_ItemImg">
                                                                 </a>
                                                             </div>
@@ -98,19 +98,27 @@
                                                 </li>
                                                 <li class="td td-status">
                                                     <div class="item-status">
-                                                        <p class="Mystatus">{{ $order->status ? '交易成功' : '未付款' }}</p>
+                                                        <p class="Mystatus">{{ $order->status_text }}</p>
                                                     </div>
                                                 </li>
                                                 <li class="td td-change">
-                                                    @if ($order->status == \App\Models\Order::STATUSES['ALI'])
+                                                    @if ($order->show_completed_button)
 
                                                         <a href="/user/orders/{{ $order->id }}/complete/score" class="am-btn am-btn-success anniu complete_btn" data-score="{{ $order->score }}">完成</a>
+                                                    @endif
+                                                    @if ($order->show_ship_button)
+                                                        <a href="/user/pay/orders/{{ $order->id }}/ship" class="am-btn am-btn-success anniu">确认收货</a>
+                                                    @endif
                                                         <hr>
-                                                        <a href="/user/pay/orders/{{ $order->id }}/refund" class="am-btn am-btn-default anniu">退款</a>
+                                                    @if ($order->show_refund_button)
+                                                        <a href="javascript:;" data-id="{{ $order->id }}" class="am-btn am-btn-default anniu refund_btn">退款</a>
+                                                    @endif
 
-                                                    @elseif ($order->status == \App\Models\Order::STATUSES['UN_PAY'])
+                                                    @if ($order->show_pay_button)
                                                         <a href="/user/pay/orders/{{ $order->id }}/again" class="am-btn am-btn-danger anniu">去付款</a>
+                                                    @endif
                                                         <hr>
+                                                    @if ($order->show_delete_button)
                                                         <a href="javascript:;" data-id="{{ $order->id }}" class="am-btn am-btn-default anniu delete_btn">删除订单</a>
                                                     @endif
 
@@ -157,6 +165,32 @@
             });
         });
 
+
+        // 退款申请
+        $('.refund_btn').click(function () {
+
+            let id = $(this).data('id');
+            let url = "/user/pay/orders/"+ id +"/refund";
+
+            layer.prompt({title: '请填写退款理由!!!', formType: 2}, function(text, index){
+                layer.close(index);
+
+                $.post(url, {refund_reason: text}, function (res) {
+
+                    if (res.code != 200) {
+
+                        layer.alert(res.msg, {icon: 2});
+                        return;
+                    }
+
+                    // 刷新页面
+                    alert(res.msg);
+                    location.reload();
+                })
+            });
+        });
+
+        // 删除订单
        $('.delete_btn').click(function (){
 
            let id = $(this).data('id');

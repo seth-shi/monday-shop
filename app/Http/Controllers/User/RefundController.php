@@ -4,10 +4,39 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Illuminate\Http\Request;
 use Yansongda\Pay\Pay;
 
 class RefundController extends Controller
 {
+    /**
+     * @param Order $order
+     */
+    public function store(Request $request, Order $order)
+    {
+        if ($order->isNotUser(auth()->id())) {
+
+            return responseJson(403, '不是自己的订单');
+        }
+
+        // 订单必须是已经支付,而且还没有发货的
+        if ($order->status != Order::STATUSES['ALI']) {
+
+            return responseJson(403, '订单还没有付款');
+        }
+
+        if ($order->ship_status != Order::SHIP_STATUSES['PENDING']) {
+
+            return responseJson(403, '订单已经发货');
+        }
+
+        // 保存退款理由
+        $order->status = Order::STATUSES['APP_REFUND'];
+        $order->refund_reason = $request->input('refund_reason');
+        $order->save();
+
+        return responseJson(200, '申请已提交,等待后台管理员审核');
+    }
     /**
      * 这里为了执行退款，而直接点击退款。
      * 应该由会员申请退款，后台同意再调用
@@ -16,7 +45,7 @@ class RefundController extends Controller
      * @param Order $order
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Order $order)
+    public function fail(Order $order)
     {
         $this->validateOrderInvalid($order);
 
