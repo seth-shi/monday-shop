@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Admin\Transforms\OrderTransform;
 use App\Events\CountSale;
 use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
@@ -37,8 +38,45 @@ class OrderController extends Controller
                        ->get()
                        ->transform(function (Order $order) use ($scoreRatio) {
 
+                           $paid = $order->status == Order::STATUSES['ALI'];
+
                            // 可以或得到的积分
                            $order->score = ceil($order->total * $scoreRatio);
+
+                           // 完成按钮必须是已经支付和确认收货
+                           $order->status_text = OrderTransform::getInstance()->transStatus($order->status);
+
+                           // 如果订单是付款了则显示发货状态
+                           if ($paid) {
+                               $order->status_text = OrderTransform::getInstance()->transShipStatus($order->ship_status);
+                           }
+
+                           $order->show_completed_button = false;
+                           $order->show_refund_button = false;
+                           $order->show_pay_button = false;
+                           $order->show_delete_button = false;
+                           $order->show_ship_button = false;
+                           if ($paid) {
+
+                               // 已经确认收获了
+                               if ($order->ship_status == Order::SHIP_STATUSES['RECEIVED']) {
+                                   $order->show_completed_button = true;
+                               } elseif ($order->ship_status == Order::SHIP_STATUSES['DELIVERED']) {
+
+                                   $order->show_ship_button = true;
+                               } else {
+                                   $order->show_refund_button = true;
+                               }
+
+                           } elseif ($order->status == Order::STATUSES['UN_PAY']) {
+                               $order->show_pay_button = true;
+                           }
+
+                           if ($order->status == Order::STATUSES['COMPLETE']) {
+                               $order->show_delete_button = true;
+                           }
+
+
                            return $order;
                        });
 
@@ -51,7 +89,7 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        if ($order->user_id != Auth::user()->id) {
+        if ($order->isNotUser(auth()->id())) {
             abort(403, '你没有权限');
         }
 
@@ -62,16 +100,20 @@ class OrderController extends Controller
     public function completeOrder(Order $order)
     {
         // 判断是当前用户的订单才可以删除
-        if (auth()->id() != $order->user_id) {
-
-            abort(403, '不是自己的订单');
+        if ($order->isNotUser(auth()->id())) {
+            abort(403, '你没有权限');
         }
 
-        // 只有付完款的订单,而且必须是未完成的
-        if ($order->status == Order::STATUSES['ALI']) {
-
-            (new ScoreLogServe)->completeOrderAddSCore($order);
+        // 只有付完款的订单,而且必须是未完成的, 确认收货
+        if (
+            $order->status != Order::STATUSES['ALI'] ||
+            $order->ship_status != Order::SHIP_STATUSES['RECEIVED']
+        ) {
+            return back()->withErrors(['msg' => '订单当前状态不能完成']);
         }
+
+        (new ScoreLogServe)->completeOrderAddScore($order);
+
         $order->status = Order::STATUSES['COMPLETE'];
         $order->save();
 
@@ -107,10 +149,13 @@ class OrderController extends Controller
 
     public function destroy($id)
     {
+        /**
+         * @var $order Order
+         */
         $order = Order::query()->findOrFail($id);
         // 判断是当前用户的订单才可以删除
-        if (auth()->id() != $order->user_id) {
-            abort(403);
+        if ($order->isNotUser(auth()->id())) {
+            abort(403, '你没有权限');
         }
 
         // 如果订单已经完成不能删除

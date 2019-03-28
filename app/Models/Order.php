@@ -77,8 +77,10 @@ class Order extends Model
     // 订单状态
     const STATUSES = [
         // 退款
-        'REFUND' => -1,
-        // 未支付
+        'REFUND' => -2,
+        // 申请退款
+        'APP_REFUND' => -1,
+         // 未支付
         'UN_PAY' => 0,
         // 阿里支付，微信支付
         'ALI' => 1,
@@ -87,6 +89,16 @@ class Order extends Model
         'UN_PAY_CANCEL' => 3,
         // 订单完成, 完成之后的订单不允许退款
         'COMPLETE' => 4,
+    ];
+
+    // 物流状态
+    const SHIP_STATUSES = [
+        // 未发货
+        'PENDING' => 1,
+        // 待收货
+        'DELIVERED' => 2,
+        // 已收货
+        'RECEIVED' => 3
     ];
 
     public function details()
@@ -104,6 +116,10 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function isNotUser($id)
+    {
+        return $this->user_id != $id;
+    }
 
     public static function boot()
     {

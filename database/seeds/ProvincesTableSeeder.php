@@ -11,7 +11,7 @@ class ProvincesTableSeeder extends Seeder
      */
     public function run()
     {
-        $data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'provinces.json');
+        $data = file_get_contents(__DIR__ . '/../data/provinces.json');
         $data = json_decode($data, true);
 
         DB::table('provinces')->insert($data);

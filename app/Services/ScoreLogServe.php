@@ -152,7 +152,7 @@ class ScoreLogServe
      *
      * @param Order $order
      */
-    public function completeOrderAddSCore(Order $order)
+    public function completeOrderAddScore(Order $order)
     {
         // 订单完成增加积分
         $rule = ScoreRule::query()

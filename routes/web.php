@@ -86,7 +86,7 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
      * 3. 忘记付款了，再次付款
      ****************************************/
     Route::post('pay/store', 'PaymentController@store');
-    Route::get('pay/orders/{order}/refund', 'RefundController@store');
+    Route::post('pay/orders/{order}/refund', 'RefundController@store');
     Route::get('pay/orders/{order}/again', 'PaymentController@againStore');
 
     // 秒杀的订单创建接口

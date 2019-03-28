@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
-    const DATA_PATH = __DIR__ . '/data/users.json';
+    const DATA_PATH = __DIR__ . '/../data/users.json';
     /**
      * Run the database seeds.
      *

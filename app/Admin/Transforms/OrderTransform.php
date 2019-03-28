@@ -32,12 +32,36 @@ class OrderTransform extends Transform
         return $text;
     }
 
+    public function transShipStatus($status)
+    {
+        switch ($status) {
+
+            case Order::SHIP_STATUSES['PENDING']:
+                $text = '待发货';
+                break;
+            case Order::SHIP_STATUSES['DELIVERED']:
+                $text = '待收货';
+                break;
+            case Order::SHIP_STATUSES['RECEIVED']:
+                $text = '已收货';
+                break;
+            default:
+                $text = '未知状态';
+                break;
+        }
+
+        return $text;
+    }
+
     public function transStatus($status)
     {
         switch ($status) {
 
             case Order::STATUSES['REFUND']:
                 $text = '退款';
+                break;
+            case Order::STATUSES['APP_REFUND']:
+                $text = '申请退款';
                 break;
             case Order::STATUSES['UN_PAY']:
                 $text = '未支付';
