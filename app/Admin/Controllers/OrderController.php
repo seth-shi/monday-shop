@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\ReceivedButton;
+use App\Admin\Extensions\ShipButton;
 use App\Admin\Transforms\OrderDetailTransform;
 use App\Admin\Transforms\OrderTransform;
 use App\Http\Controllers\Controller;
@@ -14,6 +16,7 @@ use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\DB;
+use Yansongda\Pay\Pay;
 
 class OrderController extends Controller
 {
@@ -68,29 +71,49 @@ class OrderController extends Controller
         $grid->column('total', '总价');
         $grid->column('status', '状态')->display(function ($status) {
 
+            // 如果订单是付款, 那么就修改为物流状态
+            if ($status == Order::STATUSES['ALI']) {
+
+                return OrderTransform::getInstance()->transShipStatus($this->ship_status);
+            }
+
             return OrderTransform::getInstance()->transStatus($status);
         });
         $grid->column('type', '订单类型')->display(function ($type) {
 
             return OrderTransform::getInstance()->transType($type);
         });
-        $grid->column('pay_no', '支付流水号');
         $grid->column('pay_time', '支付时间');
         $grid->column('consignee_name', '收货人姓名');
         $grid->column('consignee_phone', '收货人手机');
         $grid->column('consignee_address', '收货地址');
-        $grid->column('pay_refund_fee', '退款金额');
-        $grid->column('pay_trade_no', '退款流水号');
-        $grid->column('deleted_at', '是否删除')->display(function ($is) {
-
-            return OrderTransform::getInstance()->transDeleted($is);
-        });
+        $grid->column('refund_reason', '退款理由');
         $grid->column('created_at', '创建时间');
-        $grid->column('updated_at', '修改时间');
 
         $grid->disableRowSelector();
         $grid->disableCreateButton();
         $grid->actions(function (Actions $actions) {
+
+            $order = $actions->row;
+
+            $url = admin_url("orders/{$order->id}/refund");
+
+            // 如果出现了申请,显示可以退款按钮
+            if ($order->status == Order::STATUSES['APP_REFUND']) {
+                // append一个操作
+                $actions->append("<a href='{$url}' title='退款'><i class='fa fa-mail-reply'></i></a>");
+            } elseif ($order->status == Order::STATUSES['ALI']) {
+
+                if ($order->ship_status == Order::SHIP_STATUSES['PENDING']) {
+
+                    $actions->append(new ShipButton($order->id));
+                } elseif ($order->ship_status == Order::SHIP_STATUSES['DELIVERED']) {
+
+                    $actions->append(new ReceivedButton($order->id));
+                }
+
+            }
+
             $actions->disableEdit();
         });
 
@@ -190,5 +213,57 @@ class OrderController extends Controller
         }
 
         return response()->json($data);
+    }
+
+
+
+    /**
+     * 这里为了执行退款，而直接点击退款。
+     * 应该由会员申请退款，后台同意再调用
+     * 第三方支付的退款接口
+     *
+     * @param Order $order
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function refund(Order $order)
+    {
+        if ($order->user_id != auth()->id()) {
+            abort(403, '非法操作');
+        }
+
+        // 订单必须在支付了，才可才可以退款
+        if ($order->status != Order::STATUSES['ALI']) {
+            abort(403, '订单当前状态禁止退款');
+        }
+
+        $pay = Pay::alipay(config('pay.ali'));
+
+        // 退款数据
+        $refundData = [
+            'out_trade_no' => $order->no,
+            'trade_no' => $order->pay_no,
+            'refund_amount' => $order->pay_total,
+            'refund_reason' => '正常退款',
+        ];
+
+
+        try {
+
+            // 将订单状态改为退款
+            $response = $pay->refund($refundData);
+            $order->pay_refund_fee = $response->get('refund_fee');
+            $order->pay_trade_no = $response->get('trade_no');
+            $order->status = Order::STATUSES['REFUND'];
+            $order->save();
+
+        } catch (\Exception $e) {
+
+            // 调用异常的处理
+            // abort(500, $e->getMessage());
+            return back()->withErrors('服务器异常，请稍后再试');
+        }
+
+
+        return redirect()->back()->with('status', '退款成功，请关注你的支付账号');
     }
 }

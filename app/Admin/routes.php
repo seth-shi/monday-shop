@@ -26,8 +26,10 @@ Route::group([
     $router->resource('products', 'ProductController');
     $router->resource('seckills', 'SeckillController')->only('index', 'create', 'store', 'destroy');
 
+    // 退款
     // 订单
     // 评论
+    $router->get('orders/{order}/refund', 'OrderController@refund');
     $router->resource('orders', 'OrderController');
     $router->resource('comments', 'CommentController');
 
