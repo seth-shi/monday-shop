@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\UserSourceEnum;
+use App\Enums\UserStatusEnum;
 use App\Mail\ResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -88,7 +89,6 @@ class User extends Authenticatable
         '9.jpg',
     ];
 
-    CONST ACTIVE_STATUS = 1;
 
     /**
      * The attributes that are mass assignable.
@@ -107,15 +107,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
-    ];
-
-
-    // 用户的来源
-    const SOURCES = [
-        'moon' => 1,
-        'github' => 2,
-        'qq' => 3,
-        'weibo' => 4,
     ];
 
 
@@ -202,7 +193,7 @@ class User extends Authenticatable
      */
     public function isActive()
     {
-        return $this->is_active == 1;
+        return $this->is_active == UserStatusEnum::ACTIVE;
     }
 
     /**
