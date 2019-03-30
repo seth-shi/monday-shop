@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ScoreRuleIndexEnum;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ScoreLog;
@@ -39,7 +40,7 @@ class ScoreLogServe
         Cache::put($cacheKey, $ids, 60*24);
 
         // 每次登录总是送这么多积分
-        $rule = ScoreRule::query()->where('index_code', ScoreRule::INDEX_LOGIN)->firstOrFail();
+        $rule = ScoreRule::query()->where('index_code', ScoreRuleIndexEnum::LOGIN)->firstOrFail();
 
         $user->score_all += $rule->score;
         $user->score_now += $rule->score;
@@ -60,7 +61,7 @@ class ScoreLogServe
 
         // 看是否能达到连续登录送积分
         $continueLoginRule = ScoreRule::query()
-                                      ->where('index_code', ScoreRule::INDEX_CONTINUE_LOGIN)
+                                      ->where('index_code', ScoreRuleIndexEnum::CONTINUE_LOGIN)
                                       ->where('times', $user->login_days)
                                       ->first();
         // 如果满足了连续登录的要求
@@ -120,10 +121,9 @@ class ScoreLogServe
         Cache::put($cacheKey, $visitedProducts, 60*24);
 
 
-        // TODO 后续优化缓存起来
         // 查询是否达到增加积分
         $rule = ScoreRule::query()
-                         ->where('index_code', ScoreRule::INDEX_REVIEW_PRODUCT)
+                         ->where('index_code', ScoreRuleIndexEnum::VISITED_PRODUCT)
                          ->where('times', $userVisitedProducts->count())
                          ->first();
 
@@ -156,7 +156,7 @@ class ScoreLogServe
     {
         // 订单完成增加积分
         $rule = ScoreRule::query()
-                         ->where('index_code', ScoreRule::INDEX_COMPLETE_ORDER)
+                         ->where('index_code', ScoreRuleIndexEnum::COMPLETE_ORDER)
                          ->firstOrFail();
 
         // 计算积分和钱的比例

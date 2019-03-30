@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\ScoreRuleIndexEnum;
 use App\Exceptions\UploadException;
 use App\Http\Controllers\Controller;
 use App\Models\Level;
@@ -74,11 +75,11 @@ class UserController extends Controller
         // 如果 completed_times === times 那么代表这个任务完成了
         $rules->transform(function (ScoreRule $rule) use ($loginDays, $visitedNumber) {
 
-                  if ($rule->index_code == ScoreRule::INDEX_CONTINUE_LOGIN) {
+                  if ($rule->index_code == ScoreRuleIndexEnum::CONTINUE_LOGIN) {
 
                       $rule->completed_times = $loginDays > $rule->times ? $rule->times : $loginDays;
 
-                  } elseif ($rule->index_code == ScoreRule::INDEX_REVIEW_PRODUCT) {
+                  } elseif ($rule->index_code == ScoreRuleIndexEnum::VISITED_PRODUCT) {
 
                       $rule->completed_times = $visitedNumber > $rule->times ? $rule->times : $visitedNumber;
                   }

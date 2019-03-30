@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ScoreRuleIndexEnum;
 use App\Models\Level;
 use App\Models\ScoreRule;
 use Illuminate\Database\Seeder;
@@ -39,7 +40,7 @@ class ScoreTablesSeeder extends Seeder
             [
                 'replace_text' => ':time成为注册会员。',
                 'description' => '注册赠送积分',
-                'index_code' => ScoreRule::INDEX_REGISTER,
+                'index_code' => ScoreRuleIndexEnum::REGISTER,
                 'score' => 20,
                 'times' => 0,
                 'can_delete' => 0,
@@ -47,7 +48,7 @@ class ScoreTablesSeeder extends Seeder
             [
                 'replace_text' => ':time进行了登录。',
                 'description' => '每日登录赠送积分',
-                'index_code' => ScoreRule::INDEX_LOGIN,
+                'index_code' => ScoreRuleIndexEnum::LOGIN,
                 'score' => 5,
                 'times' => 0,
                 'can_delete' => 0,
@@ -55,7 +56,7 @@ class ScoreTablesSeeder extends Seeder
             [
                 'replace_text' => '从:start_date到:end_date连续登录:days天。',
                 'description' => '连续登录赠送积分',
-                'index_code' => ScoreRule::INDEX_CONTINUE_LOGIN,
+                'index_code' => ScoreRuleIndexEnum::CONTINUE_LOGIN,
                 'score' => 20,
                 'times' => 3,
                 'can_delete' => 0,
@@ -63,7 +64,7 @@ class ScoreTablesSeeder extends Seeder
             [
                 'replace_text' => '从:start_date到:end_date连续登录:days天。',
                 'description' => '连续登录赠送积分',
-                'index_code' => ScoreRule::INDEX_CONTINUE_LOGIN,
+                'index_code' => ScoreRuleIndexEnum::CONTINUE_LOGIN,
                 'score' => 50,
                 'times' => 7,
                 'can_delete' => 1,
@@ -71,7 +72,7 @@ class ScoreTablesSeeder extends Seeder
             [
                 'replace_text' => ':date浏览了:number个商品',
                 'description' => '浏览商品赠送积分',
-                'index_code' => ScoreRule::INDEX_REVIEW_PRODUCT,
+                'index_code' => ScoreRuleIndexEnum::VISITED_PRODUCT,
                 'score' => 5,
                 'times' => 10,
                 'can_delete' => 0,
@@ -79,7 +80,7 @@ class ScoreTablesSeeder extends Seeder
             [
                 'replace_text' => ':time完成了订单:no',
                 'description' => 'score是一个比例值, 每一元可换取多少积分',
-                'index_code' => ScoreRule::INDEX_COMPLETE_ORDER,
+                'index_code' => ScoreRuleIndexEnum::COMPLETE_ORDER,
                 'score' => 1,
                 'times' => 0,
                 'can_delete' => 0,
