@@ -303,11 +303,12 @@ class OrderController extends Controller
 
             // 调用异常的处理
             // abort(500, $e->getMessage());
-            return back()->withErrors('服务器异常，请稍后再试');
+            return back()->withErrors('服务器异常，请稍后再试', 'error');
         }
 
 
-        return redirect()->back()->with('status', '退款成功，请关注你的支付账号');
+        admin_toastr('退款成功');
+        return redirect()->back();
     }
 
 
