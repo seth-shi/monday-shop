@@ -31,7 +31,7 @@ class CreateOrdersTable extends Migration
             $table->string('express_company')->nullable()->comment('快递公司');
             $table->string('express_no')->nullable()->comment('快递单号');
 
-            $table->tinyInteger('type')->default(Order::TYPES['COMMON'])->comment('订单类型,1普通订单，2秒杀订单');
+            $table->tinyInteger('type')->default(\App\Enums\OrderTypeEnum::COMMON)->comment('订单类型,1普通订单，2秒杀订单');
 
             $table->string('name')->nullable()->comment('订单的名字，用于第三方，只有一个商品就是商品的名字，多个商品取联合');
             // 收货地址
