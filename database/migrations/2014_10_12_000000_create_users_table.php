@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name', 50)->nullable();
-            $table->tinyInteger('sex')->default(1)->commen('1为男，0为女');
+            $table->tinyInteger('sex')->default(\App\Enums\UserSexEnum::MAN)->commen('1为男，2为女');
             $table->string('email', 50)->nullable();
             $table->string('password', 60);
 
@@ -35,7 +35,7 @@ class CreateUsersTable extends Migration
 
 
             $table->integer('login_count')->default(0)->comment('登录次数');
-            $table->tinyInteger('source')->default(User::SOURCES['moon'])->comment('用户的来源');
+            $table->tinyInteger('source')->default(\App\Enums\UserSourceEnum::MOON)->comment('用户的来源');
 
             // 用户激活所需信息
             $table->string('active_token')->nullable()->comment('邮箱激活的token');

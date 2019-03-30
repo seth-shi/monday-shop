@@ -35,7 +35,7 @@ class Setting extends Model
         'textarea', 'number', 'switch', 'dateTime', 'text'
     ];
 
-    const CACHE_NAME = 'setting:';
+    const CACHE_KEY = 'setting:';
 
     public function getTypeAttribute($value)
     {
@@ -53,12 +53,12 @@ class Setting extends Model
 
         static::saving(function (Setting $setting) {
 
-            Cache::forever(static::cacheName($setting->index_code), $setting->value);
+            Cache::forever(static::cacheKey($setting->index_code), $setting->value);
         });
     }
 
-    public static function cacheName($name)
+    public static function cacheKey($name)
     {
-        return self::CACHE_NAME . $name;
+        return self::CACHE_KEY . $name;
     }
 }

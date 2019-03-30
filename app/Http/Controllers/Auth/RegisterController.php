@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserSexEnum;
 use App\Http\Controllers\Controller;
 use App\Mail\UserRegister;
 use App\Models\User;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -86,6 +88,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:50|unique:users',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => 'required|string|min:5|confirmed',
+            'sex' => ['required', Rule::in([UserSexEnum::MAN, UserSexEnum::WOMAN])],
             'captcha' => 'required',
         ], [
             'name.required' => '用户名不能为空',
@@ -98,6 +101,7 @@ class RegisterController extends Controller
             'password.required' => '密码不能为空',
             'password.confirmed' => '两次密码不一致',
             'captcha.required' => '验证码不能为空',
+            'sex.in' => '性别错误',
         ]);
     }
 

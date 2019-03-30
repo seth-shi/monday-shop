@@ -75,7 +75,7 @@ function ceilTwoPrice($price)
  */
 function setting($indexName, $default = null)
 {
-    $key = \App\Models\Setting::cacheName($indexName);
+    $key = \App\Models\Setting::cacheKey($indexName);
 
     $value = Cache::rememberForever($key, function () use ($indexName) {
 

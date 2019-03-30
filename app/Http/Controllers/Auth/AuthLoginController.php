@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserSourceEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -88,7 +89,7 @@ class AuthLoginController extends Controller
     protected function findOrCreateMatchUser(\Overtrue\Socialite\User $socialiteUser)
     {
         // 新建用户
-        $driver = strtolower($socialiteUser->getProviderName());
+        $driver = strtoupper($socialiteUser->getProviderName());
         $idField = "{$driver}_id";
         $nameField = "{$driver}_name";
 
@@ -109,7 +110,8 @@ class AuthLoginController extends Controller
         $user = User::query()->firstOrNew([$idField => $socialiteUser->getId()]);
         $user->$nameField = $socialiteUser->getName();
         // 用户的来源
-        $user->source = User::SOURCES[$driver] ?? array_first(User::SOURCES);
+        $sources = UserSourceEnum::toArray();
+        $user->source = $sources[$driver] ?? array_first($sources);
 
         // 如果用户不存在
         if (! $user->exists) {

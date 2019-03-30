@@ -46,7 +46,7 @@
                                     @endif
 
                                 </div>
-                                <div class="form-group custom-radio {{ $errors->has('email') ? ' has-error' : '' }}">
+                                <div class="form-group custom-radio {{ $errors->has('sex') ? ' has-error' : '' }}">
                                     <label class="sr-only">性别</label>
                                     <div style="display: inline-block">
                                         <input type="radio" class="" id="sex_man" name="sex" value="1" checked>
@@ -55,7 +55,7 @@
                                         </label>
                                     </div>
                                     <div style="display: inline-block; padding-left: 30px;">
-                                        <input type="radio" id="sex_human" value="0" name="sex" >
+                                        <input type="radio" id="sex_human" value="2" name="sex" >
                                         <label class="color-mid" for="sex_human">
                                             女
                                         </label>

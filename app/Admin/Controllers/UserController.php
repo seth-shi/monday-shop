@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Transforms\UserTransform;
+use App\Enums\UserSexEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Level;
 use App\Models\User;
@@ -12,6 +13,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -92,7 +94,8 @@ class UserController extends Controller
         $grid->column('id', 'Id');
         $grid->column('name', '用户名');
         $grid->column('sex', '性别')->display(function ($sex) {
-            return User::SEXES[$sex] ?? '未知';
+
+            return UserTransform::getInstance()->transSex($sex);
         });
         $grid->column('email', '邮箱')->display(function ($email) {
             return str_limit($email, 20);
@@ -140,7 +143,8 @@ class UserController extends Controller
         $show->field('id', 'Id');
         $show->field('name', '用户名');
         $show->field('sex', '性别')->as(function ($sex) {
-            return User::SEXES[$sex] ?? '未知';
+
+            return UserTransform::getInstance()->transSex($sex);
         });
         $show->field('email', '邮箱');
         $show->field('avatar', '头像')->image();
@@ -196,7 +200,9 @@ class UserController extends Controller
 
             return $rules;
         });
-        $form->select('sex', '性别')->rules('required|in:0,1')->options(User::SEXES)->default(1);
+
+        $sexOptions = [UserSexEnum::MAN => '男', UserSexEnum::WOMAN => '女'];
+        $form->select('sex', '性别')->rules(['required', Rule::in(array_keys($sexOptions))])->options($sexOptions)->default(1);
         $form->email('email', '邮箱')->rules(function (Form $form) {
             $rules = 'required|email|unique:users,email';
 
