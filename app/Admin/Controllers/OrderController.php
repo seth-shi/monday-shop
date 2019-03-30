@@ -329,7 +329,12 @@ class OrderController extends Controller
             return back()->withErrors('物流编号不能为空', 'error');
         }
 
-        if ($order->status != OrderShipStatusEnum::PENDING) {
+        if ($order->status != OrderStatusEnum::PAID) {
+
+            return back()->withErrors('订单未付款', 'error');
+        }
+
+        if ($order->ship_status != OrderShipStatusEnum::PENDING) {
 
             return back()->withErrors('订单已经发货', 'error');
         }
