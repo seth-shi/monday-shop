@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\OrderTypeEnum;
 use App\Jobs\CancelUnPayOrder;
 use App\Models\Address;
 use App\Models\Order;
@@ -103,7 +104,7 @@ class SeckillController extends PaymentController
             Address::query()->where('user_id', $user->id)->findOrFail($addressId);
 
             // 创建一个秒杀主表订单和明细表订单，默认数量一个
-            $masterOrder = $this->newMasterOrder($addressId)->setAttribute('type', Order::TYPES['SEC_KILL']);
+            $masterOrder = $this->newMasterOrder($addressId)->setAttribute('type', OrderTypeEnum::SEC_KILL);
             $this->storeSingleOrder($masterOrder, $redisSeckill->product->uuid, 1);
 
 

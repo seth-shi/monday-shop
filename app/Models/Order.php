@@ -67,24 +67,6 @@ class Order extends Model
         'consignee_name', 'consignee_phone', 'consignee_address', 'user_id'
     ];
 
-
-    // 订单类型
-    const TYPES = [
-        'COMMON' => 1,
-        'SEC_KILL' => 2
-    ];
-
-
-    // 物流状态
-    const SHIP_STATUSES = [
-        // 未发货
-        'PENDING' => 1,
-        // 待收货
-        'DELIVERED' => 2,
-        // 已收货
-        'RECEIVED' => 3
-    ];
-
     public function details()
     {
         return $this->hasMany(OrderDetail::class);

@@ -5,6 +5,7 @@ namespace App\Admin\Transforms;
 
 use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
+use App\Enums\OrderTypeEnum;
 use App\Models\Order;
 
 class OrderTransform extends Transform
@@ -25,9 +26,9 @@ class OrderTransform extends Transform
     {
         $text = '未知';
 
-        if ($type == 1) {
+        if ($type == OrderTypeEnum::COMMON) {
             $text = '普通订单';
-        } elseif ($type == 2) {
+        } elseif ($type == OrderTypeEnum::SEC_KILL) {
             $text = '秒杀订单';
         }
 
