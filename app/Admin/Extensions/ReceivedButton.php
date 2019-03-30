@@ -24,12 +24,17 @@ class ReceivedButton
     protected function script()
     {
         return <<<SCRIPT
+let confirmForm = $('#ship_form');
+let confirmFormBaseUrl = confirmForm.attr('action');
 
 $('.received_btn').on('click', function () {
 
+    let id = $(this).data('id');
+    let _url = confirmFormBaseUrl + '/orders/'+ id +'/shipped';
+    let inputs = '<input name="_method" value="PATCH"/>';
+    
     // Your code.
-    console.log($(this).data('id'));
-
+    confirmForm.attr('action', _url).append(inputs).submit();
 });
 
 SCRIPT;

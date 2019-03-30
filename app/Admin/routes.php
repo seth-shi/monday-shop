@@ -26,6 +26,11 @@ Route::group([
     $router->resource('products', 'ProductController');
     $router->resource('seckills', 'SeckillController')->only('index', 'create', 'store', 'destroy');
 
+    // 商品发货
+    // 管理员帮忙确认收货
+    $router->post('orders/{order}/ship', 'OrderController@ship');
+    $router->patch('orders/{order}/shipped', 'OrderController@confirmShip');
+
     // 退款
     // 订单
     // 评论

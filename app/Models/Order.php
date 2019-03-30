@@ -121,6 +121,16 @@ class Order extends Model
         return $this->user_id != $id;
     }
 
+    /**
+     * 以后增加多种支付类型,可以直接修改该方法
+     *
+     * @return bool
+     */
+    public function isPay()
+    {
+        return $this->attributes['status'] == self::STATUSES['ALI'];
+    }
+
     public static function boot()
     {
         parent::boot();

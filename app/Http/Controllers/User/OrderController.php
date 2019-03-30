@@ -48,6 +48,8 @@ class OrderController extends Controller
 
                            // 如果订单是付款了则显示发货状态
                            if ($paid) {
+
+                               // 如果发货了,则显示发货信息
                                $order->status_text = OrderTransform::getInstance()->transShipStatus($order->ship_status);
                            }
 
@@ -118,6 +120,30 @@ class OrderController extends Controller
         $order->save();
 
         return back()->with('status', '完成订单已增加积分');
+    }
+
+
+    public function confirmShip(Order $order)
+    {
+        // 判断是当前用户的订单才可以删除
+        if ($order->isNotUser(auth()->id())) {
+            abort(403, '你没有权限');
+        }
+
+        if (! $order->isPay()) {
+
+            return back()->withErrors('订单未付款');
+        }
+
+        if ($order->ship_status != Order::SHIP_STATUSES['DELIVERED']) {
+
+            return back()->withErrors('订单未发货');
+        }
+
+        $order->ship_status = Order::SHIP_STATUSES['RECEIVED'];
+        $order->save();
+
+        return back()->with('status', '收货成功');
     }
 
     /**
