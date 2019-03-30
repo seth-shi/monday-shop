@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,6 +34,11 @@ class CommentController extends Controller
         if ($masterOrder->user_id != auth()->id()) {
 
             return responseJson(400, '非法评论');
+        }
+
+        if ($masterOrder->status != Order::STATUSES['COMPLETE']) {
+
+            return responseJson(400, '订单未完成,不能评论');
         }
 
         // 可以评论

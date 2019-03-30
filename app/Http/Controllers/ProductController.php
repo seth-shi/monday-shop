@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductPinYin;
 use App\Models\User;
@@ -93,7 +94,10 @@ class ProductController extends Controller
 
             $addresses = $user->addresses()->get();
             $orderDetails = $user->orderDetails()
-                                 ->with('order')
+                                 ->whereHas('order', function ($query) {
+
+                                     $query->where('status', Order::STATUSES['COMPLETE']);
+                                 })
                                  ->where('is_commented', 0)
                                  ->where('product_id', $product->id)
                                  ->get();
