@@ -1,9 +1,6 @@
 <?php
 
-Route::get('test', function () {
 
-    dd(\App\Enums\UserSourceEnum::keys(), array_first(\App\Enums\UserSourceEnum::toArray()), \App\Enums\UserSourceEnum::isValidKey('WEI_BO'), \App\Enums\UserSourceEnum::search(5));
-});
 /****************************************
  * 商城前台路由组
  ****************************************/
