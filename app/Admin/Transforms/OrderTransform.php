@@ -3,6 +3,7 @@
 namespace App\Admin\Transforms;
 
 
+use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 
@@ -37,13 +38,13 @@ class OrderTransform extends Transform
     {
         switch ($status) {
 
-            case Order::SHIP_STATUSES['PENDING']:
+            case OrderShipStatusEnum::PENDING:
                 $text = '待发货';
                 break;
-            case Order::SHIP_STATUSES['DELIVERED']:
+            case OrderShipStatusEnum::DELIVERED:
                 $text = '待收货';
                 break;
-            case Order::SHIP_STATUSES['RECEIVED']:
+            case OrderShipStatusEnum::RECEIVED:
                 $text = '已收货';
                 break;
             default:

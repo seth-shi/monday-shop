@@ -2,11 +2,10 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Category;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
@@ -14,7 +13,6 @@ use Encore\Admin\Show;
 use Encore\Admin\Tree;
 use Encore\Admin\Widgets\Box;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {

@@ -6,6 +6,7 @@ use App\Admin\Extensions\ReceivedButton;
 use App\Admin\Extensions\ShipButton;
 use App\Admin\Transforms\OrderDetailTransform;
 use App\Admin\Transforms\OrderTransform;
+use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -122,12 +123,12 @@ class OrderController extends Controller
             if ($order->status == OrderStatusEnum::APP_REFUND) {
                 // append一个操作
                 $actions->append("<a href='{$url}' title='退款'><i class='fa fa-mail-reply'></i></a>");
-            } elseif ($order->status == OrderStatusEnum::PAID)) {
+            } elseif ($order->status == OrderStatusEnum::PAID) {
 
-                if ($order->ship_status == Order::SHIP_STATUSES['PENDING']) {
+                if ($order->ship_status == OrderShipStatusEnum::PENDING) {
 
                     $actions->append(new ShipButton($order->id));
-                } elseif ($order->ship_status == Order::SHIP_STATUSES['DELIVERED']) {
+                } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
 
                     $actions->append(new ReceivedButton($order->id));
                 }
@@ -198,6 +199,7 @@ class OrderController extends Controller
 
         $show->divider();
 
+        $show->field('pay_type', '支付类型');
         $show->field('refund_reason', '退款理由');
         $show->field('pay_trade_no', '退款单号');
         $show->field('pay_no', '支付单号');
@@ -327,12 +329,12 @@ class OrderController extends Controller
             return back()->withErrors('物流编号不能为空', 'error');
         }
 
-        if ($order->status != Order::SHIP_STATUSES['PENDING']) {
+        if ($order->status != OrderShipStatusEnum::PENDING) {
 
             return back()->withErrors('订单已经发货', 'error');
         }
 
-        $order->ship_status = Order::SHIP_STATUSES['DELIVERED'];
+        $order->ship_status = OrderShipStatusEnum::DELIVERED;
         $order->express_company = $request->input('name');
         $order->express_no = $request->input('no');
         $order->save();
@@ -349,12 +351,12 @@ class OrderController extends Controller
             return back()->withErrors('订单未付款', 'error');
         }
 
-        if ($order->ship_status != Order::SHIP_STATUSES['DELIVERED']) {
+        if ($order->ship_status != OrderShipStatusEnum::DELIVERED) {
 
             return back()->withErrors('订单未发货', 'error');
         }
 
-        $order->ship_status = Order::SHIP_STATUSES['RECEIVED'];
+        $order->ship_status = OrderShipStatusEnum::RECEIVED;
         $order->save();
 
         admin_toastr('收货成功');
