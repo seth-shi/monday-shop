@@ -110,6 +110,9 @@ class OrderController extends Controller
         $grid->disableCreateButton();
         $grid->actions(function (Actions $actions) {
 
+            /**
+             * @var $order Order
+             */
             $order = $actions->row;
 
             $url = admin_url("orders/{$order->id}/refund");
@@ -118,7 +121,7 @@ class OrderController extends Controller
             if ($order->status == Order::STATUSES['APP_REFUND']) {
                 // append一个操作
                 $actions->append("<a href='{$url}' title='退款'><i class='fa fa-mail-reply'></i></a>");
-            } elseif ($order->status == Order::STATUSES['ALI']) {
+            } elseif ($order->isPay()) {
 
                 if ($order->ship_status == Order::SHIP_STATUSES['PENDING']) {
 
@@ -272,7 +275,7 @@ class OrderController extends Controller
         }
 
         // 订单必须在支付了，才可才可以退款
-        if ($order->status != Order::STATUSES['ALI']) {
+        if (! $order->isPay()) {
             abort(403, '订单当前状态禁止退款');
         }
 

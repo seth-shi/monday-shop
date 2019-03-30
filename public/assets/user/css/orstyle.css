@@ -52,12 +52,17 @@ img{width: 100%;}
 .m-progress-list .step {display: inline-block;width:60px;text-align: center;color: #999;letter-spacing: -5px;}
 .m-progress-list .stage-name {padding-top: 10px;font-size: 12px;line-height: 14px;
 letter-spacing: normal;word-spacing: normal;}
-.u-progress-stage-bg {position: relative;display: inline-block;background-image: url(../images/sprite.png);
-background-position: -45px -135px;width: 29px;height: 29px;}
+.u-progress-stage-bg {
+    position: relative;display: inline-block;background-image: url(../images/sprite.png);
+    background-position: -45px -135px;width: 29px;height: 29px;
+}
 /*变换的背景*/
 .u-stage-icon-inner .bg {position: absolute;left: 0px;top: 0px;}
-.step-1 .u-stage-icon-inner .bg {background-image: url(../images/sprite.png);background-position: -79px -135px;width: 19px;height: 19px;}
-.step-2 .u-stage-icon-inner .bg {background-image: url(../images/sprite.png);background-position: -103px -135px;width: 19px;height: 19px;}
+
+.u-stage-icon-inner .completed {
+    background-image: url(../images/sprite.png);
+    background-position: -103px -135px;width: 19px;height: 19px;
+}
 
 .u-stage-icon-inner {position: relative;z-index: 20;display: inline-block;width: 19px;height: 19px;line-height: 19px;
 vertical-align: top;margin-top: 5px;margin-left: -24px;color: #b5b5b5;font-size: 12px;letter-spacing: normal;word-spacing: normal;}
