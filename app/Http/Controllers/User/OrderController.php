@@ -3,22 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Admin\Transforms\OrderTransform;
+use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
-use App\Events\CountSale;
-use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\OrderMuiltRequest;
-use App\Http\Requests\OrderRequest;
 use App\Models\Address;
-use App\Models\Car;
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\ScoreRule;
 use App\Models\User;
 use App\Services\ScoreLogServe;
-use Auth;
-use DB;
-use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
 
 class OrderController extends Controller
@@ -62,9 +54,9 @@ class OrderController extends Controller
                            if ($paid) {
 
                                // 已经确认收获了
-                               if ($order->ship_status == Order::SHIP_STATUSES['RECEIVED']) {
+                               if ($order->ship_status == OrderShipStatusEnum::RECEIVED) {
                                    $order->show_completed_button = true;
-                               } elseif ($order->ship_status == Order::SHIP_STATUSES['DELIVERED']) {
+                               } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
 
                                    $order->show_ship_button = true;
                                } else {
@@ -96,15 +88,15 @@ class OrderController extends Controller
             abort(403, '你没有权限');
         }
 
-        $order->ship_send = $order->ship_status == Order::SHIP_STATUSES['DELIVERED'];
-        $order->confirm_ship = $order->ship_status == Order::SHIP_STATUSES['RECEIVED'];
+        $order->ship_send = $order->ship_status == OrderShipStatusEnum::DELIVERED;
+        $order->confirm_ship = $order->ship_status == OrderShipStatusEnum::RECEIVED;
 
         if ($order->confirm_ship)  {
 
             $order->ship_send = true;
         }
 
-        $order->completed = $order->status == Order::SHIP_STATUSES['RECEIVED'];
+        $order->completed = $order->status == OrderShipStatusEnum::RECEIVED;
 
         return view('user.orders.show', compact('order'));
     }
@@ -120,7 +112,7 @@ class OrderController extends Controller
         // 只有付完款的订单,而且必须是未完成的, 确认收货
         if (
             ! $order->status == OrderStatusEnum::PAID ||
-            $order->ship_status != Order::SHIP_STATUSES['RECEIVED']
+            $order->ship_status != OrderShipStatusEnum::RECEIVED
         ) {
             return back()->withErrors(['msg' => '订单当前状态不能完成']);
         }
@@ -146,12 +138,12 @@ class OrderController extends Controller
             return back()->withErrors('订单未付款');
         }
 
-        if ($order->ship_status != Order::SHIP_STATUSES['DELIVERED']) {
+        if ($order->ship_status != OrderShipStatusEnum::DELIVERED) {
 
             return back()->withErrors('订单未发货');
         }
 
-        $order->ship_status = Order::SHIP_STATUSES['RECEIVED'];
+        $order->ship_status = OrderShipStatusEnum::DELIVERED;
         $order->save();
 
         return back()->with('status', '收货成功');

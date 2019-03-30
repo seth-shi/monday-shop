@@ -27,7 +27,7 @@ class CreateOrdersTable extends Migration
 
             // 物流状况
             $table->string('refund_reason')->nullable()->comment('退款理由');
-            $table->tinyInteger('ship_status')->default(Order::SHIP_STATUSES['PENDING'])->comment('物流状况');
+            $table->tinyInteger('ship_status')->default(\App\Enums\OrderShipStatusEnum::PENDING)->comment('物流状况');
             $table->string('express_company')->nullable()->comment('快递公司');
             $table->string('express_no')->nullable()->comment('快递单号');
 

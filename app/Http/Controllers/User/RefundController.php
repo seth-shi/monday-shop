@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -28,7 +29,7 @@ class RefundController extends Controller
             return responseJson(403, '订单还没有付款');
         }
 
-        if ($order->ship_status != Order::SHIP_STATUSES['PENDING']) {
+        if ($order->ship_status != OrderShipStatusEnum::PENDING) {
 
             return responseJson(403, '订单已经发货');
         }

@@ -2,15 +2,13 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Comment;
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Product;
 use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
-use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
 
 class CommentController extends Controller
 {
