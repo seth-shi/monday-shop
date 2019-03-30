@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Transforms\UserTransform;
 use App\Enums\UserSexEnum;
+use App\Enums\UserStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Level;
 use App\Models\User;
@@ -152,10 +153,9 @@ class UserController extends Controller
         $show->field('qq_name', 'QQ昵称');
         $show->field('weibo_name', '微博昵称');
         $show->field('login_count', '登录次数');
-        $show->field('is_active', '是否激活')->display(function ($isActive) {
-            return $isActive == User::ACTIVE_STATUS
-                ? "<span class='label' style='color: green;'>激活</span>"
-                : "<span class='label' style='color: red;'>未激活</span>";
+        $show->field('is_active', '是否激活')->as(function ($isActive) {
+
+            return UserTransform::getInstance()->transStatus($isActive);
         });
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
