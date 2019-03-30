@@ -22,7 +22,7 @@ class RefundController extends Controller
         }
 
         // 订单必须是已经支付,而且还没有发货的
-        if ($order->status != Order::STATUSES['ALI']) {
+        if (! $order->isPay()) {
 
             return responseJson(403, '订单还没有付款');
         }

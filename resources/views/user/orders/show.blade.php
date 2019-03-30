@@ -17,24 +17,20 @@
 			<!--进度条-->
 			<div class="m-progress">
 				<div class="m-progress-list">
-								<span class="step-1 step">
+
+					<span class="step-1 step">
                                    <em class="u-progress-stage-bg"></em>
-                                   <i class="u-stage-icon-inner">1<em class="bg"></em></i>
-                                   <p class="stage-name">拍下商品</p>
+                                   <i class="u-stage-icon-inner">1<em class="bg {{ $order->ship_send ? 'completed' : '' }}"></em></i>
+                                   <p class="stage-name">卖家发货</p>
                                 </span>
 					<span class="step-2 step">
                                    <em class="u-progress-stage-bg"></em>
-                                   <i class="u-stage-icon-inner">2<em class="bg"></em></i>
-                                   <p class="stage-name">卖家发货</p>
+                                   <i class="u-stage-icon-inner">2<em class="bg {{ $order->confirm_ship ? 'completed' : '' }}"></em></i>
+                                   <p class="stage-name">确认收货</p>
                                 </span>
 					<span class="step-3 step">
                                    <em class="u-progress-stage-bg"></em>
-                                   <i class="u-stage-icon-inner">3<em class="bg"></em></i>
-                                   <p class="stage-name">确认收货</p>
-                                </span>
-					<span class="step-4 step">
-                                   <em class="u-progress-stage-bg"></em>
-                                   <i class="u-stage-icon-inner">4<em class="bg"></em></i>
+                                   <i class="u-stage-icon-inner">3<em class="bg {{ $order->is_pay ? 'completed' : '' }}"></em></i>
                                    <p class="stage-name">交易完成</p>
                                 </span>
 					<span class="u-progress-placeholder"></span>
@@ -45,32 +41,41 @@
 			</div>
 
 			<div class="order-infoaside">
-				<div class="order-logistics">
-					<a href="#">
-						<div class="icon-log">
-							<i><img src="{{ $order->user->avatar }}"></i>
+
+				<div class="order-addresslist">
+					<div class="order-address">
+						<div class="icon-add">
 						</div>
-						<div class="latest-logistics">
-							<p class="text">订单号：{{ $order->no }}</p>
-							<div class="time-list">
-								<span class="date">{{ $order->created_at }}</span>
-							</div>
+						<p class="new-tit new-p-re">
+							<span class="new-txt">{{ $order->consignee_name }}</span>
+							<span class="new-txt-rd2">{{ $order->consignee_phone }}</span>
+						</p>
+						<div class="new-mu_l2a new-p-re">
+							<p class="new-mu_l2cw">
+								<span class="title">收货地址：</span>
+								<span class="street">{{ $order->consignee_address }}</span>
+							</p>
 						</div>
-						<span class="am-icon-angle-right icon"></span>
-					</a>
-					<div class="clear"></div>
+					</div>
 				</div>
 				<div class="order-addresslist">
 					<div class="order-address">
 						<div class="icon-add">
 						</div>
 						<div class="new-mu_l2a new-p-re">
-							<p class="new-mu_l2cw">
-								<span class="title">收货地址：</span>
-								<span class="street">{{ $order->address }}</span></p>
+							<span class="title">物流：</span>
+							<span class="street">{{ $order->express_company }}</span>
+							<hr>
+							<span class="title">单号：</span>
+							<span class="street">{{ $order->express_no }}</span>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div  style="padding-left: 10px; padding-bottom: 5px; color: #2F4056;">
+				订单流水: <span>{{ $order->no }}</span>
+				<br>
+				下单时间: <span>{{ $order->created_at }}</span>
 			</div>
 			<div class="order-infomain">
 

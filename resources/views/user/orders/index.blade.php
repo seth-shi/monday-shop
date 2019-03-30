@@ -53,7 +53,7 @@
                                 @foreach ($orders as $order)
                                     <div class="order-status5">
                                         <div class="order-title">
-                                            <div class="dd-num" style="max-width: 400px">订单编号：<a href="/user/orders/{{ $order->id }}">{{ $order->no }}</a></div>
+                                            <div class="dd-num" style="max-width: 400px">订单编号：<a href="/user/orders/{{ $order->id }}" style="color: #FF5722;">{{ $order->no }}</a></div>
                                             <span>成交时间：{{ $order->created_at }}</span>
                                             <!--    <em>店铺：小桔灯</em>-->
                                         </div>

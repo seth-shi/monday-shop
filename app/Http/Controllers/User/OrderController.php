@@ -38,7 +38,7 @@ class OrderController extends Controller
                        ->get()
                        ->transform(function (Order $order) use ($scoreRatio) {
 
-                           $paid = $order->status == Order::STATUSES['ALI'];
+                           $paid = $order->isPay();
 
                            // 可以或得到的积分
                            $order->score = ceil($order->total * $scoreRatio);
@@ -95,6 +95,16 @@ class OrderController extends Controller
             abort(403, '你没有权限');
         }
 
+        $order->ship_send = $order->ship_status == Order::SHIP_STATUSES['DELIVERED'];
+        $order->confirm_ship = $order->ship_status == Order::SHIP_STATUSES['RECEIVED'];
+
+        if ($order->confirm_ship)  {
+
+            $order->ship_send = true;
+        }
+
+        $order->completed = $order->status == Order::SHIP_STATUSES['RECEIVED'];
+
         return view('user.orders.show', compact('order'));
     }
 
@@ -108,7 +118,7 @@ class OrderController extends Controller
 
         // 只有付完款的订单,而且必须是未完成的, 确认收货
         if (
-            $order->status != Order::STATUSES['ALI'] ||
+            ! $order->isPay()||
             $order->ship_status != Order::SHIP_STATUSES['RECEIVED']
         ) {
             return back()->withErrors(['msg' => '订单当前状态不能完成']);
@@ -184,10 +194,10 @@ class OrderController extends Controller
             abort(403, '你没有权限');
         }
 
-        // 如果订单已经完成不能删除
-        if ($order->status == Order::STATUSES['COMPLETE']) {
+        // 支付的订单不能删除
+        if ($order->status != Order::STATUSES['COMPLETE']) {
 
-            abort(403, '完成的订单不可删除');
+            abort(403, '未完成的订单不能删除');
         }
 
         $order->delete();
