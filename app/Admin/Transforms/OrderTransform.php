@@ -3,6 +3,7 @@
 namespace App\Admin\Transforms;
 
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 
 class OrderTransform extends Transform
@@ -57,25 +58,22 @@ class OrderTransform extends Transform
     {
         switch ($status) {
 
-            case Order::STATUSES['REFUND']:
+            case OrderStatusEnum::REFUND:
                 $text = '退款';
                 break;
-            case Order::STATUSES['APP_REFUND']:
+            case OrderStatusEnum::APP_REFUND:
                 $text = '申请退款';
                 break;
-            case Order::STATUSES['UN_PAY']:
+            case OrderStatusEnum::UN_PAY:
                 $text = '未支付';
                 break;
-            case Order::STATUSES['ALI']:
-                $text = '阿里支付';
+            case OrderStatusEnum::PAID:
+                $text = '已支付';
                 break;
-            case Order::STATUSES['WEIXIN']:
-                $text = '微信支付';
-                break;
-            case Order::STATUSES['UN_PAY_CANCEL']:
+            case OrderStatusEnum::UN_PAY_CANCEL:
                 $text = '超时未付款系统自动取消';
                 break;
-            case Order::STATUSES['COMPLETE']:
+            case OrderStatusEnum::COMPLETED:
                 $text = '完成';
                 break;
             default:

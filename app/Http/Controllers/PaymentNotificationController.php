@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\User\PaymentController;
 use App\Models\Order;
 use App\Models\Product;
@@ -28,7 +29,8 @@ class PaymentNotificationController extends Controller
      */
     public function payNotify(Request $request)
     {
-        $alipay = Pay::alipay($this->config);
+        $payType = $this->config;
+        $alipay = Pay::alipay($payType);
 
         // TODO , 加一个轮询接口配合后台通知修改订单状态
         // 后台异步通知接口有可能会因为网络问题接收不到
@@ -48,7 +50,8 @@ class PaymentNotificationController extends Controller
                     $order->pay_time = $data->get('notify_time');
                     $order->pay_no = $data->get('trade_no');
                     $order->pay_total = $data->get('receipt_amount');
-                    $order->status = Order::STATUSES['ALI'];
+                    $order->status = OrderStatusEnum::PAID;
+                    $order->pay_type = $payType;
                     $order->save();
                 }
             }

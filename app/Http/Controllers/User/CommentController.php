@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -36,7 +37,7 @@ class CommentController extends Controller
             return responseJson(400, '非法评论');
         }
 
-        if ($masterOrder->status != Order::STATUSES['COMPLETE']) {
+        if ($masterOrder->status != OrderStatusEnum::COMPLETED) {
 
             return responseJson(400, '订单未完成,不能评论');
         }

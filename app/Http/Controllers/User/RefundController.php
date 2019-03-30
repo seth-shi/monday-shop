@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class RefundController extends Controller
         }
 
         // 订单必须是已经支付,而且还没有发货的
-        if (! $order->isPay()) {
+        if ($order->status != OrderStatusEnum::PAID) {
 
             return responseJson(403, '订单还没有付款');
         }
@@ -33,7 +34,7 @@ class RefundController extends Controller
         }
 
         // 保存退款理由
-        $order->status = Order::STATUSES['APP_REFUND'];
+        $order->status = OrderStatusEnum::APP_REFUND;
         $order->refund_reason = $request->input('refund_reason');
         $order->save();
 

@@ -22,7 +22,8 @@ class CreateOrdersTable extends Migration
 
             $table->unsignedInteger('user_id');
             $table->decimal('total', 12, 2)->comment('总计价格');
-            $table->tinyInteger('status')->default(Order::STATUSES['UN_PAY'])->comment('-2：退款，-1: 申请退款 0：未支付订单，1:支付宝支付， 2：微信 3：超时取消, 4. 完成');
+            $table->tinyInteger('status')->default(\App\Enums\OrderStatusEnum::UN_PAY)->comment('');
+            $table->string('pay_type')->nullable()->comment('支付类型');
 
             // 物流状况
             $table->string('refund_reason')->nullable()->comment('退款理由');

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Bus\Queueable;
@@ -34,7 +35,7 @@ class CancelUnPayOrder implements ShouldQueue
     public function handle()
     {
         // 未付款设置为取消状态，
-        $this->order->status = Order::STATUSES['UN_PAY_CANCEL'];
+        $this->order->status = OrderStatusEnum::UN_PAY_CANCEL;
         $this->order->save();
 
         // 回滚库存
