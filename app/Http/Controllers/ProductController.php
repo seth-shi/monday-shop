@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
@@ -96,7 +97,7 @@ class ProductController extends Controller
             $orderDetails = $user->orderDetails()
                                  ->whereHas('order', function ($query) {
 
-                                     $query->where('status', Order::STATUSES['COMPLETE']);
+                                     $query->where('status', OrderStatusEnum::COMPLETED);
                                  })
                                  ->where('is_commented', 0)
                                  ->where('product_id', $product->id)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Admin\Transforms\OrderTransform;
+use App\Enums\OrderStatusEnum;
 use App\Events\CountSale;
 use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
@@ -38,7 +39,7 @@ class OrderController extends Controller
                        ->get()
                        ->transform(function (Order $order) use ($scoreRatio) {
 
-                           $paid = $order->isPay();
+                           $paid = $order->status == OrderStatusEnum::PAID;
 
                            // 可以或得到的积分
                            $order->score = ceil($order->total * $scoreRatio);
@@ -70,11 +71,11 @@ class OrderController extends Controller
                                    $order->show_refund_button = true;
                                }
 
-                           } elseif ($order->status == Order::STATUSES['UN_PAY']) {
+                           } elseif ($order->status == OrderStatusEnum::UN_PAY) {
                                $order->show_pay_button = true;
                            }
 
-                           if ($order->status == Order::STATUSES['COMPLETE']) {
+                           if ($order->status == OrderStatusEnum::COMPLETED) {
                                $order->show_delete_button = true;
                            }
 
@@ -118,7 +119,7 @@ class OrderController extends Controller
 
         // 只有付完款的订单,而且必须是未完成的, 确认收货
         if (
-            ! $order->isPay()||
+            ! $order->status == OrderStatusEnum::PAID ||
             $order->ship_status != Order::SHIP_STATUSES['RECEIVED']
         ) {
             return back()->withErrors(['msg' => '订单当前状态不能完成']);
@@ -126,7 +127,7 @@ class OrderController extends Controller
 
         (new ScoreLogServe)->completeOrderAddScore($order);
 
-        $order->status = Order::STATUSES['COMPLETE'];
+        $order->status = OrderStatusEnum::COMPLETED;
         $order->save();
 
         return back()->with('status', '完成订单已增加积分');
@@ -140,7 +141,7 @@ class OrderController extends Controller
             abort(403, '你没有权限');
         }
 
-        if (! $order->isPay()) {
+        if ($order->status != OrderStatusEnum::PAID) {
 
             return back()->withErrors('订单未付款');
         }
@@ -195,7 +196,7 @@ class OrderController extends Controller
         }
 
         // 支付的订单不能删除
-        if ($order->status != Order::STATUSES['COMPLETE']) {
+        if ($order->status != OrderStatusEnum::COMPLETED) {
 
             abort(403, '未完成的订单不能删除');
         }

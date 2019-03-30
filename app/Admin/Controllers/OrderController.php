@@ -6,6 +6,7 @@ use App\Admin\Extensions\ReceivedButton;
 use App\Admin\Extensions\ShipButton;
 use App\Admin\Transforms\OrderDetailTransform;
 use App\Admin\Transforms\OrderTransform;
+use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
@@ -88,7 +89,7 @@ class OrderController extends Controller
         $grid->column('status', '状态')->display(function ($status) {
 
             // 如果订单是付款, 那么就修改为物流状态
-            if ($status == Order::STATUSES['ALI']) {
+            if ($status == OrderStatusEnum::PAID) {
 
                 return OrderTransform::getInstance()->transShipStatus($this->ship_status);
             }
@@ -118,10 +119,10 @@ class OrderController extends Controller
             $url = admin_url("orders/{$order->id}/refund");
 
             // 如果出现了申请,显示可以退款按钮
-            if ($order->status == Order::STATUSES['APP_REFUND']) {
+            if ($order->status == OrderStatusEnum::APP_REFUND) {
                 // append一个操作
                 $actions->append("<a href='{$url}' title='退款'><i class='fa fa-mail-reply'></i></a>");
-            } elseif ($order->isPay()) {
+            } elseif ($order->status == OrderStatusEnum::PAID)) {
 
                 if ($order->ship_status == Order::SHIP_STATUSES['PENDING']) {
 
@@ -173,7 +174,7 @@ class OrderController extends Controller
         $show->field('status', '状态')->as(function ($status) {
 
             // 如果订单是付款, 那么就修改为物流状态
-            if ($status == Order::STATUSES['ALI']) {
+            if ($status == OrderStatusEnum::PAID) {
                 return OrderTransform::getInstance()->transShipStatus($this->ship_status);
             }
 
@@ -275,7 +276,7 @@ class OrderController extends Controller
         }
 
         // 订单必须在支付了，才可才可以退款
-        if ($order->status != Order::STATUSES['APP_REFUND']) {
+        if ($order->status != OrderStatusEnum::APP_REFUND) {
             abort(403, '订单当前状态禁止退款');
         }
 
@@ -296,7 +297,7 @@ class OrderController extends Controller
             $response = $pay->refund($refundData);
             $order->pay_refund_fee = $response->get('refund_fee');
             $order->pay_trade_no = $response->get('trade_no');
-            $order->status = Order::STATUSES['REFUND'];
+            $order->status = OrderStatusEnum::REFUND;
             $order->save();
 
         } catch (\Exception $e) {
@@ -343,7 +344,7 @@ class OrderController extends Controller
 
     public function confirmShip(Order $order)
     {
-        if (! $order->isPay()) {
+        if ($order->status != OrderStatusEnum::PAID) {
 
             return back()->withErrors('订单未付款', 'error');
         }

@@ -1,5 +1,9 @@
 <?php
 
+Route::get('test', function () {
+
+    dd(new \App\Enums\OrderStatusEnum(\App\Enums\OrderStatusEnum::COMPLETED));
+});
 /****************************************
  * 商城前台路由组
  ****************************************/

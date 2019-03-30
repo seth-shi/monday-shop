@@ -74,22 +74,6 @@ class Order extends Model
         'SEC_KILL' => 2
     ];
 
-    // 订单状态
-    const STATUSES = [
-        // 退款
-        'REFUND' => -2,
-        // 申请退款
-        'APP_REFUND' => -1,
-         // 未支付
-        'UN_PAY' => 0,
-        // 阿里支付，微信支付
-        'ALI' => 1,
-        'WEIXIN' => 2,
-        // 超时系统取消订单
-        'UN_PAY_CANCEL' => 3,
-        // 订单完成, 完成之后的订单不允许退款
-        'COMPLETE' => 4,
-    ];
 
     // 物流状态
     const SHIP_STATUSES = [
@@ -119,16 +103,6 @@ class Order extends Model
     public function isNotUser($id)
     {
         return $this->user_id != $id;
-    }
-
-    /**
-     * 以后增加多种支付类型,可以直接修改该方法
-     *
-     * @return bool
-     */
-    public function isPay()
-    {
-        return $this->attributes['status'] == self::STATUSES['ALI'];
     }
 
     public static function boot()
