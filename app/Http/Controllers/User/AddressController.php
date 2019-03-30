@@ -29,6 +29,7 @@ class AddressController extends Controller
     {
         $addressesData = $this->getFormatRequest($request);
 
+        //
         /**
          * @var $user User
          */
