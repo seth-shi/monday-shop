@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
@@ -109,7 +110,7 @@ class Order extends Model
         static::saved(function ($model) {
 
             // 支付
-            if ($model->status == self::STATUSES['ALI']) {
+            if ($model->status == OrderStatusEnum::PAID) {
                 // 订单成交量
                 Cache::increment("site_counts:order_pay_count");
 
@@ -123,7 +124,7 @@ class Order extends Model
                 Cache::set("site_counts:sale_money_count", $money);
             }
             // 退款
-            elseif ($model->status == self::STATUSES['REFUND']) {
+            elseif ($model->status == OrderStatusEnum::REFUND) {
 
                 $currMoney = Cache::get('site_counts:sale_money_count', 0);
                 if (function_exists('bcsub')) {
