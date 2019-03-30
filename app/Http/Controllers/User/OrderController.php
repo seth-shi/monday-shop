@@ -144,7 +144,7 @@ class OrderController extends Controller
             return back()->withErrors('订单未发货');
         }
 
-        $order->ship_status = OrderShipStatusEnum::DELIVERED;
+        $order->ship_status = OrderShipStatusEnum::RECEIVED;
         $order->save();
 
         return back()->with('status', '收货成功');
