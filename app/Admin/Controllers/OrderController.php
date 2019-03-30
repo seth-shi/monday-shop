@@ -275,7 +275,7 @@ class OrderController extends Controller
         }
 
         // 订单必须在支付了，才可才可以退款
-        if (! $order->isPay()) {
+        if ($order->status != Order::STATUSES['APP_REFUND']) {
             abort(403, '订单当前状态禁止退款');
         }
 
@@ -342,8 +342,6 @@ class OrderController extends Controller
 
     public function confirmShip(Order $order)
     {
-        // 前台查看订单详情物流
-        // 后台退款
         if (! $order->isPay()) {
 
             return back()->withErrors('订单未付款', 'error');
