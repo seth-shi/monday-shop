@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserSourceEnum;
 use App\Mail\ResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -85,13 +86,6 @@ class User extends Authenticatable
         '7.jpg',
         '8.jpg',
         '9.jpg',
-    ];
-    // 用户性别
-    CONST MAN = 1;
-    CONST WOMAN = 0;
-    CONST SEXES = [
-        self::MAN => '男',
-        self::WOMAN => '女'
     ];
 
     CONST ACTIVE_STATUS = 1;
@@ -235,7 +229,7 @@ class User extends Authenticatable
 
             // 用户注册之后，得到注册的来源
             // 存入 redis 缓存，每日更新到统计表
-            $source = array_search($model->source, User::SOURCES) ?: 'moon';
+            $source = UserSourceEnum::search($model->source) ?: UserSourceEnum::search(UserSourceEnum::MOON);
 
             Cache::increment("site_counts:{$source}_registered_count");
             Cache::increment("site_counts:registered_count");
