@@ -107,7 +107,7 @@
                                                         <a href="/user/orders/{{ $order->id }}/complete/score" class="am-btn am-btn-success anniu complete_btn" data-score="{{ $order->score }}">完成</a>
                                                     @endif
                                                     @if ($order->show_ship_button)
-                                                        <a href="/user/pay/orders/{{ $order->id }}/ship" class="am-btn am-btn-success anniu">确认收货</a>
+                                                        <a href="javascript:;" data-id="{{ $order->id }}" class="am-btn am-btn-success anniu confirm_btn">确认收货</a>
                                                     @endif
                                                         <hr>
                                                     @if ($order->show_refund_button)
@@ -135,7 +135,10 @@
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
                                 </form>
-
+                                <form id="confirm-form" action="/" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                    {{ method_field('PATCH') }}
+                                </form>
 
                             </div>
 
@@ -165,6 +168,15 @@
             });
         });
 
+
+        // 确认收货
+        $('.confirm_btn').click(function () {
+
+            let id = $(this).data('id');
+            let url = "/user/orders/"+ id +"/shipped";
+
+            $('#confirm-form').attr('action', url).submit();
+        });
 
         // 退款申请
         $('.refund_btn').click(function () {

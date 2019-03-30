@@ -72,6 +72,10 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     Route::put('likes/{id}', 'LikesController@toggle');
     Route::post('orders/single', 'OrderController@single');
     Route::resource('orders', 'OrderController')->only('index', 'show', 'destroy');
+
+    // 确认收货
+    // 完成订单增加积分
+    Route::patch('orders/{order}/shipped', 'OrderController@confirmShip');
     Route::get('orders/{order}/complete/score', 'OrderController@completeOrder');
 
     // 用户的积分

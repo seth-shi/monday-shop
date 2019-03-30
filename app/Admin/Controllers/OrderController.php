@@ -10,11 +10,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
 use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Facades\Admin;
 use Encore\Admin\Grid;
 use Encore\Admin\Grid\Displayers\Actions;
 use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Form;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yansongda\Pay\Pay;
 
@@ -30,10 +33,23 @@ class OrderController extends Controller
      */
     public function index(Content $content)
     {
+        Admin::js('/assets/admin/lib/layer/2.4/layer.js');
+
+
+        $baseUrl = admin_url();
+        // 发货表单
+        $shipForm = new Form();
+        $shipForm->method('post')
+                 ->action($baseUrl)
+                 ->attribute(['id' => 'ship_form', 'style' => 'display:none;'])
+                 ->disablePjax();
+
+
         return $content
             ->header('订单列表')
             ->description('')
-            ->body($this->grid());
+            ->body($this->grid())
+            ->row($shipForm->render());
     }
 
     /**
@@ -146,8 +162,17 @@ class OrderController extends Controller
         $show->field('user', '用户')->as(function ($user) {
             return optional($user)->name;
         });
+
+
+        $show->divider();
+
         $show->field('total', '总计');
         $show->field('status', '状态')->as(function ($status) {
+
+            // 如果订单是付款, 那么就修改为物流状态
+            if ($status == Order::STATUSES['ALI']) {
+                return OrderTransform::getInstance()->transShipStatus($this->ship_status);
+            }
 
             return OrderTransform::getInstance()->transStatus($status);
         });
@@ -155,7 +180,22 @@ class OrderController extends Controller
 
             return OrderTransform::getInstance()->transType($type);
         });
-        $show->field('address', '收货地址');
+
+        $show->divider();
+
+        $show->field('express_company', '物流公司');
+        $show->field('express_no', '物流单号');
+
+        $show->divider();
+
+        $show->field('consignee_name', '收货人');
+        $show->field('consignee_phone', '收货人手机');
+        $show->field('consignee_address', '收货地址');
+
+        $show->divider();
+
+        $show->field('refund_reason', '退款理由');
+        $show->field('pay_trade_no', '退款单号');
         $show->field('pay_no', '支付单号');
         $show->field('pay_time', '支付时间');
         $show->field('created_at', '创建时间');
@@ -265,5 +305,56 @@ class OrderController extends Controller
 
 
         return redirect()->back()->with('status', '退款成功，请关注你的支付账号');
+    }
+
+
+    /**
+     * 订单发货功能
+     *
+     * @param Request $request
+     * @param Order   $order
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function ship(Request $request, Order $order)
+    {
+        if (! $request->input('no')) {
+
+            return back()->withErrors('物流编号不能为空', 'error');
+        }
+
+        if ($order->status != Order::SHIP_STATUSES['PENDING']) {
+
+            return back()->withErrors('订单已经发货', 'error');
+        }
+
+        $order->ship_status = Order::SHIP_STATUSES['DELIVERED'];
+        $order->express_company = $request->input('name');
+        $order->express_no = $request->input('no');
+        $order->save();
+
+        admin_toastr('发货成功');
+
+        return redirect()->back();
+    }
+
+    public function confirmShip(Order $order)
+    {
+        // 前台查看订单详情物流
+        // 后台退款
+        if (! $order->isPay()) {
+
+            return back()->withErrors('订单未付款', 'error');
+        }
+
+        if ($order->ship_status != Order::SHIP_STATUSES['DELIVERED']) {
+
+            return back()->withErrors('订单未发货', 'error');
+        }
+
+        $order->ship_status = Order::SHIP_STATUSES['RECEIVED'];
+        $order->save();
+
+        admin_toastr('收货成功');
+        return redirect()->back();
     }
 }
