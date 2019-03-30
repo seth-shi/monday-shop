@@ -36,7 +36,7 @@ class PaymentNotificationController extends Controller
         // 后台异步通知接口有可能会因为网络问题接收不到
         // 使用轮询插接订单状态，如果支付了停止轮询
         try{
-            $data = $alipay->verify($request->all()); // 是的，验签就这么简单！
+            $data = $alipay->verify(); // 是的，验签就这么简单！
 
             // 验证 app_id
             // 可：判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额）；
