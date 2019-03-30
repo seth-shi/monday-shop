@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Enums\ScoreRuleIndexEnum;
 use App\Models\ScoreRule;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -143,7 +144,7 @@ class ScoreRuleController extends Controller
         $form = new Form(new ScoreRule);
 
         // 只有新增才能改变类型
-        $options = [ScoreRule::INDEX_CONTINUE_LOGIN => '连续登录', ScoreRule::INDEX_REVIEW_PRODUCT => '每日浏览商品'];
+        $options = [ScoreRuleIndexEnum::CONTINUE_LOGIN => '连续登录', ScoreRuleIndexEnum::VISITED_PRODUCT => '每日浏览商品'];
 
         if (is_null($id)) {
 

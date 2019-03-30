@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Admin\Transforms\OrderTransform;
 use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
+use App\Enums\ScoreRuleIndexEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Order;
@@ -155,7 +156,7 @@ class OrderController extends Controller
      */
     protected function getScoreRatio()
     {
-        $scoreRule = ScoreRule::query()->where('index_code', ScoreRule::INDEX_COMPLETE_ORDER)->firstOrFail();
+        $scoreRule = ScoreRule::query()->where('index_code', ScoreRuleIndexEnum::COMPLETE_ORDER)->firstOrFail();
 
         return $scoreRule->score ?? 1;
     }
