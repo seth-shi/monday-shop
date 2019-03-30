@@ -29,14 +29,14 @@ class PaymentNotificationController extends Controller
      */
     public function payNotify(Request $request)
     {
-        $payType = $this->config;
-        $alipay = Pay::alipay($payType);
+        $payType = 'ali';
+        $alipay = Pay::alipay($this->config);
 
         // TODO , 加一个轮询接口配合后台通知修改订单状态
         // 后台异步通知接口有可能会因为网络问题接收不到
         // 使用轮询插接订单状态，如果支付了停止轮询
         try{
-            $data = $alipay->verify(); // 是的，验签就这么简单！
+            $data = $alipay->verify($request->all()); // 是的，验签就这么简单！
 
             // 验证 app_id
             // 可：判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额）；
@@ -59,7 +59,7 @@ class PaymentNotificationController extends Controller
             Log::debug('Alipay notify', $data->all());
         } catch (\Exception $e) {
 
-            Log::debug('Alipay notify', $data->all());
+            Log::debug('Alipay notify', $e->getMessage());
         }
 
         return $alipay->success();
