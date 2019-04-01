@@ -4,14 +4,9 @@ namespace App\Admin\Controllers;
 
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Controllers\AuthController as BaseAuthController;
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends BaseAuthController
