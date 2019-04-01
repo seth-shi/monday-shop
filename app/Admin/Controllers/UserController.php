@@ -112,6 +112,7 @@ class UserController extends Controller
         });
         $grid->column('score_all', '总积分')->sortable();
         $grid->column('score_now', '剩余积分')->sortable();
+        $grid->column('login_ip', '登录地址');
         $grid->column('login_count', '登录次数')->sortable();
         $grid->column('is_active', '是否激活')->display(function ($isActive) {
 
@@ -152,6 +153,7 @@ class UserController extends Controller
         $show->field('github_name', 'Github昵称');
         $show->field('qq_name', 'QQ昵称');
         $show->field('weibo_name', '微博昵称');
+        $show->field('login_ip', '登录地址');
         $show->field('login_count', '登录次数');
         $show->field('is_active', '是否激活')->as(function ($isActive) {
 

@@ -21,6 +21,8 @@ class CreateAdminTables extends Migration
             $table->string('name');
             $table->string('avatar')->nullable();
             $table->string('remember_token', 100)->nullable();
+            $table->string('login_ip')->nullable()->comment('登录的 ip');
+
             $table->timestamps();
         });
 

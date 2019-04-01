@@ -13,6 +13,9 @@ Route::group([
     $router->fallback('HomeController@noFound');
     $router->get('/', 'HomeController@index');
 
+    // 覆盖默认的用户管理
+    $router->get('auth/users', 'AuthController@userIndex');
+
     // 系统的配置
     $router->resource('settings', 'SettingController')->only('index', 'show', 'edit', 'update');
 
