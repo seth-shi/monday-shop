@@ -77,17 +77,18 @@ function setting($indexName, $default = null)
 {
     $key = \App\Models\Setting::cacheKey($indexName);
 
-    $value = Cache::rememberForever($key, function () use ($indexName) {
+    $val = Cache::get($key);
+    if (is_null($val)) {
 
-        return \App\Models\Setting::query()->where('index_code', $indexName)->value('value');
-    });
+        $val = \App\Models\Setting::query()->where('index_code', $indexName)->value('value');
+        if (is_null($val)) {
+            return $default;
+        }
 
-    if ($value) {
-
-        return $value;
+        Cache::put($key, $val);
     }
 
-    return $default;
+    return $val;
 }
 
 
