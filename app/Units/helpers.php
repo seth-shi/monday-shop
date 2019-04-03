@@ -91,6 +91,22 @@ function setting(\App\Enums\SettingIndexEnum $settingEnum, $default = null)
     return $val;
 }
 
+/**
+ * 生成系统日志
+ *
+ * @param       $description
+ * @param array $input
+ */
+function createSystemLog($description, $input = [])
+{
+    $operate = new \Encore\Admin\Auth\Database\OperationLog();
+    $operate->path = config('app.url');
+    $operate->method = 'GET';
+    $operate->ip = '127.0.0.1';
+    $operate->input = json_encode($input);
+    $operate->description = $description;
+    $operate->save();
+}
 
 /**
  * 响应 json

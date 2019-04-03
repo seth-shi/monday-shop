@@ -14,7 +14,7 @@ class AuthController extends BaseAuthController
 
 
     /**
-     * Handle a login request.
+     * 覆盖默认的登录方法
      *
      * @param Request $request
      *
@@ -48,8 +48,11 @@ class AuthController extends BaseAuthController
         ]);
     }
 
-
-
+    /**
+     * 登录之后提示 ip 地址
+     *
+     * @param Administrator $user
+     */
     protected function authenticated(Administrator $user)
     {
         $ip = request()->getClientIp();
@@ -62,42 +65,5 @@ class AuthController extends BaseAuthController
 
         $user->login_ip = $ip;
         $user->save();
-    }
-
-    public function userIndex(Content $content)
-    {
-        return $content
-            ->header(trans('admin.administrator'))
-            ->description(trans('admin.list'))
-            ->body($this->grid()->render());
-    }
-
-    protected function grid()
-    {
-        $userModel = config('admin.database.users_model');
-
-        $grid = new Grid(new $userModel());
-
-        $grid->id('ID')->sortable();
-        $grid->username(trans('admin.username'));
-        $grid->name(trans('admin.name'));
-        $grid->column('login_ip', '登录ip');
-        $grid->roles(trans('admin.roles'))->pluck('name')->label();
-        $grid->created_at(trans('admin.created_at'));
-        $grid->updated_at(trans('admin.updated_at'));
-
-        $grid->actions(function (Grid\Displayers\Actions $actions) {
-            if ($actions->getKey() == 1) {
-                $actions->disableDelete();
-            }
-        });
-
-        $grid->tools(function (Grid\Tools $tools) {
-            $tools->batch(function (Grid\Tools\BatchActions $actions) {
-                $actions->disableDelete();
-            });
-        });
-
-        return $grid;
     }
 }

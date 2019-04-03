@@ -14,7 +14,9 @@ Route::group([
     $router->get('/', 'HomeController@index');
 
     // 覆盖默认的用户管理
-    $router->get('auth/users', 'AuthController@userIndex');
+    $router->get('auth/users', 'AdminController@index');
+    // 覆盖默认的操作日志
+    $router->get('auth/logs', 'AdminController@indexLogs');
 
     // 系统的配置
     $router->resource('settings', 'SettingController')->only('index', 'show', 'edit', 'update');

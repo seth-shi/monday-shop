@@ -83,11 +83,14 @@ class CreateAdminTables extends Migration
 
         Schema::connection($connection)->create(config('admin.database.operation_log_table'), function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+
+            $table->integer('user_id')->nullable();
             $table->string('path');
             $table->string('method', 10);
             $table->string('ip');
-            $table->text('input');
+            $table->text('input')->nullable();
+            $table->text('description')->nullable();
+
             $table->index('user_id');
             $table->timestamps();
         });

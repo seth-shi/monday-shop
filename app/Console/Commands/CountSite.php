@@ -52,7 +52,8 @@ class CountSite extends Command
          */
         $site = SiteCount::query()->firstOrNew(compact('date'));
         $site = $service->syncByCache($site, true);
-
         $site->save();
+
+        createSystemLog('系统统计站点数据', $site->toArray());
     }
 }

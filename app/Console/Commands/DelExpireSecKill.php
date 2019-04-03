@@ -40,12 +40,14 @@ class DelExpireSecKill extends Command
      */
     public function handle()
     {
+        $rollbacks = collect();
+
         // 查出已经过期确没有回滚过的秒杀，
         Seckill::query()
                ->where('is_rollback', 0)
                ->where('end_at', '<', Carbon::now()->toDateTimeString())
                ->get()
-               ->map(function (Seckill $seckill) {
+               ->map(function (Seckill $seckill) use ($rollbacks) {
 
                    // 1. 回滚数量到商品
                    // 2. 设置为过期
@@ -75,9 +77,16 @@ class DelExpireSecKill extends Command
                    $seckill->is_rollback = 1;
                    $seckill->save();
 
+                   $rollbacks->push($seckill);
+
                    // 删除掉秒杀数据
                    $ids = Redis::connection()->keys("seckills:{$seckill->id}:*");
                    Redis::del($ids);
                });
+
+        if ($rollbacks->isNotEmpty()) {
+
+            createSystemLog('系统回滚秒杀数据', $rollbacks->toArray());
+        }
     }
 }
