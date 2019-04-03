@@ -4,63 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21eccdb2ada5f76cd48fc6cec8241ba1",
+    "content-hash": "4bd65178fef4cbfd03316d6ed67b7d72",
     "packages": [
-        {
-            "name": "acelaya/doctrine-enum-type",
-            "version": "v2.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/acelaya/doctrine-enum-type.git",
-                "reference": "361ed7d27b705812086051258547d5d50e711285"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/acelaya/doctrine-enum-type/zipball/361ed7d27b705812086051258547d5d50e711285",
-                "reference": "361ed7d27b705812086051258547d5d50e711285",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "doctrine/dbal": "^2.6",
-                "myclabs/php-enum": "^1.4",
-                "php": "^7.1"
-            },
-            "require-dev": {
-                "infection/infection": "^0.12.0",
-                "phpstan/phpstan": "^0.11.1",
-                "phpunit/phpunit": "^8.0 || ^7.0",
-                "shlinkio/php-coding-standard": "1.0.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Acelaya\\Doctrine\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alejandro Celaya",
-                    "email": "alejandro@alejandrocelaya.com"
-                }
-            ],
-            "description": "A custom Doctrine type that maps column values to enum objects using myclabs/php-enum",
-            "keywords": [
-                "doctrine",
-                "enum",
-                "type"
-            ],
-            "time": "2019-02-08T19:20:58+00:00"
-        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",

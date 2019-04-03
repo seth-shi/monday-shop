@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SettingIndexEnum;
 use App\Enums\UserSourceEnum;
 use App\Enums\UserStatusEnum;
 use App\Mail\ResetPassword;
@@ -211,7 +212,8 @@ class User extends Authenticatable
 
             if (! isset($model->attributes['password'])) {
 
-                $model->attributes['password'] = bcrypt(setting('user_init_password', '123456'));
+                $setting = new SettingIndexEnum(SettingIndexEnum::USER_INIT_PASSWORD);
+                $model->attributes['password'] = bcrypt(setting($setting, '123456'));
             }
 
         });

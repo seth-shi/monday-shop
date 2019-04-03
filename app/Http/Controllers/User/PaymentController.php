@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\SettingIndexEnum;
 use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
@@ -72,7 +73,8 @@ class PaymentController extends Controller
         DB::commit();
 
         // 当订单超过三十分钟未付款，自动取消订单
-        $delay = Carbon::now()->addMinute(setting('order_un_pay_auto_cancel_time', 30));
+        $settingKey = new SettingIndexEnum(SettingIndexEnum::UN_PAY_CANCEL_TIME);
+        $delay = Carbon::now()->addMinute(setting($settingKey, 30));
         CancelUnPayOrder::dispatch($masterOrder)->delay($delay);
 
         // 生成支付信息

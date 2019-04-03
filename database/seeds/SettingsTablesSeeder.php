@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SettingIndexEnum;
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Auth\Database\Menu;
 use Encore\Admin\Auth\Database\Permission;
@@ -10,21 +11,22 @@ class SettingsTablesSeeder extends Seeder
 {
     public function run()
     {
+        // TODO 优化为使用枚举代替字符串 index_code
         $settings = [
             [
-                'index_code' => 'user_init_password',
+                'index_code' => SettingIndexEnum::USER_INIT_PASSWORD,
                 'value' => '123456',
                 'type' => 'text',
                 'description' => '注册用户的初始密码'
             ],
             [
-                'index_code' => 'is_open_seckill',
+                'index_code' => SettingIndexEnum::IS_OPEN_SECKILL,
                 'value' => 0,
                 'type' => 'switch',
                 'description' => '是否开始秒杀功能模块（需要配置好 redis）'
             ],
             [
-                'index_code' => 'order_un_pay_auto_cancel_time',
+                'index_code' => SettingIndexEnum::UN_PAY_CANCEL_TIME,
                 'value' => 30,
                 'type' => 'number',
                 'description' => '用户下订单之后，多久未付款自动取消订单。单位为分钟'
