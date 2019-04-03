@@ -46,6 +46,7 @@ class UpdateCacheHomeData extends Command
         $latestProducts = Product::query()->withCount('users')->latest()->take(9)->get();
         $users = User::query()->orderBy('login_count', 'desc')->take(10)->get(['avatar', 'name']);
 
+        // 更换成枚举
         Cache::forever('home:categories', $categories);
         Cache::forever('home:hottest', $hotProducts);
         Cache::forever('home:latest', $latestProducts);
