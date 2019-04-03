@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\SiteCountCacheEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
@@ -104,7 +105,7 @@ class Order extends Model
         static::created(function ($model) {
 
             // 订单成交量
-            Cache::increment("site_counts:order_count");
+            Cache::increment(SiteCountCacheEnum::ORDER_COUNT);
         });
 
         static::saved(function ($model) {
@@ -112,29 +113,29 @@ class Order extends Model
             // 支付
             if ($model->status == OrderStatusEnum::PAID) {
                 // 订单成交量
-                Cache::increment("site_counts:order_pay_count");
+                Cache::increment(SiteCountCacheEnum::PAY_ORDER_COUNT);
 
-                $currMoney = Cache::get('site_counts:sale_money_count', 0);
+                $currMoney = Cache::get(SiteCountCacheEnum::SALE_ORDER_COUNT, 0);
                 if (function_exists('bcadd')) {
                     $money = bcadd($currMoney, $model->pay_total);
                 } else {
                     $money = $currMoney + $model->pay_total;
                 }
 
-                Cache::set("site_counts:sale_money_count", $money);
+                Cache::set(SiteCountCacheEnum::SALE_ORDER_COUNT, $money);
             }
             // 退款
             elseif ($model->status == OrderStatusEnum::REFUND) {
 
-                $currMoney = Cache::get('site_counts:sale_money_count', 0);
+                $currMoney = Cache::get(SiteCountCacheEnum::SALE_ORDER_COUNT, 0);
                 if (function_exists('bcsub')) {
                     $money = bcsub($currMoney, $model->pay_refund_fee);
                 } else {
                     $money = $currMoney - $model->pay_refund_fee;
                 }
 
-                Cache::increment('site_counts:refund_pay_count');
-                Cache::set("site_counts:sale_money_count", $money);
+                Cache::increment(SiteCountCacheEnum::REFUND_ORDER_COUNT);
+                Cache::set(SiteCountCacheEnum::SALE_ORDER_COUNT, $money);
             }
 
         });

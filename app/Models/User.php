@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\SettingIndexEnum;
+use App\Enums\SiteCountCacheEnum;
 use App\Enums\UserSourceEnum;
 use App\Enums\UserStatusEnum;
 use App\Mail\ResetPassword;
@@ -224,8 +225,23 @@ class User extends Authenticatable
             // 存入 redis 缓存，每日更新到统计表
             $source = UserSourceEnum::search($model->source) ?: UserSourceEnum::search(UserSourceEnum::MOON);
 
-            Cache::increment("site_counts:{$source}_registered_count");
-            Cache::increment("site_counts:registered_count");
+            $registerKey = SiteCountCacheEnum::MOON_REGISTER_COUNT;
+            switch ($source) {
+                case 'qq':
+                    $registerKey = SiteCountCacheEnum::QQ_REGISTER_COUNT;
+                    break;
+                case 'weibo':
+                    $registerKey = SiteCountCacheEnum::WEIBO_REGISTER_COUNT;
+                    break;
+                case 'github':
+                    $registerKey = SiteCountCacheEnum::GITHUB_REGISTERED_COUNT;
+                    break;
+                default:
+                    break;
+            }
+
+            Cache::increment($registerKey);
+            Cache::increment(SiteCountCacheEnum::REGISTERED_COUNT);
         });
     }
 }
