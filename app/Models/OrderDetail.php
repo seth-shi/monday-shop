@@ -59,18 +59,4 @@ class OrderDetail extends Model
     {
         return $this->hasOne(Comment::class);
     }
-
-
-    public static function boot()
-    {
-        parent::boot();
-
-
-
-        static::created(function ($model) {
-
-            // 有过有取消订单功能，记得减去数量
-            Cache::increment("site_counts:product_sale_number_count", $model->number);
-        });
-    }
 }
