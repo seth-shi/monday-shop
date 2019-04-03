@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\HomeCacheEnum;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
@@ -47,9 +48,9 @@ class UpdateCacheHomeData extends Command
         $users = User::query()->orderBy('login_count', 'desc')->take(10)->get(['avatar', 'name']);
 
         // 更换成枚举
-        Cache::forever('home:categories', $categories);
-        Cache::forever('home:hottest', $hotProducts);
-        Cache::forever('home:latest', $latestProducts);
-        Cache::forever('home:users', $users);
+        Cache::forever(HomeCacheEnum::CATEGORIES, $categories);
+        Cache::forever(HomeCacheEnum::HOTTEST, $hotProducts);
+        Cache::forever(HomeCacheEnum::LATEST, $latestProducts);
+        Cache::forever(HomeCacheEnum::USERS, $users);
     }
 }

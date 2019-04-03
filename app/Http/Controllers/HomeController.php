@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\HomeCacheEnum;
 use App\Enums\SettingIndexEnum;
 use App\Models\Category;
 use App\Models\Product;
@@ -27,19 +28,19 @@ class HomeController extends Controller
         // 取出后台排序好的九个分类，并且关联出商品的总数
         // 如没有 key，存入缓存中，防止用户未配置好任务调度确访问首页
         // 数据将不会从首页更新，每分钟任务调度更新，请务必配置好
-        $categories = Cache::rememberForever('home:categories', function () {
+        $categories = Cache::rememberForever(HomeCacheEnum::CATEGORIES, function () {
 
             return Category::query()->withCount('products')->orderBy('order')->take(9)->get();
         });
-        $hotProducts = Cache::rememberForever('home:hottest', function () {
+        $hotProducts = Cache::rememberForever(HomeCacheEnum::HOTTEST, function () {
 
             return Product::query()->withCount('users')->orderBy('sale_count', 'desc')->take(3)->get();
         });
-        $latestProducts = Cache::rememberForever('home:latest', function () {
+        $latestProducts = Cache::rememberForever(HomeCacheEnum::LATEST, function () {
 
             return Product::query()->withCount('users')->latest()->take(9)->get();
         });
-        $users = Cache::rememberForever('home:users', function () {
+        $users = Cache::rememberForever(HomeCacheEnum::USERS, function () {
 
             return User::query()->orderBy('login_count', 'desc')->take(10)->get(['avatar', 'name']);
         });
