@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SettingIndexEnum;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Seckill;
@@ -45,7 +46,11 @@ class HomeController extends Controller
 
         // 秒杀数据
         $secKills = collect();
-        if (setting('is_open_seckill') == 1) {
+
+        $setting = new SettingIndexEnum(SettingIndexEnum::IS_OPEN_SECKILL);
+        $isOpenSeckill = setting($setting) == 1;
+
+        if ($isOpenSeckill) {
 
 
             // 只要秒杀没有结束，都要查出来。且还有数量的
@@ -94,7 +99,7 @@ class HomeController extends Controller
 
         return view(
             'homes.index',
-            compact('categories', 'hotProducts', 'latestProducts', 'users', 'secKills', 'loginUser')
+            compact('categories', 'hotProducts', 'latestProducts', 'users', 'secKills', 'loginUser', 'isOpenSeckill')
         );
     }
 }

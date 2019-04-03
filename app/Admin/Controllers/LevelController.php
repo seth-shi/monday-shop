@@ -92,6 +92,15 @@ class LevelController extends Controller
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '更新时间');
 
+
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
+
+            $level = $actions->row;
+            if (! $level->can_delete) {
+                $actions->disableDelete();
+            }
+        });
+
         return $grid;
     }
 

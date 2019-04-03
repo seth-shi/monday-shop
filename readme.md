@@ -77,7 +77,7 @@ composer install
 cp .env.example .env
 ```
 4. 开启秒杀功能
-    * 安装前可以把`database/seeds/SettingsTablesSeeder.php`中的`is_open_seckill`设置为`1`
+    * 安装前可以把`database/seeds/SettingsTablesSeeder.php`中的秒杀开启设置为`1`
     * 安装之后可以直接通过后台管理系统设置中的配置设置管理
 5. 使用安装命令(会执行执行数据库迁移，填充，等)
 ```shell

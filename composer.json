@@ -6,7 +6,6 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "acelaya/doctrine-enum-type": "^2.2",
         "encore/laravel-admin": "^1.6",
         "fideloper/proxy": "~3.3",
         "gregwar/captcha": "1.*",
@@ -15,6 +14,7 @@
         "jenssegers/agent": "^2.6",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "myclabs/php-enum": "^1.6",
         "overtrue/pinyin": "~4.0",
         "overtrue/socialite": "^2.0",
         "predis/predis": "^1.1",
