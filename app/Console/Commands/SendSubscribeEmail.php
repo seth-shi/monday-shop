@@ -40,12 +40,9 @@ class SendSubscribeEmail extends Command
      */
     public function handle()
     {
-        Subscribe::query()
-                 ->get()
-                 ->map(function(Subscribe $item){
+        $mails = Subscribe::query()->where('is_subscribe', 1)->pluck('email');
 
-                     // 不要一次 to 多个用户，会暴露其他人的邮箱
-                     Mail::to($item->email)->send(new SubscribesNotice());
-                 });
+        // 不要一次 to 多个用户，会暴露其他人的邮箱
+        Mail::to($mails)->send(new SubscribesNotice());
     }
 }

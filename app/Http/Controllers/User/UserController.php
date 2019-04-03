@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Level;
 use App\Models\Product;
 use App\Models\ScoreRule;
+use App\Models\Subscribe;
 use App\Models\User;
 use App\Services\ScoreLogServe;
 use App\Services\UploadServe;
@@ -160,20 +161,28 @@ class UserController extends Controller
 
     public function subscribe(Request $request)
     {
-        $query = $this->user()->subscribe();
+        $subscribeModel = $this->user()->subscribe()->firstOr(function () {
 
-        // 取消订阅
-        if ((clone $query)->exists()) {
+            return new Subscribe();
+        });
 
-            $query->delete();
+        $subscribeModel->email = $request->input('email');
+        // 如果已经存在了记录
+        if ($subscribeModel->exists) {
 
-            return responseJson(200, '取消订阅成功');
+            // 如果是已经有数据的, 代表已经订阅过了
+            $subscribeModel->is_subscribe = ! $subscribeModel->is_subscribe;
+        } else {
+            $subscribeModel->is_subscribe = 1;
+            $subscribeModel->user_id = $this->user()->id;
+        }
+        $subscribeModel->save();
+
+        if ($subscribeModel->is_subscribe) {
+            return responseJson(201, '订阅成功');
         }
 
-        // 订阅邮件
-        $query->create($request->only('email'));
-
-        return responseJson(201, '订阅成功');
+        return responseJson(200, '欢迎下次再订阅');
     }
 
     /**

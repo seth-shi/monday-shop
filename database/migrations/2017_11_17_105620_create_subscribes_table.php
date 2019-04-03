@@ -19,6 +19,7 @@ class CreateSubscribesTable extends Migration
 
             $table->unsignedInteger('user_id');
             $table->string('email');
+            $table->boolean('is_subscribe');
 
             $table->timestamps();
         });

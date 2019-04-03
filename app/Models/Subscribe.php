@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
 class Subscribe extends Model
 {
     protected $table = 'subscribes';
-    protected $fillable = ['email', 'user_id'];
+    protected $fillable = ['email', 'user_id', 'is_subscribe'];
 
     public function user()
     {
