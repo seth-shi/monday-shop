@@ -46,7 +46,12 @@ class RemindUsersHasSeckill implements ShouldQueue
                 ->get()
                 ->map(function (User $user) use ($product) {
 
-                    Mail::to($user->email)->send(new RemindUserHasSeckillEmail($this->seckill, $product));
+                    try {
+
+                        Mail::to($user->email)->send(new RemindUserHasSeckillEmail($this->seckill, $product));
+                    } catch (\Exception $e) {
+
+                    }
                 });
 
 
