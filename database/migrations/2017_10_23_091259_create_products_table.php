@@ -36,6 +36,8 @@ class CreateProductsTable extends Migration
 
             $table->softDeletes()->comment('是否上架');
 
+            $table->index('uuid');
+
             $table->timestamps();
         });
 
