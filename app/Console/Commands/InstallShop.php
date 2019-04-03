@@ -54,6 +54,9 @@ class InstallShop extends BaseCommand
         $this->call('moon:copy');
         $this->call('storage:link');
 
+        // 更新首页数据,防止上一次遗留
+        $this->call('moon:update-home');
+
 
         // 直接开启监听队列
         // $this->info('queue starting please don`t close cmd windows!!!');
