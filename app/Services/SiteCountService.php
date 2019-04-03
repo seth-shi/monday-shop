@@ -26,6 +26,7 @@ class SiteCountService
                 $value = Cache::get($key);
             }
 
+            $key = str_replace('site_counts:', '', $key);
             $siteModel->{$key} += $value;
         }
 

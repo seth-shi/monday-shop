@@ -25,7 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        dd(SiteCountCacheEnum::toArray());
         // 取出后台排序好的九个分类，并且关联出商品的总数
         // 如没有 key，存入缓存中，防止用户未配置好任务调度确访问首页
         // 数据将不会从首页更新，每分钟任务调度更新，请务必配置好
