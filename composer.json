@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "barryvdh/laravel-cors": "^0.11.3",
         "encore/laravel-admin": "^1.6",
         "fideloper/proxy": "~3.3",
         "gregwar/captcha": "1.*",
@@ -19,6 +20,7 @@
         "overtrue/socialite": "^2.0",
         "predis/predis": "^1.1",
         "ramsey/uuid": "^3.8",
+        "tymon/jwt-auth": "1.0.0-rc.4.1",
         "yansongda/pay": "^2.5"
     },
     "require-dev": {

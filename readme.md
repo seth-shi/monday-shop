@@ -1,11 +1,25 @@
 # DavidNineRoc/monday-shop
-****
+## 目录说明
+* [演示地址](#演示地址)
+* [页面展示](#页面展示)
+* [特色](#Feature)
+* [安装](#Installation)
+* [命令行功能](#Commands)
+* [秒杀处理逻辑](#秒杀处理逻辑)
+* [API文档(新)](#API)
+* [依赖的 Packages](#Packages)
+* [文章引用](#Reference)
+* [错误/注意点](#Notice)
+* [协议](#License)
+
+## 演示地址
 [演示地址：http://shop.shiguopeng.cn](http://shop.shiguopeng.cn)
 
 [后台地址：http://shop.shiguopeng.cn/admin](http://shop.shiguopeng.cn/admin)
 * 账号：`admin`
 * 密码：`admin`
-****
+
+## 页面展示
 ![PC首页](public/media/index_pc.png)
 ![支付](public/media/pay.gif)
 ![个人中心](public/media/map_center.png)
@@ -13,7 +27,8 @@
 ![积分详情](public/media/score_detail.png)
 ![后台仪表盘](public/media/admin/dash_board.png)
 ![后台订单列表](public/media/admin/orders.png)
-## Feture
+
+## Feature
 - [x] **首页数据全走缓存（推荐使用`Redis`驱动）**
     * [x] 未登录的首页，零数据库查询，通过缓存驱动
     * [x] 计划任务每分钟会更新一次首页数据
@@ -91,7 +106,8 @@ php artisan moon:install
         * `nohup php artisan queue:work --tries=3 &`
     * `windows`系统直接打开一个命令行窗口，运行命令，不要关闭窗口即可
         * `php artisan queue:work --tries=3`
-### Commands
+
+## Commands
 | 命令  | 一句话描述 |
 | ----- | --- |
 |`php artisan moon:install`|安装应用程序|
@@ -169,6 +185,74 @@ Seckill::query()
 
 ```
 
+## API
+* 接口响应数据说明
+    * 响应的数据格式总是保证拥有基本元素(`code`, `msg`, `data`)
+    * `code` 请参考接口全局状态码说明
+    * `msg`  此次请求消息,如果返回状态码为非成功,可直接展示`msg`
+    * `data` 如果为列表页将会一个数组类型(如商品列表),否则为一个对象类型(商品详情)
+    * 如有额外扩展字段, 将于基本元素平级, 如分页的`count`
+```json
+{
+	"code": 401,
+	"msg": "无效的token",
+	"data": []
+}
+```
+* 刷新`token`说明
+    * 为了保证安全性,`token`的有效时间为`60`分钟
+    * 当旧的`token`失效时,服务器会主动刷新,并在响应头加入`Authorization`
+    * 这时候旧的`token`将会加入黑名单不能再使用, 请将在响应头中新的`token`保存使用
+    * 当服务器主动刷新之后,会有一个期限(`2`周).服务器将无法再刷新,将返回`402`状态码,请重新登录账户
+* `token`使用流程说明
+```javascript
+// 全局请求类
+function request(_method, _url, _param, _func) {
+
+    $.ajax({
+        method: _method,
+        url: _url,
+        data: _param,
+        beforeSend: function (xhr) {
+            console.log(xhr);
+            xhr.setRequestHeader('Authorization', localStorage.getItem('api_token'))
+        },
+        complete: function (xhr, a, b) {
+
+            if (xhr.getResponseHeader('Authorization')) {
+                localStorage.setItem('api_token', xhr.getResponseHeader('Authorization'))
+            }
+        },
+        success: function (res) {
+
+            // token 永久过期
+            if (res.code === 402) {
+                // 跳去登录页面
+                return false;
+            }
+            // 更多状态码判断
+        }
+    });
+}
+
+// 第一次登录保存 token, 之后使用全局类请求数据即可
+
+```
+    
+* 接口全局状态码说明(建议封装一个全局请求类或者中间件,统一处理全局状态码)
+    * `200`
+        * 请求数据成功
+    * `401` 
+        * 身份验证出错(未登录就请求数据)
+        * 非法无效的`token`
+        * `token`已被加入黑名单(一般不会出现这个问题,出现这个问题那么就是你刷新 token 的逻辑有问题)
+    * `402`
+        * `token`已完全失效,后台暂设为 2 周,再也无法刷新,请重新登录账户
+    * `500`
+        * 服务器出错,具体请参考响应的消息
+* 接口文档
+[接口文档](http://shop.shiguopeng.cn/docs.html)
+
 ## Packages
 | 扩展包 | 一句话描述 | 在本项目中的使用案例 |
 | --- | --- | --- |
@@ -180,9 +264,11 @@ Seckill::query()
 |[renatomarinho/laravel-page-speed](https://github.com/renatomarinho/laravel-page-speed)|压缩页面DOM|打包优化您的网站自动导致35％以上的优化（已移除使用）|
 |[overtrue/laravel-pinyin](https://github.com/overtrue/laravel-pinyin)|汉语拼音翻译|分类首字母查询|
 |[acelaya/doctrine-enum-type](https://github.com/acelaya/doctrine-enum-type)|枚举|优化代码中的映射|
+
 ## Reference
 * [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
+
 ## Notice
 * 建议开启`bcmath`扩展保证字符串数字运算正确
 * 监听队列如果长时间没反应，或者一直重复任务
@@ -192,5 +278,6 @@ Seckill::query()
     * 请删除`composer.lock`文件，重新运行`composer install`
 * `SQLSTATE[HY000]: General error: 1215 Cannot add foreign key constraint`
     * 数据库引擎切换到`InnoDB`
+
 ## License
-MIT
+The MIT License (MIT)

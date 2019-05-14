@@ -8,6 +8,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Tymon\JWTAuth\Providers\LaravelServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,13 +20,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // 如果在后台运行, 启动后台服务
-        if (request()->is('admin*') || app()->runningInConsole()) {
+        if (request()->is('admin*')) {
+
+            $this->registerAdminService();
+        } elseif (request()->is('api*')) {
+
+            config(['auth.defaults.guard' => 'api']);
+            $this->registerJwtService();
+        } elseif ($this->app->runningInConsole()) {
 
             Schema::defaultStringLength(191);
-            // 注册门面
-            AliasLoader::getInstance()->alias('Admin', Admin::class);
-
-            $this->app->register(AdminServiceProvider::class);
+            $this->registerJwtService();
+            $this->registerAdminService();
         }
     }
 
@@ -36,5 +42,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+    }
+
+    protected function registerAdminService()
+    {
+        AliasLoader::getInstance()->alias('Admin', Admin::class);
+        $this->app->register(AdminServiceProvider::class);
+    }
+
+    protected function registerJwtService()
+    {
+        $this->app->register(LaravelServiceProvider::class);
     }
 }
