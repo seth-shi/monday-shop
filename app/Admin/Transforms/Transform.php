@@ -12,10 +12,13 @@ class Transform
      */
     public static function getInstance()
     {
-        if (is_null(static::$instance)) {
-            static::$instance = new static();
+        $class = static::class;
+
+        if (! isset(static::$instance[$class])) {
+            static::$instance[$class] = new static();
         }
 
-        return static::$instance;
+
+        return static::$instance[$class];
     }
 }
