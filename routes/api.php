@@ -12,7 +12,7 @@ Route::group($attributes, function () {
     Route::group(['middleware' => 'auth.api.refresh'], function () {
 
 
-        Route::get('/ping', 'HomeController@ping');
+        Route::delete('tokens', 'AuthController@logout');
     });
 
     // 登录接口

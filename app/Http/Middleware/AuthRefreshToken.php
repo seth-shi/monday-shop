@@ -27,8 +27,6 @@ class AuthRefreshToken extends BaseMiddleware
          ****************************************/
         if (! $this->auth->parser()->hasToken()) {
 
-            return $this->setAuthenticationHeader($next($request), 'gps');
-
             return responseJsonAsUnAuthorized('未在请求中找到 token 验证信息');
         }
 
