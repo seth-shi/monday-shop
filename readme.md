@@ -13,6 +13,7 @@
 ![积分详情](public/media/score_detail.png)
 ![后台仪表盘](public/media/admin/dash_board.png)
 ![后台订单列表](public/media/admin/orders.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FDavidNineRoc%2Fmonday-shop.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FDavidNineRoc%2Fmonday-shop?ref=badge_shield)
 ## Feture
 - [x] **首页数据全走缓存（推荐使用`Redis`驱动）**
     * [x] 未登录的首页，零数据库查询，通过缓存驱动
@@ -194,3 +195,6 @@ Seckill::query()
     * 数据库引擎切换到`InnoDB`
 ## License
 MIT
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FDavidNineRoc%2Fmonday-shop.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FDavidNineRoc%2Fmonday-shop?ref=badge_large)
