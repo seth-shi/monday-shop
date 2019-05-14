@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -62,6 +63,11 @@ class Handler extends ExceptionHandler
 
                 $msg = $mapExceptions[get_class($exception)] ?? $exception->getMessage();
                 return responseJsonAsUnAuthorized($msg);
+            }
+            // 拦截表单验证错误抛出的异常
+            elseif ($exception instanceof ValidationException) {
+
+                return responseJsonAsBadRequest($exception->validator->errors()->first());
             }
 
 
