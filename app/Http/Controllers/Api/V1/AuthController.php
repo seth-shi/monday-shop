@@ -31,4 +31,11 @@ class AuthController extends Controller
 
         return responseJson(200, '登录成功', compact('prefix', 'token'));
     }
+
+    public function logout()
+    {
+        auth('api')->logout();
+
+        return responseJson(200, '注销成功');
+    }
 }
