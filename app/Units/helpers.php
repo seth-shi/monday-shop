@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . '/response.php';
 
 /**
  * 根据路径生成一个图片标签
@@ -106,17 +107,4 @@ function createSystemLog($description, $input = [])
     $operate->input = json_encode($input);
     $operate->description = $description;
     $operate->save();
-}
-
-/**
- * 响应 json
- *
- * @param int    $code
- * @param string $msg
- * @param array  $data
- * @return \Illuminate\Http\JsonResponse
- */
-function responseJson($code = 200, $msg = 'success', $data = [])
-{
-    return response()->json(compact('code', 'msg', 'data'));
 }

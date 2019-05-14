@@ -2,19 +2,19 @@
 
 
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+$attributes = [
+    'prefix' => 'v1',
+    'namespace' => 'Api\V1'
+];
+Route::group($attributes, function () {
 
-/*
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    // 这里的接口都必须登录
+    Route::group(['middleware' => 'auth.api.refresh'], function () {
+
+
+        Route::get('/ping', 'HomeController@ping');
+    });
+
+    // 登录接口
+    Route::post('tokens', 'AuthController@login');
 });
-*/

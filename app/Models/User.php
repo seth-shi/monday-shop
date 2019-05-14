@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * App\Models\User
@@ -74,7 +75,7 @@ use Illuminate\Support\Facades\Mail;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWeiboName($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -176,7 +177,6 @@ class User extends Authenticatable
     }
 
 
-
     /**
      * rewrite send reset password email
      * @param string $token
@@ -185,17 +185,6 @@ class User extends Authenticatable
     {
         Mail::to($this->email)
             ->queue(new ResetPassword($token));
-    }
-
-
-    /**
-     * 用户是否激活
-     *
-     * @return bool
-     */
-    public function isActive()
-    {
-        return $this->is_active == UserStatusEnum::ACTIVE;
     }
 
     /**
@@ -243,5 +232,16 @@ class User extends Authenticatable
             Cache::increment($registerKey);
             Cache::increment(SiteCountCacheEnum::REGISTERED_COUNT);
         });
+    }
+
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
     }
 }

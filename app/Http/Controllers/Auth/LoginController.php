@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\ScoreLogServe;
@@ -77,7 +78,7 @@ class LoginController extends Controller
         if ($user instanceof User  && \Hash::check($request->input('password'), $user->password)) {
 
             // 如果用户没有激活
-            if (! $user->isActive()) {
+            if ($user->is_active == UserStatusEnum::UN_ACTIVE) {
 
                 // 显示 再次发送激活链接
                 return redirect('login')->withInput()

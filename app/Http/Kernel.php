@@ -2,9 +2,11 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AuthRefreshToken;
 use App\Http\Middleware\RecordUserLoginDays;
 use App\Http\Middleware\ShareCarSum;
 use App\Http\Middleware\UserAuth;
+use Barryvdh\Cors\HandleCors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 
@@ -47,6 +49,9 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+
+            // 跨域使用
+            HandleCors::class,
         ],
     ];
 
@@ -65,7 +70,12 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
+        // 用户登录验证
         'user.auth' => UserAuth::class,
+        // 用户购物车
         'user.cars' => ShareCarSum::class,
+
+        // api 刷新token
+        'auth.api.refresh' => AuthRefreshToken::class,
     ];
 }

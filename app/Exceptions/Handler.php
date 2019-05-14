@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +51,23 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->is('api*')) {
+
+            if ($exception instanceof JWTException) {
+
+                $mapExceptions = [
+                    TokenInvalidException::class => '无效的token',
+                    TokenBlacklistedException::class => 'token 已被加入黑名单,请重新登录'
+                ];
+
+                $msg = $mapExceptions[get_class($exception)] ?? $exception->getMessage();
+                return responseJsonAsUnAuthorized($msg);
+            }
+
+
+            return responseJsonAsServerError($exception->getMessage());
+        }
+
 
         return parent::render($request, $exception);
     }

@@ -1,0 +1,97 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "这是<a target='_blank' href='https://github.com/DavidNineRoc/monday-shop'>monday-shop</a>的 api 文档, 在这里你可以看到所有可用的 API",
+    "version": "1.0.0",
+    "title": "API 文档",
+    "contact": {
+      "email": "1033404553@qq.com"
+    }
+  },
+  "host": "http://shop.shiguopeng.cn",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "登录授权验证相关的接口"
+    },
+    {
+      "name": "Product",
+      "description": "商品相关的接口"
+    },
+    {
+      "name": "OWN",
+      "description": "个人相关的接口"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/tokens": {
+      "post": {
+        "summary": "登录接口",
+        "description": "登录账号信息用户换取 token",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "description": "用户名 {第三方登录的用户请进入个人中心设置用户名再使用此方式登录}",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          },
+          {
+            "name": "password",
+            "description": "密码",
+            "type": "string",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      },
+      "delete": {
+        "summary": "注销",
+        "description": "退出系统登录",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "token": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
