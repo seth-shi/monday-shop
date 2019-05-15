@@ -30,6 +30,7 @@ class ScoreLogServe
          * 如果这个用户已经记录过了,那么可以跳过
          */
         $cacheKey = $this->loginKey($today->toDateString());
+
         $ids = Cache::get($cacheKey, collect());
         // 使用哈希, 而不是 contains, 数量多了哈希速度远远快于 contains
         if ($ids->has($user->id)) {

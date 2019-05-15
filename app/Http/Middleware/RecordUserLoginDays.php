@@ -22,6 +22,7 @@ class RecordUserLoginDays
          * 如果用户已经登录, 则看是否可以增加积分
          */
         $user = auth()->user();
+
         if (! is_null($user)) {
 
             (new ScoreLogServe)->loginAddScore($user);
