@@ -21,7 +21,7 @@ function responseJsonAsCreated($msg = 'created success', $data = [], $extFields 
  * @param array  $extFields
  * @return \Illuminate\Http\JsonResponse
  */
-function responseJsonAsUpdated($msg = 'updated success', $data = [], $extFields = [])
+function responseJsonAsDeleted($msg = 'deleted success', $data = [], $extFields = [])
 {
     return responseJson(204, $msg, $data, $extFields);
 }

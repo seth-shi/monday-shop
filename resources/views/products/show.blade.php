@@ -44,7 +44,7 @@
                             <li class="{{ $key == 0 ? 'tb-selected' : '' }}">
                                 <div class="tb-pic tb-s40">
                                     <a href="javascript:;">
-                                        <img src="{{ imageUrl($image) }}">
+                                        <img src="{{ assertUrl($image) }}">
                                     </a>
                                 </div>
                             </li>

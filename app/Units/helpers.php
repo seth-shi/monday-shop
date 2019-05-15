@@ -13,12 +13,12 @@ require __DIR__ . '/response.php';
  */
 function image(string $url, string $disk = 'public', int $width = 50, int $height = 50) : string
 {
-    $url = imageUrl($url, $disk);
+    $url = assertUrl($url, $disk);
 
     return "<img width='{$width}' height='{$height}' src='{$url}' />";
 }
 
-function imageUrl(string $url, string $disk = 'public')
+function assertUrl(string $url, string $disk = 'public')
 {
     static $driver  = null;
 

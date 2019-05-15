@@ -15,7 +15,7 @@
                             </a>
                             <em class="s-name">
                                 {{ $user->name }}
-                                <img src="{{ imageUrl($level->icon) }}" alt="{{ $level->name }}" title="{{ $level->name }}" style="width: 32px; height: 32px;">
+                                <img src="{{ assertUrl($level->icon) }}" alt="{{ $level->name }}" title="{{ $level->name }}" style="width: 32px; height: 32px;">
                             </em>
 
                         </div>

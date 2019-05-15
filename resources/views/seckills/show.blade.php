@@ -37,14 +37,14 @@
                     </script>
 
                     <div class="tb-booth tb-pic tb-s310">
-                        <img src="{{ imageUrl($product->thumb) }}" alt="{{ $product->name }}" id="jqzoom" />
+                        <img src="{{ assertUrl($product->thumb) }}" alt="{{ $product->name }}" id="jqzoom" />
                     </div>
                     <ul class="tb-thumb" id="thumblist">
                         @foreach ($product->pictures as $key => $image)
                             <li class="{{ $key == 0 ? 'tb-selected' : '' }}">
                                 <div class="tb-pic tb-s40">
                                     <a href="javascript:;">
-                                        <img src="{{ imageUrl($image) }}">
+                                        <img src="{{ assertUrl($image) }}">
                                     </a>
                                 </div>
                             </li>

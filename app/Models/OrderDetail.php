@@ -46,7 +46,7 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(Product::class)->withDefault([
             'name' => '商品已下架',
-            'thumb' => imageUrl('products/404.jpg')
+            'thumb' => assertUrl('products/404.jpg')
         ]);
     }
 
