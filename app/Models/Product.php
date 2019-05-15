@@ -77,7 +77,7 @@ class Product extends Model
 
     public function getThumbAttribute($thumb)
     {
-        return imageUrl($thumb);
+        return assertUrl($thumb);
     }
 
     public function comments()

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "这是<a target='_blank' href='https://github.com/DavidNineRoc/monday-shop'>monday-shop</a>的 api 文档, 在这里你可以看到所有可用的 API!!! 文档中响应预期返回是`Example Value`, 需要查看字段含义请查看`Model`切换查看\n如果在文档测试需登录的接口,请点击文档右边的小锁头,使用登录的token进行验证身份",
+    "description": "这是<a target='_blank' href='https://github.com/DavidNineRoc/monday-shop'>monday-shop</a>的 api 文档, 在这里你可以看到所有可用的 API!!! 文档中响应预期返回是`Example Value`, 需要查看字段含义请查看`Model`切换查看\n如果在文档测试需登录的接口,请点击文档右边的小锁头,使用登录的token进行验证身份\n全局成功状态码: `200, 201(创建成功) 204(删除成功)`",
     "version": "1.0.0",
     "title": "API 文档",
     "contact": {
@@ -63,7 +63,6 @@
           "200": {
             "description": "响应中有 token 和 prefix, 如果之后请求放在请求头之中, 格式必须是(prefix token)",
             "schema": {
-
               "properties": {
                 "code": {
                   "type": "integer",
@@ -84,6 +83,10 @@
                     "token": {
                       "type": "string",
                       "description": "jwt 的授权验证信息"
+                    },
+                    "me": {
+                      "$ref": "#/definitions/Me",
+                      "description": "用户的个人信息, 也可 me 请求接口获取, 建议保存起来减少后续调用接口使用"
                     }
                   }
                 }
@@ -93,7 +96,23 @@
                 "msg": "登录成功",
                 "data": {
                   "prefix": "Bearer",
-                  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC92MVwvdG9rZW5zIiwiaWF0IjoxNTU3ODI1NjcyLCJleHAiOjE1NTc4MjkyNzIsIm5iZiI6MTU1NzgyNTY3MiwianRpIjoidnFySVlZS0p2UU1qSnhRNCIsInN1YiI6NiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.AOlUsM51oDz4yoAFsXzz5n1E65Bo17pKUnDg_Nh-DnY"
+                  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODA4MFwvYXBpXC92MVwvdG9rZW5zIiwiaWF0IjoxNTU3OTA2NjYwLCJleHAiOjE1NTc5MTAyNjAsIm5iZiI6MTU1NzkwNjY2MCwianRpIjoiZnBUdGozVWJmUVg2TWZlQiIsInN1YiI6NiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.kHN2pg04JuLwKSvCbcVBN3XdO05erOG3uVs9EfBJajM",
+                  "me": {
+                    "username": "david",
+                    "sex": 1,
+                    "email": "",
+                    "avatar": "https://avatars0.githubusercontent.com/u/28035971?v=4",
+                    "github_name": "大卫",
+                    "qq_name": "",
+                    "weibo_name": "",
+                    "score_all": 121845,
+                    "score_now": 121845,
+                    "login_days": 1,
+                    "last_login_date": "2019-03-22",
+                    "is_init_name": false,
+                    "is_init_email": true,
+                    "is_init_password": false
+                  }
                 }
               }
             }
@@ -133,7 +152,50 @@
                 }
               },
               "example": {
-                "code": 200,
+                "code": 204,
+                "msg": "注销成功",
+                "data": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "/own/me": {
+      "get": {
+        "summary": "个人信息",
+        "description": "获取个人信息(和登录获取到的信息一致)",
+        "tags": [
+          "OWN"
+        ],
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "根据此状态码判断返回的数据, 200 成功, 201 创建成功, 204 修改成功, 其他均为失败"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "此次Http请求描述信息, 如果 code 为非成功, 那么可显示此条错误消息"
+                },
+                "data": {
+                  "$ref": "#/definitions/Me",
+                  "description": "用户的个人信息, 也可 me 请求接口获取, 建议保存起来减少后续调用接口使用"
+                }
+              },
+              "example": {
+                "code": 204,
                 "msg": "注销成功",
                 "data": []
               }
@@ -144,19 +206,67 @@
     }
   },
   "definitions": {
-    "OWN": {
+    "Me": {
       "type": "object",
-      "required": [
-
-      ],
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "用户的id"
+        "username": {
+          "type": "string",
+          "description": "用户登录名"
         },
-        "name": {
-          "type": "string"
+        "sex": {
+          "type": "integer",
+          "enum": [
+            1, 2
+          ],
+          "description": "用户性别, 1 为男, 2 为女"
+        },
+        "email": {
+          "type": "string",
+          "description": "用户的邮箱"
+        },
+        "avatar": {
+          "type": "string",
+          "description": "用户的头像"
+        },
+        "github_name": {
+          "type": "string",
+          "description": "github 第三方昵称"
+        },
+        "qq_name": {
+          "type": "string",
+          "description": "qq 第三方昵称"
+        },
+        "weibo_name": {
+          "type": "string",
+          "description": "weibo 第三方昵称"
+        },
+        "score_all": {
+          "type": "integer",
+          "description": "用户的总积分"
+        },
+        "score_now": {
+          "type": "integer",
+          "description": "用户的剩余积分"
+        },
+        "login_days": {
+          "type": "integer",
+          "description": "用户连续登录天数"
+        },
+        "last_login_date": {
+          "type": "string",
+          "description": "上一次登录的日期"
+        },
+        "is_init_name": {
+          "type": "boolean",
+          "description": "是否是初始用户名, 如果是第三方登录的那么返回 true, 代表可以设置用户名 username"
+        },
+        "is_init_email": {
+          "type": "boolean",
+          "description": "是否是初始邮箱, 如果是第三方登录的那么返回 true, 代表可以设置用户名 email"
+        },
+        "is_init_password": {
+          "type": "boolean",
+          "description": "是否是初始密码, 如果是第三方登录的那么返回 true, 代表可以不用输入旧密码也可以设置新密码"
         }
       }
     }

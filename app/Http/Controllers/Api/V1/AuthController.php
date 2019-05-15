@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\OwnResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,14 +29,15 @@ class AuthController extends Controller
         // 换取 token
         $prefix = 'Bearer';
         $token = auth('api')->login($user);
+        $me = new OwnResource($user);
 
-        return responseJson(200, '登录成功', compact('prefix', 'token'));
+        return responseJson(200, '登录成功', compact('prefix', 'token', 'me'));
     }
 
     public function logout()
     {
         auth('api')->logout();
 
-        return responseJson(200, '注销成功');
+        return responseJsonAsDeleted('注销成功');
     }
 }

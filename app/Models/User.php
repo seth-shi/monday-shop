@@ -115,7 +115,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getAvatarAttribute($avatar)
     {
-        return imageUrl($avatar);
+        return assertUrl($avatar);
     }
 
     /**

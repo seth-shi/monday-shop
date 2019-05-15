@@ -17,23 +17,21 @@ class OwnResource extends Resource
         return [
             'username' => $this->name,
             'sex' => $this->sex,
-            'email' => $this->email,
-            'avatar' => $this->avatar,
-            'github_name' => $this->github_name,
-            'qq_name' => $this->qq_name,
-            'weibo_name' => $this->weibo_name,
+            'email' => (string)$this->email,
+            'avatar' => (string)$this->avatar,
+            'github_name' => (string)$this->github_name,
+            'qq_name' => (string)$this->qq_name,
+            'weibo_name' => (string)$this->weibo_name,
 
-            'score_all' => $this->score_all,
-            'score_now' => $this->score_now,
+            'score_all' => (int)$this->score_all,
+            'score_now' => (int)$this->score_now,
 
-            'login_days' => $this->login_days,
-            'last_login_date' => $this->last_login_date,
+            'login_days' => (int)$this->login_days,
+            'last_login_date' => (string)$this->last_login_date,
 
-            'is_init_name' => $this->is_init_name,
-            'is_init_email' => $this->is_init_email,
-            'is_init_password' => $this->is_init_password,
-
-            'login_count' => $this->login_count,
+            'is_init_name' => (bool)$this->is_init_name,
+            'is_init_email' => (bool)$this->is_init_email,
+            'is_init_password' => (bool)$this->is_init_password,
         ];
     }
 }

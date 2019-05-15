@@ -12,6 +12,9 @@ Route::group($attributes, function () {
     Route::group(['middleware' => 'auth.api.refresh'], function () {
 
 
+        Route::get('own/me', 'OwnController@me');
+
+
         Route::delete('tokens', 'AuthController@logout');
     });
 
