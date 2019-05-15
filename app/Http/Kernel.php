@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
             // 用于记录用户连续登录天数的中间件
-            RecordUserLoginDays::class,
+            'auth.login.score',
         ],
 
         'api' => [
@@ -77,5 +77,6 @@ class Kernel extends HttpKernel
 
         // api 刷新token
         'auth.api.refresh' => AuthRefreshToken::class,
+        'auth.login.score' => RecordUserLoginDays::class,
     ];
 }

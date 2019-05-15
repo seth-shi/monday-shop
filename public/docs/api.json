@@ -24,6 +24,22 @@
       "description": "个人相关的接口"
     }
   ],
+  "parameters": {
+    "limit": {
+      "name": "limit",
+      "in": "query",
+      "default": "10",
+      "description": "分页参数的取的条数",
+      "type": "integer"
+    },
+    "page": {
+      "name": "page",
+      "in": "query",
+      "default": "1",
+      "type": "integer",
+      "description": "分页参数的页码"
+    }
+  },
   "schemes": [
     "http"
   ],
@@ -203,9 +219,95 @@
           }
         }
       }
+    },
+    "/own/score_logs": {
+      "get": {
+        "summary": "积分记录",
+        "description": "用户操作积分获取记录",
+        "tags": [
+          "OWN"
+        ],
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "根据此状态码判断返回的数据, 200 成功, 201 创建成功, 204 修改成功, 其他均为失败"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "此次Http请求描述信息, 如果 code 为非成功, 那么可显示此条错误消息"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ScoreLog"
+                  }
+                },
+                "count": {
+                  "type": "string",
+                  "default": "数据的总条数"
+                }
+              },
+              "example": {
+                "code": 200,
+                "msg": "success",
+                "data": [
+                  {
+                    "id": 4,
+                    "description": "2019-05-15 16:59:29进行了登录。",
+                    "score": 5,
+                    "created_at": "2019-05-15 16:59:29"
+                  }
+                ],
+                "count": 1
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "ScoreLog": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "default": "记录主键"
+        },
+        "description": {
+          "type": "string",
+          "description": "积分的获取说明"
+        },
+        "score": {
+          "type": "integer",
+          "description": "积分的获取值"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "积分的获取时间"
+        }
+      }
+    },
     "Me": {
       "type": "object",
       "properties": {
