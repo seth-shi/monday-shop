@@ -42,11 +42,12 @@ class SendSubscribeEmail extends Command
     {
         $mails = Subscribe::query()->where('is_subscribe', 1)->pluck('email');
 
-        $mails->map(function ($email) {
+        $mails->map(function ($realMail) {
 
+            $email = encrypt($realMail);
             $url = route('site.email', compact('email'));
             // 不要一次 to 多个用户，会暴露其他人的邮箱
-            Mail::to($email)->send(new SubscribesNotice($url));
+            Mail::to($realMail)->send(new SubscribesNotice($url));
         });
 
         createSystemLog('系统发送订阅消息, 发送的用户:' . $mails->implode(', '), $mails->toArray());
