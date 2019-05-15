@@ -211,9 +211,24 @@
                 }
               },
               "example": {
-                "code": 204,
-                "msg": "注销成功",
-                "data": []
+                "code": 200,
+                "msg": "success",
+                "data": {
+                  "username": "david",
+                  "sex": 1,
+                  "email": "",
+                  "avatar": "https://avatars0.githubusercontent.com/u/28035971?v=4",
+                  "github_name": "david",
+                  "qq_name": "",
+                  "weibo_name": "",
+                  "score_all": 121855,
+                  "score_now": 121855,
+                  "login_days": 1,
+                  "last_login_date": "2019-05-15",
+                  "is_init_name": false,
+                  "is_init_email": true,
+                  "is_init_password": false
+                }
               }
             }
           }
