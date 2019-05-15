@@ -256,6 +256,7 @@ function request(_method, _url, _param, _func) {
 [接口文档](http://shop.shiguopeng.cn/docs.html)
 [接口文档](http://shop.shiguopeng.cn/docs.html)
 [接口文档](http://shop.shiguopeng.cn/docs.html)
+![](public/media/api_example.png)
 
 ## Packages
 | 扩展包 | 一句话描述 | 在本项目中的使用案例 |
