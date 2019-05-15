@@ -1,14 +1,14 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "这是<a target='_blank' href='https://github.com/DavidNineRoc/monday-shop'>monday-shop</a>的 api 文档, 在这里你可以看到所有可用的 API",
+    "description": "这是<a target='_blank' href='https://github.com/DavidNineRoc/monday-shop'>monday-shop</a>的 api 文档, 在这里你可以看到所有可用的 API!!! 文档中响应预期返回是`Example Value`, 需要查看字段含义请查看`Model`切换查看\n如果在文档测试需登录的接口,请点击文档右边的小锁头,使用登录的token进行验证身份",
     "version": "1.0.0",
     "title": "API 文档",
     "contact": {
       "email": "1033404553@qq.com"
     }
   },
-  "host": "http://shop.shiguopeng.cn",
+  "host": "localhost:8080",
   "basePath": "/api/v1",
   "tags": [
     {
@@ -63,9 +63,38 @@
           "200": {
             "description": "响应中有 token 和 prefix, 如果之后请求放在请求头之中, 格式必须是(prefix token)",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/User"
+
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "根据此状态码判断返回的数据, 200 成功, 201 创建成功, 204 修改成功, 其他均为失败"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "此次Http请求描述信息, 如果 code 为非成功, 那么可显示此条错误消息"
+                },
+                "data": {
+                  "type": "object",
+                  "description": "所有数据都在data中",
+                  "properties": {
+                    "prefix": {
+                      "type": "string",
+                      "description": "jwt 前缀"
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "jwt 的授权验证信息"
+                    }
+                  }
+                }
+              },
+              "example": {
+                "code": 200,
+                "msg": "登录成功",
+                "data": {
+                  "prefix": "Bearer",
+                  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC92MVwvdG9rZW5zIiwiaWF0IjoxNTU3ODI1NjcyLCJleHAiOjE1NTc4MjkyNzIsIm5iZiI6MTU1NzgyNTY3MiwianRpIjoidnFySVlZS0p2UU1qSnhRNCIsInN1YiI6NiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.AOlUsM51oDz4yoAFsXzz5n1E65Bo17pKUnDg_Nh-DnY"
+                }
               }
             }
           }
@@ -87,27 +116,48 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "success",
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "根据此状态码判断返回的数据, 200 成功, 201 创建成功, 204 修改成功, 其他均为失败"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "此次Http请求描述信息, 如果 code 为非成功, 那么可显示此条错误消息"
+                },
+                "data": {
+                  "type": "array",
+                  "description": "默认无数据"
+                }
+              },
+              "example": {
+                "code": 200,
+                "msg": "注销成功",
+                "data": []
+              }
+            }
           }
         }
       }
     }
   },
   "definitions": {
-    "User": {
+    "OWN": {
       "type": "object",
+      "required": [
+
+      ],
       "properties": {
         "id": {
           "type": "integer",
-          "default": "12",
-          "format": "int64"
+          "format": "int64",
+          "description": "用户的id"
         },
         "name": {
           "type": "string"
         }
-      },
-      "xml": {
-        "name": "User"
       }
     }
   },
@@ -115,7 +165,8 @@
     "token": {
       "type": "apiKey",
       "name": "Authorization",
-      "in": "header"
+      "in": "header",
+      "description": "使用登录返回的 前缀+token, 或者刷新返回的值. 实例值:`Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC92MVwvdG9rZW5zIiwiaWF0IjoxNTU3ODI1NjcyLCJleHAiOjE1NTc4MjkyNzIsIm5iZiI6MTU1NzgyNTY3MiwianRpIjoidnFySVlZS0p2UU1qSnhRNCIsInN1YiI6NiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.AOlUsM51oDz4yoAFsXzz5n1E65Bo17pKUnDg_Nh-DnY`"
     }
   }
 }
