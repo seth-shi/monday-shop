@@ -1,6 +1,5 @@
 <?php
 
-
 /****************************************
  * 商城前台路由组
  ****************************************/
@@ -128,3 +127,6 @@ Route::namespace('Auth')->group(function(){
 // 支付通知的接口
 Route::get('pay/return', 'PaymentNotificationController@payReturn')->middleware('user.cars');
 Route::post('pay/notify', 'PaymentNotificationController@payNotify');
+
+// 取消订阅邮件
+Route::get('unsubscribe/{email}', 'HomeController@unSubscribe')->name('site.email');

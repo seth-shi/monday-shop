@@ -8,14 +8,12 @@ use Illuminate\Queue\SerializesModels;
 
 class SubscribesNotice extends Mailable
 {
-    use Queueable, SerializesModels;
-
     public $subject = '星期一商城订阅消息';
+    public $unSubUrl;
 
-
-    public function __construct()
+    public function __construct($url)
     {
-        //
+        $this->unSubUrl = $url;
     }
 
 

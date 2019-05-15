@@ -8,6 +8,7 @@ use App\Enums\SiteCountCacheEnum;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Seckill;
+use App\Models\Subscribe;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -102,5 +103,20 @@ class HomeController extends Controller
             'homes.index',
             compact('categories', 'hotProducts', 'latestProducts', 'users', 'secKills', 'loginUser', 'isOpenSeckill')
         );
+    }
+
+
+    public function unSubscribe($email)
+    {
+
+        try {
+            $email = decrypt($email);
+        } catch (\Exception $e) {
+
+            return view('hint.error', ['status' => '未知的账号']);
+        }
+
+        Subscribe::query()->where('email', $email)->update(['is_subscribe' => 0]);
+        return view('hint.success', ['status' => '已取消订阅']);
     }
 }
