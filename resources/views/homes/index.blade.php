@@ -40,7 +40,8 @@
                                     </a>
                                     <div class="deal-about p-20 pos-a bottom-0 left-0">
                                         <div class="mb-10">
-                                            收藏人数 <span class="rating-count rating">{{ $hotProduct->users_count }}</span>
+                                            <span class="rating-count rating">收藏人数{{ $hotProduct->users_count }}</span>
+                                            <span class="rating-count rating float-right">总浏览{{ $hotProduct->view_count }}</span>
                                         </div>
                                         <h3 class="deal-title mb-10 ">
                                                 {{ $hotProduct->name }}
@@ -74,7 +75,8 @@
                                 <div class="bg-white pt-20 pl-20 pr-15">
                                     <div class="pr-md-10">
                                         <div class="mb-10">
-                                            收藏人数 <span class="rating-count rating">{{ $latestProduct->users_count }}</span>
+                                             <span class="rating-count rating">收藏人数{{ $latestProduct->users_count }}</span>
+                                             <span class="rating-count rating float-right">总浏览{{ $latestProduct->view_count }}</span>
                                         </div>
                                         <h3 class="deal-title mb-10">
                                             <a href="/products/{{ $latestProduct->uuid }}">

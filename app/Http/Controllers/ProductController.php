@@ -8,9 +8,12 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductPinYin;
 use App\Models\User;
+use App\Services\RedisCacheCountServe;
 use App\Services\ScoreLogServe;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -60,7 +63,8 @@ class ProductController extends Controller
     /**
      * 单个商品显示
      *
-     * @param $uuid
+     * @param RedisCacheCountServe $cacheServe
+     * @param                 $uuid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($uuid)
@@ -69,6 +73,18 @@ class ProductController extends Controller
          * @var $user User|null
          */
         $product = Product::query()->where('uuid', $uuid)->firstOrFail();
+
+
+        if (! $product->today_has_view) {
+            $product->today_has_view = true;
+            $product->save();
+        }
+        // 直接使用缓存
+        $today = Carbon::today()->toDateString();
+        Cache::increment($product->getViewCountKey($today));
+
+
+        // 商品浏览次数 + 1
         $user = auth()->user();
 
         // 同类商品推荐

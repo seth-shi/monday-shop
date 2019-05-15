@@ -61,7 +61,13 @@
         ],
         "responses": {
           "200": {
-            "description": "success"
+            "description": "响应中有 token 和 prefix, 如果之后请求放在请求头之中, 格式必须是(prefix token)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
           }
         }
       },
@@ -84,6 +90,24 @@
             "description": "success"
           }
         }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "default": "12",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
       }
     }
   },
