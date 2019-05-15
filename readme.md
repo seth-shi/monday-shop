@@ -1,4 +1,6 @@
 # DavidNineRoc/monday-shop
+## TODO
+* API 接口开发,具体看文目录 API
 ## 目录说明
 * [演示地址](#演示地址)
 * [页面展示](#页面展示)
@@ -250,7 +252,9 @@ function request(_method, _url, _param, _func) {
         * `token`已完全失效,后台暂设为 2 周,再也无法刷新,请重新登录账户
     * `500`
         * 服务器出错,具体请参考响应的消息
-* 接口文档
+* __接口文档__(重要的事情说三遍)
+[接口文档](http://shop.shiguopeng.cn/docs.html)
+[接口文档](http://shop.shiguopeng.cn/docs.html)
 [接口文档](http://shop.shiguopeng.cn/docs.html)
 
 ## Packages

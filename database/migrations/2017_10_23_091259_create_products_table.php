@@ -26,12 +26,16 @@ class CreateProductsTable extends Migration
             $table->string('thumb')->comment('商品的缩略图');
             $table->text('pictures')->comment('图片的列表');
 
+            $table->unsignedInteger('view_count')->default(0)->comment('商品的浏览次数');
+            $table->tinyInteger('today_has_view')->default(0)->comment('今日是否有浏览量');
+
             $table->integer('sale_count')->default(0)->comment('出售的数量');
             $table->integer('count')->comment('商品库存量');
 
 
             $table->string('pinyin')->nullable()->comment('商品名的拼音');
             $table->char('first_pinyin', 1)->nullable()->comment('商品名的拼音的首字母');
+
 
 
             $table->softDeletes()->comment('是否上架');

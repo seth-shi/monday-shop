@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Overtrue\Pinyin\Pinyin;
 use Ramsey\Uuid\Uuid;
 
@@ -119,13 +121,25 @@ class Product extends Model
         return 'uuid';
     }
 
+    public function getViewCountAttribute()
+    {
+        $date = Carbon::today()->toDateString();
+
+        return $this->attributes['view_count'] + Cache::get($this->getViewCountKey($date), 0);
+    }
+
+    public function getViewCountKey($date)
+    {
+        return "moon:products_cache_{$date}:view_count_{$this->id}";
+    }
+
     public static function boot()
     {
         parent::boot();
 
 
         // 自动生成商品的 uuid， 拼音
-        static::saving(function ($model) {
+        static::saving(function (Model $model) {
 
             if (is_null($model->uuid)) {
                 $model->uuid = Uuid::uuid4()->toString();
@@ -142,8 +156,12 @@ class Product extends Model
                 $model->first_pinyin = substr($model->pinyin, 0, 1);
             }
 
-            // 建立拼音表
-            ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
+
+            if ($model->isDirty('first_pinyin')) {
+
+                // 建立拼音表
+                ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
+            }
         });
 
         static::deleted(function ($model) {
