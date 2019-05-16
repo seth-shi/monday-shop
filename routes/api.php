@@ -14,6 +14,7 @@ Route::group($attributes, function () {
 
         // 获取分类
         Route::get('categories', 'CategoryController@index');
+        Route::get('categories/{category}/products', 'CategoryController@getProducts');
 
         // 个人基本信息
         Route::get('own/me', 'OwnController@me');

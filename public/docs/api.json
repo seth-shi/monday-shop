@@ -165,6 +165,383 @@
         }
       }
     },
+    "/categories/{category}/products": {
+      "get": {
+        "summary": "获取某个分类下的商品",
+        "description": "获取某个分类下的商品, 支持排序",
+        "tags": [
+          "Product"
+        ],
+        "security": [
+          {
+            "token": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "name": "category",
+            "description": "分类的主键",
+            "type": "integer",
+            "required": true,
+            "in": "path"
+          },
+          {
+            "name": "name",
+            "description": "商品的名字,模糊查询",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "name": "order_field",
+            "description": "排序的字段, created_at 创建时间, safe_count 销售数量, view_count 浏览次数",
+            "type": "string",
+            "default": "created_at",
+            "in": "query",
+            "enum": [
+              "created_at", "safe_count", "view_count"
+            ]
+          },
+          {
+            "name": "order_value",
+            "description": "排序的值",
+            "type": "string",
+            "in": "query",
+            "default": "asc",
+            "enum": [
+              "asc", "desc"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "根据此状态码判断返回的数据, 200 成功, 201 创建成功, 204 修改成功, 其他均为失败"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "此次Http请求描述信息, 如果 code 为非成功, 那么可显示此条错误消息"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Product"
+                  }
+                },
+                "count": {
+                  "type": "string",
+                  "default": "数据的总条数"
+                }
+              },
+              "example": {
+                "code": 200,
+                "msg": "success",
+                "data": [
+                  {
+                    "uuid": "062f18c3-0ae2-4560-b050-18eab1cb43c2",
+                    "name": "朗界（RugGear） RG860 反恐黑 移动/联通2G 三防户外运动对讲手机 双卡双待",
+                    "title": "岁末大促销 无流量免费硬件对讲；IP67 防水防摔防尘；待机450小时；可货到付款！",
+                    "price": 198000,
+                    "original_price": 336600,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/04d4b494-1563-45e1-d852-0742662399e4.jpeg",
+                    "sale_count": 0,
+                    "count": 49296,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "af0dc354-7f85-44c9-9336-dfea0603b489",
+                    "name": "三盟 名博D68 移动/联通2G老人手机 黑色",
+                    "title": "清仓特价！大哥大手机 可货到付款！复古功能手机，豪华气派好手机，传承经典，彰显非凡！！！",
+                    "price": 16800,
+                    "original_price": 21840,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/267a6a24-8a36-2a30-4276-58a8f74422c3.jpeg",
+                    "sale_count": 0,
+                    "count": 11754,
+                    "view_count": 3
+                  },
+                  {
+                    "uuid": "6f9d0950-58e1-453c-9c23-6cc61ea00334",
+                    "name": "博瑞（BROR）G2 移动4G手机手机 白色",
+                    "title": "四核5英寸高清视网膜屏,多模4G智能手机,时尚商务外观！",
+                    "price": 69900,
+                    "original_price": 90870,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/c6f90341-0d02-ad2f-37f9-607fd4887129.jpeg",
+                    "sale_count": 0,
+                    "count": 4011,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "db59ebf8-b0f2-45d1-bbd2-422a401fe7b6",
+                    "name": "大显(DaXian) C189 电信2G老人手机 白色",
+                    "title": "【京东直发】直板按键老人手机 一键拨号 整点报时 手电筒",
+                    "price": 13800,
+                    "original_price": 17940,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/bb012404-f949-46a6-4b7c-e3573e83bae3.jpeg",
+                    "sale_count": 0,
+                    "count": 13313,
+                    "view_count": 3
+                  },
+                  {
+                    "uuid": "81b84a52-be1e-4bc8-97da-404b4929033d",
+                    "name": "三盟翻盖老人手机Q9 移动/联通2G 双卡双待 咖啡色",
+                    "title": "【领券更优惠】再返100券再送电池/耳机 双屏翻盖金属机身3.0英寸超大触控手写高清屏",
+                    "price": 26800,
+                    "original_price": 45560,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/6e9632f4-07c9-c9b9-b8a2-3a2910e41a87.jpeg",
+                    "sale_count": 0,
+                    "count": 31724,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "f90a68b4-5ed9-45f7-a769-4b22dad2e632",
+                    "name": "vivo X5V 双卡双待 电信4G手机 极光白",
+                    "title": "乐享开学季·购机送移动电源+蓝牙耳机·纤薄电信4G·八核CPU·2G运行内存",
+                    "price": 248800,
+                    "original_price": 323440,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/e9159271-6860-8204-8d9f-e8aa011ef0ef.jpeg",
+                    "sale_count": 0,
+                    "count": 43664,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "50988365-cfb3-403e-bb69-4d2e3c98253c",
+                    "name": "誉品(YEPEN) T20 移动/联通2G手机 双卡双待 咖啡色",
+                    "title": "开学优惠!超长待机微信老人手机 直板手机 按键手机 触屏 真手电筒 京东极速配送",
+                    "price": 19900,
+                    "original_price": 27860,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/27cb4410-e614-7253-10f5-22eb4496e655.jpeg",
+                    "sale_count": 0,
+                    "count": 89361,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "b103fd97-69e4-49c1-8241-702b317f1e7d",
+                    "name": "HelloCom Z213 电信2G 直板老人手机 红色",
+                    "title": "9个一键拨号  2600毫安时电池  大字体大音量大按键  超长待机 货到付款 晒单有礼",
+                    "price": 14800,
+                    "original_price": 26640,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/d4ff3dc6-6cc4-708d-b74d-49011edfb2e1.jpeg",
+                    "sale_count": 0,
+                    "count": 79053,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "73034c1f-e85f-465f-b3cd-eecf9f2bb9e7",
+                    "name": "创佳(canca)39HWE6300 F2 39英寸全高清平板液晶电视机 有线电视 带壁挂底座+礼包",
+                    "title": "39英寸窄边设计支持高清视频连接和USB多媒体 <a href=\"http://item.jd.com/1211301957.html\"target=\"_blank\">同款促销价1699元更多优惠等着你</a>",
+                    "price": 399800,
+                    "original_price": 559720,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/1a300017-1d4a-46d0-3c77-96443ea2cbf1.jpeg",
+                    "sale_count": 0,
+                    "count": 88368,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "480238fa-4768-4554-b94d-b7e38edbdd49",
+                    "name": "迪士尼（Disney）D11 儿童手表手机 电信2G 柠檬黄",
+                    "title": "智能手表定位手机 儿童防丢失 男女学生GPS监控 32位亲情号码通话安全卫士手环开学大促",
+                    "price": 69800,
+                    "original_price": 97720,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/6331c03a-3941-3d36-639a-40309e99e63d.jpeg",
+                    "sale_count": 0,
+                    "count": 88827,
+                    "view_count": 0
+                  }
+                ],
+                "count": 10
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{product}": {
+      "get": {
+        "summary": "获取某个分类下的商品",
+        "description": "获取某个分类下的商品, 支持排序",
+        "tags": [
+          "Product"
+        ],
+        "security": [
+          {
+            "token": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "name": "name",
+            "description": "商品的名字,模糊查询",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "根据此状态码判断返回的数据, 200 成功, 201 创建成功, 204 修改成功, 其他均为失败"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "此次Http请求描述信息, 如果 code 为非成功, 那么可显示此条错误消息"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Product"
+                  }
+                },
+                "count": {
+                  "type": "string",
+                  "default": "数据的总条数"
+                }
+              },
+              "example": {
+                "code": 200,
+                "msg": "success",
+                "data": [
+                  {
+                    "uuid": "062f18c3-0ae2-4560-b050-18eab1cb43c2",
+                    "name": "朗界（RugGear） RG860 反恐黑 移动/联通2G 三防户外运动对讲手机 双卡双待",
+                    "title": "岁末大促销 无流量免费硬件对讲；IP67 防水防摔防尘；待机450小时；可货到付款！",
+                    "price": 198000,
+                    "original_price": 336600,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/04d4b494-1563-45e1-d852-0742662399e4.jpeg",
+                    "sale_count": 0,
+                    "count": 49296,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "af0dc354-7f85-44c9-9336-dfea0603b489",
+                    "name": "三盟 名博D68 移动/联通2G老人手机 黑色",
+                    "title": "清仓特价！大哥大手机 可货到付款！复古功能手机，豪华气派好手机，传承经典，彰显非凡！！！",
+                    "price": 16800,
+                    "original_price": 21840,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/267a6a24-8a36-2a30-4276-58a8f74422c3.jpeg",
+                    "sale_count": 0,
+                    "count": 11754,
+                    "view_count": 3
+                  },
+                  {
+                    "uuid": "6f9d0950-58e1-453c-9c23-6cc61ea00334",
+                    "name": "博瑞（BROR）G2 移动4G手机手机 白色",
+                    "title": "四核5英寸高清视网膜屏,多模4G智能手机,时尚商务外观！",
+                    "price": 69900,
+                    "original_price": 90870,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/c6f90341-0d02-ad2f-37f9-607fd4887129.jpeg",
+                    "sale_count": 0,
+                    "count": 4011,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "db59ebf8-b0f2-45d1-bbd2-422a401fe7b6",
+                    "name": "大显(DaXian) C189 电信2G老人手机 白色",
+                    "title": "【京东直发】直板按键老人手机 一键拨号 整点报时 手电筒",
+                    "price": 13800,
+                    "original_price": 17940,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/bb012404-f949-46a6-4b7c-e3573e83bae3.jpeg",
+                    "sale_count": 0,
+                    "count": 13313,
+                    "view_count": 3
+                  },
+                  {
+                    "uuid": "81b84a52-be1e-4bc8-97da-404b4929033d",
+                    "name": "三盟翻盖老人手机Q9 移动/联通2G 双卡双待 咖啡色",
+                    "title": "【领券更优惠】再返100券再送电池/耳机 双屏翻盖金属机身3.0英寸超大触控手写高清屏",
+                    "price": 26800,
+                    "original_price": 45560,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/6e9632f4-07c9-c9b9-b8a2-3a2910e41a87.jpeg",
+                    "sale_count": 0,
+                    "count": 31724,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "f90a68b4-5ed9-45f7-a769-4b22dad2e632",
+                    "name": "vivo X5V 双卡双待 电信4G手机 极光白",
+                    "title": "乐享开学季·购机送移动电源+蓝牙耳机·纤薄电信4G·八核CPU·2G运行内存",
+                    "price": 248800,
+                    "original_price": 323440,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/e9159271-6860-8204-8d9f-e8aa011ef0ef.jpeg",
+                    "sale_count": 0,
+                    "count": 43664,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "50988365-cfb3-403e-bb69-4d2e3c98253c",
+                    "name": "誉品(YEPEN) T20 移动/联通2G手机 双卡双待 咖啡色",
+                    "title": "开学优惠!超长待机微信老人手机 直板手机 按键手机 触屏 真手电筒 京东极速配送",
+                    "price": 19900,
+                    "original_price": 27860,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/27cb4410-e614-7253-10f5-22eb4496e655.jpeg",
+                    "sale_count": 0,
+                    "count": 89361,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "b103fd97-69e4-49c1-8241-702b317f1e7d",
+                    "name": "HelloCom Z213 电信2G 直板老人手机 红色",
+                    "title": "9个一键拨号  2600毫安时电池  大字体大音量大按键  超长待机 货到付款 晒单有礼",
+                    "price": 14800,
+                    "original_price": 26640,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/d4ff3dc6-6cc4-708d-b74d-49011edfb2e1.jpeg",
+                    "sale_count": 0,
+                    "count": 79053,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "73034c1f-e85f-465f-b3cd-eecf9f2bb9e7",
+                    "name": "创佳(canca)39HWE6300 F2 39英寸全高清平板液晶电视机 有线电视 带壁挂底座+礼包",
+                    "title": "39英寸窄边设计支持高清视频连接和USB多媒体 <a href=\"http://item.jd.com/1211301957.html\"target=\"_blank\">同款促销价1699元更多优惠等着你</a>",
+                    "price": 399800,
+                    "original_price": 559720,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/1a300017-1d4a-46d0-3c77-96443ea2cbf1.jpeg",
+                    "sale_count": 0,
+                    "count": 88368,
+                    "view_count": 0
+                  },
+                  {
+                    "uuid": "480238fa-4768-4554-b94d-b7e38edbdd49",
+                    "name": "迪士尼（Disney）D11 儿童手表手机 电信2G 柠檬黄",
+                    "title": "智能手表定位手机 儿童防丢失 男女学生GPS监控 32位亲情号码通话安全卫士手环开学大促",
+                    "price": 69800,
+                    "original_price": 97720,
+                    "thumb": "http://shop.shiguopeng.cn/storage/products/list/6331c03a-3941-3d36-639a-40309e99e63d.jpeg",
+                    "sale_count": 0,
+                    "count": 88827,
+                    "view_count": 0
+                  }
+                ],
+                "count": 10
+              }
+            }
+          }
+        }
+      }
+    },
     "/tokens": {
       "post": {
         "summary": "登录接口",
@@ -515,6 +892,99 @@
     }
   },
   "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "integer",
+          "default": "记录主键"
+        },
+        "name": {
+          "type": "string",
+          "description": "商品的名字"
+        },
+        "title": {
+          "type": "string",
+          "description": "商品简单的标题"
+        },
+        "price": {
+          "type": "number",
+          "description": "商品的价格"
+        },
+        "original_price": {
+          "type": "number",
+          "description": "商品原来的价格"
+        },
+        "thumb": {
+          "type": "string",
+          "description": "商品的缩略图"
+        },
+        "sale_count": {
+          "type": "integer",
+          "description": "销售的数量"
+        },
+        "count": {
+          "type": "integer",
+          "description": "库存量"
+        },
+        "view_count": {
+          "type": "integer",
+          "description": "浏览的次数"
+        }
+      }
+    },
+    "ProductDetail": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "integer",
+          "default": "记录主键"
+        },
+        "name": {
+          "type": "string",
+          "description": "商品的名字"
+        },
+        "title": {
+          "type": "string",
+          "description": "商品简单的标题"
+        },
+        "price": {
+          "type": "number",
+          "description": "商品的价格"
+        },
+        "original_price": {
+          "type": "number",
+          "description": "商品原来的价格"
+        },
+        "thumb": {
+          "type": "string",
+          "description": "商品的缩略图"
+        },
+        "sale_count": {
+          "type": "integer",
+          "description": "销售的数量"
+        },
+        "count": {
+          "type": "integer",
+          "description": "库存量"
+        },
+        "view_count": {
+          "type": "integer",
+          "description": "浏览的次数"
+        },
+        "pictures": {
+          "type": "array",
+          "description": "商品的轮播图",
+          "items": {
+            "type": "string"
+          }
+        },
+        "content": {
+          "type": "string",
+          "description": "商品的详细描述,富文本"
+        }
+      }
+    },
     "Category": {
       "type": "object",
       "properties": {
