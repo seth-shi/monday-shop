@@ -8,7 +8,7 @@
       "email": "1033404553@qq.com"
     }
   },
-  "host": "localhost:8000",
+  "host": "shop.shiguopeng.cn",
   "basePath": "/api/v1",
   "tags": [
     {
