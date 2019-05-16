@@ -7,6 +7,7 @@ use App\Console\Commands\CountSite;
 use App\Console\Commands\DelExpireScoreData;
 use App\Console\Commands\DelExpireSecKill;
 use App\Console\Commands\SendSubscribeEmail;
+use App\Console\Commands\SyncProducViewCommand;
 use App\Console\Commands\UpdateCacheHomeData;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -39,6 +40,8 @@ class Kernel extends ConsoleKernel
 
         // 每天夜里十二点执行删除昨天过期的积分数据
         $schedule->command(DelExpireScoreData::class)->dailyAt('00:00');
+        // 每天夜里十二点同步商品浏览量
+        $schedule->command(SyncProducViewCommand::class)->dailyAt('00:10');
 
         // 每钟更新一次首页数据
         $schedule->command(UpdateCacheHomeData::class)->everyMinute();
