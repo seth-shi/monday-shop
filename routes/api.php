@@ -12,6 +12,9 @@ Route::group($attributes, function () {
     Route::group(['middleware' => ['auth.api.refresh', 'auth.login.score']], function () {
 
 
+        // 获取分类
+        Route::get('categories', 'CategoryController@index');
+
         // 个人基本信息
         Route::get('own/me', 'OwnController@me');
         // 个人基本记录
