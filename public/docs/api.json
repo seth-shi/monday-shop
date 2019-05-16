@@ -44,6 +44,127 @@
     "http"
   ],
   "paths": {
+    "/categories": {
+      "get": {
+        "summary": "获取商品的拥有分类",
+        "description": "此接口暂时不支持排序,因为后台设置有排序字段",
+        "tags": [
+          "Product"
+        ],
+        "security": [
+          {
+            "token": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "name": "name",
+            "description": "分类的名字,模糊查询",
+            "type": "string",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "根据此状态码判断返回的数据, 200 成功, 201 创建成功, 204 修改成功, 其他均为失败"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "此次Http请求描述信息, 如果 code 为非成功, 那么可显示此条错误消息"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Category"
+                  }
+                },
+                "count": {
+                  "type": "string",
+                  "default": "数据的总条数"
+                }
+              },
+              "example": {
+                "code": 200,
+                "msg": "success",
+                "data": [
+                  {
+                    "id": 1,
+                    "name": "个人护理",
+                    "description": "Consequatur nostrum blanditiis dolor alias et.",
+                    "icon": "fa-pencil",
+                    "thumb": "https://lorempixel.com/110/110/?47191"
+                  },
+                  {
+                    "id": 2,
+                    "name": "运动户外",
+                    "description": "Eos autem repellat et maiores autem iste labore.",
+                    "icon": "",
+                    "thumb": "https://lorempixel.com/110/110/?20394"
+                  },
+                  {
+                    "id": 3,
+                    "name": "电脑办公",
+                    "description": "Dolor repudiandae sunt sed inventore quaerat.",
+                    "icon": "",
+                    "thumb": "https://lorempixel.com/110/110/?49939"
+                  },
+                  {
+                    "id": 4,
+                    "name": "珠宝饰品",
+                    "description": "Deleniti voluptates neque consequatur fugiat.",
+                    "icon": "",
+                    "thumb": "https://lorempixel.com/110/110/?39035"
+                  },
+                  {
+                    "id": 5,
+                    "name": "手机数码",
+                    "description": "Et dolore eos reiciendis.",
+                    "icon": "",
+                    "thumb": "https://lorempixel.com/110/110/?10489"
+                  },
+                  {
+                    "id": 6,
+                    "name": "美食零食",
+                    "description": "Iusto corporis et nihil et cupiditate.",
+                    "icon": "",
+                    "thumb": "https://lorempixel.com/110/110/?54091"
+                  },
+                  {
+                    "id": 7,
+                    "name": "鲜花园艺",
+                    "description": "Illum quod vel nam facere in voluptates dolore.",
+                    "icon": "",
+                    "thumb": "https://lorempixel.com/110/110/?13912"
+                  },
+                  {
+                    "id": 8,
+                    "name": "品质汽车",
+                    "description": "Ipsam impedit aut eos corporis et velit.",
+                    "icon": "",
+                    "thumb": "https://lorempixel.com/110/110/?93450"
+                  }
+                ],
+                "count": 8
+              }
+            }
+          }
+        }
+      }
+    },
     "/tokens": {
       "post": {
         "summary": "登录接口",
@@ -254,8 +375,8 @@
                     "github_name": "大卫",
                     "qq_name": "",
                     "weibo_name": "",
-                    "score_all": 121845,
-                    "score_now": 121845,
+                    "score_all": 0,
+                    "score_now": 0,
                     "login_days": 1,
                     "last_login_date": "2019-03-22",
                     "is_init_name": false,
@@ -394,6 +515,31 @@
     }
   },
   "definitions": {
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "default": "记录主键"
+        },
+        "name": {
+          "type": "string",
+          "description": "分类的名字"
+        },
+        "description": {
+          "type": "string",
+          "description": "分类的描述"
+        },
+        "icon": {
+          "type": "string",
+          "description": "分类的图标"
+        },
+        "thumb": {
+          "type": "string",
+          "description": "分类的缩略图"
+        }
+      }
+    },
     "ScoreLog": {
       "type": "object",
       "properties": {
