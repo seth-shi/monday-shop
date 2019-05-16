@@ -26,7 +26,14 @@ class ProductResource extends Resource
             'view_count' => (int)$this->view_count,
             'created_at' => (string)$this->created_at,
 
-            'pictures' => $this->when($this->isDetail, $this->assertPictures($this->pictures)),
+            'content' => $this->whenLoaded('detail', function () {
+
+                return (string)optional($this->detail)->content;
+            }),
+            'pictures' => $this->whenLoaded('detail', function () {
+
+                return $this->assertPictures($this->pictures);
+            }),
         ];
     }
 

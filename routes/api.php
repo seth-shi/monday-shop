@@ -13,8 +13,11 @@ Route::group($attributes, function () {
 
 
         // 获取分类
+        // 分类下的所有商品
         Route::get('categories', 'CategoryController@index');
         Route::get('categories/{category}/products', 'CategoryController@getProducts');
+        // 获取商品详情
+        Route::get('products/{uuid}', 'ProductController@show');
 
         // 个人基本信息
         Route::get('own/me', 'OwnController@me');
