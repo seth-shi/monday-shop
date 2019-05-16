@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnum;
-use App\Http\Controllers\Controller;
-use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductPinYin;
 use App\Models\User;
-use App\Services\RedisCacheCountServe;
 use App\Services\ScoreLogServe;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -63,7 +60,6 @@ class ProductController extends Controller
     /**
      * 单个商品显示
      *
-     * @param RedisCacheCountServe $cacheServe
      * @param                 $uuid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

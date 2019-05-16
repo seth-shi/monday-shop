@@ -159,6 +159,7 @@ return [
         'address_id' => '地址',
         'category_id' => '分类',
         'product_id' => '商品',
+        'username' => '用户名',
     ],
 
 ];

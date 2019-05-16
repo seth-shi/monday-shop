@@ -39,7 +39,6 @@ class CreateUsersTable extends Migration
 
             // 用户激活所需信息
             $table->string('active_token')->nullable()->comment('邮箱激活的token');
-            $table->string('auth_token')->nullable()->comment('一次性登录的 token');
 
             $table->boolean('is_active')->default(\App\Enums\UserStatusEnum::UN_ACTIVE)->comment('用户是否激活');
             $table->boolean('is_init_name')->default(0)->comment('是否是初始用户名，是的话，可以修改用户名');
