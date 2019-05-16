@@ -22,4 +22,6 @@ Route::group($attributes, function () {
 
     // 登录接口
     Route::post('tokens', 'AuthController@login');
+    // 注册的接口
+    Route::post('users', 'AuthController@register');
 });
