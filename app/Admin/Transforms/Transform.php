@@ -3,22 +3,7 @@
 namespace App\Admin\Transforms;
 
 
-class Transform
+interface Transform
 {
-    protected static $instance;
-
-    /**
-     * @return static
-     */
-    public static function getInstance()
-    {
-        $class = static::class;
-
-        if (! isset(static::$instance[$class])) {
-            static::$instance[$class] = new static();
-        }
-
-
-        return static::$instance[$class];
-    }
+    public static function trans($trans);
 }

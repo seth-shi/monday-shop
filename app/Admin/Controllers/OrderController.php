@@ -5,7 +5,10 @@ namespace App\Admin\Controllers;
 use App\Admin\Extensions\ReceivedButton;
 use App\Admin\Extensions\ShipButton;
 use App\Admin\Transforms\OrderDetailTransform;
-use App\Admin\Transforms\OrderTransform;
+use App\Admin\Transforms\OrderShipStatusTransform;
+use App\Admin\Transforms\OrderStatusTransform;
+use App\Admin\Transforms\OrderTypeTransform;
+use App\Admin\Transforms\YesNoTransform;
 use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\Controller;
@@ -92,14 +95,14 @@ class OrderController extends Controller
             // 如果订单是付款, 那么就修改为物流状态
             if ($status == OrderStatusEnum::PAID) {
 
-                return OrderTransform::getInstance()->transShipStatus($this->ship_status);
+                return OrderShipStatusTransform::trans($this->ship_status);
             }
 
-            return OrderTransform::getInstance()->transStatus($status);
+            return OrderStatusTransform::trans($status);
         });
         $grid->column('type', '订单类型')->display(function ($type) {
 
-            return OrderTransform::getInstance()->transType($type);
+            return OrderTypeTransform::trans($type);
         });
         $grid->column('pay_time', '支付时间');
         $grid->column('consignee_name', '收货人姓名');
@@ -176,14 +179,15 @@ class OrderController extends Controller
 
             // 如果订单是付款, 那么就修改为物流状态
             if ($status == OrderStatusEnum::PAID) {
-                return OrderTransform::getInstance()->transShipStatus($this->ship_status);
+
+                return OrderShipStatusTransform::trans($this->ship_status);
             }
 
-            return OrderTransform::getInstance()->transStatus($status);
+            return OrderStatusTransform::trans($status);
         });
         $show->field('type', '订单类型')->as(function ($type) {
 
-            return OrderTransform::getInstance()->transType($type);
+            return OrderTypeTransform::trans($type);
         });
 
         $show->divider();
@@ -216,7 +220,7 @@ class OrderController extends Controller
             $details->column('number', '数量');
             $details->column('is_commented', '是否评论')->display(function ($is) {
 
-                return OrderDetailTransform::getInstance()->transCommented($is);
+                return YesNoTransform::trans($is);
             });
             $details->column('total', '小计');
 

@@ -3,7 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Actions\Post\ActiveUserAction;
-use App\Admin\Transforms\UserTransform;
+use App\Admin\Transforms\UserSexTransform;
+use App\Admin\Transforms\YesNoTransform;
 use App\Enums\UserSexEnum;
 use App\Enums\UserStatusEnum;
 use App\Http\Controllers\Controller;
@@ -97,7 +98,7 @@ class UserController extends Controller
         $grid->column('name', '用户名');
         $grid->column('sex', '性别')->display(function ($sex) {
 
-            return UserTransform::getInstance()->transSex($sex);
+            return UserSexTransform::trans($sex);
         });
         $grid->column('email', '邮箱')->display(function ($email) {
             return str_limit($email, 20);
@@ -117,7 +118,7 @@ class UserController extends Controller
         $grid->column('login_count', '登录次数')->sortable();
         $grid->column('is_active', '是否激活')->display(function ($isActive) {
 
-            return UserTransform::getInstance()->transStatus($isActive);
+            return YesNoTransform::trans($isActive);
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
@@ -154,7 +155,7 @@ class UserController extends Controller
         $show->field('name', '用户名');
         $show->field('sex', '性别')->as(function ($sex) {
 
-            return UserTransform::getInstance()->transSex($sex);
+            return UserSexTransform::trans($sex);
         });
         $show->field('email', '邮箱');
         $show->field('avatar', '头像')->image();
@@ -165,7 +166,7 @@ class UserController extends Controller
         $show->field('login_count', '登录次数');
         $show->field('is_active', '是否激活')->as(function ($isActive) {
 
-            return UserTransform::getInstance()->transStatus($isActive);
+            return YesNoTransform::trans($isActive);
         });
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');

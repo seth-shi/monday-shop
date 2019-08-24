@@ -86,7 +86,7 @@ class LevelController extends Controller
 
         $grid->column('id', 'id');
         $grid->column('icon', '图标')->image('', 90, 90);
-        $grid->column('name', '名字');
+        $grid->column('name', '名字')->editable();
         $grid->column('level', '等级');
         $grid->column('min_score', '分阶');
         $grid->column('created_at', '创建时间');
