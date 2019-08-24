@@ -20,6 +20,7 @@ return [
     'edit'                  => 'Ubah',
     'view'                  => 'Lihat',
     'continue_editing'      => 'Lanjutkan Pengubahan',
+    'continue_creating'     => 'Terus ciptakan',
     'detail'                => 'Detail',
     'browse'                => 'Jelajahi',
     'reset'                 => 'Reset',
@@ -97,6 +98,9 @@ return [
         'filter_clear'       => 'Lihat semua',
         'filter_placeholder' => 'Saringan',
     ],
+    'grid_items_selected'    => '{n} Item dipilih',
 
-    'menu_titles' => [],
+    'menu_titles'            => [],
+    'prev'                   => 'Sebelumnya',
+    'next'                   => 'Selanjutnya',
 ];
