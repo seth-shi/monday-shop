@@ -240,7 +240,7 @@ return [
     | "sidebar-mini".
     |
     */
-    'layout' => ['sidebar-mini', 'sidebar-collapse'],
+    'layout' => ['sidebar-mini'],
 
     /*
     |--------------------------------------------------------------------------
@@ -282,6 +282,12 @@ return [
     | the extension files will be generated in this directory.
     */
     'extension_dir' => app_path('Admin/Extensions'),
+
+
+    /**
+     * 新版本
+     */
+    'grid_action_class' => \Encore\Admin\Grid\Displayers\DropdownActions::class,
 
     /*
     |--------------------------------------------------------------------------

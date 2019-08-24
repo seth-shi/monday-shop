@@ -3,6 +3,9 @@
 namespace App\Admin\Controllers;
 
 
+use App\Admin\Actions\Post\DividerAction;
+use App\Admin\Actions\Post\ForceDeleteProductAction;
+use App\Admin\Actions\Post\ProductStatusAction;
 use App\Admin\Transforms\ProductTransform;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -119,20 +122,25 @@ class ProductController extends Controller
             $filter->disableIdFilter();
             $filter->equal('category_id', '分类')->select($categories);
             $filter->like('name', '商品名字');
-
         });
 
+
         // 增加一个上架，下架功能
-        $grid->actions(function (Grid\Displayers\Actions $actions) {
+        $grid->actions(function (Grid\Displayers\DropdownActions $actions) {
 
-            $id = $actions->row->id;
-            $pushUrl = admin_url("products/{$id}/push");
 
-            $link = is_null($actions->row->deleted_at) ?
-                "<a class='btn btn-xs btn-warning fa fa-close' href='{$pushUrl}'>下架</a>":
-                "<a class='btn btn-xs btn-success fa fa-check' href='{$pushUrl}'>上架</a>";
+            $actions->disableDelete();
+            $actions->add(new ForceDeleteProductAction());
+            $actions->add(new DividerAction());
 
-            $actions->prepend($link);
+            $name = is_null($actions->row->deleted_at) ?
+                "下架":
+                "上架";
+
+            $statusAction = new ProductStatusAction();
+            $statusAction->setName($name);
+
+            $actions->add($statusAction);
         });
 
         return $grid;
@@ -146,7 +154,7 @@ class ProductController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Product::query()->findOrFail($id));
+        $show = new Show(Product::query()->withTrashed()->findOrFail($id));
 
         $show->field('id');
         $show->field('category.title', '商品类别');
@@ -205,7 +213,7 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        $product = Product::query()->findOrFail($id);
+        $product = Product::query()->withTrashed()->findOrFail($id);
 
         if ($product->forceDelete()) {
             $data = [
@@ -220,39 +228,5 @@ class ProductController extends Controller
         }
 
         return response()->json($data);
-    }
-
-    /**
-     * 上下架商品
-     *
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function pushProduct($id)
-    {
-        /**
-         * @var $product Product
-         */
-        $product = Product::withTrashed()->findOrFail($id);
-
-
-        // 如果商品已经下架
-        if ($product->trashed()) {
-
-            // 重新上架
-            $product->restore();
-
-            admin_toastr('上架成功');
-
-            return redirect()->back();
-        }
-
-
-        $product->delete();
-
-        admin_toastr('下架成功');
-
-        return redirect()->back();
     }
 }
