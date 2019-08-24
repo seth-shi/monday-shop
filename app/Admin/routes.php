@@ -48,6 +48,8 @@ Route::group([
 
     // 积分日志
     $router->get('score_logs', 'ScoreLogController@index');
+    // 用户购物车数据
+    $router->get('cars', 'CarController@index');
 
 
     // 积分规则, 积分等级

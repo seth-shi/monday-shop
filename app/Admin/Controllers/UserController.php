@@ -151,6 +151,7 @@ class UserController extends Controller
     {
         $show = new Show(User::findOrFail($id));
 
+
         $show->field('id', 'Id');
         $show->field('name', '用户名');
         $show->field('sex', '性别')->as(function ($sex) {

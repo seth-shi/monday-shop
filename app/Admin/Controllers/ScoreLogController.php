@@ -26,6 +26,8 @@ class ScoreLogController extends AdminController
     {
         $grid = new Grid(new ScoreLog);
 
+        $grid->model()->latest();
+
         $grid->column('id', __('Id'));
         $grid->column('user_id', __('User id'));
         $grid->column('user.name', '用户名');

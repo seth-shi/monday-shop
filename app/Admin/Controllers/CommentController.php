@@ -37,6 +37,8 @@ class CommentController extends Controller
     {
         $grid = new Grid(new Comment);
 
+        $grid->model()->latest();
+
         $grid->column('id');
         $grid->column('order_id', '订单');
         $grid->column('product.name', '商品');
