@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Admin\Transforms\OrderTransform;
+use App\Admin\Transforms\OrderShipStatusTransform;
+use App\Admin\Transforms\OrderStatusTransform;
 use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
 use App\Enums\ScoreRuleIndexEnum;
@@ -38,13 +39,14 @@ class OrderController extends Controller
                            $order->score = ceil($order->total * $scoreRatio);
 
                            // 完成按钮必须是已经支付和确认收货
-                           $order->status_text = OrderTransform::getInstance()->transStatus($order->status);
+                           $order->status_text = OrderStatusTransform::trans($order->status);
 
                            // 如果订单是付款了则显示发货状态
                            if ($paid) {
 
+
                                // 如果发货了,则显示发货信息
-                               $order->status_text = OrderTransform::getInstance()->transShipStatus($order->ship_status);
+                               $order->status_text = OrderShipStatusTransform::trans($order->ship_status);
                            }
 
                            $order->show_completed_button = false;

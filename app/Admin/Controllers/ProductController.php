@@ -7,6 +7,7 @@ use App\Admin\Actions\Post\DividerAction;
 use App\Admin\Actions\Post\ForceDeleteProductAction;
 use App\Admin\Actions\Post\ProductStatusAction;
 use App\Admin\Transforms\ProductTransform;
+use App\Admin\Transforms\YesNoTransform;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
@@ -104,7 +105,7 @@ class ProductController extends Controller
         $grid->column('count', '库存量')->sortable();
         $grid->column('deleted_at', '是否上架')->display(function ($isAlive) {
 
-            return ProductTransform::getInstance()->transDeleted($isAlive);
+            return YesNoTransform::trans(is_null($isAlive));
         });
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
