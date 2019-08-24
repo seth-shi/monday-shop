@@ -288,6 +288,7 @@ function request(_method, _url, _param, _func) {
     * 请删除`composer.lock`文件，重新运行`composer install`
 * `SQLSTATE[HY000]: General error: 1215 Cannot add foreign key constraint`
     * 数据库引擎切换到`InnoDB`
-
+* `composer install` 安装依赖错误
+    * `composer.lock`锁定了镜像源,删除`composer.lock`再执行即可
 ## License
 The MIT License (MIT)
