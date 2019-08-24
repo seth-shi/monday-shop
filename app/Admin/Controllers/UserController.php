@@ -132,10 +132,26 @@ class UserController extends Controller
         });
 
         // 筛选功能
-        $grid->filter(function (Filter $filter) {
+        $levelOptions = $levels->pluck('name', 'id');
+        $grid->filter(function (Filter $filter) use ($levelOptions) {
            $filter->disableIdFilter();
            $filter->like('name', '用户名');
            $filter->like('email', '邮箱');
+
+           $filter->where(function ($query) {
+
+               // 找到这个等级
+               $level = Level::query()->findOrFail($this->input);
+               // 找到下一个等级
+               $high = Level::query()->where('min_score', '>', $level->min_score)->orderBy('min_score', 'asc')->first();
+
+
+               $query->where('score_all', '>=', $level->min_score);
+               if (! is_null($high)) {
+                   $query->where('score_all', '<', $high->min_score);
+               }
+
+           }, '等级')->select($levelOptions);
         });
 
         return $grid;
