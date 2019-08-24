@@ -14,8 +14,11 @@ class CreateLikesProductsTable extends Migration
     public function up()
     {
         Schema::create('likes_products', function (Blueprint $table) {
+
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('product_id');
+
+            $table->timestamps();
 
             $table->primary(['user_id', 'product_id']);
         });

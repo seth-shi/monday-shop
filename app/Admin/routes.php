@@ -50,6 +50,8 @@ Route::group([
     $router->get('score_logs', 'ScoreLogController@index');
     // 用户购物车数据
     $router->get('cars', 'CarController@index');
+    // 用户收藏数据
+    $router->get('user_like_products', 'ProductLikeController@index');
 
 
     // 积分规则, 积分等级

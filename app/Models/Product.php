@@ -97,7 +97,7 @@ class Product extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'likes_products');
+        return $this->belongsToMany(User::class, 'likes_products')->withTimestamps();
     }
 
     public function detail()
