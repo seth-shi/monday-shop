@@ -167,10 +167,28 @@ class UserController extends Controller
         $show->field('is_active', '是否激活')->as(function ($isActive) {
 
             return YesNoTransform::trans($isActive);
-        });
+        })->unescape();
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
 
+        $show->addresses('收货地址', function (Grid $grid) {
+
+            $grid->model()->latest();
+            $grid->column('name', '收货人');
+            $grid->column('phone', '收货人联系方式');
+            $grid->column('detail_address', '详细地址');
+            $grid->column('is_default', '是否默认')->display(function ($is) {
+
+                return YesNoTransform::trans($is);
+            });
+            $grid->column('created_at', '创建时间');
+
+            $grid->disableActions();
+            $grid->disableCreateButton();
+            $grid->disableFilter();
+            $grid->disableTools();
+            $grid->disableRowSelector();
+        });
 
         $show->scoreLogs('积分', function (Grid $grid) {
 
