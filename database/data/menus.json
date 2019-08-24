@@ -64,66 +64,66 @@
 }, {
   "id": 8,
   "parent_id": 0,
-  "order": 2,
+  "order": 3,
   "title": "会员等级",
   "icon": "fa-user",
   "uri": null,
   "created_at": "2019-02-28 17:50:47",
-  "updated_at": "2019-02-28 17:51:50"
+  "updated_at": "2019-08-24 12:02:35"
 }, {
   "id": 9,
   "parent_id": 8,
-  "order": 3,
+  "order": 4,
   "title": "会员",
   "icon": "fa-user",
   "uri": "users",
   "created_at": null,
-  "updated_at": "2019-02-28 17:51:34"
+  "updated_at": "2019-08-24 12:02:35"
 }, {
   "id": 10,
   "parent_id": 8,
-  "order": 4,
+  "order": 5,
   "title": "等级",
   "icon": "fa-user-md",
   "uri": "levels",
   "created_at": "2019-02-28 17:55:01",
-  "updated_at": "2019-02-28 17:55:16"
+  "updated_at": "2019-08-24 12:02:35"
 }, {
   "id": 11,
   "parent_id": 8,
-  "order": 5,
+  "order": 6,
   "title": "积分规则",
   "icon": "fa-balance-scale",
   "uri": "score_rules",
   "created_at": "2019-02-28 17:53:11",
-  "updated_at": "2019-02-28 17:55:17"
+  "updated_at": "2019-08-24 12:02:35"
 }, {
   "id": 12,
   "parent_id": 0,
-  "order": 6,
+  "order": 7,
   "title": "商品管理",
   "icon": "fa-product-hunt",
   "uri": null,
   "created_at": null,
-  "updated_at": "2019-02-28 17:55:17"
+  "updated_at": "2019-08-24 12:02:35"
 }, {
   "id": 13,
   "parent_id": 12,
-  "order": 7,
+  "order": 8,
   "title": "分类",
   "icon": "fa-align-justify",
   "uri": "categories",
   "created_at": null,
-  "updated_at": "2019-02-28 19:11:44"
+  "updated_at": "2019-08-24 12:02:35"
 }, {
   "id": 14,
   "parent_id": 12,
-  "order": 8,
+  "order": 9,
   "title": "商品",
   "icon": "fa-product-hunt",
   "uri": "products",
   "created_at": null,
-  "updated_at": "2019-02-28 19:11:44"
+  "updated_at": "2019-08-24 12:02:35"
 }, {
   "id": 15,
   "parent_id": 12,
@@ -169,4 +169,40 @@
   "uri": "settings",
   "created_at": "2018-12-04 17:37:45",
   "updated_at": "2019-02-28 19:11:45"
+}, {
+  "id": 36,
+  "parent_id": 0,
+  "order": 2,
+  "title": "数据分析",
+  "icon": "fa-database",
+  "uri": null,
+  "created_at": "2019-08-24 12:02:26",
+  "updated_at": "2019-08-24 12:02:35"
+}, {
+  "id": 37,
+  "parent_id": 36,
+  "order": 0,
+  "title": "商品喜好",
+  "icon": "fa-heart",
+  "uri": "user_like_products",
+  "created_at": "2019-08-24 12:03:04",
+  "updated_at": "2019-08-24 12:03:04"
+}, {
+  "id": 38,
+  "parent_id": 36,
+  "order": 0,
+  "title": "积分日志",
+  "icon": "fa-clock-o",
+  "uri": "score_logs",
+  "created_at": "2019-08-24 12:03:32",
+  "updated_at": "2019-08-24 12:03:32"
+}, {
+  "id": 39,
+  "parent_id": 36,
+  "order": 0,
+  "title": "购物车数据",
+  "icon": "fa-shopping-cart",
+  "uri": "cars",
+  "created_at": "2019-08-24 12:04:11",
+  "updated_at": "2019-08-24 12:04:11"
 }]
