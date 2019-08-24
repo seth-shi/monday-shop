@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Post\ActiveUserAction;
 use App\Admin\Transforms\UserTransform;
 use App\Enums\UserSexEnum;
 use App\Enums\UserStatusEnum;
@@ -121,6 +122,13 @@ class UserController extends Controller
         $grid->column('created_at', '创建时间');
         $grid->column('updated_at', '修改时间');
 
+        $grid->actions(function (Grid\Displayers\DropdownActions $actions) {
+
+            if (! $actions->row->is_active) {
+
+                $actions->add(new ActiveUserAction());
+            }
+        });
 
         // 筛选功能
         $grid->filter(function (Filter $filter) {
