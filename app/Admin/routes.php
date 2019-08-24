@@ -46,6 +46,9 @@ Route::group([
     // 会员管理
     $router->resource('users', 'UserController');
 
+    // 积分日志
+    $router->get('score_logs', 'ScoreLogController@index');
+
 
     // 积分规则, 积分等级
     $router->resource('score_rules', 'ScoreRuleController');
