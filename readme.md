@@ -29,6 +29,7 @@
 ![积分详情](public/media/score_detail.png)
 ![后台仪表盘](public/media/admin/dash_board.png)
 ![后台订单列表](public/media/admin/orders.png)
+![用户喜好数据](public/media/admin/user_like.png)
 
 ## Feature
 - [x] **首页数据全走缓存（推荐使用`Redis`驱动）**

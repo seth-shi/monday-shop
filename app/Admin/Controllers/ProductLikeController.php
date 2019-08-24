@@ -43,6 +43,7 @@ class ProductLikeController extends AdminController
 
         $grid->disableActions();
         $grid->disableCreateButton();
+        $grid->disableBatchActions();
 
         $grid->filter(function (Grid\Filter $filter) {
 
