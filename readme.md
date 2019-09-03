@@ -106,7 +106,7 @@ php artisan moon:install
         * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
     * Linux
         * `* * * * * php /你的项目根目录/artisan schedule:run >> /dev/null 2>&1`
-        * [linux 详情请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
+        * [linux 详情请去看官网](https://laravel.com/docs/5.5/scheduling)
 * 运行队列处理器(发送订阅邮件等耗时任务)
     * `Linux`系统: 
         * `nohup php artisan queue:work --tries=3 &`

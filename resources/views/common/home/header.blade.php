@@ -8,7 +8,7 @@
                     <ul class="nav-top nav-top-left list-inline t-left">
                         <li><a href="https://baidu.com"><i class="fa fa-question-circle"></i>指南</a>
                         </li>
-                        <li><a href="https://baidu.com"><i class="fa fa-support"></i>帮助</a>
+                        <li><a href="/coupon_templates"><i class="fa fa-money"></i>优惠券</a>
                         </li>
                     </ul>
                 </div>

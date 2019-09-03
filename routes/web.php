@@ -19,6 +19,9 @@ Route::middleware('user.cars')->group(function () {
     Route::resource('products', 'ProductController')->only('index', 'show');
     Route::resource('cars', 'CarController');
 
+    // 优惠券兑换模板
+    Route::get('coupon_templates', 'CouponTemplateController@index');
+
     // 秒杀商品
     Route::get('seckills/{id}', 'User\SeckillController@show');
     // 获取已经秒杀的人名
