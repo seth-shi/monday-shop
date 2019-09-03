@@ -102,8 +102,11 @@ cp .env.example .env
 php artisan moon:install
 ```
 * 任务调度(订阅推荐，数据统计！！！)
-    * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
-    * [linux请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
+    * windows
+        * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
+    * Linux
+        * `* * * * * php /你的项目根目录/artisan schedule:run >> /dev/null 2>&1`
+        * [linux 详情请去看官网](https://d.laravel-china.org/docs/5.5/scheduling)
 * 运行队列处理器(发送订阅邮件等耗时任务)
     * `Linux`系统: 
         * `nohup php artisan queue:work --tries=3 &`
@@ -135,7 +138,7 @@ php artisan moon:install
 
 // 假设当前秒杀活动的 id 为 9
 // 可以在模型的 created 事件做这个事情
-$id = 9;;
+$id = 9;
 
 // 填充一个 redis 队列，数量为抢购的数量，后面的 9 无意义
 \Redis::lpush("seckills:{$id}:queue", array_fill(0, $seckill->number, 9));
