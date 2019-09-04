@@ -15,10 +15,11 @@ function image($url, $disk = 'public', int $width = 50, int $height = 50) : stri
 {
     if (is_null($url) || empty($url)) {
 
-        return get404Image();
-    }
+        $url = get404Image();
+    } else {
 
-    $url = assertUrl($url, $disk);
+        $url = assertUrl($url, $disk);
+    }
 
     return "<img width='{$width}' height='{$height}' src='{$url}' />";
 }
