@@ -11,7 +11,7 @@ require __DIR__ . '/response.php';
  * @param int    $height
  * @return string
  */
-function image(string $url, string $disk = 'public', int $width = 50, int $height = 50) : string
+function image($url, $disk = 'public', int $width = 50, int $height = 50) : string
 {
     $url = assertUrl($url, $disk);
 
