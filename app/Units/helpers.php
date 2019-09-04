@@ -13,14 +13,24 @@ require __DIR__ . '/response.php';
  */
 function image($url, $disk = 'public', int $width = 50, int $height = 50) : string
 {
+    if (is_null($url) || empty($url)) {
+
+        return get404Image();
+    }
+
     $url = assertUrl($url, $disk);
 
     return "<img width='{$width}' height='{$height}' src='{$url}' />";
 }
 
-function assertUrl(string $url, string $disk = 'public')
+function assertUrl($url, $disk = 'public')
 {
     static $driver  = null;
+
+    if (is_null($url) || empty($url)) {
+
+        return get404Image();
+    }
 
     if (is_null($driver)) {
         $driver = Storage::disk($disk);
@@ -31,6 +41,11 @@ function assertUrl(string $url, string $disk = 'public')
     }
 
     return $url;
+}
+
+function get404Image()
+{
+    return asset('images/404.jpg');
 }
 
 
