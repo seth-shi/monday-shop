@@ -58,6 +58,9 @@ Route::group([
     $router->resource('score_rules', 'ScoreRuleController');
     $router->resource('levels', 'LevelController');
 
+    // 优惠券管理
+    $router->resource('coupon_templates', 'CouponTemplateController');
+
     // 富文本图片上传
     $router->post('upload/editor', 'UploadController@uploadByEditor');
     // 通过分类异步加载商品下拉列表

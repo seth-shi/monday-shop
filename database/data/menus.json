@@ -101,11 +101,11 @@
   "id": 12,
   "parent_id": 0,
   "order": 7,
-  "title": "商品管理",
+  "title": "商城管理",
   "icon": "fa-product-hunt",
   "uri": null,
   "created_at": null,
-  "updated_at": "2019-08-24 12:02:35"
+  "updated_at": "2019-09-04 08:13:59"
 }, {
   "id": 13,
   "parent_id": 12,
@@ -205,4 +205,13 @@
   "uri": "cars",
   "created_at": "2019-08-24 12:04:11",
   "updated_at": "2019-08-24 12:04:11"
+}, {
+  "id": 40,
+  "parent_id": 12,
+  "order": 0,
+  "title": "优惠券",
+  "icon": "fa-money",
+  "uri": "coupon_templates",
+  "created_at": "2019-09-04 08:14:49",
+  "updated_at": "2019-09-04 08:14:49"
 }]
