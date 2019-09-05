@@ -55,7 +55,6 @@
                                             <span>点击领取</span>
                                         </a>
                                     </div>
-
                                 </div>
                             </div>
 

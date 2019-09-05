@@ -1,5 +1,8 @@
 @extends('layouts.shop')
 
+@section('style')
+    <link rel="stylesheet" href="/css/coupons.css">
+@endsection
 
 @section('main')
     <main id="mainContent" class="main-content">
@@ -56,6 +59,47 @@
 
 
             @includeWhen($isOpenSeckill, 'homes.seckills')
+
+            <section class="section latest-coupons-area ptb-30">
+                <header class="panel ptb-15 prl-20 pos-r mb-30">
+                    <h3 class="section-title font-18">优惠券</h3>
+                    <a href="/coupon_templates" class="btn btn-o btn-xs pos-a right-10 pos-tb-center">查看所有</a>
+                </header>
+
+                <div class="row row-masnory row-tb-20">
+
+                    @foreach($couponTemplates as $template)
+                        <div class="col-sm-6 col-lg-4">
+
+                        <div class="coupon-item">
+                            <div class="style-three">
+                                <div class="info-box">
+                                    <p class="nick">{{ $template->title }}</p>
+                                    <div class="coupon-money">
+                                        <div class="lay of">￥<em>{{ $template->amount }}</em></div>
+                                        <div class="lay">
+                                            @if ($template->full_amount > 0)
+                                                <p class="tit">满{{ $template->full_amount }}元可用</p>
+                                            @else
+                                                <p class="tit">无门槛</p>
+                                            @endif
+                                            <p class="demand"
+                                               style="color: #FFB800;">{{ $template->start_date }} ~</p>
+                                            <p class="demand"
+                                               style="color: #5FB878;">{{ $template->end_date }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="/coupon_templates" class="get-btn">
+                                    <span>去领取</span>
+                                </a>
+                            </div>
+                        </div>
+                        </div>
+                    @endforeach
+                </div>
+            </section>
+
 
             <section class="section latest-deals-area ptb-30">
                 <header class="panel ptb-15 prl-20 pos-r mb-30">
