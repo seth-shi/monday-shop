@@ -20,9 +20,17 @@
 [后台地址：http://shop.shiguopeng.cn/admin](http://shop.shiguopeng.cn/admin)
 * 账号：`admin`
 * 密码：`admin`
+****
+* 测试支付功能
+    * 下载[支付宝沙箱](https://sandbox.alipaydev.com/user/downloadApp.htm)
+    * 账号：`eyxweq5099@sandbox.com`
+    * 密码：`111111`
+    * 支付密码：`111111`
+    * 当前账户余额：`9999999.99`
+    * 余额不足，请联系我及时充值
 
 ## 页面展示
-![PC首页](public/media/index_pc.png)
+![PC首页](public/media/pc_index.jpg)
 ![支付](public/media/pay.gif)
 ![个人设置](public/media/map_center.png)
 ![个人中心](public/media/center.png)
