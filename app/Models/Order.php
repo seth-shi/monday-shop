@@ -57,6 +57,18 @@ use Illuminate\Support\Facades\Cache;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $pay_type 支付类型
+ * @property string|null $refund_reason 退款理由
+ * @property int $ship_status 物流状况
+ * @property string|null $express_company 快递公司
+ * @property string|null $express_no 快递单号
+ * @property int $type 订单类型,1普通订单，2秒杀订单
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereExpressCompany($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereExpressNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereShipStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereType($value)
  */
 class Order extends Model
 {

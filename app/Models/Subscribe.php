@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscribe whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscribe whereUserId($value)
  * @mixin \Eloquent
+ * @property int $is_subscribe
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Subscribe whereIsSubscribe($value)
  */
 class Subscribe extends Model
 {

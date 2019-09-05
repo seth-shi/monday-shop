@@ -16,7 +16,7 @@ class CreateScoreLogsTable extends Migration
         Schema::create('score_logs', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->unsignedInteger('rule_id')->comment('积分规则的主键');
+            $table->unsignedInteger('rule_id')->nullable()->comment('积分规则的主键');
             $table->unsignedInteger('user_id')->comment('得到积分的用户');
             $table->string('description')->comment('score_rule 表的同名字段替换后的值');
             $table->integer('score')->comment('得到了多少积分');

@@ -60,6 +60,12 @@ use Ramsey\Uuid\Uuid;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereUuid($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Product withoutTrashed()
  * @mixin \Eloquent
+ * @property int|null $view_count
+ * @property int|null $today_has_view
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereOriginalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereSaleCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereTodayHasView($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Product whereViewCount($value)
  */
 class Product extends Model
 {
