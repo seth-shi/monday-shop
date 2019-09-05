@@ -40,7 +40,11 @@
                     @foreach ($logs as $log)
                         <tr>
                             <td class="pointType">{{ $log->description }}</td>
-                            <td class="pointNum" style="color: green;">+ {{ $log->score }}</td>
+                            @if ($log->score > 0)
+                                <td class="pointNum" style="color: green;">+ {{ $log->score }}</td>
+                            @else
+                                <td class="pointNum" style="color: red;">{{ $log->score }}</td>
+                            @endif
                             <td class="pointTime">{{ $log->created_at }}</td>
                         </tr>
                     @endforeach
