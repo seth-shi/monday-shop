@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCouponTemplatesTable extends Migration
+class CreateUserHasCouponsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,21 +14,22 @@ class CreateCouponTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('coupon_templates', function (Blueprint $table) {
+        Schema::create('user_has_coupons', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->unsignedInteger('template_id');
             $table->string('title')->comment('优惠券标题');
             $table->decimal('amount')->comment('满减金额');
             $table->decimal('full_amount')->comment('门槛金额');
-
-            $table->unsignedInteger('score')->default(0)->comment('使用多少积分兑换优惠券');
             $table->date('start_date')->comment('开始日期');
             $table->date('end_date')->comment('结束日期');
+
+            $table->timestamp('used_at')->nullable()->comment('使用时间');
 
             $table->timestamps();
         });
 
-        DB::statement("ALTER TABLE `coupon_templates` comment'优惠券模板表'");
+        DB::statement("ALTER TABLE `user_has_coupons` comment'用户拥有的优惠券表'");
     }
 
     /**
@@ -38,6 +39,6 @@ class CreateCouponTemplatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coupon_templates');
+        Schema::dropIfExists('user_has_coupons');
     }
 }
