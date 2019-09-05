@@ -38,6 +38,27 @@ class UserCouponController extends Controller
 
         $coupons = $query->latest()->paginate();
 
+        $today = Carbon::today();
+        foreach ($coupons as $coupon) {
+
+            if (! is_null($coupon->used_at)) {
+
+                $coupon->used = true;
+                $coupon->show_title = '已使用';
+            }
+            // 过期的
+            elseif ($today->gt(Carbon::make($coupon->end_date))) {
+
+                $coupon->used = true;
+                $coupon->show_title = '已过期';
+            } else {
+
+                $coupon->used = false;
+                $coupon->show_title = '去使用';
+            }
+
+        }
+
         return view('user.coupons.index', compact('coupons'));
     }
 }

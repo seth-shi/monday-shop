@@ -17,6 +17,9 @@
         .coupon-wrapper .coupon-item .get-btn span {
             font-size: 0.8rem;
         }
+        .style-two.have .get-btn span, .style-three.have .get-btn span, .style-six.have .get-btn span, .style-seven.have .get-btn span {
+            width: 2.6rem;
+        }
     </style>
     <style>
         .pagination {
@@ -188,7 +191,7 @@
                             <div class="col-sm-6 col-lg-4">
 
                                 <div class="coupon-item">
-                                    <div style="height: 6rem;" class="style-three {{ $coupon->coupons_count > 0 ? 'have' : '' }}">
+                                    <div style="height: 6rem;" class="style-three {{ $coupon->used ? 'have' : '' }}">
                                         <div class="info-box">
                                             <p class="nick">
                                                 {{ $coupon->title }}
@@ -209,10 +212,10 @@
                                             </div>
                                         </div>
 
-                                        <a href="javascript:;"
+                                        <a href="{{ $coupon->used ? 'javascript:;' : '/products' }}"
                                            style="height: 6rem;"
                                            class="get-btn">
-                                            <span>去使用</span>
+                                            <span>{{ $coupon->show_title }}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -230,9 +233,4 @@
 
     </div>
 
-@endsection
-
-@section('script')
-    <script src="/assets/shop/js/jquery-1.12.3.min.js"></script>
-    <script src="/assets/user/layer/2.4/layer.js"></script>
 @endsection

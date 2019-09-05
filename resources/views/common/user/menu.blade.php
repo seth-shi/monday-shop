@@ -13,6 +13,7 @@
             <ul>
                 <li> <a href="/user/addresses">收货地址</a></li>
                 <li><a href="/user/orders">订单管理</a></li>
+                <li><a href="/user/coupons">优惠券</a></li>
             </ul>
         </li>
         <li class="person">
