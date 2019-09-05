@@ -70,12 +70,10 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     /****************************************
      * 1. 用户收藏商品的列表
      * 2. 收藏，取消收藏商品
-     * 3. 单个订单的下单
-     * 4. 订单的资源路由
+     * 3. 订单的资源路由
      ****************************************/
     Route::get('likes', 'LikesController@index');
     Route::put('likes/{id}', 'LikesController@toggle');
-    Route::post('orders/single', 'OrderController@single');
     Route::resource('orders', 'OrderController')->only('index', 'show', 'destroy');
 
     // 确认收货
