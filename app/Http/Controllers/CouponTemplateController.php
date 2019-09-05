@@ -13,7 +13,15 @@ class CouponTemplateController extends Controller
         $today = Carbon::today()->toDateString();
 
         // 只查询未过期的
-        $templates = CouponTemplate::query()->where('end_date', '>=', $today)->get();
+        // 标记已经领取过的
+        $templates = CouponTemplate::query()
+            ->withCount(['coupons' => function ($b) {
+
+                $b->where('user_id', auth()->id());
+            }])
+            ->where('end_date', '>=', $today)
+            ->get();
+
 
         return view('coupons.templates', compact('templates'));
     }

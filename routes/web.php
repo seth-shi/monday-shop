@@ -21,6 +21,8 @@ Route::middleware('user.cars')->group(function () {
 
     // 优惠券兑换模板
     Route::get('coupon_templates', 'CouponTemplateController@index');
+    // 领取优惠券
+    Route::post('coupons', 'CouponController@store');
 
     // 秒杀商品
     Route::get('seckills/{id}', 'User\SeckillController@show');

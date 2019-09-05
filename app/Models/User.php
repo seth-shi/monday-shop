@@ -74,6 +74,18 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWeiboId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereWeiboName($value)
  * @mixin \Eloquent
+ * @property int $score_all 用户的总积分
+ * @property int $score_now 用户剩余的积分
+ * @property int $login_days 用户连续登录天数
+ * @property string|null $last_login_date 上一次登录的日期,用于计算连续登录
+ * @property string|null $auth_token
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserHasCoupon[] $coupons
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ScoreLog[] $scoreLogs
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereAuthToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLastLoginDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLoginDays($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereScoreAll($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereScoreNow($value)
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -137,6 +149,11 @@ class User extends Authenticatable implements JWTSubject
         return $lastStr . $hiddenStr;
     }
 
+
+    public function coupons()
+    {
+        return $this->hasMany(UserHasCoupon::class, 'user_id');
+    }
 
     public function scoreLogs()
     {

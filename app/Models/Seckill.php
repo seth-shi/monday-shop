@@ -28,6 +28,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereStartAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $category_id
+ * @property float $price 秒杀价
+ * @property int $rollback_count 回滚的库存量
+ * @property int $is_rollback 是否回滚了数量
+ * @property-read \App\Models\Product $product
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereIsRollback($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereRollbackCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Seckill whereSaleCount($value)
  */
 class Seckill extends Model
 {
