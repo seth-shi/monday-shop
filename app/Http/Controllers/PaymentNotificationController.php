@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin\Transforms\OrderPayTypeTransform;
+use App\Enums\OrderPayTypeEnum;
 use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\User\PaymentController;
 use App\Models\Order;
@@ -29,7 +31,6 @@ class PaymentNotificationController extends Controller
      */
     public function payNotify(Request $request)
     {
-        $payType = 'ali';
         $alipay = Pay::alipay($this->config);
 
         // TODO , 加一个轮询接口配合后台通知修改订单状态
@@ -51,7 +52,7 @@ class PaymentNotificationController extends Controller
                     $order->pay_no = $data->get('trade_no');
                     $order->pay_total = $data->get('receipt_amount');
                     $order->status = OrderStatusEnum::PAID;
-                    $order->pay_type = $payType;
+                    $order->pay_type = OrderPayTypeEnum::ALI;
                     $order->save();
                 }
             }
