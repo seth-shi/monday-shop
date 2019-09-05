@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\Controllers\CouponLogController;
 use Illuminate\Routing\Router;
 
 Admin::registerAuthRoutes();
@@ -60,6 +61,8 @@ Route::group([
 
     // 优惠券管理
     $router->resource('coupon_templates', 'CouponTemplateController');
+    // 优惠券
+    $router->resource('coupon_logs', 'CouponLogController')->only('index');
 
     // 富文本图片上传
     $router->post('upload/editor', 'UploadController@uploadByEditor');

@@ -17,6 +17,7 @@ class CreateUserHasCouponsTable extends Migration
         Schema::create('user_has_coupons', function (Blueprint $table) {
             $table->increments('id');
 
+            $table->unsignedInteger('user_id')->comment('领取的用户');
             $table->unsignedInteger('template_id');
             $table->string('title')->comment('优惠券标题');
             $table->decimal('amount')->comment('满减金额');
