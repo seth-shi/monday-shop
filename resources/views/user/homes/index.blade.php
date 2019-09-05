@@ -41,9 +41,36 @@
                         <a class="i-load-more-item-shadow" href="/user/orders">全部订单</a>
                     </div>
                     <ul>
-                        <li><a href="/cars"><i><img src="/assets/user/images/send.png"/></i><span>购物车<em class="m-num">{{ $user->cars->count() }}</em></span></a></li>
-
-                        <li><a href="/user/orders"><i><img src="/assets/user/images/refund.png"/></i><span>订单<em class="m-num">{{ $user->orders->count() }}</em></span></a></li>
+                        <li>
+                            <a href="/user/coupons">
+                                <i><img src="/assets/user/images/coupons.png"/></i>
+                                <span>优惠券<em class="m-num">{{ $user->coupons_count }}</em></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/cars">
+                                <i><img src="/assets/user/images/cars.png"/></i>
+                                <span>购物车<em class="m-num">{{ $user->cars_count }}</em></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/user/orders">
+                                <i><img src="/assets/user/images/orders.png"/></i
+                                ><span>订单<em class="m-num">{{ $user->orders_count }}</em></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/user/password">
+                                <i><img src="/assets/user/images/update_password.png"/></i
+                                ><span>修改密码</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/user/likes">
+                                <i><img src="/assets/user/images/icon_like_sel.png"/></i
+                                ><span>我的收藏</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
@@ -70,7 +97,7 @@
                     <div class="s-bar">我的收藏</div>
                     <div class="s-content">
                         @foreach ($user->likeProducts as $product)
-                            <div class="s-item-wrap">
+                            <div class="s-item-wrap" style="padding: 2px 4px;">
                                 <div class="s-item">
 
                                     <div class="s-pic">
@@ -84,11 +111,10 @@
 
                                     </div>
                                     <div class="s-title"><a href="/products/{{ $product->uuid }}" title="{{ $product->name }}">{{ $product->name }}</a></div>
-                                    <div class="s-extra-box">
-                                        <span class="s-sales">销量: {{ $product->sale_count }}</span>
-                                    </div>
+
                                 </div>
                             </div>
+                            <hr>
                         @endforeach
                     </div>
                 </div>

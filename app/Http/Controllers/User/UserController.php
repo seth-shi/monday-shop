@@ -27,6 +27,10 @@ class UserController extends Controller
          * @var $user User
          */
         $user = $this->user();
+
+        // 获取优惠券数量
+        $today = Carbon::today()->toDateString();
+        $user->coupons_count = $user->coupons()->where('end_date', '>=', $today)->count();
         $user->cars_count = $user->cars()->sum('number');
         $user->orders_count = $user->orders()->count();
         $user->likeProducts = $user->products()->latest()->take(9)->get();

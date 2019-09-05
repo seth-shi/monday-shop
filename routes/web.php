@@ -85,6 +85,8 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
 
     // 用户的积分
     Route::get('scores', 'UserController@indexScores');
+    // 用户拥有的优惠券
+    Route::get('coupons', 'UserCouponController@index');
 
     // 评论商品
     Route::post('comments', 'CommentController@store');
