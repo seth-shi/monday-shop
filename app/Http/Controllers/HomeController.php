@@ -6,6 +6,7 @@ use App\Enums\HomeCacheEnum;
 use App\Enums\SettingIndexEnum;
 use App\Enums\SiteCountCacheEnum;
 use App\Models\Category;
+use App\Models\CouponTemplate;
 use App\Models\Product;
 use App\Models\Seckill;
 use App\Models\Subscribe;
@@ -99,9 +100,13 @@ class HomeController extends Controller
         }
 
 
+        $today = Carbon::today()->toDateString();
+        // 查询优惠券
+        $couponTemplates = CouponTemplate::query()->where('end_date', '>=', $today)->latest()->limit(3)->get();
+
         return view(
             'homes.index',
-            compact('categories', 'hotProducts', 'latestProducts', 'users', 'secKills', 'loginUser', 'isOpenSeckill')
+            compact('categories', 'hotProducts', 'latestProducts', 'users', 'secKills', 'loginUser', 'isOpenSeckill', 'couponTemplates')
         );
     }
 
