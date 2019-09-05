@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Extensions\ReceivedButton;
 use App\Admin\Extensions\ShipButton;
 use App\Admin\Transforms\OrderDetailTransform;
+use App\Admin\Transforms\OrderPayTypeTransform;
 use App\Admin\Transforms\OrderShipStatusTransform;
 use App\Admin\Transforms\OrderStatusTransform;
 use App\Admin\Transforms\OrderTypeTransform;
@@ -49,6 +50,7 @@ class OrderController extends Controller
                  ->attribute(['id' => 'ship_form', 'style' => 'display:none;'])
                  ->disablePjax();
 
+        // TODO 发货功能
 
         return $content
             ->header('订单列表')
@@ -104,11 +106,15 @@ class OrderController extends Controller
 
             return OrderTypeTransform::trans($type);
         });
+
+        $grid->column('pay_type', '支付方式')->display(function ($type) {
+
+            return OrderPayTypeTransform::trans($type);
+        });
+        $grid->column('pay_no', '支付流水号');
         $grid->column('pay_time', '支付时间');
         $grid->column('consignee_name', '收货人姓名');
         $grid->column('consignee_phone', '收货人手机');
-        $grid->column('consignee_address', '收货地址');
-        $grid->column('refund_reason', '退款理由');
         $grid->column('created_at', '创建时间');
 
         $grid->disableRowSelector();
@@ -203,7 +209,10 @@ class OrderController extends Controller
 
         $show->divider();
 
-        $show->field('pay_type', '支付类型');
+        $show->field('pay_type', '支付类型')->as(function ($type) {
+
+            return OrderPayTypeTransform::trans($type);
+        });
         $show->field('refund_reason', '退款理由');
         $show->field('pay_trade_no', '退款单号');
         $show->field('pay_no', '支付单号');
