@@ -55,7 +55,12 @@
                     </div>
                     @foreach ($scoreLogs as $log)
                         <div style="padding: 5px 10px;border-bottom: 1px solid #ddd; min-height: 30px;">
-                            {{ $log->description }} <span style="float: right; color: green;"> + {{ $log->score }}</span>
+                            {{ $log->description }}
+                            @if ($log->score > 0)
+                                <span style="float: right; color: green;"> + {{ $log->score }}</span>
+                            @else
+                                <span style="float: right; color: red;">{{ $log->score }}</span>
+                            @endif
                         </div>
                     @endforeach
                 </div>

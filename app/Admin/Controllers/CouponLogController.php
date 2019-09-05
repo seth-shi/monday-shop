@@ -39,7 +39,7 @@ class CouponLogController extends AdminController
         $grid->column('end_date', __('End date'));
         $grid->column('is_used', '是否使用')->display(function () {
 
-            return YesNoTransform::trans(is_null($this->used_at));
+            return YesNoTransform::trans(! is_null($this->used_at));
         });
         $grid->column('used_at', '使用时间');
         $grid->column('created_at', __('Created at'));
