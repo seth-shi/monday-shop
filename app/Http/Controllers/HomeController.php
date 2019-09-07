@@ -100,9 +100,14 @@ class HomeController extends Controller
         }
 
 
-        $today = Carbon::today()->toDateString();
+
         // 查询优惠券
-        $couponTemplates = CouponTemplate::query()->where('end_date', '>=', $today)->latest()->limit(3)->get();
+        $couponTemplates = Cache::rememberForever(HomeCacheEnum::COUPON_TEMPLATES, function () {
+
+            $today = Carbon::today()->toDateString();
+            return CouponTemplate::query()->where('end_date', '>=', $today)->latest()->limit(3)->get();
+        });
+
 
         return view(
             'homes.index',

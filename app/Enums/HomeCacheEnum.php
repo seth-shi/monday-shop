@@ -11,4 +11,5 @@ class HomeCacheEnum extends Enum
     const HOTTEST = 'home:hottest';
     const LATEST = 'home:latest';
     const USERS = 'home:users';
+    const COUPON_TEMPLATES = 'home:templates';
 }

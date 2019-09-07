@@ -31,11 +31,12 @@
     };
 
     // 存储元素
-    LocalCar.put = function (key, name, number, price) {
+    LocalCar.put = function (key, name, thumb, number, price) {
 
         let product = {
             id: key,
             name: name,
+            thumb: thumb,
             number: number,
             price: price
         };
@@ -44,7 +45,7 @@
     };
 
     // 自增数量
-    LocalCar.increment = function (key, name, number, price) {
+    LocalCar.increment = function (key, name, thumb, number, price) {
 
         let product = LocalCar.get(key);
 
@@ -53,6 +54,7 @@
 
             product = {
                 id: key,
+                thumb: thumb,
                 name: name,
                 number: 0,
                 price: price
