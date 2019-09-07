@@ -94,7 +94,11 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
      * 2. 退款接口
      * 3. 忘记付款了，再次付款
      ****************************************/
-    Route::post('pay/store', 'PaymentController@store');
+    // 统一创建订单
+    Route::get('comment/orders/create', 'StoreOrderController@create');
+    Route::post('comment/orders', 'StoreOrderController@store');
+
+    // 退款和支付
     Route::post('pay/orders/{order}/refund', 'RefundController@store');
     Route::get('pay/orders/{order}/again', 'PaymentController@againStore');
 

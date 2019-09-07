@@ -14,15 +14,15 @@ use Illuminate\Support\Facades\Cache;
  * @property int $id
  * @property string $no 订单流水号
  * @property int $user_id
- * @property float $total 总计价格
+ * @property float $amount 总计价格
  * @property int $status -1：退款， 0：未支付订单，1:支付宝支付，
  * @property string|null $name 订单的名字，用于第三方，只有一个商品就是商品的名字，多个商品取联合
  * @property string|null $consignee_name 收货人
  * @property string|null $consignee_phone 收货人手机号码
  * @property string|null $consignee_address 收货地址
  * @property string|null $pay_no 第三方支付单号
- * @property float|null $pay_total 实际支付金额
- * @property string|null $pay_time 支付时间
+ * @property float|null $pay_amount 实际支付金额
+ * @property string|null $paid_at 支付时间
  * @property float|null $pay_refund_fee 退款金额
  * @property string|null $pay_trade_no 第三方退款订单号
  * @property string|null $deleted_at
@@ -48,10 +48,7 @@ use Illuminate\Support\Facades\Cache;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayRefundFee($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayTradeNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
@@ -77,7 +74,7 @@ class Order extends Model
 
     protected $table = 'orders';
     protected $fillable = [
-        'uuid', 'total', 'status', 'type',
+        'uuid', 'amount', 'status', 'type',
         'consignee_name', 'consignee_phone', 'consignee_address', 'user_id'
     ];
 
@@ -129,9 +126,9 @@ class Order extends Model
 
                 $currMoney = Cache::get(SiteCountCacheEnum::SALE_ORDER_COUNT, 0);
                 if (function_exists('bcadd')) {
-                    $money = bcadd($currMoney, $model->pay_total);
+                    $money = bcadd($currMoney, $model->pay_amount);
                 } else {
-                    $money = $currMoney + $model->pay_total;
+                    $money = $currMoney + $model->pay_amount;
                 }
 
                 Cache::set(SiteCountCacheEnum::SALE_ORDER_COUNT, $money);

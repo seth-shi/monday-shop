@@ -21,7 +21,10 @@ class CreateOrdersTable extends Migration
             $table->string('no')->comment('订单流水号');
 
             $table->unsignedInteger('user_id');
-            $table->decimal('total', 12, 2)->comment('总计价格');
+            $table->decimal('origin_amount', 12, 2)->default(0)->comment('原始价格');
+            $table->decimal('post_amount')->default(0)->comment('邮费');
+            $table->decimal('coupon_amount')->default(0)->comment('优惠价格');
+            $table->decimal('amount', 12, 2)->comment('总计价格');
             $table->tinyInteger('status')->default(\App\Enums\OrderStatusEnum::UN_PAY)->comment('');
             $table->string('pay_type')->nullable()->comment('支付类型');
 
@@ -41,10 +44,12 @@ class CreateOrdersTable extends Migration
 
             // 第三方支付
             $table->string('pay_no')->nullable()->comment('第三方支付单号');
-            $table->decimal('pay_total', 12, 2)->nullable()->comment('实际支付金额');
-            $table->timestamp('pay_time')->nullable()->comment('支付时间');
+            $table->decimal('pay_amount', 12, 2)->nullable()->comment('实际支付金额');
+            $table->timestamp('paid_at')->nullable()->comment('支付时间');
             $table->decimal('pay_refund_fee', 12, 2)->nullable()->comment('退款金额');
             $table->string('pay_trade_no')->nullable()->comment('第三方退款订单号');
+
+
 
             $table->softDeletes();
 

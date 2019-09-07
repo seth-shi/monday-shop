@@ -93,7 +93,7 @@
                                             <div class="order-right">
                                                 <li class="td td-amount">
                                                     <div class="item-amount">
-                                                        合计：{{ $order->total }}
+                                                        合计：{{ $order->amount }}
                                                     </div>
                                                 </li>
                                                 <li class="td td-status">
