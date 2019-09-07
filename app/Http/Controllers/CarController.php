@@ -22,7 +22,6 @@ class CarController extends Controller
     public function index()
     {
         $cars = collect();
-        $addresses = collect();
 
         /**
          * @var $user User
@@ -30,7 +29,6 @@ class CarController extends Controller
         if ($user = \auth()->user()) {
             // 直接获取当前登录用户的购物车
             $cars = $user->cars()->with('product')->get();
-            $addresses = $user->addresses()->get();
         }
 
         return view('cars.index', compact('cars', 'addresses'));

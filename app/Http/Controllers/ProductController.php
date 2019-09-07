@@ -101,11 +101,9 @@ class ProductController extends Controller
         $product->userIsLike = $product->users()->where('id', auth()->id())->exists();
 
         // 如果登录返回所有地址列表，如果没有，则返回一个空集合
-        $addresses = collect();
         $orderDetails = collect();
         if ($user) {
 
-            $addresses = $user->addresses()->get();
             $orderDetails = $user->orderDetails()
                                  ->whereHas('order', function ($query) {
 

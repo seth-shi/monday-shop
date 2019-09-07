@@ -62,7 +62,7 @@
                                         <form class="mb-30" id="store_form" method="post">
                                             {{ csrf_field() }}
                                             @foreach ($products as $product)
-                                                <input type="hidden" name="ids[]" value="{{ $product->id }}">
+                                                <input type="hidden" name="ids[]" value="{{ $product->uuid }}">
                                                 <input type="hidden" name="numbers[]" value="{{ $product->number }}">
                                             @endforeach
                                             @foreach ($cars as $id)
@@ -261,15 +261,20 @@
 
         $('#store_form').submit(function () {
 
+            layer.load();
             $.post('/user/comment/orders', $(this).serialize(), function (res) {
 
+                layer.closeAll();
                 if (res.code != 200) {
 
                     layer.alert(res.msg, {icon: 2});
                     return;
                 }
 
-                console.log(res);
+                var orderId = res.data.order_id;
+
+                // 跳去支付
+                window.location.href = "/user/pay/orders/"+ orderId +"/again";
             });
 
             return false;

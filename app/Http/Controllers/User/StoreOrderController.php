@@ -38,7 +38,7 @@ class StoreOrderController extends Controller
             return back()->with('error', '无效的商品');
         }
 
-        $products = Product::query()->findMany($ids);
+        $products = Product::query()->whereIn('uuid', $ids)->get();
         if ($products->count() === 0 || $products->count() !== count($numbers)) {
 
             return back()->with('error', '无效的商品');
@@ -87,13 +87,13 @@ class StoreOrderController extends Controller
 
         if (count($ids) === 0 || count($ids) !== count($numbers)) {
 
-            return back()->with('error', '无效的商品');
+            return responseJsonAsBadRequest('无效的商品');
         }
 
-        $products = Product::query()->findMany($ids);
+        $products = Product::query()->whereIn('uuid', $ids)->get();
         if ($products->count() === 0 || $products->count() !== count($numbers)) {
 
-            return back()->with('error', '无效的商品');
+            return responseJsonAsBadRequest('无效的商品.');
         }
 
 
