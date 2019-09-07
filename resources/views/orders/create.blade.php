@@ -68,7 +68,6 @@
                                 <thead class="panel t-uppercase">
                                 <tr>
                                     <th>商品名字</th>
-                                    <th>商品图片</th>
                                     <th>商品价格</th>
                                     <th>数量</th>
                                     <th>删除</th>
@@ -85,9 +84,6 @@
                                                 </a>
                                             </h6>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <img src="{{ $car->product->thumb }}" alt="">
                                     </td>
                                     <td class="prices">{{ $car->product->price }}</td>
                                     <td>
@@ -154,7 +150,7 @@
                                     dom.val(parseInt(dom.val()) + product.number);
                                 } else {
                                     // 增加 DOM
-                                    let html = buildCarDom(product.id, product.name, product.thumb, product.number, product.price);
+                                    let html = buildCarDom(product.id, product.name, product.number, product.price);
                                     $('#cars_data').append(html);
                                 }
 
@@ -182,7 +178,7 @@
             for (let i in localCars) {
 
                 let product = localCars[i];
-                dom += buildCarDom(product.id, product.name, product.thumb, product.number, product.price);
+                dom += buildCarDom(product.id, product.name, product.number, product.price);
             }
 
             $('#cars_data').append(dom);
@@ -278,7 +274,7 @@
         /**
          * 构建购物车的 dom
          */
-        function buildCarDom(id, name, thumb, number, price)
+        function buildCarDom(id, name, number, price)
         {
             return '<tr class="panel alert local-car">\
                 <td>\
@@ -289,9 +285,6 @@
                 </a>\
                 </h6>\
                 </div>\
-                </td>\
-                <td>\
-                    <img src="'+ thumb +'" alt="">\
                 </td>\
                 <td  class="prices">'+ price +'</td>\
                 <td>\

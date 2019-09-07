@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\CountRegisterNumber;
 use App\Console\Commands\CountSite;
 use App\Console\Commands\DelExpireScoreData;
 use App\Console\Commands\DelExpireSecKill;

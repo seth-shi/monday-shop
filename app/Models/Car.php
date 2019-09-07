@@ -38,6 +38,12 @@ class Car extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withDefault(function () {
+
+            $product = new Product();
+            $product->name = '商品已下架';
+            $product->thumb = get404Image();
+            $product->price = 0;
+        });
     }
 }

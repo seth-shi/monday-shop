@@ -448,7 +448,7 @@
                     });
                 @endauth
                 @guest
-                    LocalCar.increment("{{ $product->uuid }}", "{{ $product->name }}", number, {{ $product->price }});
+                    LocalCar.increment("{{ $product->uuid }}", "{{ $product->name }}", "{{ $product->thumb }}", number, {{ $product->price }});
                     // 更新购物车显示数量
                     renderIncrementCar(number, true);
                     layer.msg('加入本地购物车成功', {icon: 1});
