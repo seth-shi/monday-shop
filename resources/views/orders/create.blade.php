@@ -62,11 +62,11 @@
                                         <form class="mb-30" id="store_form" method="post">
                                             {{ csrf_field() }}
                                             @foreach ($products as $product)
-                                                <input type="hidden" name="ids" value="{{ $product->id }}">
-                                                <input type="hidden" name="numbers" value="{{ $product->number }}">
+                                                <input type="hidden" name="ids[]" value="{{ $product->id }}">
+                                                <input type="hidden" name="numbers[]" value="{{ $product->number }}">
                                             @endforeach
                                             @foreach ($cars as $id)
-                                                <input type="hidden" name="cars" value="{{ $id }}">
+                                                <input type="hidden" name="cars[]" value="{{ $id }}">
                                             @endforeach
 
                                             <input type="hidden" name="coupon_id" >
