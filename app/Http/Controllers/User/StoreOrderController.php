@@ -23,6 +23,12 @@ class StoreOrderController extends Controller
 {
     public function create(Request $request)
     {
+        /**
+         * @var $user User
+         */
+        $user = auth()->user();
+
+
         $cars = $request->input('cars', []);
         $ids = $request->input('ids');
         $numbers = $request->input('numbers');
@@ -128,11 +134,27 @@ class StoreOrderController extends Controller
         try {
 
             $originAmount = 0;
-            $details = $products->transform(function (Product $product, $i) use ($numbers, &$originAmount) {
+            $details = $products->map(function (Product $product, $i) use ($numbers, &$originAmount) {
 
                 $number = $numbers[$i];
-                // 库存量减少
-                $this->decProductNumber($product, $number);
+
+                // 此处库存，是查询出来的库存
+                if ($number > $product->count) {
+                    throw new OrderException("[{$product->name}] 库存数量不足");
+                }
+
+                // 这里，由于库存的减少会带来超卖的问题
+                // 所以我们使用乐观锁解决这个问题
+                $updated = Product::query()
+                                  ->where('count', '>=', $number)
+                                  ->update([
+                                      'count' => DB::raw("count-{$number}"),
+                                      'sale_count' => DB::raw("sale_count+{$number}"),
+                                  ]);
+                if ($updated === 0) {
+
+                    throw new \Exception("{$product->name}商品库存不足");
+                }
 
                 $attribute =  [
                     'product_id' => $product->id,
@@ -148,7 +170,7 @@ class StoreOrderController extends Controller
 
             if ($originAmount < $couponModel->full_amount) {
 
-                throw new \Exception('优惠券门槛金额为 ' + $couponModel->full_amount);
+                throw new \Exception('优惠券门槛金额为 ' . $couponModel->full_amount);
             }
 
             $order = new Order();
@@ -199,23 +221,5 @@ class StoreOrderController extends Controller
         }
 
         return responseJson(200, '创建订单成功', ['order_id' => $order->id]);
-    }
-
-    /**
-     * 库存数量
-     *
-     * @param Product $product
-     * @param         $number
-     * @throws OrderException
-     */
-    protected function decProductNumber(Product $product, $number)
-    {
-        if ($number > $product->count) {
-            throw new OrderException("[{$product->name}] 库存数量不足");
-        }
-
-        $product->setAttribute('count', $product->count - $number)
-            ->setAttribute('sale_count', $product->sale_count + $number)
-            ->save();
     }
 }
