@@ -140,12 +140,13 @@ class StoreOrderController extends Controller
 
                 // 此处库存，是查询出来的库存
                 if ($number > $product->count) {
-                    throw new OrderException("[{$product->name}] 库存数量不足");
+                    throw new OrderException("{$product->name} 库存数量不足");
                 }
 
                 // 这里，由于库存的减少会带来超卖的问题
                 // 所以我们使用乐观锁解决这个问题
                 $updated = Product::query()
+                                  ->whereKey($product->id)
                                   ->where('count', '>=', $number)
                                   ->update([
                                       'count' => DB::raw("count-{$number}"),
@@ -194,6 +195,8 @@ class StoreOrderController extends Controller
 
                     $totalAmount = 0.01;
                 }
+
+                $order->coupon_amount = $originAmount - $totalAmount;
             }
             $order->amount = $totalAmount;
             $order->save();
@@ -218,7 +221,6 @@ class StoreOrderController extends Controller
 
         } catch (\Exception $e) {
 
-            dd($e);
             DB::rollBack();
             return responseJsonAsBadRequest($e->getMessage());
         }
