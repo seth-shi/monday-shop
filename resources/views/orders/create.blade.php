@@ -59,14 +59,14 @@
                                     <section class="section checkout-area panel prl-30 pt-20 pb-40">
                                         <h2 class="h3 mb-20 h-title">支付信息</h2>
                                         @include('hint.status')
-                                        <form class="mb-30" method="post" action="/user/comment/orders">
+                                        <form class="mb-30" id="store_form" method="post">
                                             {{ csrf_field() }}
                                             @foreach ($products as $product)
                                                 <input type="hidden" name="ids" value="{{ $product->id }}">
                                                 <input type="hidden" name="numbers" value="{{ $product->number }}">
                                             @endforeach
                                             @foreach ($cars as $id)
-                                                <input type="hidden" name="cars" value="$id">
+                                                <input type="hidden" name="cars" value="{{ $id }}">
                                             @endforeach
 
                                             <input type="hidden" name="coupon_id" >
@@ -256,6 +256,23 @@
             $('#select_coupon_box').hide(1000);
 
             $('input[name=coupon_id]').val(model.id);
+        });
+
+
+        $('#store_form').submit(function () {
+
+            $.post('/user/comment/orders', $(this).serialize(), function (res) {
+
+                if (res.code != 200) {
+
+                    layer.alert(res.msg, {icon: 2});
+                    return;
+                }
+
+                console.log(res);
+            });
+
+            return false;
         });
     </script>
 @endsection

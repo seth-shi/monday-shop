@@ -83,23 +83,22 @@ class CarController extends Controller
 
 
     /**
-     * @param $uuid
+     * @param $id
      * @return array
-     * @throws \Exception
      */
-    public function destroy($uuid)
+    public function destroy($id)
     {
         try {
             /**
              * @var $user User
              */
             $user = auth()->user();
-            $product = Product::query()->where('uuid', $uuid)->firstOrFail();
-            $car = $user->cars()->where('product_id', $product->id)->firstOrFail();
+            $car = $user->cars()->whereKey($id)->firstOrFail();
             $car->delete();
 
         } catch (\Exception $e) {
 
+            dd($e);
             return responseJson(500, '服务器异常，请稍后再试');
         }
 
