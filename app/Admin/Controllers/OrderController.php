@@ -91,7 +91,10 @@ class OrderController extends Controller
         $grid->column('id');
         $grid->column('no', '流水号');
         $grid->column('user.name', '用户');
-        $grid->column('total', '总价');
+        $grid->column('origin_amount', '订单原价');
+        $grid->column('post_amount', '邮费');
+        $grid->column('coupon_amount', '优惠');
+        $grid->column('amount', '总价');
         $grid->column('status', '状态')->display(function ($status) {
 
             // 如果订单是付款, 那么就修改为物流状态
@@ -112,7 +115,7 @@ class OrderController extends Controller
             return OrderPayTypeTransform::trans($type);
         });
         $grid->column('pay_no', '支付流水号');
-        $grid->column('pay_time', '支付时间');
+        $grid->column('paid_at', '支付时间');
         $grid->column('consignee_name', '收货人姓名');
         $grid->column('consignee_phone', '收货人手机');
         $grid->column('created_at', '创建时间');
@@ -180,7 +183,7 @@ class OrderController extends Controller
 
         $show->divider();
 
-        $show->field('total', '总计');
+        $show->field('amount', '总计');
         $show->field('status', '状态')->as(function ($status) {
 
             // 如果订单是付款, 那么就修改为物流状态
@@ -216,7 +219,7 @@ class OrderController extends Controller
         $show->field('refund_reason', '退款理由');
         $show->field('pay_trade_no', '退款单号');
         $show->field('pay_no', '支付单号');
-        $show->field('pay_time', '支付时间');
+        $show->field('paid_at', '支付时间');
         $show->field('created_at', '创建时间');
         $show->field('updated_at', '修改时间');
 
@@ -301,7 +304,7 @@ class OrderController extends Controller
         $refundData = [
             'out_trade_no' => $order->no,
             'trade_no' => $order->pay_no,
-            'refund_amount' => $order->pay_total,
+            'refund_amount' => $order->pay_amount,
             'refund_reason' => '正常退款',
         ];
 

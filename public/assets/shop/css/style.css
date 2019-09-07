@@ -1563,9 +1563,11 @@
   padding: 15px;
 }
 .cart-list thead th:nth-child(1) {
+  width: 5%;
+}
+.cart-list thead th:nth-child(2) {
   width: 50%;
 }
-.cart-list thead th:nth-child(2),
 .cart-list thead th:nth-child(3),
 .cart-list thead th:nth-child(4) {
   width: 15%;

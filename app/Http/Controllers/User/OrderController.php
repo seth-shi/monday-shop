@@ -36,7 +36,7 @@ class OrderController extends Controller
                            $paid = $order->status == OrderStatusEnum::PAID;
 
                            // 可以或得到的积分
-                           $order->score = ceil($order->total * $scoreRatio);
+                           $order->score = ceil($order->amount * $scoreRatio);
 
                            // 完成按钮必须是已经支付和确认收货
                            $order->status_text = OrderStatusTransform::trans($order->status);

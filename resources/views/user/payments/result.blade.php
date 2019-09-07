@@ -26,7 +26,7 @@
             <div class="successInfo">
                 <div class="row">
                     <div class="span">付款金额</div>
-                    <div class="span_content"><h2>{{ $order->total }}</h2></div>
+                    <div class="span_content"><h2>{{ $order->amount }}</h2></div>
                 </div>
                 <div class="row">
                     <div class="span">收货人</div>

@@ -1,5 +1,37 @@
 @extends('layouts.shop')
 
+@section('style')
+    <link rel="stylesheet" href="/css/coupons.css">
+    <style>
+        #select_coupon_btn {
+            padding: 0 5px;
+            border-radius: 10%;
+            height: 30px;
+            font-size: 13px;
+            line-height: 20px;
+            background-color: #009688;
+            color: #fff;
+        }
+
+        .coupon-item .coupon-money em {
+            font-size: 2rem;
+        }
+        .coupon-item .coupon-money .lay:last-child {
+            flex: 1;
+            padding: 0 3%;
+            line-height: 1rem;
+        }
+        .coupon-item .coupon-money {
+            font-size: .8rem;
+        }
+        .coupon-wrapper .coupon-item .get-btn span {
+            font-size: 0.8rem;
+        }
+        .style-two.have .get-btn span, .style-three.have .get-btn span, .style-six.have .get-btn span, .style-seven.have .get-btn span {
+            width: 2.6rem;
+        }
+    </style>
+@endsection
 
 @section('main')
     <main id="mainContent" class="main-content">
@@ -16,8 +48,8 @@
                                             <strong class="t-uppercase">订单总价</strong>
                                         </div>
                                         <div class="price">
-                                            <span id="cars_price">
-                                                0
+                                            <span data-amount="{{ $totalAmount }}" id="total_amount">
+                                                {{ $totalAmount }}
                                             </span>
                                         </div>
                                     </li>
@@ -27,8 +59,15 @@
                                     <section class="section checkout-area panel prl-30 pt-20 pb-40">
                                         <h2 class="h3 mb-20 h-title">支付信息</h2>
                                         @include('hint.status')
-                                        <form class="mb-30" method="post" action="/user/pay/store">
+                                        <form class="mb-30" method="post" action="/user/comment/orders">
                                             {{ csrf_field() }}
+                                            @foreach ($products as $product)
+                                                <input type="hidden" name="ids" value="{{ $product->id }}">
+                                                <input type="hidden" name="numbers" value="{{ $product->number }}">
+                                            @endforeach
+                                            @foreach ($cars as $id)
+                                                <input type="hidden" name="cars" value="$id">
+                                            @endforeach
 
                                             <div class="row">
 
@@ -37,11 +76,12 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>选择收货地址</label>
+                                                        <hr>
                                                         @if ($addresses->isNotEmpty())
                                                             <select class="form-control" name="address_id">
                                                                 <option value="">请选择收货地址</option>
                                                                 @foreach ($addresses as $address)
-                                                                    <option value="{{ $address->id }}">{{ $address->name }}/{{ $address->phone }}</option>
+                                                                    <option {{ $address->is_default ? 'selected' : '' }} value="{{ $address->id }}">{{ $address->name }}/{{ $address->phone }}</option>
                                                                 @endforeach
                                                             </select>
                                                         @else
@@ -49,51 +89,54 @@
                                                         @endif
                                                     </div>
                                                 </div>
+                                                <div class="col-md-4">
+                                                    <span style="color: #df3033" id="coupon_show"></span>
+                                                    <button type="button" id="select_coupon_btn">选择优惠券</button>
+                                                    <hr>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>运费</label>
+                                                    <hr>
+                                                </div>
                                             </div>
                                             <!-- 支付宝支付 -->
                                             <input type="hidden" name="pay_type" value="1">
 
-                                            @auth
-                                            <button type="submit"  class="btn btn-lg btn-rounded mr-10">下单</button>
-                                            @endauth
-                                            @guest
-                                            <a href="/login"  class="btn btn-lg btn-rounded mr-10">下单</a>
-                                            @endguest
+                                            <button type="submit"  class="btn btn-lg btn-rounded mr-10">去付款</button>
                                         </form>
                                     </section>
                                 </div>
                             </div>
-                            <h3 class="h-title mb-30 t-uppercase">我的购物车</h3>
+                            <h3 class="h-title mb-30 t-uppercase">我的订单</h3>
                             <table id="cart_list" class="cart-list mb-30">
                                 <thead class="panel t-uppercase">
                                 <tr>
-                                    <th>商品名字</th>
+                                    <th style="width: 50%;">商品名字</th>
+                                    <th style="width: 15%;">商品图片</th>
                                     <th>商品价格</th>
                                     <th>数量</th>
-                                    <th>删除</th>
+                                    <th>小计</th>
                                 </tr>
                                 </thead>
                                 <tbody id="cars_data">
-                                @foreach ($cars as $car)
+                                @foreach ($products as $product)
                                 <tr class="panel alert">
                                     <td>
                                         <div class="media-body valign-middle">
                                             <h6 class="title mb-15 t-uppercase">
-                                                <a href="/products/{{ $car->product->uuid }}">
-                                                    {{ $car->product->name }}
+                                                <a href="/products/{{ $product->uuid }}">
+                                                    {{ $product->name }}
                                                 </a>
                                             </h6>
                                         </div>
                                     </td>
-                                    <td class="prices">{{ $car->product->price }}</td>
+                                    <td><img src="{{ assertUrl($product->thumb) }}" alt=""></td>
+                                    <td class="prices">{{ $product->price }}</td>
                                     <td>
-                                        <input data-id="{{ $car->product->uuid }}" class="quantity-label car_number" type="number" value="{{ $car->number }}" id="{{ $car->product->uuid }}">
+                                        * {{ $product->number }}
                                     </td>
-
                                     <td>
-                                        <button data-number="{{ $car->number }}" data-id="{{ $car->product->uuid }}" class="close delete_car" type="button" >
-                                            <i class="fa fa-trash-o"></i>
-                                        </button>
+                                        {{ $product->total_amount }}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -108,194 +151,107 @@
 
 
     </main>
+
+
+    <div id="select_coupon_box"  style="display: none; position: fixed; left: 0; top: 0; width: 100%; background-color: #ddd; z-index: 999;" >
+        <div class="row row-masnory row-tb-20">
+            <div class="coupon-wrapper">
+                <div class="col-sm-6 col-lg-4">
+
+                    <div class="coupon-item">
+                        <div style="height: 6rem; " class="style-three">
+                            <div class="info-box">
+                                <p class="nick">
+                                    任性不用优惠券
+                                </p>
+                                <div class="coupon-money">
+                                    <div class="lay of"></div>
+                                    <div class="lay">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="javascript:;"
+                               style="height: 6rem;"
+                               class="get-btn close_btn">
+                                <span style="color: green; font-weight: bold">关闭</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @foreach ($coupons as $coupon)
+                    <div class="col-sm-6 col-lg-4">
+
+                        <div class="coupon-item">
+                            <div style="height: 6rem;" class="style-three">
+                                <div class="info-box">
+                                    <p class="nick">
+                                        {{ $coupon->title }}
+                                    </p>
+                                    <div class="coupon-money">
+                                        <div class="lay of">￥<em>{{ $coupon->amount }}</em></div>
+                                        <div class="lay">
+                                            @if ($coupon->full_amount > 0)
+                                                <p class="tit">满{{ $coupon->full_amount }}可用</p>
+                                            @else
+                                                <p class="tit">无门槛</p>
+                                            @endif
+                                            <p class="demand"
+                                               style="color: #FFB800;">{{ $coupon->start_date }}</p>
+                                            <p class="demand"
+                                               style="color: #5FB878;">{{ $coupon->end_date }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a href="javascript:;"
+                                   data-model='@json($coupon)'
+                                   style="height: 6rem;"
+                                   class="get-btn use_btn">
+                                    <span>使用</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                @endforeach
+
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @section('script')
     <script src="/assets/user/layer/2.4/layer.js"></script>
     <script>
-        let token = "{{ csrf_token() }}";
-
-
-
-        @auth
-            syncCarsToDatabase();
-            function syncCarsToDatabase()
-            {
-                if (LocalCar.number() > 0) {
-                    layer.confirm('是否同步本地购物车到本账户下', {
-                        btn: ['是', '放弃本地购物车']
-                    }, function(){
-                        layer.closeAll();
-
-                        let cars = LocalCar.all();
-                        for (let i in cars) {
-
-                            let product = cars[i];
-
-                            let data = {product_id: product.id, number: product.number, _token: token};
-                            let url = "/cars";
-
-                            $.post(url, data, function (res) {
-
-                                if (res.code != 200) {
-
-                                    layer.msg(res.msg, {icon: 2});
-                                    return;
-                                }
-
-                                // 更新 DOM，如果已经有了这个元素，那么加数量，
-                                // 如果是没有的，新增加 DOM
-                                let dom = $('#' + product.id);
-                                if (dom.length > 0) {
-                                    dom.val(parseInt(dom.val()) + product.number);
-                                } else {
-                                    // 增加 DOM
-                                    let html = buildCarDom(product.id, product.name, product.number, product.price);
-                                    $('#cars_data').append(html);
-                                }
-
-                                layer.msg('同步 ['+ product.name +'] 商品到购物车成功');
-                            });
-                        }
-
-                        localDom.text(0);
-                        LocalCar.flush();
-
-                    }, function () {
-
-                        LocalCar.flush();
-                        localDom.text(0);
-                        layer.msg('清除本地购物车成功');
-                    });
-                }
-            }
-        @endauth
-
-        @guest
-            let localCars = LocalCar.all();
-            let dom = '';
-
-            for (let i in localCars) {
-
-                let product = localCars[i];
-                dom += buildCarDom(product.id, product.name, product.number, product.price);
-            }
-
-            $('#cars_data').append(dom);
-            getTotal();
-
-         @endguest
-
-
-        // 删除购物车
-        $("#cart_list").on('click', '.delete_car', function () {
-
-            let that = $(this);
-            let id = that.data('id');
-
-            @auth
-                let _url = "/cars/" + id;
-                $.post(_url, {_token:token,_method:'DELETE'}, function(res){
-
-                    if (res.code != 302 && res.code != 200) {
-
-                        layer.msg(res.msg, {icon: 2});
-                        return;
-                    }
-
-                    that.parent().parent().remove();
-                    getTotal();
-                    renderIncrementCar(- that.data('number'), false);
-                });
-            @endauth
-            @guest
-                LocalCar.delete(id);
-                that.parent().parent().remove();
-                getTotal();
-                renderIncrementCar(- that.data('number'), true);
-            @endguest
-
+        $('#select_coupon_btn').click(function () {
+            $('#select_coupon_box').show(500);
+            return false;
         });
 
+        $('.close_btn').click(function () {
 
-        // 更改购物车数量
-        $('#cart_list').on('change', '.car_number', function () {
-
-            let id = $(this).data('id');
-            let number = $(this).val();
-
-
-            @auth
-                let data = {product_id:id,_token:"{{ csrf_token() }}", number:number, action:"sync"};
-                $.post("/cars", data, function(res){
-
-
-                if (res.code != 200) {
-
-                    layer.msg(res.msg, {icon: 2});
-                    return;
-                }
-
-                layer.msg(res.msg, {icon: 1});
-                renderIncrementCar(res.data.change, false);
-                getTotal();
-            });
-            @endauth
-            @guest
-                let change = LocalCar.syncNumber(id, number);
-                layer.msg('本地修改成功', {icon: 1});
-                renderIncrementCar(change, true);
-                getTotal();
-            @endguest
-
-
-
-
+            $('#select_coupon_box').hide(1000);
         });
 
-        // 更新总价
-        getTotal();
-        function getTotal()
-        {
-            let total = 0;
-            let total_number = 0;
-            $('.prices').each(function(){
-                let price = $(this).text();
-                let number = $(this).next().find('input').val();
-                number = parseInt(number);
+        $('#mainContent').click(function () {
 
-                total_number += number;
-                total += price*number;
-            });
+            $('#select_coupon_box').hide(1000);
+        });
 
-            $('#cars_price').text(total);
-        }
+        // 使用优惠券
+        $('.use_btn').click(function () {
 
-        /**
-         * 构建购物车的 dom
-         */
-        function buildCarDom(id, name, number, price)
-        {
-            return '<tr class="panel alert local-car">\
-                <td>\
-                <div class="media-body valign-middle">\
-                <h6 class="title mb-15 t-uppercase">\
-                <a href="/products/'+ id +'">\
-                    '+ name +'\
-                </a>\
-                </h6>\
-                </div>\
-                </td>\
-                <td  class="prices">'+ price +'</td>\
-                <td>\
-                <input data-id="'+ id +'" class="quantity-label car_number" type="number" value="'+ number +'">\
-                </td>\
-                <td>\
-                <button type="button" class="close delete_car" data-number="'+ price +'" data-id="'+ id +'"  >\
-                <i class="fa fa-trash-o"></i>\
-                </button>\
-                </td>\
-                </tr>';
-        }
+            var model = $(this).data('model');
+
+            $('#coupon_show').text(model.title + ' -' + model.amount);
+            var amount = $('#total_amount').data('amount');
+            var showAmount = Number(amount) - Number(model.amount);
+            $('#total_amount').text(showAmount.toFixed(2));
+            $('#select_coupon_box').hide(1000);
+        });
     </script>
 @endsection

@@ -48,9 +48,9 @@ class PaymentNotificationController extends Controller
 
                     // 更新订单
                     $order = Order::query()->where('no', $data->get('out_trade_no'))->firstOrFail();
-                    $order->pay_time = $data->get('notify_time');
+                    $order->paid_at = $data->get('notify_time');
                     $order->pay_no = $data->get('trade_no');
-                    $order->pay_total = $data->get('receipt_amount');
+                    $order->pay_amount = $data->get('receipt_amount');
                     $order->status = OrderStatusEnum::PAID;
                     $order->pay_type = OrderPayTypeEnum::ALI;
                     $order->save();

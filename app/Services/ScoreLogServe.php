@@ -161,7 +161,7 @@ class ScoreLogServe
                          ->firstOrFail();
 
         // 计算积分和钱的比例
-        $addScore = ceil($order->total * $rule->score);
+        $addScore = ceil($order->amount * $rule->score);
 
         $user = $order->user;
         $user->score_all += $addScore;
