@@ -168,7 +168,7 @@ class StoreOrderController extends Controller
                 return $attribute;
             });
 
-            if ($originAmount < $couponModel->full_amount) {
+            if (! is_null($couponModel) && $originAmount < $couponModel->full_amount) {
 
                 throw new \Exception('优惠券门槛金额为 ' . $couponModel->full_amount);
             }
@@ -204,7 +204,7 @@ class StoreOrderController extends Controller
             OrderDetail::query()->insert($details);
 
             // 如果存在购物车，把购物车删除
-            if (! empty($cars)) {
+            if (is_array($cars) && ! empty($cars)) {
 
                 $user->cars()->whereIn('id', $cars)->delete();
             }
@@ -214,8 +214,11 @@ class StoreOrderController extends Controller
             $delay = Carbon::now()->addMinute(setting($settingKey, 30));
             CancelUnPayOrder::dispatch($order)->delay($delay);
 
+            DB::commit();
+
         } catch (\Exception $e) {
 
+            dd($e);
             DB::rollBack();
             return responseJsonAsBadRequest($e->getMessage());
         }

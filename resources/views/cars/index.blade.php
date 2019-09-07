@@ -85,6 +85,7 @@
 
                                             <td>
                                                 <button data-number="{{ $car->number }}"
+                                                        data-car="{{ $car->id }}"
                                                         data-id="{{ $car->product->uuid }}" class="close delete_car"
                                                         type="button">
                                                     <i class="fa fa-trash-o"></i>
@@ -189,9 +190,10 @@
 
             let that = $(this);
             let id = that.data('id');
+            let carId = that.data('car');
 
-                    @auth
-            let _url = "/cars/" + id;
+            @auth
+            let _url = "/cars/" + carId;
             $.post(_url, {_token: token, _method: 'DELETE'}, function (res) {
 
                 if (res.code != 302 && res.code != 200) {
