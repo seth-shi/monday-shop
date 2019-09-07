@@ -69,6 +69,8 @@
                                                 <input type="hidden" name="cars" value="$id">
                                             @endforeach
 
+                                            <input type="hidden" name="coupon_id" >
+
                                             <div class="row">
 
                                                 @include('hint.validate_errors')
@@ -252,6 +254,8 @@
             var showAmount = Number(amount) - Number(model.amount);
             $('#total_amount').text(showAmount.toFixed(2));
             $('#select_coupon_box').hide(1000);
+
+            $('input[name=coupon_id]').val(model.id);
         });
     </script>
 @endsection

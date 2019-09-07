@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
+
 /**
  * App\Models\Order
  *
@@ -15,7 +16,13 @@ use Illuminate\Support\Facades\Cache;
  * @property string $no 订单流水号
  * @property int $user_id
  * @property float $amount 总计价格
- * @property int $status -1：退款， 0：未支付订单，1:支付宝支付，
+ * @property int $status
+ * @property string|null $pay_type 支付类型
+ * @property string|null $refund_reason 退款理由
+ * @property int $ship_status 物流状况
+ * @property string|null $express_company 快递公司
+ * @property string|null $express_no 快递单号
+ * @property int $type 订单类型,1普通订单，2秒杀订单
  * @property string|null $name 订单的名字，用于第三方，只有一个商品就是商品的名字，多个商品取联合
  * @property string|null $consignee_name 收货人
  * @property string|null $consignee_phone 收货人手机号码
@@ -28,6 +35,9 @@ use Illuminate\Support\Facades\Cache;
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property float|null $coupon_amount 优惠价格
+ * @property float|null $post_amount 邮费
+ * @property float|null $origin_amount 订单原价
  * @property-read \App\Models\Address $address
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDetail[] $details
  * @property-read \App\Models\User $user
@@ -37,35 +47,35 @@ use Illuminate\Support\Facades\Cache;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order query()
  * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereConsigneeAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereConsigneeName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereConsigneePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereExpressCompany($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereExpressNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereOriginAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayRefundFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayTradeNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePostAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereShipStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
  * @mixin \Eloquent
- * @property string|null $pay_type 支付类型
- * @property string|null $refund_reason 退款理由
- * @property int $ship_status 物流状况
- * @property string|null $express_company 快递公司
- * @property string|null $express_no 快递单号
- * @property int $type 订单类型,1普通订单，2秒杀订单
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereExpressCompany($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereExpressNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order wherePayType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereRefundReason($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereShipStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereType($value)
  */
 class Order extends Model
 {
