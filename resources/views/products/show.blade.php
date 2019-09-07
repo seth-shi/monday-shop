@@ -78,27 +78,11 @@
                         <div class="clear"></div>
                     </div>
 
+                    @include('hint.fail')
                     @include('hint.validate_errors')
+                    @include('hint.status')
 
-                    <!--地址-->
-                    <div class="iteminfo_parameter" style="text-align: center">
-                        <dt>收货地址</dt>
-                        <div class="iteminfo_freprice">
-                            <div class="am-form-content">
 
-                                @if ($addresses->isNotEmpty())
-                                    <select class="form-control" style="width: 100%" name="address_id">
-                                        @foreach($addresses as $address)
-                                            <option value="{{ $address->id }}" {{ $address->is_default ? 'selected' : '' }}>{{ $address->name }}/{{ $address->phone }}</option>
-                                        @endforeach
-                                    </select>
-                                @else
-                                    <a style="line-height:27px;color:red;" href="/user/addresses">添加收货地址</a>
-                                @endif
-
-                            </div>
-                        </div>
-                    </div>
                     <div class="clear"></div>
 
                     <!--销量-->
@@ -162,9 +146,9 @@
                     </div>
                     <ul>
                         <li>
-                            <div class="clearfix tb-btn" id="nowBug">
+                            <div class="clearfix tb-btn">
                                 @auth
-                                    <a  href="javascript:;" >立即购买</a>
+                                    <a id="nowBug" href="javascript:;" >立即购买</a>
                                 @endauth
                                 @guest
                                     <a href="/login">立即购买</a>
@@ -434,7 +418,7 @@
 
 
                 @auth
-                    let data = {product_id:"{{ $product->uuid }}",_token:token, number:number};
+                    let data = {product_id: product_id,_token:token, number:number};
                     $.post("/cars", data, function(res){
 
                         if (res.code != 200) {
@@ -458,17 +442,9 @@
 
         // 现在购买
         $('#nowBug').click(function(){
-            let _address_id = $('select[name=address_id]').val();
             let _number = $('input[name=number]').val();
-            let _product_id = $('input[name=product_id]').val();
 
-            /** v请求支付 **/
-            let form = $('#pay_form');
-            let input = '<input type="hidden" name="address_id" value="'+ _address_id +'">\
-                        <input type="hidden" name="product_id" value="'+ _product_id +'">\
-                        <input type="hidden" name="number" value="'+ _number +'">';
-            form.append(input);
-            form.submit();
+            window.location.href = "/user/comment/orders/create?ids[]=" + product_id + "&numbers[]=" + _number;
         });
 
         // 评论按钮

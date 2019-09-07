@@ -56,8 +56,8 @@
                                             <input type="hidden" name="cars[]" value="{{ $car->id }}">
                                             <td>
                                                 <div class="custom-checkbox mb-20">
-                                                    <input value="{{ $car->product_id }}" class="product_ids" type="checkbox" name="ids[]" id="cars_{{ $car->product_id }}">
-                                                    <label class="color-mid" for="cars_{{ $car->product_id }}"></label>
+                                                    <input value="{{ $car->product->uuid }}" class="product_ids" type="checkbox" name="ids[]" id="cars_{{ $car->id }}">
+                                                    <label class="color-mid" for="cars_{{ $car->id }}"></label>
                                                 </div>
                                             </td>
                                             <td>

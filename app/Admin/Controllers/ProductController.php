@@ -6,7 +6,6 @@ namespace App\Admin\Controllers;
 use App\Admin\Actions\Post\DividerAction;
 use App\Admin\Actions\Post\ForceDeleteProductAction;
 use App\Admin\Actions\Post\ProductStatusAction;
-use App\Admin\Transforms\ProductTransform;
 use App\Admin\Transforms\YesNoTransform;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
