@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponTemplate whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CouponTemplate whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserHasCoupon[] $coupons
  */
 class CouponTemplate extends Model
 {

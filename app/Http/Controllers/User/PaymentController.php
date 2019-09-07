@@ -2,8 +2,18 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\SettingIndexEnum;
+use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreOrderRequest;
+use App\Jobs\CancelUnPayOrder;
+use App\Models\Address;
+use App\Models\Car;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Jenssegers\Agent\Agent;
 use Yansongda\Pay\Pay;
 
@@ -39,7 +49,7 @@ class PaymentController extends Controller
         // 创建订单
         $order = [
             'out_trade_no' => $order->no,
-            'total_amount' => $order->amount,
+            'total_amount' => $order->total,
             'subject' => $order->name,
         ];
 
@@ -52,4 +62,6 @@ class PaymentController extends Controller
 
         return $pay->web($order);
     }
+
+
 }
