@@ -44,10 +44,7 @@ class UserController extends Controller
         // 获取所有积分记录
         $scoreLogs = $user->scoreLogs()->latest()->limit(5)->get();
 
-
-        $hotProduct = Product::query()->orderBy('sale_count', 'desc')->first();
-
-        return view('user.homes.index', compact('user', 'hotProduct', 'level', 'scoreLogs'));
+        return view('user.homes.index', compact('user', 'level', 'scoreLogs'));
     }
 
 

@@ -77,8 +77,6 @@
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label>选择收货地址</label>
-                                                        <hr>
                                                         @if ($addresses->isNotEmpty())
                                                             <select class="form-control" name="address_id">
                                                                 <option value="">请选择收货地址</option>
@@ -89,6 +87,7 @@
                                                         @else
                                                             <a style="color: green;" href="/user/addresses">添加收货地址</a>
                                                         @endif
+                                                        <hr>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -98,8 +97,8 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>运费</label>
-                                                    <hr>
                                                     <span style="color: green;">+ {{ $postAmount }}</span>
+                                                    <hr>
                                                 </div>
                                             </div>
                                             <!-- 支付宝支付 -->

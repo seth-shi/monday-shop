@@ -121,42 +121,42 @@
 
             </div>
         </div>
-        <div class="wrap-right"  style="display: block">
+{{--        <div class="wrap-right"  style="display: block">--}}
 
-            <!-- 日历-->
-            <div class="day-list">
-                <div class="s-bar">
-                    <a class="i-history-trigger s-icon" href="#"></a>我的日历
-                    <a class="i-setting-trigger s-icon" href="#"></a>
-                </div>
-                <div class="s-care s-care-noweather">
-                    <div class="s-date">
-                        <em>{{ date('d') }}</em>
-                        <span>星期 {{ date('N') }}</span>
-                        <span>{{ date('Y-m') }}</span>
-                    </div>
-                </div>
-            </div>
+{{--            <!-- 日历-->--}}
+{{--            <div class="day-list">--}}
+{{--                <div class="s-bar">--}}
+{{--                    <a class="i-history-trigger s-icon" href="#"></a>我的日历--}}
+{{--                    <a class="i-setting-trigger s-icon" href="#"></a>--}}
+{{--                </div>--}}
+{{--                <div class="s-care s-care-noweather">--}}
+{{--                    <div class="s-date">--}}
+{{--                        <em>{{ date('d') }}</em>--}}
+{{--                        <span>星期 {{ date('N') }}</span>--}}
+{{--                        <span>{{ date('Y-m') }}</span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <!--热卖推荐 -->
-            <div class="new-goods">
-                <div class="s-bar">
-                    <i class="s-icon"></i>热卖推荐
-                </div>
-                <div class="new-goods-info">
-                    @if (is_null($hotProduct))
-                        暂无热卖
-                    @else
-                        <a class="shop-info" href="/products/{{ $hotProduct->uuid }}" target="_blank">
-                            <div >
-                                <img src="{{ $hotProduct->thumb }}" alt="">
-                            </div>
-                            <span class="one-hot-goods">{{ $hotProduct->price }}</span>
-                        </a>
-                    @endif
-                </div>
-            </div>
+{{--            <!--热卖推荐 -->--}}
+{{--            <div class="new-goods">--}}
+{{--                <div class="s-bar">--}}
+{{--                    <i class="s-icon"></i>热卖推荐--}}
+{{--                </div>--}}
+{{--                <div class="new-goods-info">--}}
+{{--                    @if (is_null($hotProduct))--}}
+{{--                        暂无热卖--}}
+{{--                    @else--}}
+{{--                        <a class="shop-info" href="/products/{{ $hotProduct->uuid }}" target="_blank">--}}
+{{--                            <div >--}}
+{{--                                <img src="{{ $hotProduct->thumb }}" alt="">--}}
+{{--                            </div>--}}
+{{--                            <span class="one-hot-goods">{{ $hotProduct->price }}</span>--}}
+{{--                        </a>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-        </div>
+{{--        </div>--}}
     </div>
 @endsection
