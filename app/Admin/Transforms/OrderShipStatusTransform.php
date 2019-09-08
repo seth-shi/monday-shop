@@ -15,7 +15,7 @@ class OrderShipStatusTransform implements Transform
         switch ($status) {
 
             case OrderShipStatusEnum::PENDING:
-                $text = '待发货';
+                $text = '未发货';
                 break;
             case OrderShipStatusEnum::DELIVERED:
                 $text = '待收货';

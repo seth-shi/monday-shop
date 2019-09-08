@@ -17,7 +17,7 @@ class OrderStatusTransform implements Transform
             case OrderStatusEnum::REFUND:
                 $text = '退款';
                 break;
-            case OrderStatusEnum::APP_REFUND:
+            case OrderStatusEnum::APPLY_REFUND:
                 $text = '申请退款';
                 break;
             case OrderStatusEnum::UN_PAY:

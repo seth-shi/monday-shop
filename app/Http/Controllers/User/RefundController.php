@@ -35,7 +35,7 @@ class RefundController extends Controller
         }
 
         // 保存退款理由
-        $order->status = OrderStatusEnum::APP_REFUND;
+        $order->status = OrderStatusEnum::APPLY_REFUND;
         $order->refund_reason = $request->input('refund_reason');
         $order->save();
 

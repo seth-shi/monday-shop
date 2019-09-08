@@ -2,6 +2,9 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Post\OrderReceivedAction;
+use App\Admin\Actions\Post\OrderRefundAction;
+use App\Admin\Actions\Post\OrderShipAction;
 use App\Admin\Extensions\ReceivedButton;
 use App\Admin\Extensions\ShipButton;
 use App\Admin\Transforms\OrderDetailTransform;
@@ -39,24 +42,10 @@ class OrderController extends Controller
      */
     public function index(Content $content)
     {
-        Admin::js('/assets/admin/lib/layer/2.4/layer.js');
-
-
-        $baseUrl = admin_url();
-        // 发货表单
-        $shipForm = new Form();
-        $shipForm->method('post')
-                 ->action($baseUrl)
-                 ->attribute(['id' => 'ship_form', 'style' => 'display:none;'])
-                 ->disablePjax();
-
-        // TODO 发货功能
-
         return $content
             ->header('订单列表')
             ->description('')
-            ->body($this->grid())
-            ->row($shipForm->render());
+            ->body($this->grid());
     }
 
     /**
@@ -122,27 +111,26 @@ class OrderController extends Controller
 
         $grid->disableRowSelector();
         $grid->disableCreateButton();
-        $grid->actions(function (Actions $actions) {
+        $grid->actions(function (Grid\Displayers\DropdownActions $actions) {
 
             /**
              * @var $order Order
              */
             $order = $actions->row;
 
-            $url = admin_url("orders/{$order->id}/refund");
 
             // 如果出现了申请,显示可以退款按钮
-            if ($order->status == OrderStatusEnum::APP_REFUND) {
-                // append一个操作
-                $actions->append("<a href='{$url}' title='退款'><i class='fa fa-mail-reply'></i></a>");
+            if ($order->status == OrderStatusEnum::APPLY_REFUND) {
+
+                $actions->add(new OrderRefundAction());
             } elseif ($order->status == OrderStatusEnum::PAID) {
 
                 if ($order->ship_status == OrderShipStatusEnum::PENDING) {
 
-                    $actions->append(new ShipButton($order->id));
+                    $actions->add(new OrderShipAction());
                 } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
 
-                    $actions->append(new ReceivedButton($order->id));
+                    $actions->add(new OrderReceivedAction());
                 }
 
             }
@@ -275,112 +263,5 @@ class OrderController extends Controller
         }
 
         return response()->json($data);
-    }
-
-
-
-    /**
-     * 这里为了执行退款，而直接点击退款。
-     * 应该由会员申请退款，后台同意再调用
-     * 第三方支付的退款接口
-     *
-     * @param Order $order
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function refund(Order $order)
-    {
-        if ($order->user_id != auth()->id()) {
-            abort(403, '非法操作');
-        }
-
-        // 订单必须在支付了，才可才可以退款
-        if ($order->status != OrderStatusEnum::APP_REFUND) {
-            abort(403, '订单当前状态禁止退款');
-        }
-
-        $pay = Pay::alipay(config('pay.ali'));
-
-        // 退款数据
-        $refundData = [
-            'out_trade_no' => $order->no,
-            'trade_no' => $order->pay_no,
-            'refund_amount' => $order->pay_amount,
-            'refund_reason' => '正常退款',
-        ];
-
-
-        try {
-
-            // 将订单状态改为退款
-            $response = $pay->refund($refundData);
-            $order->pay_refund_fee = $response->get('refund_fee');
-            $order->pay_trade_no = $response->get('trade_no');
-            $order->status = OrderStatusEnum::REFUND;
-            $order->save();
-
-        } catch (\Exception $e) {
-
-            // 调用异常的处理
-            // abort(500, $e->getMessage());
-            return back()->withErrors('服务器异常，请稍后再试', 'error');
-        }
-
-
-        admin_toastr('退款成功');
-        return redirect()->back();
-    }
-
-
-    /**
-     * 订单发货功能
-     *
-     * @param Request $request
-     * @param Order   $order
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function ship(Request $request, Order $order)
-    {
-        if (! $request->input('no')) {
-
-            return back()->withErrors('物流编号不能为空', 'error');
-        }
-
-        if ($order->status != OrderStatusEnum::PAID) {
-
-            return back()->withErrors('订单未付款', 'error');
-        }
-
-        if ($order->ship_status != OrderShipStatusEnum::PENDING) {
-
-            return back()->withErrors('订单已经发货', 'error');
-        }
-
-        $order->ship_status = OrderShipStatusEnum::DELIVERED;
-        $order->express_company = $request->input('name');
-        $order->express_no = $request->input('no');
-        $order->save();
-
-        admin_toastr('发货成功');
-
-        return redirect()->back();
-    }
-
-    public function confirmShip(Order $order)
-    {
-        if ($order->status != OrderStatusEnum::PAID) {
-
-            return back()->withErrors('订单未付款', 'error');
-        }
-
-        if ($order->ship_status != OrderShipStatusEnum::DELIVERED) {
-
-            return back()->withErrors('订单未发货', 'error');
-        }
-
-        $order->ship_status = OrderShipStatusEnum::RECEIVED;
-        $order->save();
-
-        admin_toastr('收货成功');
-        return redirect()->back();
     }
 }
