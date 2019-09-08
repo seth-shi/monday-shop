@@ -38,7 +38,6 @@ class CancelUnPayOrder implements ShouldQueue
         // 查询数据库最新状态
         $nowOrder = $this->order->refresh();
 
-        dd($nowOrder);
         // 如果现在还是没有付款,那么则取消订单
         if ($nowOrder->status == OrderStatusEnum::UN_PAY) {
 
