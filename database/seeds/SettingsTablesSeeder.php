@@ -1,6 +1,7 @@
 <?php
 
-use App\Enums\SettingIndexEnum;
+use App\Enums\SettingKeyEnum;
+use App\Models\Setting;
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Auth\Database\Menu;
 use Encore\Admin\Auth\Database\Permission;
@@ -11,37 +12,18 @@ class SettingsTablesSeeder extends Seeder
 {
     public function run()
     {
-        // TODO 优化为使用枚举代替字符串 index_code
         $settings = [
-            [
-                'index_code' => SettingIndexEnum::USER_INIT_PASSWORD,
-                'value' => '123456',
-                'type' => 'text',
-                'description' => '注册用户的初始密码'
-            ],
-            [
-                'index_code' => SettingIndexEnum::IS_OPEN_SECKILL,
-                'value' => 0,
-                'type' => 'switch',
-                'description' => '是否开始秒杀功能模块（需要配置好 redis）'
-            ],
-            [
-                'index_code' => SettingIndexEnum::UN_PAY_CANCEL_TIME,
-                'value' => 30,
-                'type' => 'number',
-                'description' => '用户下订单之后，多久未付款自动取消订单。单位为分钟'
-            ],
+            SettingKeyEnum::USER_INIT_PASSWORD => '123456',
+            SettingKeyEnum::IS_OPEN_SECKILL => '0',
+            SettingKeyEnum::UN_PAY_CANCEL_TIME => '30',
+            SettingKeyEnum::POST_AMOUNT => '9.9',
         ];
 
-        $now = \Carbon\Carbon::now()->toDateTimeString();
-        $settings = collect($settings)->map(function ($setting) use ($now) {
+        collect($settings)->map(function ($val, $key) {
 
-            $setting['created_at'] = $now;
-            $setting['updated_at'] = $now;
-
-            return $setting;
+           $setting = Setting::query()->firstOrNew(['key' => $key]);
+           $setting->value = $val;
+           $setting->save();
         });
-
-        \App\Models\Setting::query()->insert($settings->all());
     }
 }

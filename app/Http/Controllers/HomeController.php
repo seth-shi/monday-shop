@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\HomeCacheEnum;
-use App\Enums\SettingIndexEnum;
+use App\Enums\SettingKeyEnum;
 use App\Enums\SiteCountCacheEnum;
 use App\Models\Category;
 use App\Models\CouponTemplate;
@@ -50,7 +50,7 @@ class HomeController extends Controller
         // 秒杀数据
         $secKills = collect();
 
-        $setting = new SettingIndexEnum(SettingIndexEnum::IS_OPEN_SECKILL);
+        $setting = new SettingKeyEnum(SettingKeyEnum::IS_OPEN_SECKILL);
         $isOpenSeckill = setting($setting) == 1;
 
         if ($isOpenSeckill) {

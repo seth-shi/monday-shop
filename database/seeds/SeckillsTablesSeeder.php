@@ -11,7 +11,7 @@ class SeckillsTablesSeeder extends Seeder
      */
     public function run()
     {
-        $setting = new \App\Enums\SettingIndexEnum(\App\Enums\SettingIndexEnum::IS_OPEN_SECKILL);
+        $setting = new \App\Enums\SettingKeyEnum(\App\Enums\SettingKeyEnum::IS_OPEN_SECKILL);
         if (setting($setting) == 1) {
 
             \App\Models\Product::query()->take(9)->get()->map(function (\App\Models\Product $product) {

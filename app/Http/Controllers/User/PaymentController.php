@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\SettingIndexEnum;
+use App\Enums\SettingKeyEnum;
 use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;

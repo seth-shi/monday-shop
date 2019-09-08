@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\SettingIndexEnum;
+use App\Enums\SettingKeyEnum;
 use Encore\Admin\Auth\Database\Menu as AdminMenu;
 
 /**
@@ -41,7 +41,7 @@ class Menu extends AdminMenu
         // 如果没开启秒杀功能，把这个模块菜单隐藏掉
         $seckillUri = 'seckills';
 
-        $setting = new SettingIndexEnum(SettingIndexEnum::IS_OPEN_SECKILL);
+        $setting = new SettingKeyEnum(SettingKeyEnum::IS_OPEN_SECKILL);
         if (setting($setting) == 0) {
 
             $nodes = array_filter($nodes, function ($node) use ($seckillUri) {

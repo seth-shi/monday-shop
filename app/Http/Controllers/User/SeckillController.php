@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Enums\OrderTypeEnum;
-use App\Enums\SettingIndexEnum;
+use App\Enums\SettingKeyEnum;
 use App\Jobs\CancelUnPayOrder;
 use App\Models\Address;
 use App\Models\Order;
@@ -110,7 +110,7 @@ class SeckillController extends PaymentController
 
 
             // 当订单超过三十分钟未付款，自动取消订单
-            $setting = new SettingIndexEnum(SettingIndexEnum::UN_PAY_CANCEL_TIME);
+            $setting = new SettingKeyEnum(SettingKeyEnum::UN_PAY_CANCEL_TIME);
             $delay = Carbon::now()->addMinute(setting($setting, 30));
             CancelUnPayOrder::dispatch($masterOrder)->delay($delay);
 
