@@ -101,23 +101,13 @@ class ProductController extends Controller
         $product->userIsLike = $product->users()->where('id', auth()->id())->exists();
 
         // 如果登录返回所有地址列表，如果没有，则返回一个空集合
-        $orderDetails = collect();
         if ($user) {
-
-            $orderDetails = $user->orderDetails()
-                                 ->whereHas('order', function ($query) {
-
-                                     $query->where('status', OrderStatusEnum::COMPLETED);
-                                 })
-                                 ->where('is_commented', 0)
-                                 ->where('product_id', $product->id)
-                                 ->get();
 
             // 浏览商品增加积分
             (new ScoreLogServe)->visitedProductAddScore($user, $product);
         }
 
-        return view('products.show', compact('product', 'addresses', 'recommendProducts', 'orderDetails'));
+        return view('products.show', compact('product', 'addresses', 'recommendProducts'));
     }
 
     /**

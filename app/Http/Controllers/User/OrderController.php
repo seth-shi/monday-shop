@@ -9,10 +9,14 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\ScoreRuleIndexEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\Comment;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\ScoreRule;
 use App\Models\User;
 use App\Services\ScoreLogServe;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Webpatser\Uuid\Uuid;
 
 class OrderController extends Controller
@@ -27,62 +31,85 @@ class OrderController extends Controller
          * @var $user User
          */
         $user = auth()->user();
-        $orders = $user->orders()
-                       ->latest()
-                       ->with('details', 'details.product')
-                       ->get()
-                       ->transform(function (Order $order) use ($scoreRatio) {
+        $query = $user->orders();
 
-                           $paid = $order->status == OrderStatusEnum::PAID;
+        switch (request('tab', 0)) {
 
-                           // 可以或得到的积分
-                           $order->score = ceil($order->amount * $scoreRatio);
+            case 0:
+                break;
+            case 1:
+                // 待付款
+                $query->where('status', OrderStatusEnum::UN_PAY);
+                break;
+            case 2:
+                // 未发货
+                $query->where('status', OrderStatusEnum::PAID)->where('ship_status', OrderShipStatusEnum::PENDING);
+                break;
+            case 3:
+                // 待收货
+                $query->where('status', OrderStatusEnum::PAID)->where('ship_status', OrderShipStatusEnum::DELIVERED);
+                break;
+            case 4:
+                // 待评价
+                $query->where('status', OrderStatusEnum::PAID)->where('ship_status', OrderShipStatusEnum::RECEIVED);
+                break;
+        }
 
-                           // 完成按钮必须是已经支付和确认收货
-                           $order->status_text = OrderStatusTransform::trans($order->status);
+        $orders = $query->latest()
+                        ->with('details', 'details.product')
+                        ->get()
+                        ->transform(
+                            function (Order $order) use ($scoreRatio) {
 
-                           // 如果订单是付款了则显示发货状态
-                           if ($paid) {
+                                $paid = $order->status == OrderStatusEnum::PAID;
 
+                                // 可以或得到的积分
+                                $order->score = ceil($order->amount*$scoreRatio);
 
-                               // 如果发货了,则显示发货信息
-                               $order->status_text = OrderShipStatusTransform::trans($order->ship_status);
-                           }
+                                // 完成按钮必须是已经支付和确认收货
+                                $order->status_text = OrderStatusTransform::trans($order->status);
 
-                           $order->show_completed_button = false;
-                           $order->show_refund_button = false;
-                           $order->show_pay_button = false;
-                           $order->show_delete_button = false;
-                           $order->show_ship_button = false;
-                           if ($paid) {
-
-                               // 已经确认收获了
-                               if ($order->ship_status == OrderShipStatusEnum::RECEIVED) {
-                                   $order->show_completed_button = true;
-                               } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
-
-                                   $order->show_ship_button = true;
-                               } else {
-                                   $order->show_refund_button = true;
-                               }
-
-                           } elseif ($order->status == OrderStatusEnum::UN_PAY) {
-                               $order->show_pay_button = true;
-                           }
-
-                           if ($order->status == OrderStatusEnum::COMPLETED) {
-                               $order->show_delete_button = true;
-                           }
+                                // 如果订单是付款了则显示发货状态
+                                if ($paid) {
 
 
-                           return $order;
-                       });
+                                    // 如果发货了,则显示发货信息
+                                    $order->status_text = OrderShipStatusTransform::trans($order->ship_status);
+                                }
 
+                                $order->show_completed_button = false;
+                                $order->show_refund_button = false;
+                                $order->show_pay_button = false;
+                                $order->show_delete_button = false;
+                                $order->show_ship_button = false;
+                                if ($paid) {
+
+                                    // 已经确认收获了
+                                    if ($order->ship_status == OrderShipStatusEnum::RECEIVED) {
+                                        $order->show_completed_button = true;
+                                    } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
+
+                                        $order->show_ship_button = true;
+                                    } else {
+                                        $order->show_refund_button = true;
+                                    }
+
+                                } elseif ($order->status == OrderStatusEnum::UN_PAY) {
+                                    $order->show_pay_button = true;
+                                }
+
+                                if ($order->status == OrderStatusEnum::COMPLETED) {
+                                    $order->show_delete_button = true;
+                                }
+
+
+                                return $order;
+                            }
+                        );
 
 
         return view('user.orders.index', compact('orders'));
     }
-
 
 
     public function show(Order $order)
@@ -94,7 +121,7 @@ class OrderController extends Controller
         $order->ship_send = $order->ship_status == OrderShipStatusEnum::DELIVERED;
         $order->confirm_ship = $order->ship_status == OrderShipStatusEnum::RECEIVED;
 
-        if ($order->confirm_ship)  {
+        if ($order->confirm_ship) {
 
             $order->ship_send = true;
         }
@@ -105,27 +132,73 @@ class OrderController extends Controller
     }
 
 
-    public function completeOrder(Order $order)
+    public function completeOrder(Order $order, Request $request)
     {
+        $star = intval($request->input('star'));
+        $content = $request->input('content');
+        if ($star < 0 || $star > 5) {
+
+            return responseJsonAsBadRequest('无效的评分');
+        }
+
+        if (empty($content)) {
+
+            return responseJsonAsBadRequest('请至少些一些内容吧');
+        }
+
         // 判断是当前用户的订单才可以删除
-        if ($order->isNotUser(auth()->id())) {
-            abort(403, '你没有权限');
+        $user = auth()->user();
+        if ($order->isNotUser($user->id)) {
+
+            return responseJsonAsBadRequest('你没有权限');
         }
 
         // 只有付完款的订单,而且必须是未完成的, 确认收货
         if (
-            ! $order->status == OrderStatusEnum::PAID ||
-            $order->ship_status != OrderShipStatusEnum::RECEIVED
+            // 必须是已经付款，且已经确认收货的
+            ! ($order->status == OrderStatusEnum::PAID && $order->ship_status == OrderShipStatusEnum::RECEIVED)
         ) {
-            return back()->withErrors(['msg' => '订单当前状态不能完成']);
+            return responseJsonAsBadRequest('订单当前状态不能完成');
         }
 
-        (new ScoreLogServe)->completeOrderAddScore($order);
 
-        $order->status = OrderStatusEnum::COMPLETED;
-        $order->save();
+        $orderDetails = $order->details()->get();
+        $comments = $orderDetails->map(function (OrderDetail $orderDetail) use ($user, $content, $star) {
 
-        return back()->with('status', '完成订单已增加积分');
+            return [
+                'order_id' => $orderDetail->order_id,
+                'order_detail_id' => $orderDetail->id,
+                'product_id' => $orderDetail->product_id,
+                'user_id' => $user->id,
+                'score' => $star,
+                'content' => $content,
+            ];
+        });
+
+        DB::beginTransaction();
+
+        try {
+
+            // 订单完成
+            $order->status = OrderStatusEnum::COMPLETED;
+            $order->save();
+
+            // 评论内容
+            Comment::query()->insert($comments->all());
+
+            OrderDetail::query()->where('order_id', $order->id)->update(['is_commented' => true]);
+
+            // 完成订单增加积分
+            (new ScoreLogServe)->completeOrderAddScore($order);
+
+            DB::commit();
+        } catch (\Exception $e) {
+
+            return responseJsonAsServerError('服务器异常，请稍后再试');
+        }
+
+
+        return responseJson(200, '完成订单已增加积分');
     }
 
 
@@ -154,6 +227,7 @@ class OrderController extends Controller
 
     /**
      * 获取积分和钱的换比例
+     *
      * @return mixed
      */
     protected function getScoreRatio()

@@ -230,39 +230,6 @@
 
 
                     <div class="am-tab-panel am-fade am-in am-active">
-                        <div class="post-review panel p-20">
-                            <h3 class="h-title">评论</h3>
-                            <form class="horizontal-form pt-30" action="#">
-                                <div class="row row-v-10">
-                                    <div class="col-xs-12">
-                                        <select id="comment_detail" class="form-control">
-                                            @foreach ($orderDetails as $detail)
-                                                <option value="{{ $detail->id }}">订单流水：{{ $detail->order->no }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-12">
-                                        <select id="comment_score" class="form-control">
-                                            <option value="1">1分</option>
-                                            <option value="2">2分</option>
-                                            <option value="3">3分</option>
-                                            <option value="4">good</option>
-                                            <option value="5">very good</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-12">
-                                        <textarea id="comment_content" class="form-control" placeholder="写下你对商品的评论" rows="6"></textarea>
-                                    </div>
-                                    <div class="col-xs-12 text-right">
-                                        @if ($orderDetails->isEmpty())
-                                            <button type="button" id="comment_btn" disabled="disabled" class="btn mt-20">请先去购买商品再评论</button>
-                                        @else
-                                            <button type="button" id="comment_btn" class="btn mt-20">评论</button>
-                                        @endif
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                         <div class="posted-review panel p-30">
                             <h3 class="h-title">{{ $product->comments->count() }} 评论</h3>
                             @foreach ($product->comments as $comment)
@@ -445,28 +412,6 @@
             let _number = $('input[name=number]').val();
 
             window.location.href = "/user/comment/orders/create?ids[]=" + product_id + "&numbers[]=" + _number;
-        });
-
-        // 评论按钮
-        $('#comment_btn').click(function () {
-
-            let _id = $('#comment_detail').val();
-            let _score = $('#comment_score').val();
-            let _content = $('#comment_content').val();
-            let that = $(this);
-
-            let data = {id:_id, score:_score, content:_content};
-            that.attr('disabled', true);
-            $.post('/user/comments', data, function (res) {
-                that.attr('disabled', false);
-
-                layer.alert(res.msg);
-
-                if (res.code == 200) {
-                    window.location.reload();
-                }
-
-            });
         });
 
 

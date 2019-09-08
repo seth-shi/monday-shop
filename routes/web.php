@@ -77,17 +77,14 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     Route::resource('orders', 'OrderController')->only('index', 'show', 'destroy');
 
     // 确认收货
-    // 完成订单增加积分
     Route::patch('orders/{order}/shipped', 'OrderController@confirmShip');
-    Route::get('orders/{order}/complete/score', 'OrderController@completeOrder');
+    // 完成订单+评价
+    Route::post('orders/{order}/complete', 'OrderController@completeOrder');
 
     // 用户的积分
     Route::get('scores', 'UserController@indexScores');
     // 用户拥有的优惠券
     Route::get('coupons', 'UserCouponController@index');
-
-    // 评论商品
-    Route::post('comments', 'CommentController@store');
 
     /****************************************
      * 1. 订单的创建（包括直接下单和购物车下单

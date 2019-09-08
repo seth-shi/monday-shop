@@ -128,13 +128,13 @@ ul.td-changeorder {width:20%}
 .th-price,.td-price{width:10%}
 .th-number,.td-number{width:5%}
 .th-operation,.td-operation{width:15%}
-.th-amount,.th-status,.th-change{display:block;width:10%}
+.th-amount,.th-status,.th-change{display:block;width:15%}
 
 
 /*右侧操作定位*/
 .order-content{position: relative;overflow: hidden;}
 .order-left ul{width:100%;overflow: hidden;}
-.order-right{width:30%;position: absolute;top:50%;margin-top: -16px;right: 0;overflow: visible;}
+.order-right{width:45%;position: absolute;top:50%;margin-top: -16px;right: 0;overflow: visible;}
 .order-right .td{width:33.33%;float: left;text-align: center; position: static; padding:0px 0px ;}
 .order-right .td-amount{font-size: 12px;}
 .order-right .td-amount p{display:block;}
