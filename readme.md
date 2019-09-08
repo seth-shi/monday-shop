@@ -3,6 +3,7 @@
 * 优惠券功能
 * 再来一单
 * 物流功能
+* 数据分析
 * API 接口开发,具体看文目录 API
 ## 目录说明
 * [演示地址](#演示地址)
@@ -126,7 +127,7 @@ php artisan moon:install
     * Linux
         * `* * * * * php /你的项目根目录/artisan schedule:run >> /dev/null 2>&1`
         * [linux 详情请去看官网](https://laravel.com/docs/5.5/scheduling)
-* 运行队列处理器(发送订阅邮件等耗时任务)
+* 运行队列处理器(发送订阅邮件，自动取消订单)
     * `Linux`系统: 
         * `nohup php artisan queue:work --tries=3 &`
     * `windows`系统直接打开一个命令行窗口，运行命令，不要关闭窗口即可
