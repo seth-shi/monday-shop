@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->string('no')->comment('订单流水号');
 
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('coupon_id')->nullable()->comment('使用的优惠券');
             $table->decimal('origin_amount', 12, 2)->default(0)->comment('原始价格');
             $table->decimal('post_amount')->default(0)->comment('邮费');
             $table->decimal('coupon_amount')->default(0)->comment('优惠价格');

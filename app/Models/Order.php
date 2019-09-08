@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
 
+
+
 /**
  * App\Models\Order
  *
@@ -38,6 +40,7 @@ use Illuminate\Support\Facades\Cache;
  * @property float|null $coupon_amount 优惠价格
  * @property float|null $post_amount 邮费
  * @property float|null $origin_amount 订单原价
+ * @property int|null $coupon_id
  * @property-read \App\Models\Address $address
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDetail[] $details
  * @property-read \App\Models\User $user
@@ -52,6 +55,7 @@ use Illuminate\Support\Facades\Cache;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereConsigneeName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereConsigneePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCouponId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereExpressCompany($value)

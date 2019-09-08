@@ -205,6 +205,7 @@ class StoreOrderController extends Controller
                     $totalAmount = 0.01;
                 }
 
+                $order->coupon_id = $couponModel->id;
                 $order->coupon_amount = $originAmount - $totalAmount;
             }
             $order->amount = $totalAmount;
