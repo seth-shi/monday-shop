@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\SettingIndexEnum;
+use App\Enums\SettingKeyEnum;
 use App\Enums\SiteCountCacheEnum;
 use App\Enums\UserSourceEnum;
 use App\Enums\UserStatusEnum;
@@ -219,7 +219,7 @@ class User extends Authenticatable implements JWTSubject
 
             if (! isset($model->attributes['password'])) {
 
-                $setting = new SettingIndexEnum(SettingIndexEnum::USER_INIT_PASSWORD);
+                $setting = new SettingKeyEnum(SettingKeyEnum::USER_INIT_PASSWORD);
                 $model->attributes['password'] = bcrypt(setting($setting, '123456'));
             }
 

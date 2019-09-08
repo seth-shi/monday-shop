@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\SettingKeyEnum;
+
 return [
 
     /*
@@ -160,6 +162,10 @@ return [
         'category_id' => '分类',
         'product_id' => '商品',
         'username' => '用户名',
+        SettingKeyEnum::USER_INIT_PASSWORD => '会员初始密码',
+        SettingKeyEnum::IS_OPEN_SECKILL => '是否开启秒杀',
+        SettingKeyEnum::POST_AMOUNT => '邮费',
+        SettingKeyEnum::UN_PAY_CANCEL_TIME => '订单自动取消时间',
     ],
 
 ];

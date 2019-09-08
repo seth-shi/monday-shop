@@ -86,18 +86,18 @@ function ceilTwoPrice($price)
 /**
  * 或者设置的配置项
  *
- * @param \App\Enums\SettingIndexEnum $settingEnum
+ * @param \App\Enums\SettingKeyEnum $settingEnum
  * @param null                        $default
  * @return mixed|null
  */
-function setting(\App\Enums\SettingIndexEnum $settingEnum, $default = null)
+function setting(\App\Enums\SettingKeyEnum $settingEnum, $default = null)
 {
     $key = \App\Models\Setting::cacheKey($settingEnum->getValue());
 
     $val = Cache::get($key);
     if (is_null($val)) {
 
-        $val = \App\Models\Setting::query()->where('index_code', $settingEnum->getValue())->value('value');
+        $val = \App\Models\Setting::query()->where('key', $settingEnum->getValue())->value('value');
         if (is_null($val)) {
             return $default;
         }

@@ -20,7 +20,7 @@ Route::group([
     $router->get('auth/logs', 'AdminController@indexLogs');
 
     // 系统的配置
-    $router->resource('settings', 'SettingController')->only('index', 'show', 'edit', 'update');
+    $router->resource('settings', 'SettingController')->only('index', 'store');
 
     // 商品上架下架
     $router->get('products/{id}/push', 'ProductController@pushProduct');
