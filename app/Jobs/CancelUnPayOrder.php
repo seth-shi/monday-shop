@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\UserHasCoupon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -44,6 +45,16 @@ class CancelUnPayOrder implements ShouldQueue
             // 未付款设置为取消状态，
             $this->order->status = OrderStatusEnum::UN_PAY_CANCEL;
             $this->order->save();
+
+            // 回退优惠券
+            if (
+                !is_null($this->order->coupon_id) &&
+                $coupon = UserHasCoupon::query()->find($this->order->coupon_id)
+            ) {
+
+                $coupon->used_at = null;
+                $coupon->save();
+            }
 
             // 回滚库存
             $this->order
