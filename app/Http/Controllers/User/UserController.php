@@ -45,7 +45,7 @@ class UserController extends Controller
         $scoreLogs = $user->scoreLogs()->latest()->limit(5)->get();
 
 
-        $hotProduct = Product::query()->where('sale_count', 'desc')->first();
+        $hotProduct = Product::query()->orderBy('sale_count', 'desc')->first();
 
         return view('user.homes.index', compact('user', 'hotProduct', 'level', 'scoreLogs'));
     }

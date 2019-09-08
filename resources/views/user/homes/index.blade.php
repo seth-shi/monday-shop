@@ -102,7 +102,7 @@
 
                                     <div class="s-pic">
                                         <a href="/products/{{ $product->uuid }}" class="s-pic-link">
-                                            <img src="{{ $product->thumb }}" alt="{{ $product->name }}" title="{{ $product->title }}" class="s-pic-img s-guess-item-img">
+                                            <img style="width: 178px; height: 178px;" src="{{ $product->thumb }}" alt="{{ $product->name }}" title="{{ $product->title }}" class="s-pic-img s-guess-item-img">
                                         </a>
                                     </div>
                                     <div class="s-price-box">
@@ -121,7 +121,7 @@
 
             </div>
         </div>
-        <div class="wrap-right">
+        <div class="wrap-right"  style="display: block">
 
             <!-- 日历-->
             <div class="day-list">
@@ -144,13 +144,16 @@
                     <i class="s-icon"></i>热卖推荐
                 </div>
                 <div class="new-goods-info">
-
-                    <a class="shop-info" href="/products/{{ $hotProduct->uuid }}" target="_blank">
-                        <div >
-                            <img src="{{ $hotProduct->thumb }}" alt="">
-                        </div>
-                        <span class="one-hot-goods">{{ $hotProduct->price }}</span>
-                    </a>
+                    @if (is_null($hotProduct))
+                        暂无热卖
+                    @else
+                        <a class="shop-info" href="/products/{{ $hotProduct->uuid }}" target="_blank">
+                            <div >
+                                <img src="{{ $hotProduct->thumb }}" alt="">
+                            </div>
+                            <span class="one-hot-goods">{{ $hotProduct->price }}</span>
+                        </a>
+                    @endif
                 </div>
             </div>
 
