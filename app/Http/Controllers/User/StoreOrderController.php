@@ -54,6 +54,10 @@ class StoreOrderController extends Controller
             return $product;
         });
 
+        // 增加邮费
+        $postAmount = \setting(new SettingKeyEnum(SettingKeyEnum::POST_AMOUNT));
+        $totalAmount += $postAmount;
+
         /**
          * @var $user User
          */
@@ -70,7 +74,7 @@ class StoreOrderController extends Controller
                         ->latest()
                         ->get();
 
-        return view('orders.create', compact('products', 'cars', 'addresses', 'totalAmount', 'coupons'));
+        return view('orders.create', compact('products', 'cars', 'addresses', 'totalAmount', 'coupons', 'postAmount'));
     }
 
     public function store(Request $request)
@@ -169,6 +173,10 @@ class StoreOrderController extends Controller
                 return $attribute;
             });
 
+            // 增加运费
+            $postAmount = \setting(new SettingKeyEnum(SettingKeyEnum::POST_AMOUNT));
+            $originAmount += $postAmount;
+
             if (! is_null($couponModel) && $originAmount < $couponModel->full_amount) {
 
                 throw new \Exception('优惠券门槛金额为 ' . $couponModel->full_amount);
@@ -181,6 +189,7 @@ class StoreOrderController extends Controller
             $order->user_id = $user->id;
             $order->type = OrderTypeEnum::COMMON;
             $order->status = OrderStatusEnum::UN_PAY;
+            $order->post_amount = $postAmount;
             $order->origin_amount = $originAmount;
 
             // 订单价格等于原价 - 优惠价格

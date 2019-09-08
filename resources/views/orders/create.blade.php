@@ -99,6 +99,7 @@
                                                 <div class="col-md-4">
                                                     <label>运费</label>
                                                     <hr>
+                                                    <span style="color: green;">+ {{ $postAmount }}</span>
                                                 </div>
                                             </div>
                                             <!-- 支付宝支付 -->
