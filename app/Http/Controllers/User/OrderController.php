@@ -75,7 +75,6 @@ class OrderController extends Controller
 
                                 $buttonServe = new OrderStatusButtonServe($order);
                                 switch ($order->status) {
-
                                     // 未支付的
                                     case OrderStatusEnum::UN_PAY:
 
@@ -94,8 +93,13 @@ class OrderController extends Controller
                                             $buttonServe->refundButton();
                                         }
                                         break;
-                                    // 已经完成的，可以再来一单
+
+                                    // 手动取消的订单
+                                    // 已经完成的订单
+                                    // 超时取消的订单
+                                    case OrderStatusEnum::UN_PAY_CANCEL:
                                     case OrderStatusEnum::COMPLETED:
+                                    case OrderStatusEnum::TIMEOUT_CANCEL:
                                         $buttonServe->replyBuyButton()->deleteButton();
                                         break;
                                 }
@@ -266,9 +270,9 @@ class OrderController extends Controller
         }
 
         // 支付的订单不能删除
-        if ($order->status != OrderStatusEnum::COMPLETED) {
+        if (! in_array($order->status, [OrderStatusEnum::UN_PAY_CANCEL, OrderStatusEnum::TIMEOUT_CANCEL, OrderStatusEnum::COMPLETED])) {
 
-            abort(403, '未完成的订单不能删除');
+            abort(403, '订单不能删除');
         }
 
         $order->delete();

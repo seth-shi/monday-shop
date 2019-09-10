@@ -14,6 +14,9 @@ class OrderStatusTransform implements Transform
     {
         switch ($status) {
 
+            case OrderStatusEnum::UN_PAY_CANCEL:
+                $text = '取消';
+                break;
             case OrderStatusEnum::REFUND:
                 $text = '退款';
                 break;
@@ -26,7 +29,7 @@ class OrderStatusTransform implements Transform
             case OrderStatusEnum::PAID:
                 $text = '已支付';
                 break;
-            case OrderStatusEnum::UN_PAY_CANCEL:
+            case OrderStatusEnum::TIMEOUT_CANCEL:
                 $text = '超时未付款系统自动取消';
                 break;
             case OrderStatusEnum::COMPLETED:

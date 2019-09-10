@@ -61,7 +61,7 @@ BUTTON;
  <a href="javascript:;"
     data-id="{$this->order->id}"
     class="am-btn am-btn-success anniu comment_btn"
-data-score="{ $this->order->score }">评价</a>
+data-score="{$this->order->score}">评价</a>
 BUTTON;
     }
 

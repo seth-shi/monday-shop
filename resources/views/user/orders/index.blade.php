@@ -251,6 +251,8 @@
 
                 @include('hint.validate_errors')
                 @include('hint.status')
+                @include('hint.fail')
+
                 <div class="am-tabs-bd">
                     <div class="am-tab-panel am-fade am-in am-active" id="tab1">
                         <div class="order-top">
@@ -335,6 +337,9 @@
                                                 <li class="td td-change">
                                                     @foreach ($order->buttons as $button)
                                                         {!! $button !!}
+                                                        @if (! $loop->last)
+                                                        <hr>
+                                                        @endif
                                                     @endforeach
                                                 </li>
                                                 <div class="move-right">
