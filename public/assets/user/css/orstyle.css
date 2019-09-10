@@ -135,7 +135,8 @@ ul.td-changeorder {width:20%}
 .order-content{position: relative;overflow: hidden;}
 .order-left ul{width:100%;overflow: hidden;}
 .order-right{width:45%;position: absolute;top:50%;margin-top: -16px;right: 0;overflow: visible;}
-.order-right .td{width:33.33%;float: left;text-align: center; position: static; padding:0px 0px ;}
+.order-right .td{width:33.33%;float: left;text-align: center; position: static; padding:0px 0px ; }
+.order-right li.td-change {margin-top: -30px;}
 .order-right .td-amount{font-size: 12px;}
 .order-right .td-amount p{display:block;}
 .order-right .td-status p.Mystatus{position:static;width:100% ;color: #000;}
