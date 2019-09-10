@@ -17,7 +17,6 @@ use App\Models\User;
 use App\Services\ScoreLogServe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Webpatser\Uuid\Uuid;
 
 class OrderController extends Controller
 {
@@ -58,10 +57,8 @@ class OrderController extends Controller
         $orders = $query->latest()
                         ->with('details', 'details.product')
                         ->get()
-                        ->transform(
+                        ->map(
                             function (Order $order) use ($scoreRatio) {
-
-                                $paid = $order->status == OrderStatusEnum::PAID;
 
                                 // 可以或得到的积分
                                 $order->score = ceil($order->amount*$scoreRatio);
@@ -70,33 +67,44 @@ class OrderController extends Controller
                                 $order->status_text = OrderStatusTransform::trans($order->status);
 
                                 // 如果订单是付款了则显示发货状态
-                                if ($paid) {
-
+                                if ($order->status == OrderStatusEnum::PAID) {
 
                                     // 如果发货了,则显示发货信息
                                     $order->status_text = OrderShipStatusTransform::trans($order->ship_status);
                                 }
 
+                                $order->show_repay_order_button = false;
                                 $order->show_completed_button = false;
                                 $order->show_refund_button = false;
                                 $order->show_pay_button = false;
                                 $order->show_delete_button = false;
                                 $order->show_ship_button = false;
-                                if ($paid) {
 
-                                    // 已经确认收获了
-                                    if ($order->ship_status == OrderShipStatusEnum::RECEIVED) {
-                                        $order->show_completed_button = true;
-                                    } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
 
-                                        $order->show_ship_button = true;
-                                    } else {
-                                        $order->show_refund_button = true;
-                                    }
+                                switch ($order->status) {
 
-                                } elseif ($order->status == OrderStatusEnum::UN_PAY) {
-                                    $order->show_pay_button = true;
+                                    // 未支付的
+                                    case OrderStatusEnum::UN_PAY:
+                                        $order->show_pay_button = true;
+                                        break;
+                                    case OrderStatusEnum::PAID:
+                                        // 已经确认收获了
+                                        if ($order->ship_status == OrderShipStatusEnum::RECEIVED) {
+                                            $order->show_completed_button = true;
+                                        } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
+
+                                            $order->show_ship_button = true;
+                                        } else {
+                                            $order->show_refund_button = true;
+                                        }
+                                        break;
+                                    // 已经完成的，可以再来一单
+                                    case OrderStatusEnum::COMPLETED:
+                                        $order->show_repay_order_button = true;
+                                        $order->show_delete_button = true;
+                                        break;
                                 }
+
 
                                 if ($order->status == OrderStatusEnum::COMPLETED) {
                                     $order->show_delete_button = true;
@@ -110,6 +118,8 @@ class OrderController extends Controller
 
         return view('user.orders.index', compact('orders'));
     }
+
+
 
 
     public function show(Order $order)
