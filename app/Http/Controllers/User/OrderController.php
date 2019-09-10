@@ -18,6 +18,7 @@ use App\Services\OrderStatusButtonServe;
 use App\Services\ScoreLogServe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yansongda\Pay\Pay;
 
 class OrderController extends Controller
 {
@@ -78,7 +79,7 @@ class OrderController extends Controller
                                     // 未支付的
                                     case OrderStatusEnum::UN_PAY:
 
-                                        $buttonServe->payButton();
+                                        $buttonServe->payButton()->cancelOrderButton();
                                         break;
                                     case OrderStatusEnum::PAID:
                                         // 已经确认收获了
@@ -109,7 +110,6 @@ class OrderController extends Controller
                                 return $order;
                             }
                         );
-
 
         return view('user.orders.index', compact('orders'));
     }
@@ -228,6 +228,43 @@ class OrderController extends Controller
         $order->save();
 
         return back()->with('status', '收货成功');
+    }
+
+
+    public function cancelOrder(Order $order)
+    {
+        // 判断是当前用户的订单才可以删除
+        if ($order->isNotUser(auth()->id())) {
+            abort(403, '你没有权限');
+        }
+
+        if ($order->status != OrderStatusEnum::UN_PAY) {
+
+            return back()->withErrors('未付款的订单才能取消');
+        }
+
+        $order = [
+            'out_trade_no' => $order->no,
+        ];
+
+        $pay = Pay::alipay(config('pay.ali'));
+
+        try {
+
+            $result = $pay->cancel($order);
+
+            $order->status = OrderStatusEnum::UN_PAY_CANCEL;
+            $order->save();
+
+            dd($result);
+
+        } catch (\Exception $e) {
+
+            return back()->withErrors('服务器异常，请稍后再试');
+        }
+
+
+        return back()->with('status', '取消成功');
     }
 
     /**
