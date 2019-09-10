@@ -333,32 +333,7 @@
                                                     </div>
                                                 </li>
                                                 <li class="td td-change">
-                                                    @if ($order->show_completed_button)
 
-                                                        <a href="javascript:;"
-                                                           data-id="{{ $order->id }}"
-                                                           class="am-btn am-btn-success anniu comment_btn"
-                                                           data-score="{{ $order->score }}">评价</a>
-                                                    @endif
-                                                    @if ($order->show_ship_button)
-                                                        <a href="javascript:;" data-id="{{ $order->id }}"
-                                                           class="am-btn am-btn-success anniu confirm_btn">确认收货</a>
-                                                    @endif
-                                                    <hr>
-                                                    @if ($order->show_refund_button)
-                                                        <a href="javascript:;" data-id="{{ $order->id }}"
-                                                           class="am-btn am-btn-default anniu refund_btn">退款</a>
-                                                    @endif
-
-                                                    @if ($order->show_pay_button)
-                                                        <a href="/user/pay/orders/{{ $order->id }}/again"
-                                                           class="am-btn am-btn-danger anniu">去付款</a>
-                                                    @endif
-                                                    <hr>
-                                                    @if ($order->show_delete_button)
-                                                        <a href="javascript:;" data-id="{{ $order->id }}"
-                                                           class="am-btn am-btn-default anniu delete_btn">删除订单</a>
-                                                    @endif
 
                                                 </li>
                                                 <div class="move-right">
