@@ -16,6 +16,19 @@ class OrderStatusButtonServe
         $this->order = $order;
     }
 
+
+    public function cancelOrderButton()
+    {
+        $url = url("/user/orders/{$this->order->id}/cancel");
+
+        $this->buttons[] = <<<BUTTON
+<a href="{$url}" 
+   class="am-btn am-btn-default anniu">取消订单</a>
+BUTTON;
+
+        return $this;
+    }
+
     public function deleteButton()
     {
         $this->buttons[] = <<<BUTTON

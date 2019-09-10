@@ -80,6 +80,8 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     Route::patch('orders/{order}/shipped', 'OrderController@confirmShip');
     // 完成订单+评价
     Route::post('orders/{order}/complete', 'OrderController@completeOrder');
+    // 取消订单
+    Route::get('orders/{order}/cancel', 'OrderController@cancelOrder');
 
     // 用户的积分
     Route::get('scores', 'UserController@indexScores');
