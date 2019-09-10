@@ -333,8 +333,9 @@
                                                     </div>
                                                 </li>
                                                 <li class="td td-change">
-
-
+                                                    @foreach ($order->buttons as $button)
+                                                        {!! $button !!}
+                                                    @endforeach
                                                 </li>
                                                 <div class="move-right">
 

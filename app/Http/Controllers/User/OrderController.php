@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\ScoreRule;
 use App\Models\User;
+use App\Services\OrderStatusButtonServe;
 use App\Services\ScoreLogServe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,7 +66,6 @@ class OrderController extends Controller
 
                                 // 完成按钮必须是已经支付和确认收货
                                 $order->status_text = OrderStatusTransform::trans($order->status);
-
                                 // 如果订单是付款了则显示发货状态
                                 if ($order->status == OrderStatusEnum::PAID) {
 
@@ -73,43 +73,34 @@ class OrderController extends Controller
                                     $order->status_text = OrderShipStatusTransform::trans($order->ship_status);
                                 }
 
-                                $order->show_repay_order_button = false;
-                                $order->show_completed_button = false;
-                                $order->show_refund_button = false;
-                                $order->show_pay_button = false;
-                                $order->show_delete_button = false;
-                                $order->show_ship_button = false;
-
-
+                                $buttonServe = new OrderStatusButtonServe($order);
                                 switch ($order->status) {
 
                                     // 未支付的
                                     case OrderStatusEnum::UN_PAY:
-                                        $order->show_pay_button = true;
+
+                                        $buttonServe->payButton();
                                         break;
                                     case OrderStatusEnum::PAID:
                                         // 已经确认收获了
                                         if ($order->ship_status == OrderShipStatusEnum::RECEIVED) {
-                                            $order->show_completed_button = true;
+
+                                            $buttonServe->completeButton();
                                         } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
 
-                                            $order->show_ship_button = true;
+                                            $buttonServe->shipButton();
                                         } else {
-                                            $order->show_refund_button = true;
+
+                                            $buttonServe->refundButton();
                                         }
                                         break;
                                     // 已经完成的，可以再来一单
                                     case OrderStatusEnum::COMPLETED:
-                                        $order->show_repay_order_button = true;
-                                        $order->show_delete_button = true;
+                                        $buttonServe->replyBuyButton()->deleteButton();
                                         break;
                                 }
 
-
-                                if ($order->status == OrderStatusEnum::COMPLETED) {
-                                    $order->show_delete_button = true;
-                                }
-
+                                $order->buttons = $buttonServe->getButtons();
 
                                 return $order;
                             }
