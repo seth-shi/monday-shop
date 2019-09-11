@@ -57,7 +57,6 @@
                 </div>
             </div>
 
-
             @includeWhen($isOpenSeckill, 'homes.seckills')
 
             <section class="section latest-coupons-area ptb-30">
