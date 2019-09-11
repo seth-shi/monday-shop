@@ -49,7 +49,7 @@ class PaymentController extends Controller
         // 创建订单
         $order = [
             'out_trade_no' => $order->no,
-            'total_amount' => $order->total,
+            'total_amount' => $order->amount,
             'subject' => $order->name,
         ];
 
