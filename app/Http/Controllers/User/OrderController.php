@@ -256,8 +256,6 @@ class OrderController extends Controller
             $order->status = OrderStatusEnum::UN_PAY_CANCEL;
             $order->save();
 
-            dd($result);
-
         } catch (\Exception $e) {
 
             return back()->withErrors('服务器异常，请稍后再试');
