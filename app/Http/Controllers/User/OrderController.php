@@ -243,15 +243,15 @@ class OrderController extends Controller
             return back()->withErrors('未付款的订单才能取消');
         }
 
-        $order = [
-            'out_trade_no' => $order->no,
-        ];
+
 
         $pay = Pay::alipay(config('pay.ali'));
 
         try {
-
-            $result = $pay->cancel($order);
+            $orderData = [
+                'out_trade_no' => $order->no,
+            ];
+            $result = $pay->cancel($orderData);
 
             $order->status = OrderStatusEnum::UN_PAY_CANCEL;
             $order->save();
