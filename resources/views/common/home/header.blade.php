@@ -1,5 +1,6 @@
 <header id="mainHeader" class="main-header">
 
+    @include('common.coupon_code')
     <!-- Top Bar -->
     <div class="top-bar bg-gray">
         <div class="container">
@@ -8,12 +9,15 @@
                     <ul class="nav-top nav-top-left list-inline t-left">
                         <li><a href="https://baidu.com"><i class="fa fa-question-circle"></i>指南</a>
                         </li>
-                        <li><a href="/coupon_templates"><i class="fa fa-money"></i>优惠券</a>
+
+                        <li class="show_coupon_code_btn"><a href="javascript:;"><i class="fa fa-money"></i>兑换码</a>
                         </li>
                     </ul>
                 </div>
                 <div class="col-sm-12 col-md-8">
                     <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
+                        <li><a href="/coupon_templates"><i class="fa fa-money"></i>优惠券</a>
+                        </li>
                         @auth
                             <li>
                                 <a href="/user"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a>
