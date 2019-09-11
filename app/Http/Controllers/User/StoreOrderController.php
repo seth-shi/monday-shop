@@ -138,7 +138,9 @@ class StoreOrderController extends Controller
         try {
 
             $originAmount = 0;
-            $details = $products->map(function (Product $product, $i) use ($numbers, &$originAmount) {
+            // 订单名字，用于支付
+            $orderName = '';
+            $details = $products->map(function (Product $product, $i) use ($numbers, &$originAmount, &$orderName) {
 
                 $number = $numbers[$i];
 
@@ -170,8 +172,18 @@ class StoreOrderController extends Controller
 
                 $originAmount += $attribute['total'];
 
+                $tmpName = "{$product->name}*{$number}";
+                if (strlen($orderName) + strlen($tmpName) <= 50) {
+                    $orderName .= $tmpName;
+                }
+
                 return $attribute;
             });
+
+            if (strlen($orderName) === 0) {
+                $orderName = '商城订单';
+            }
+
 
             // 增加运费
             $postAmount = \setting(new SettingKeyEnum(SettingKeyEnum::POST_AMOUNT));
@@ -189,6 +201,8 @@ class StoreOrderController extends Controller
             $order->user_id = $user->id;
             $order->type = OrderTypeEnum::COMMON;
             $order->status = OrderStatusEnum::UN_PAY;
+            $order->name = $orderName;
+
             $order->post_amount = $postAmount;
             $order->origin_amount = $originAmount;
 
