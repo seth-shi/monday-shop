@@ -21,7 +21,7 @@
                         </div>
                         <div class="m-right">
                             <div class="m-new">
-                                <a href="/notifications"><i class="am-icon-bell-o"></i>消息</a>
+                                <a href="/user/notifications"><i class="am-icon-bell-o"></i>消息</a>
                             </div>
 
                             <div class="m-address">
