@@ -63,6 +63,7 @@
     <!-- Initialize jQuery library                 -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <script src="/assets/shop/js/jquery-1.12.3.min.js"></script>
+    <script src="/assets/user/layer/2.4/layer.js"></script>
 
     @yield('style')
 </head>

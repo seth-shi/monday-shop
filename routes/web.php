@@ -87,6 +87,8 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     Route::get('scores', 'UserController@indexScores');
     // 用户拥有的优惠券
     Route::get('coupons', 'UserCouponController@index');
+    // 使用兑换码兑换优惠券
+    Route::get('coupon_codes', 'UserCouponController@exchangeCoupon');
 
     /****************************************
      * 1. 订单的创建（包括直接下单和购物车下单
