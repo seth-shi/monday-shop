@@ -12,10 +12,14 @@
     <link href="/assets/user/css/systyle.css" rel="stylesheet" type="text/css">
     <link href="/assets/user/css/personal.css" rel="stylesheet" type="text/css">
     <link href="/assets/user/css/orstyle.css" rel="stylesheet" type="text/css">
+
+    <script src="/assets/user/js/jquery-1.7.2.min.js"></script>
     @yield('style')
 </head>
 
 <body>
+
+@include('common.coupon_code')
 <!--头 -->
 @include('common.user.header')
 

@@ -34,6 +34,10 @@
 
 <body>
 
+
+@include('common.coupon_code')
+
+
 @include('common.home.header')
 @include('common.home.search')
 

@@ -20,13 +20,12 @@
 
                         </div>
                         <div class="m-right">
-                            <!--
                             <div class="m-new">
-                                <a href="#"><i class="am-icon-bell-o"></i>消息</a>
+                                <a href="/notifications"><i class="am-icon-bell-o"></i>消息</a>
                             </div>
-                            -->
+
                             <div class="m-address">
-                                <a href="/user/addresses" class="i-trigger">我的收货地址</a>
+                                <a style="color: #337ab7; font-weight: bold" href="/user/addresses" class="i-trigger">我的收货地址</a>
                             </div>
                         </div>
                     </div>
@@ -69,6 +68,12 @@
                             <a href="/user/likes">
                                 <i><img src="/assets/user/images/icon_like_sel.png"/></i
                                 ><span>我的收藏</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="show_coupon_code_btn">
+                                <i><img src="/assets/user/images/exchange.png"/></i>
+                                <span>兑换优惠券</span>
                             </a>
                         </li>
                     </ul>
