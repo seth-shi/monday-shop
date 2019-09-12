@@ -1,6 +1,6 @@
 <style>
     .coupon_form {
-        min-width: 250px;
+        min-width: 250px !important;
         padding: 30px;
         background: #fff;
         position: fixed;
@@ -45,7 +45,6 @@
         position: absolute;
         right: 0;
         top: 0;
-        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAJFBMV…hOwu14TG9iBgjuoMMMZMzowB1xmFGMmRgIJBtEAqMzAADxKShBw/t8QgAAAABJRU5ErkJggg==) no-repeat center;
         background-size: 20px 20px;
     }
     .coupon_form .input.input_error input {
@@ -80,21 +79,11 @@
 
         3、提示：输入兑换码时请使用英文输入法。<br></p>
     <div class="input " tag="input_cdkey">
-        <input type="text" tag="cdKey" placeholder="请输入16位兑换码">
+        <input type="text" id="coupon_code_input" placeholder="请输入16位兑换码">
         <span tag="clear"></span>
     </div>
-    <div class="input input_error" tag="cdkey_error" style="display:none;">
-        <input type="text">
-    </div>
-    <div class="input_group">
-
-        <div class="input input_error" tag="code_error" style="display:none;">
-            <input type="text" tag="errcode" value="111">
-        </div>
-
-    </div>
     <div class="mod_btns">
-        <a href="javascript:;" class="mod_btn bg_1" tag="exchangeBtn" ptag="7212.1.1" wxptag="7212.1.1" mqptag="7212.2.1">立即兑换</a>
+        <a href="javascript:;" class="mod_btn bg_1" id="exchangeBtn">立即兑换</a>
     </div>
 </div>
 <script>
@@ -106,5 +95,34 @@
     $('#close_code_btn').click(function () {
 
         $('#coupon_code_form').hide(500);
+    });
+
+    $('#exchangeBtn').click(function () {
+
+        var code = $('#coupon_code_input').val();
+        console.log(code);
+        if (code.length !== 16) {
+            layer.alert('兑换码必须是16位', {icon: 2});
+            return false;
+        }
+
+        $.get('/user/coupon_codes', {code: code}, function (res) {
+
+           if (res.code != 200) {
+
+               layer.alert(res.msg, {icon: 2});
+               return;
+           }
+
+            layer.confirm(res.msg, {
+                btn: ['去我的优惠券查看','关闭'] //按钮
+            }, function(){
+                window.location.href = '/user/coupons';
+            }, function(){
+
+                layer.closeAll();
+            });
+
+        });
     });
 </script>

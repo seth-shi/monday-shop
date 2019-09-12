@@ -14,6 +14,8 @@
     <link href="/assets/user/css/orstyle.css" rel="stylesheet" type="text/css">
 
     <script src="/assets/user/js/jquery-1.7.2.min.js"></script>
+    <script src="/assets/user/layer/2.4/layer.js"></script>
+
     @yield('style')
 </head>
 

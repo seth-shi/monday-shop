@@ -117,7 +117,7 @@ class CouponCodeController extends AdminController
         $notifications = collect();
         $codes = $users->map(function (User $user) use ($template, $notifications, $now) {
 
-            $code = strtolower(str_random(16));
+            $code = strtoupper(str_random(16));
 
             $notification = [
                 'id' => Uuid::uuid4()->toString(),
