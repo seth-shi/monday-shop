@@ -232,7 +232,6 @@
             <!--标题 -->
             <div class="am-cf am-padding">
                 <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">消息通知</strong>
-                    <button class="read_all_btn">已读所有</button>
                 </div>
             </div>
             <hr/>
@@ -256,7 +255,7 @@
                                 <h6 class="s-msg-bar"><span class="s-name">{{ $notification->created_at }}</span></h6>
                                 <div class="s-msg-content i-msg-downup-wrap">
                                     <div class="i-msg-downup-con">
-                                        <a class="i-markRead" target="_blank" href="blog.html">
+                                        <a class="i-markRead" href="/user/notifications/{{ $notification->id }}">
                                             <p class="s-main-content">
                                                 <span style="color: green" class="notification_title {{ is_null($notification->read_at) ? '' : 'read' }}">
                                                     @if ($notification->is_code)
@@ -273,7 +272,7 @@
                                                 标为已读<i class="am-icon-comments"></i>
                                             </a>
                                             @endif
-                                            <a style="margin-left: 20px;" href="blog.html">
+                                            <a style="margin-left: 20px;" href="/user/notifications/{{ $notification->id }}">
                                                 查看详情 <i class="am-icon-angle-right"></i>
                                             </a>
                                         </p>

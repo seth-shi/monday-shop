@@ -98,6 +98,7 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     // 已读所有
     Route::get('notifications/read_all', 'NotificationController@readAll');
     // 查看通知详情
+    Route::get('notifications/{id}', 'NotificationController@show');
 
 
     /****************************************

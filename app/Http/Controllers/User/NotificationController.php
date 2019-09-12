@@ -88,4 +88,47 @@ class NotificationController extends Controller
 
         return responseJson(200, "本次已读{$count}条消息");
     }
+
+    public function show($id)
+    {
+
+        /**
+         * @var $user User
+         */
+        $user = auth()->user();
+
+        /**
+         * @var $notification DatabaseNotification
+         */
+        $notification = $user->notifications()->find($id);
+        if (is_null($notification)) {
+
+            return abort(403, '无效的通知');
+        }
+
+        // 查看是否有上一条下一条
+        $last = $user->notifications()->where('created_at', '<', $notification->created_at)->first();
+        $next = $user->notifications()->where('created_at', '>', $notification->created_at)->first();
+
+        $notification->markAsRead();
+
+        // 使用哪一个模板
+        $view = 'default';
+        switch ($notification->type) {
+
+            case CouponCodeNotification::class:
+                $view = 'code';
+                break;
+        }
+        $view = "user.notifications.types.{$view}";
+
+        if (! view()->exists($view)) {
+
+            abort(404, '未知的的消息');
+        }
+
+        $data = $notification->data;
+
+        return view('user.notifications.show', compact('last', 'next', 'notification', 'view', 'data'));
+    }
 }
