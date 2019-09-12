@@ -123,6 +123,6 @@ class UserCouponController extends Controller
         $coupon->save();
 
 
-        return responseJson(200, '兑换成功');
+        return responseJson(200, "兑换{$template->title}成功");
     }
 }

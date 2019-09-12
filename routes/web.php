@@ -90,6 +90,16 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     // 使用兑换码兑换优惠券
     Route::get('coupon_codes', 'UserCouponController@exchangeCoupon');
 
+
+    // 用户通知的所有接口
+    Route::get('notifications', 'NotificationController@index');
+    // 标位已读
+    Route::get('notifications/{id}/read', 'NotificationController@read');
+    // 已读所有
+    Route::get('notifications/read_all', 'NotificationController@readAll');
+    // 查看通知详情
+
+
     /****************************************
      * 1. 订单的创建（包括直接下单和购物车下单
      * 2. 退款接口
