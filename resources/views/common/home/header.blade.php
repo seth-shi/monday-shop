@@ -1,6 +1,4 @@
 <header id="mainHeader" class="main-header">
-
-    @include('common.coupon_code')
     <!-- Top Bar -->
     <div class="top-bar bg-gray">
         <div class="container">
@@ -10,7 +8,7 @@
                         <li><a href="https://baidu.com"><i class="fa fa-question-circle"></i>指南</a>
                         </li>
 
-                        <li class="show_coupon_code_btn"><a href="javascript:;"><i class="fa fa-money"></i>兑换码</a>
+                        <li class="show_coupon_code_btn"><a href="javascript:;"><i class="fa fa-money"></i>兑换优惠券</a>
                         </li>
                     </ul>
                 </div>

@@ -1,5 +1,6 @@
 <style>
     .coupon_form {
+        min-width: 250px;
         padding: 30px;
         background: #fff;
         position: fixed;
