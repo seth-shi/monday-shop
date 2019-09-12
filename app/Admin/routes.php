@@ -63,6 +63,8 @@ Route::group([
     $router->resource('coupon_templates', 'CouponTemplateController');
     // 优惠券
     $router->resource('coupon_logs', 'CouponLogController')->only('index');
+    // 优惠券兑换码
+    $router->resource('coupon_codes', 'CouponCodeController')->only('index', 'create', 'store', 'destroy');
 
     // 富文本图片上传
     $router->post('upload/editor', 'UploadController@uploadByEditor');

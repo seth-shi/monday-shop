@@ -19,7 +19,7 @@ class HomeController extends Controller
     public function index(Content $content, SiteCountService $service)
     {
         // 用于更新菜单数据到文件， 可删除
-        file_put_contents(database_path('data/menus.json'), Menu::all()->toJson(JSON_UNESCAPED_UNICODE));
+//        file_put_contents(database_path('data/menus.json'), Menu::all()->toJson(JSON_UNESCAPED_UNICODE));
 
         // 使用 echart
         Admin::js('/js/echarts.min.js');
