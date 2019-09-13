@@ -38,15 +38,7 @@ class NotificationController extends Controller
 
         foreach ($notifications as $notification) {
 
-            switch ($notification->type) {
-
-                case CouponCodeNotification::class:
-                    $notification->is_code = true;
-                    break;
-                default:
-                    $notification->is_default = 0;
-                    break;
-            }
+            $notification->title = NotificationServe::getTitle($notification);
         }
 
         $unreadCount = $user->unreadNotifications()->count();
@@ -110,24 +102,16 @@ class NotificationController extends Controller
         // 查看是否有上一条下一条
         $last = $user->notifications()->where('created_at', '<', $notification->created_at)->first();
         $next = $user->notifications()->where('created_at', '>', $notification->created_at)->first();
-
+        // 标记为已读
         $notification->markAsRead();
 
-        // 使用哪一个模板
-        $view = 'default';
-        switch ($notification->type) {
-
-            case CouponCodeNotification::class:
-                $view = 'code';
-                break;
-        }
-        $view = "user.notifications.types.{$view}";
-
+        $view = NotificationServe::getView($notification);
         if (! view()->exists($view)) {
 
             abort(404, '未知的的消息');
         }
 
+        $notification->title = NotificationServe::getTitle($notification);
         $data = $notification->data;
 
         return view('user.notifications.show', compact('last', 'next', 'notification', 'view', 'data'));
@@ -153,17 +137,10 @@ class NotificationController extends Controller
         if ($count > 0) {
 
             $notification = $user->unreadNotifications()->first();
-            switch ($notification->type) {
 
-                case CouponCodeNotification::class:
-                    $id = $notification->id;
-                    $title = "你获得了新的优惠券兑换码，火速前往";
-                    $content = NotificationServe::getTitle($notification);
-                    break;
-                default:
-                    $content = '默认消息';
-                    break;
-            }
+            // 前端弹窗内容和标题相反显示，所以变量名会有点怪
+            $title = NotificationServe::getContent($notification);
+            $content = NotificationServe::getTitle($notification);
         }
 
         return responseJson(200, 'success', compact('count', 'title', 'content', 'id'));

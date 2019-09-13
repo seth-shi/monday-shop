@@ -7,6 +7,21 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationServe
 {
+    public static function getView(DatabaseNotification $notification)
+    {
+        // 使用哪一个模板
+        $view = 'default';
+        switch ($notification->type) {
+
+            case CouponCodeNotification::class:
+                $view = 'code';
+                break;
+        }
+        $view = "user.notifications.types.{$view}";
+
+        return $view;
+    }
+
    public static function getTitle(DatabaseNotification $notification)
    {
        $data = $notification->data;
@@ -16,6 +31,11 @@ class NotificationServe
            return $data['title'];
        }
 
+       return self::getContent($notification);
+   }
+
+   public static function getContent(DatabaseNotification $notification)
+   {
        $title = '';
        switch ($notification->type) {
 
