@@ -102,18 +102,21 @@
 <!-- WRAPPER                                   -->
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <div id="pageWrapper" class="page-wrapper">
+
+    @include('modules.notifications')
+
     <!-- –––––––––––––––[ HEADER ]––––––––––––––– -->
-    @include('common.home.header')
-    @include('common.home.search')
+    @include('modules.home.header')
+    @include('modules.home.search')
     <!-- –––––––––––––––[ HEADER ]––––––––––––––– -->
 
         <!-- –––––––––––––––[ PAGE CONTENT ]––––––––––––––– -->
     @yield('main')
     <!-- –––––––––––––––[ END PAGE CONTENT ]––––––––––––––– -->
 
-    @include('common.home.area')
+    @include('modules.home.area')
     <!-- –––––––––––––––[ FOOTER ]––––––––––––––– -->
-    @include('common.home.footer')
+    @include('modules.home.footer')
     <!-- –––––––––––––––[ END FOOTER ]––––––––––––––– -->
 
 </div>
@@ -121,7 +124,7 @@
 <!-- END WRAPPER                               -->
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 
-@include('common.coupon_code')
+@include('modules.coupon_code')
 
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <!-- 回到顶部                                   -->

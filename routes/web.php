@@ -100,7 +100,7 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
     // 查看通知详情
     Route::get('notifications/{id}', 'NotificationController@show');
     // 轮询未读消息总数
-    Route::get('notifications/un_read_count', 'NotificationController@getUnreadCount');
+    Route::get('un_read_count/notifications', 'NotificationController@getUnreadCount');
 
     /****************************************
      * 1. 订单的创建（包括直接下单和购物车下单

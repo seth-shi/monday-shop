@@ -1,4 +1,4 @@
-@extends('common.home.auth')
+@extends('modules.home.auth')
 
 @section('style')
 

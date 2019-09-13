@@ -53,7 +53,7 @@
 </div>
 
 <!-- End Header Header -->
-@include('common.home.car')
+@include('modules.home.car')
 <script>
     let countDom = $('#cart-number #count');
     let localDom = $('#cart-number #local');

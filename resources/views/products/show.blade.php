@@ -327,7 +327,7 @@
                         <a href="#">物流</a>
                     </p>
                 </div>
-                @include('common.home.footer')
+                @include('modules.home.footer')
             </div>
         </div>
 

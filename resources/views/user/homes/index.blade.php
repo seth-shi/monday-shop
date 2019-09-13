@@ -21,11 +21,11 @@
                         </div>
                         <div class="m-right">
                             <div class="m-new">
-                                <a href="/user/notifications"><i class="am-icon-bell-o"></i>消息<em class="m-num">({{ $user->notifications_count }})</em></a>
+                                <a href="/user/notifications"><i class="am-icon-bell-o"></i>消息<em style="color: #fff;">({{ $user->notifications_count }})</em></a>
                             </div>
 
                             <div class="m-address">
-                                <a style="color: #337ab7; font-weight: bold" href="/user/addresses" class="i-trigger">我的收货地址<em class="m-num">({{ $user->addresses_count }})</em></a>
+                                <a style="color: #337ab7; font-weight: bold" href="/user/addresses" class="i-trigger">我的收货地址<em style="color: #fff;">({{ $user->addresses_count }})</em></a>
                             </div>
                         </div>
                     </div>
