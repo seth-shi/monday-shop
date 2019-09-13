@@ -47,7 +47,7 @@
 <body>
 
 <!--顶部导航条 -->
-@include('common.user.header')
+@include('modules.user.header')
 
 
 <div class="clear"></div>
@@ -125,7 +125,7 @@
 </div>
 
 
-@include('common.user.footer')
+@include('modules.user.footer')
 
 <div class="clear"></div>
 

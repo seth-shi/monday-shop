@@ -35,11 +35,12 @@
 <body>
 
 
-@include('common.coupon_code')
+@include('modules.coupon_code')
+@include('modules.notifications')
 
 
-@include('common.home.header')
-@include('common.home.search')
+@include('modules.home.header')
+@include('modules.home.search')
 
 
 @yield('main')

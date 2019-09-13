@@ -21,9 +21,11 @@
 
 <body>
 
-@include('common.coupon_code')
+@include('modules.notifications')
+
+@include('modules.coupon_code')
 <!--头 -->
-@include('common.user.header')
+@include('modules.user.header')
 
 <b class="line"></b>
 <div class="center">
@@ -32,13 +34,13 @@
         @yield('main')
 
         <!--底部-->
-        @include('common.user.footer')
+        @include('modules.user.footer')
 
 
     </div>
 
 
-    @include('common.user.menu')
+    @include('modules.user.menu')
 </div>
 
 <!-- 手机端样式 -->

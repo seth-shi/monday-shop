@@ -88,8 +88,8 @@
 
 @yield('main')
 
-@include('common.home.area')
-@include('common.home.footer')
+@include('modules.home.area')
+@include('modules.home.footer')
 
 </div>
 <!-- 回到顶部                                   -->

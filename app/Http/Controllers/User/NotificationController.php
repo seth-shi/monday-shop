@@ -145,6 +145,24 @@ class NotificationController extends Controller
          */
         $count = $user->unreadNotifications()->count();
 
-        return responseJson(200, 'success', compact('count'));
+
+        $title = '';
+        $id = null;
+        if ($count > 0) {
+
+            $notification = $user->unreadNotifications()->first();
+            switch ($notification->type) {
+
+                case CouponCodeNotification::class:
+                    $id = $notification->id;
+                    $title = "你获得了新的优惠券兑换码，火速前往";
+                    break;
+                default:
+                    $title = '默认消息';
+                    break;
+            }
+        }
+
+        return responseJson(200, 'success', compact('count', 'title', 'id'));
     }
 }
