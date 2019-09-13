@@ -21,6 +21,8 @@ class CreateNotificationsTable extends Migration
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE `notifications` comment'通知表'");
     }
 
     /**
