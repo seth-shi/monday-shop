@@ -67,7 +67,7 @@
                         window.location.href = url;
                     };
 
-                    toastr.info(res.data.title);
+                    toastr.info(res.data.title, res.data.content);
                     // 停掉定时器，只显示一个悬浮框即可
                     if (timer) {
 

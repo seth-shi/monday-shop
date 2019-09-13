@@ -41,7 +41,7 @@ class CouponCodeNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'title' => $this->template->title,
+            'title' => $this->template->title . '兑换码',
             'start_date' => $this->template->start_date,
             'end_date' => $this->template->end_date,
             'code' => $this->code,

@@ -24,6 +24,9 @@ class CreateCouponCodesTable extends Migration
 
             $table->timestamps();
         });
+
+
+        DB::statement("ALTER TABLE `coupon_codes` comment'优惠券兑换码表'");
     }
 
     /**

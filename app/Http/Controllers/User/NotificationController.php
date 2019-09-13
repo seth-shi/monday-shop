@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\CouponCodeNotification;
+use App\Services\NotificationServe;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
@@ -147,6 +148,7 @@ class NotificationController extends Controller
 
 
         $title = '';
+        $content = '';
         $id = null;
         if ($count > 0) {
 
@@ -156,13 +158,14 @@ class NotificationController extends Controller
                 case CouponCodeNotification::class:
                     $id = $notification->id;
                     $title = "你获得了新的优惠券兑换码，火速前往";
+                    $content = NotificationServe::getTitle($notification);
                     break;
                 default:
-                    $title = '默认消息';
+                    $content = '默认消息';
                     break;
             }
         }
 
-        return responseJson(200, 'success', compact('count', 'title', 'id'));
+        return responseJson(200, 'success', compact('count', 'title', 'content', 'id'));
     }
 }
