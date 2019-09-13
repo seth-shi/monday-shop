@@ -1,5 +1,3 @@
-<h2 style="text-align: center; margin: 20px;font-size: 24px;">{{ $data['title'] }}</h2>
-<hr>
 <h3 style="text-align: center;">有效期至：{{ $data['start_date'] }} ~ {{ $data['end_date'] }}</h3>
 <br>
 <p style="text-indent: 20px;">

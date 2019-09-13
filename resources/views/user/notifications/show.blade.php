@@ -36,6 +36,8 @@
 
                 <div class="row row-masnory row-tb-20">
                     <div class="coupon-wrapper">
+                        <h2 style="text-align: center; margin: 20px;font-size: 24px;">{{ $notification->title }}</h2>
+                        <hr>
                         @include($view)
                     </div>
                 </div>

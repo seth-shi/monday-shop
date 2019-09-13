@@ -258,11 +258,7 @@
                                         <a class="i-markRead" href="/user/notifications/{{ $notification->id }}">
                                             <p class="s-main-content">
                                                 <span style="color: green" class="notification_title {{ is_null($notification->read_at) ? '' : 'read' }}">
-                                                    @if ($notification->is_code)
-                                                        你有一个新的兑换码可以用以使用
-                                                    @else
-                                                        默认通知
-                                                    @endif
+                                                   {{ $notification->title }}
                                                 </span>
                                             </p>
                                         </a>
