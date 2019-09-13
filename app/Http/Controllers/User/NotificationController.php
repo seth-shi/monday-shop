@@ -131,4 +131,20 @@ class NotificationController extends Controller
 
         return view('user.notifications.show', compact('last', 'next', 'notification', 'view', 'data'));
     }
+
+
+    public function getUnreadCount()
+    {
+        /**
+         * @var $user User
+         */
+        $user = auth()->user();
+
+        /**
+         * @var $notification DatabaseNotification
+         */
+        $count = $user->unreadNotifications()->count();
+
+        return responseJson(200, 'success', compact('count'));
+    }
 }

@@ -21,11 +21,11 @@
                         </div>
                         <div class="m-right">
                             <div class="m-new">
-                                <a href="/user/notifications"><i class="am-icon-bell-o"></i>消息</a>
+                                <a href="/user/notifications"><i class="am-icon-bell-o"></i>消息<em class="m-num">({{ $user->notifications_count }})</em></a>
                             </div>
 
                             <div class="m-address">
-                                <a style="color: #337ab7; font-weight: bold" href="/user/addresses" class="i-trigger">我的收货地址</a>
+                                <a style="color: #337ab7; font-weight: bold" href="/user/addresses" class="i-trigger">我的收货地址<em class="m-num">({{ $user->addresses_count }})</em></a>
                             </div>
                         </div>
                     </div>
@@ -59,21 +59,21 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/user/password">
-                                <i><img src="/assets/user/images/update_password.png"/></i
-                                ><span>修改密码</span>
-                            </a>
-                        </li>
-                        <li>
                             <a href="/user/likes">
                                 <i><img src="/assets/user/images/icon_like_sel.png"/></i
-                                ><span>我的收藏</span>
+                                ><span>我的收藏<em class="m-num">{{ $user->like_products_count }}</em></span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="show_coupon_code_btn">
                                 <i><img src="/assets/user/images/exchange.png"/></i>
                                 <span>兑换优惠券</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/user/password">
+                                <i><img src="/assets/user/images/update_password.png"/></i
+                                ><span>修改密码</span>
                             </a>
                         </li>
                     </ul>
