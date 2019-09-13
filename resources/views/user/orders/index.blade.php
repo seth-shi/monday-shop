@@ -241,12 +241,12 @@
             <div class="am-tabs am-tabs-d2 am-margin" data-am-tabs>
 
                 <ul id="tab_nav" class="am-avg-sm-5 am-tabs-nav am-nav am-nav-tabs">
-                    <li class="{{ request('tab', 0) == 0 ? 'am-active' : '' }}"><a href="?tab=0">所有订单</a></li>
+                    <li class="{{ request('tab', 0) == 0 ? 'am-active' : '' }}"><a href="?tab=0">所有订单({{ $ordersCount }})</a></li>
                     <li class="{{ request('tab', 0) == 1 ? 'am-active' : '' }}"><a style="cursor: pointer"
-                                                                                   href="?tab=1">待付款</a></li>
-                    <li class="{{ request('tab', 0) == 2 ? 'am-active' : '' }}"><a href="?tab=2">未发货</a></li>
-                    <li class="{{ request('tab', 0) == 3 ? 'am-active' : '' }}"><a href="?tab=3">待收货</a></li>
-                    <li class="{{ request('tab', 0) == 4 ? 'am-active' : '' }}"><a href="?tab=4">待评价</a></li>
+                                                                                   href="?tab=1">待付款({{ $unPayCount }})</a></li>
+                    <li class="{{ request('tab', 0) == 2 ? 'am-active' : '' }}"><a href="?tab=2">未发货({{ $shipPendingCount }})</a></li>
+                    <li class="{{ request('tab', 0) == 3 ? 'am-active' : '' }}"><a href="?tab=3">待收货({{ $shipDeliveredCount }})</a></li>
+                    <li class="{{ request('tab', 0) == 4 ? 'am-active' : '' }}"><a href="?tab=4">待评价({{ $shipReceivedCount }})</a></li>
                 </ul>
 
                 @include('hint.validate_errors')

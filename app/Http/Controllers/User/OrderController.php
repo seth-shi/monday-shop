@@ -111,7 +111,15 @@ class OrderController extends Controller
                             }
                         );
 
-        return view('user.orders.index', compact('orders'));
+
+        // 查询订单总量
+        $unPayCount = $user->orders()->where('status', OrderStatusEnum::UN_PAY)->count();
+        $shipPendingCount = $user->orders()->where('status', OrderStatusEnum::PAID)->where('ship_status', OrderShipStatusEnum::PENDING)->count();
+        $shipDeliveredCount = $user->orders()->where('status', OrderStatusEnum::PAID)->where('ship_status', OrderShipStatusEnum::DELIVERED)->count();
+        $shipReceivedCount = $user->orders()->where('status', OrderStatusEnum::PAID)->where('ship_status', OrderShipStatusEnum::RECEIVED)->count();
+        $ordersCount = $user->orders()->count();
+
+        return view('user.orders.index', compact('orders', 'unPayCount', 'shipPendingCount', 'shipDeliveredCount', 'shipReceivedCount', 'ordersCount'));
     }
 
 

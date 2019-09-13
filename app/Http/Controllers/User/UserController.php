@@ -34,6 +34,9 @@ class UserController extends Controller
         $user->cars_count = $user->cars()->sum('number');
         $user->orders_count = $user->orders()->count();
         $user->likeProducts = $user->products()->latest()->take(9)->get();
+        $user->notifications_count = $user->unreadNotifications()->count();
+        $user->addresses_count = $user->addresses()->count();
+        $user->like_products_count = $user->products()->count();
 
         // 查出用户的等级
         $level = Level::query()
