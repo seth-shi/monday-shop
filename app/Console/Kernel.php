@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
         // 每天夜里十二点同步商品浏览量
         $schedule->command(SyncProducViewCommand::class)->dailyAt('00:10');
 
-        // 每钟更新一次首页数据
+        // 每分钟更新一次首页数据
         $schedule->command(UpdateCacheHomeData::class)->everyMinute();
     }
 
