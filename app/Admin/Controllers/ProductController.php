@@ -121,6 +121,8 @@ class ProductController extends Controller
 
             $filter->disableIdFilter();
             $filter->equal('category_id', '分类')->select($categories);
+            $filter->equal('id', 'ID');
+            $filter->equal('uuid', 'UUID');
             $filter->like('name', '商品名字');
         });
 

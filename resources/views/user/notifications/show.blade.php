@@ -20,13 +20,13 @@
 
                 <ul class="am-avg-sm-5 am-tabs-nav am-nav am-nav-tabs">
                     <li class="{{ is_null($last) ? '' : 'am-active' }}">
-                        <a style="cursor: pointer" >上一条</a>
+                        <a  style="cursor: pointer" href="{{ is_null($last) ? 'javascript:;' : "/user/notifications/{$last->id}" }}" >上一条</a>
                     </li>
                     <li class="am-active">
                         <a style="cursor: pointer" href="/user/notifications" >返回列表</a>
                     </li>
                     <li class="{{ is_null($next) ? '' : 'am-active' }}">
-                        <a style="cursor: pointer" >下一条</a>
+                        <a style="cursor: pointer" href="{{ is_null($next) ? 'javascript:;' : "/user/notifications/{$next->id}" }}">下一条</a>
                     </li>
                 </ul>
 

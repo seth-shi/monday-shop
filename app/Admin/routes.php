@@ -66,6 +66,9 @@ Route::group([
     // 优惠券兑换码
     $router->resource('coupon_codes', 'CouponCodeController')->only('index', 'create', 'store', 'destroy');
 
+    // 发布文章通知
+    $router->resource('article_notifications', 'ArticleNotificationController')->only('index', 'create', 'store', 'show', 'destroy');
+
     // 富文本图片上传
     $router->post('upload/editor', 'UploadController@uploadByEditor');
     // 通过分类异步加载商品下拉列表

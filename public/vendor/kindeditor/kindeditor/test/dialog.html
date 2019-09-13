@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>KindEditor Dialog Test</title>
+		<link rel="stylesheet" href="../lib/qunit/qunit.css" />
+		<!-- <script src="../lib/firebug-lite/build/firebug-lite.js#startOpened"></script> -->
+		<script src="../lib/qunit/qunit.js"></script>
+		<script src="../lib/jquery.min.js"></script>
+		<link rel="stylesheet" href="../themes/default/default.css" />
+		<script src="../src/core.js"></script>
+		<script src="../src/config.js"></script>
+		<script src="../src/event.js"></script>
+		<script src="../src/html.js"></script>
+		<script src="../src/selector.js"></script>
+		<script src="../src/node.js"></script>
+		<script src="../src/range.js"></script>
+		<script src="../src/cmd.js"></script>
+		<script src="../src/widget.js"></script>
+		<script src="../src/edit.js"></script>
+		<script src="../src/toolbar.js"></script>
+		<script src="../src/dialog.js"></script>
+		<script src="../src/main.js"></script>
+		<script src="../lang/zh-CN.js"></script>
+	</head>
+	<body>
+		<h1>KindEditor Dialog Test</h1>
+		<input type="button" id="create1" value="Create" />
+		<input type="button" id="create2" value="Create(no shadow)" />
+		<div style="height:2000px;"></div>
+		<script>
+			K('#create1').click(function() {
+				var dialog = K.dialog({
+					width : 500,
+					title : '测试窗口',
+					body : '<div style="margin:10px;"><strong>内容</strong></div>',
+					closeBtn : {
+						name : '关闭',
+						click : function(e) {
+							dialog.remove();
+						}
+					},
+					yesBtn : {
+						name : '确定',
+						click : function(e) {
+							alert(this.value);
+						}
+					},
+					noBtn : {
+						name : '取消',
+						click : function(e) {
+							dialog.remove();
+						}
+					}
+				});
+			});
+			K('#create2').click(function() {
+				var dialog = K.dialog({
+					width : 500,
+					title : '测试窗口',
+					body : '<div style="margin:10px;"><strong>内容</strong></div>',
+					shadowMode : false,
+					closeBtn : {
+						name : '关闭',
+						click : function(e) {
+							dialog.remove();
+						}
+					},
+					noBtn : {
+						name : '取消',
+						click : function(e) {
+							dialog.remove();
+						}
+					}
+				});
+			});
+			K('#create1').click();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,369 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>KindEditor Main Test</title>
+		<!-- <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> -->
+		<!-- <script src="../lib/firebug-lite/build/firebug-lite.js#startOpened"></script> -->
+		<link rel="stylesheet" href="../themes/default/default.css?t=20120318.css" />
+		<link rel="stylesheet" href="../themes/simple/simple.css" />
+		<style>
+			.selected {
+				padding: 10px;
+				margin: 10px;
+			}
+			table, td, tr {
+				padding: 10px;
+				margin: 10px;
+			}
+		</style>
+		<script src="../src/core.js"></script>
+		<script src="../src/config.js"></script>
+		<script src="../src/event.js"></script>
+		<script src="../src/html.js"></script>
+		<script src="../src/selector.js"></script>
+		<script src="../src/node.js"></script>
+		<script src="../src/range.js"></script>
+		<script src="../src/cmd.js"></script>
+		<script src="../src/widget.js"></script>
+		<script src="../src/edit.js"></script>
+		<script src="../src/toolbar.js"></script>
+		<script src="../src/menu.js"></script>
+		<script src="../src/colorpicker.js"></script>
+		<script src="../src/uploadbutton.js"></script>
+		<script src="../src/dialog.js"></script>
+		<script src="../src/tabs.js"></script>
+		<script src="../src/ajax.js"></script>
+		<script src="../src/main.js"></script>
+		<script src="../lang/zh-CN.js"></script>
+		<script src="../lang/en.js"></script>
+		<script src="../plugins/emoticons/emoticons.js"></script>
+		<script src="../plugins/flash/flash.js"></script>
+		<script src="../plugins/link/link.js"></script>
+		<script src="../plugins/media/media.js"></script>
+		<script src="../plugins/plainpaste/plainpaste.js"></script>
+		<script src="../plugins/table/table.js"></script>
+		<script src="../plugins/wordpaste/wordpaste.js"></script>
+		<script src="../plugins/filemanager/filemanager.js"></script>
+		<script src="../plugins/preview/preview.js"></script>
+		<script src="../plugins/code/code.js"></script>
+		<script src="../plugins/map/map.js"></script>
+		<script src="../plugins/lineheight/lineheight.js"></script>
+		<script src="../plugins/clearhtml/clearhtml.js"></script>
+		<script src="../plugins/table/table.js"></script>
+		<script src="../plugins/fixtoolbar/fixtoolbar.js"></script>
+		<script src="../plugins/autoheight/autoheight.js"></script>
+	</head>
+	<body>
+		<h1 id="type">KindEditor Main Test</h1>
+		<table id="menu">
+		<tr>
+		<td align="center">
+		<form method="post" action="../php/demo.php">
+			<textarea name="content1" cols="100" rows="20" style="width:100%;height:200px;"><div>
+    <img alt="" src="/kindeditor/plugins/emoticons/images/0.gif" />
+    <div>
+        123
+    </div>
+</div>
+</textarea>
+			<br />
+			<textarea name="content2" cols="100" rows="20" style="width:80%;height:200px;"><table style="width:100%;" cellpadding="2" cellspacing="0" border="1" bordercolor="#000000">
+	<tbody>
+		<tr>
+			<td rowspan="3">
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+		</tr>
+	</tbody>
+</table>
+<br />
+<br />
+<input checked="checked" type="radio" />
+<p>
+	在 Opera 浏览器下使用 KindEditor 有这么一个问题，当你编辑一篇长文章，而且编辑器中的内容已经滚动到最底部时，这时候我复制了一些文本到文章最底下。编辑器就会自动将内容滚动的最开始，然后我又要拉滚动条到最下方去添加更多内容。
+</p>
+<p>
+	在 Opera 浏览器下使用 KindEditor 有这么一个问题，当你编辑一篇长文章，而且编辑器中的内容已经滚动到最底部时，这时候我复制了一些文本到文章最底下。编辑器就会自动将内容滚动的最开始，然后我又要拉滚动条到最下方去添加更多内容。
+</p>
+<p>
+	在 Opera 浏览器下使用 KindEditor 有这么一个问题，当你编辑一篇长文章，而且编辑器中的内容已经滚动到最底部时，这时候我复制了一些文本到文章最底下。编辑器就会自动将内容滚动的最开始，然后我又要拉滚动条到最下方去添加更多内容。
+</p>
+<p>
+	在 Opera 浏览器下使用 KindEditor 有这么一个问题，当你编辑一篇长文章，而且编辑器中的内容已经滚动到最底部时，这时候我复制了一些文本到文章最底下。编辑器就会自动将内容滚动的最开始，然后我又要拉滚动条到最下方去添加更多内容。
+</p><input checked="checked" type="radio">
+<p>在 Opera 浏览器下使用 KindEditor 有这么一个问题，当你编辑一篇长文章，而且编辑器中的内容已经滚动到最底部时，这时候我复制了一些文本到文章最底下。编辑器就会自动将内容滚动的最开始，然后我又要拉滚动条到最下方去添加更多内容。</p>
+<p>在 Opera 浏览器下使用 KindEditor 有这么一个问题，当你编辑一篇长文章，而且编辑器中的内容已经滚动到最底部时，这时候我复制了一些文本到文章最底下。编辑器就会自动将内容滚动的最开始，然后我又要拉滚动条到最下方去添加更多内容。</p>
+<p>在 Opera 浏览器下使用 KindEditor 有这么一个问题，当你编辑一篇长文章，而且编辑器中的内容已经滚动到最底部时，这时候我复制了一些文本到文章最底下。编辑器就会自动将内容滚动的最开始，然后我又要拉滚动条到最下方去添加更多内容。</p>
+<p>在 Opera 浏览器下使用 KindEditor 有这么一个问题，当你编辑一篇长文章，而且编辑器中的内容已经滚动到最底部时，这时候我复制了一些文本到文章最底下。编辑器就会自动将内容滚动的最开始，然后我又要拉滚动条到最下方去添加更多内容。</p>
+			</textarea>
+			<br />
+			<select id="uploadFile">
+				<option value="">附件列表</option>
+			</select>
+			<br />
+			HTML计数：<span id="J_count1"></span>
+			<br />
+			<!-- <iframe src="http://test.domain.com/github-kindsoft/kindeditor/test/leak.html"></iframe> -->
+			<textarea id="insertHtml" style="width:90%;"><!-- comment test --><strong>abcd</strong></textarea>
+			<br />
+			<input type="button" id="create1" value="Create #1" />
+			<input type="button" id="create2" value="Create #2" />
+			<input type="button" id="remove1" value="Remove #1" />
+			<input type="button" id="remove2" value="Remove #2" />
+			<input type="button" id="getHtml1" value="Get HTML #1" />
+			<input type="button" id="fullHtml1" value="Get Full HTML #1" />
+			<input type="button" id="setHtml1" value="Set HTML #1" />
+			<input type="button" id="empty1" value="Empty #1" />
+			<input type="button" id="getText1" value="Get Text #1" />
+			<input type="button" id="setText1" value="Set Text #1" />
+			<input type="button" id="selectedHtml1" value="Get Selected HTML #1" />
+			<input type="button" id="insertHtml1" value="Insert HTML #1" />
+			<input type="button" id="appendHtml1" value="Append HTML #1" />
+			<input type="button" id="sync1" value="Sync #1" />
+			<input type="button" id="focus1" value="Focus #1" />
+			<input type="button" id="blur1" value="Blur #1" />
+			<input type="button" id="readonly1" value="Readonly #1" />
+			<input type="button" id="cancelReadonly1" value="Cancel Readonly #1" />
+			<input type="button" id="isEmpty1" value="Is Empty #1" />
+			<input type="button" id="isDirty1" value="Is Dirty #1" />
+			<input type="button" id="loadPlugin1" value="Load Plugin #1" />
+			<input type="submit" name="button" value="Submit" />
+			<input type="reset" name="button" value="Reset" />
+			<input type="text" id="url" value="" /> <input type="button" id="image" value="选择图片" />
+		</form>
+		<script>
+			KindEditor.DEBUG = true;
+			KindEditor.options.filterMode = false;
+			KindEditor.options.autoHeightMode = true;
+			KindEditor.options.fixToolBar = true;
+			//document.domain = 'domain.com';
+			KindEditor.basePath = '../';
+			KindEditor.ready(function(K) {
+				var editor1 = K.create('textarea[name=content1]', {
+					basePath : '../',
+					pluginsPath : '../plugins/',
+					urlType : 'absolute',
+					themeType : 'simple',
+					allowImageUpload : true,
+					allowImageRemote : true,
+					allowFileUpload : true,
+					designMode : true,
+					allowFileManager : true,
+					fullscreenMode : false,
+					formatUploadUrl : false,
+					fullscreenShortcut : false,
+					newlineTag : 'p',
+					pasteType : 1,
+					extraFileUploadParams : {
+						'testParam1' : 'a',
+						'testParam2' : 'b'
+					},
+					//afterTab : function() {
+						//editor2.focus();
+					//},
+					afterChange : function() {
+						K('#J_count1').html(this.count());
+						//console.log('1');
+					},
+					afterUpload : function(url, data, name) {
+						var select = K('#uploadFile')[0];
+						select.options.add(new Option(url, url));
+						console.log(data);
+						console.log(name);
+					},
+					afterSelectFile : function(url) {
+						var select = K('#uploadFile')[0];
+						select.options.add(new Option(url, url));
+					},
+					afterCreate : function() {
+						//this.loadPlugin('autoheight');
+					}
+				});
+				K('#create1').click(function(e) {
+					editor1.create();
+				});
+				K('#remove1').click(function(e) {
+					editor1.remove();
+				});
+				K('#getHtml1').click(function(e) {
+					alert(editor1.html());
+				});
+				K('#fullHtml1').click(function(e) {
+					alert(editor1.fullHtml());
+				});
+				K('#setHtml1').click(function(e) {
+					editor1.html(K('#insertHtml').val());
+				});
+				K('#empty1').click(function(e) {
+					editor1.html('');
+				});
+				K('#getText1').click(function(e) {
+					alert(editor1.text());
+				});
+				K('#setText1').click(function(e) {
+					editor1.text(K('#insertHtml').val());
+				});
+				K('#selectedHtml1').click(function(e) {
+					alert(editor1.selectedHtml());
+				});
+				K('#insertHtml1').click(function(e) {
+					editor1.insertHtml(K('#insertHtml').val());
+				});
+				K('#appendHtml1').click(function(e) {
+					editor1.appendHtml(K('#insertHtml').val());
+				});
+				K('#sync1').click(function(e) {
+					editor1.sync();
+					alert(K('textarea[name=content1]').val());
+				});
+				K('#focus1').click(function(e) {
+					editor1.focus();
+				});
+				K('#blur1').click(function(e) {
+					editor1.blur();
+				});
+				K('#readonly1').click(function(e) {
+					editor1.readonly();
+				});
+				K('#cancelReadonly1').click(function(e) {
+					editor1.readonly(false);
+				});
+				K('#isEmpty1').click(function(e) {
+					alert(editor1.isEmpty());
+				});
+				K('#isDirty1').click(function(e) {
+					alert(editor1.isDirty());
+				});
+				K('#loadPlugin1').click(function(e) {
+					editor1.loadPlugin('template', function() {
+
+					});
+					editor1.loadPlugin('template', function() {
+
+					});
+				});
+				var editor2 = K.create(K('textarea[name=content2]').get(), {
+					basePath : '../',
+					langType : 'en',
+					formatUploadUrl : false,
+					afterTab : function() {
+						K('#uploadFile')[0].focus();
+					},
+					afterCreate : function() {
+						//this.loadPlugin('autoheight');
+					}
+				});
+				K('#create2').click(function(e) {
+					editor2.create();
+
+				});
+				K('#remove2').click(function(e) {
+					editor2.remove();
+				});
+
+				var editor3 = K.editor({
+					basePath : '../',
+					themesPath : '../themes/',
+					pluginsPath : '../plugins/',
+					langPath : '../lang/',
+					allowFileManager : true
+				});
+				K('#image').click(function() {
+					editor3.loadPlugin('image', function() {
+						editor3.plugin.imageDialog({
+							imageUrl : K('#url').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#url').val(url);
+								editor3.hideDialog();
+							}
+						});
+					});
+				});
+				K.create('textarea[name=content1]');
+
+				//K(window).bind('resize', function(e) {
+				//	editor1.resize(null, document.documentElement.clientHeight);
+				//});
+			});
+		</script>
+		</td>
+		</tr>
+		</table>
+		<div style="height:1000px;"></div>
+	</body>
+</html>

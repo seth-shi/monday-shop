@@ -21,7 +21,8 @@
         "predis/predis": "^1.1",
         "ramsey/uuid": "^3.8",
         "tymon/jwt-auth": "1.0.0-rc.4.1",
-        "yansongda/pay": "^2.5"
+        "yansongda/pay": "^2.5",
+        "yxx/kindeditor": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",
@@ -53,7 +54,8 @@
             "dont-discover": [
                 "jenssegers/agent",
                 "intervention/image",
-                "encore/laravel-admin"
+                "encore/laravel-admin",
+                "yxx/kindeditor"
             ]
         }
     },
