@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Tymon\JWTAuth\Providers\LaravelServiceProvider;
+use Yxx\Kindeditor\EditorProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +23,11 @@ class AppServiceProvider extends ServiceProvider
         // 如果在后台运行, 启动后台服务
         if (request()->is('admin*')) {
 
+            $this->registerEditorService();
             $this->registerAdminService();
+        } elseif (request()->is('yxx*')) {
+
+            $this->registerEditorService();
         } elseif (request()->is('api*')) {
 
             config(['auth.defaults.guard' => 'api']);
@@ -48,6 +53,11 @@ class AppServiceProvider extends ServiceProvider
     {
         AliasLoader::getInstance()->alias('Admin', Admin::class);
         $this->app->register(AdminServiceProvider::class);
+    }
+
+    public function registerEditorService()
+    {
+        $this->app->register(EditorProvider::class);
     }
 
     protected function registerJwtService()

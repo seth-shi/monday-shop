@@ -1,11 +1,11 @@
-<h3 style="text-align: center;">有效期至：{{ $data['start_date'] }} ~ {{ $data['end_date'] }}</h3>
+<h3 style="text-align: center;">有效期至：{{ $data['start_date'] ?? '' }} ~ {{ $data['end_date'] ?? '' }}</h3>
 <br>
 <p style="text-indent: 20px;">
-    你的兑换码为：</span><em id="code_txt" style="color: red; font-weight: bold;">{{ $data['code'] }}</em>
+    你的兑换码为：</span><em id="code_txt" style="color: red; font-weight: bold;">{{ $data['code'] ?? '' }}</em>
 </p>
 <hr>
 <div style="margin: 20px;">
-    <button id="copy_btn" data-clipboard-text="{{ $data['code'] }}" style="
+    <button id="copy_btn" data-clipboard-text="{{ $data['code'] ?? '' }}" style="
     position: relative;
     display: inline-block;
     padding: 6px 12px;

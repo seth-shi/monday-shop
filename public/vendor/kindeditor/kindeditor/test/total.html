@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>KindEditor Test</title>
+	</head>
+	<body>
+		<h1 id="type">KindEditor Test</h1>
+		<form method="post" action="../php/demo.php">
+		<textarea name="editor1" cols="100" rows="20" style="width:800px;height:200px;"></textarea>
+		<br />
+		<textarea name="editor2" cols="100" rows="20" style="width:700px;height:100px;"></textarea>
+		<br />
+		<textarea name="editor3" cols="100" rows="20" style="width:700px;height:100px;"></textarea>
+		<br />
+		<textarea name="editor4" cols="100" rows="20" style="width:700px;height:100px;"></textarea>
+		<br />
+		<textarea name="editor5" cols="100" rows="20" style="width:700px;height:100px;"></textarea>
+		<br />
+		<input type="button" id="create1" value="Create #1" />
+		<input type="button" id="create2" value="Create #2" />
+		<input type="button" id="remove1" value="Remove #1" />
+		<input type="button" id="remove2" value="Remove #2" />
+		<input type="button" id="removeAll" value="Remove all" />
+		<input type="reset" name="button" value="Reset" />
+		<!-- <iframe src="http://www.kindsoft.net/"></iframe> -->
+		<script src="../kindeditor-all.js"></script>
+
+		<script>
+			//document.domain = 'domain.com';
+			KindEditor.ready(function(K) {
+				window.editor = K.create('textarea', {
+					allowFileManager : true,
+					langType : 'zh-CN',
+					autoHeightMode : true
+				});
+				K('#removeAll').click(function(e) {
+					K.remove('textarea');
+				});
+				K('#create1').click(function(e) {
+					K.instances[0].create();
+				});
+				K('#remove1').click(function(e) {
+					K.instances[0].remove();
+				});
+				K('#create2').click(function(e) {
+					K.instances[1].create();
+				});
+
+				K('#remove2').click(function(e) {
+					K.instances[1].remove();
+				});
+			});
+		</script>
+		</form>
+	</body>
+</html>

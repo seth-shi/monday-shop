@@ -139,6 +139,7 @@ class NotificationController extends Controller
             $notification = $user->unreadNotifications()->first();
 
             // 前端弹窗内容和标题相反显示，所以变量名会有点怪
+            $id = $notification->id;
             $title = NotificationServe::getContent($notification);
             $content = NotificationServe::getTitle($notification);
         }

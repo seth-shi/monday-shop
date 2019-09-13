@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ddd719302db91f6dc522cb5665c13d24",
+    "content-hash": "5f57bb872640c20df21ebbace3023054",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4738,6 +4738,63 @@
                 "throttle"
             ],
             "time": "2019-06-05T05:08:48+00:00"
+        },
+        {
+            "name": "yxx/kindeditor",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/youyingxiang/kindeditor.git",
+                "reference": "9f384067e61eb8633c38731815308d9fc9995802"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/youyingxiang/kindeditor/zipball/9f384067e61eb8633c38731815308d9fc9995802",
+                "reference": "9f384067e61eb8633c38731815308d9fc9995802",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Yxx\\Kindeditor\\EditorProvider"
+                    ],
+                    "aliases": {
+                        "Editor": "Yxx\\Kindeditor\\Facades\\Editor::class"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yxx\\Kindeditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yxx",
+                    "email": "1365831278@qq.com"
+                }
+            ],
+            "description": "laravel-admin kindeditor",
+            "keywords": [
+                "admin",
+                "kindeditor",
+                "laravel"
+            ],
+            "time": "2019-06-19T14:19:06+00:00"
         }
     ],
     "packages-dev": [
