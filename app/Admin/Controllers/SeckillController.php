@@ -127,7 +127,7 @@ class SeckillController extends Controller
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
-    public function store(StoreSeckillRequest $request)
+    public function store(Request $request)
     {
         $number = $request->input('number', 0);
         $product = Product::query()->findOrFail($request->input('product_id'));
@@ -135,6 +135,11 @@ class SeckillController extends Controller
         if ($number > $product->count) {
 
             return back()->withInput()->withErrors(['number' => '秒杀数量不能大于库存数量']);
+        }
+
+        if (Product::query()->whereKey($request->input('product_id'))->doesntExist()) {
+
+            return back()->withInput()->withErrors(['product_id' => '无效的商品']);
         }
 
         DB::beginTransaction();
