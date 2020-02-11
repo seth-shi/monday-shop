@@ -23,7 +23,7 @@ class StoreSeckillRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'product_id' => 'required|exists:products,id',
             'number' => 'required|integer|min:1',
-            'start_at' => 'required|date|after_or_equal:now',
+            'start_at' => 'required|date',
             'end_at' => 'required|date|after_or_equal:start_at',
         ];
     }
