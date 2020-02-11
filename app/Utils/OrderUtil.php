@@ -25,13 +25,12 @@ class OrderUtil
 
     /**
      * 每一个 detail 包含商品，和数量
-     * @param Collection $details
      */
-    public function __construct(Collection $details)
+    public function __construct($details)
     {
-        $this->details = $details->map(function ($detail) {
+        $this->details = Collection::make($details)->map(function ($detail) {
 
-            $number = $detail['number'];
+            $number = $detail['number'] ?? 1;
             $product = $detail['product'];
 
             // 此处库存，是查询出来的库存

@@ -7,9 +7,11 @@ use App\Enums\SettingKeyEnum;
 use App\Jobs\CancelUnPayOrder;
 use App\Models\Address;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Seckill;
 use App\Models\User;
+use App\Utils\OrderUtil;
 use Carbon\Carbon;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Http\Request;
@@ -61,52 +63,66 @@ class SeckillController extends PaymentController
         $auth = auth('web');
         $userId = session()->get($auth->getName());
 
-//        try {
-//
-//            if (! $request->has('address_id')) {
-//
-//                throw new \Exception('必须选择一个地址');
-//            }
-//
-//            // 验证是否有这个秒杀
-//            // 验证秒杀活动是否已经结束
-//            $redisSeckill = $this->redisSeckill = $this->getSeckill($seckill);
-//
-//            if (! $redisSeckill->is_start) {
-//                throw new \Exception('秒杀未开始');
-//            }
-//
-//        } catch (\Exception $e) {
-//
-//            return responseJson(402, $e->getMessage());
-//        }
-//
-//        // 返回 0，代表之前已经设置过了，代表已经抢过
-//        if (0 == Redis::hset($seckill->getUsersKey($userId), 'id', $userId)) {
-//
-//            return responseJson(403, '你已经抢购过了');
-//        }
-//
-//        // 开始抢购逻辑,如果从队列中读取不到了，代表已经抢购完成
-//        if (is_null(Redis::lpop($seckill->getRedisQueueKey()))) {
-//
-//            return responseJson(403, '已经抢购完了');
-//        }
+        try {
+
+            if (! $request->has('address_id')) {
+
+                throw new \Exception('必须选择一个地址');
+            }
+
+            // 验证是否有这个秒杀
+            // 验证秒杀活动是否已经结束
+            $redisSeckill = $this->redisSeckill = $this->getSeckill($seckill);
+
+            if (! $redisSeckill->is_start) {
+                throw new \Exception('秒杀未开始');
+            }
+
+        } catch (\Exception $e) {
+
+            return responseJson(402, $e->getMessage());
+        }
+
+        // 返回 0，代表之前已经设置过了，代表已经抢过
+        if (0 == Redis::hset($seckill->getUsersKey($userId), 'id', $userId)) {
+
+            return responseJson(403, '你已经抢购过了');
+        }
+
+        // 开始抢购逻辑,如果从队列中读取不到了，代表已经抢购完成
+        if (is_null(Redis::lpop($seckill->getRedisQueueKey()))) {
+
+            return responseJson(403, '已经抢购完了');
+        }
 
 
         DB::beginTransaction();
 
         try {
 
+            $product = $redisSeckill->product;
+            if (is_null($product)) {
+                return responseJson(400, '商品已下架');
+            }
+
             // 已经通过抢购请求，可以查询数据库
             // 在这里验证一下地址是不是本人的
             $user = auth()->user();
-            $addressId = $request->input('address_id');
-            Address::query()->where('user_id', $user->id)->findOrFail($addressId);
+            $address = Address::query()->where('user_id', $user->id)->find($request->input('address_id'));
+
+            if (is_null($address)) {
+                return responseJson(400, '无效的收货地址');
+            }
 
             // 创建一个秒杀主表订单和明细表订单，默认数量一个
-            $masterOrder = $this->newMasterOrder($addressId)->setAttribute('type', OrderTypeEnum::SEC_KILL);
-            $this->storeSingleOrder($masterOrder, $redisSeckill->product->uuid, 1);
+            $masterOrder = ($orderUtil = new OrderUtil([['product' => $product]]))->make($user->id, $address);
+            $masterOrder->type = OrderTypeEnum::SEC_KILL;
+            $masterOrder->save();
+
+            // 创建订单明细
+            $details = $orderUtil->getDetails();
+            data_set($details, '*.order_id', $masterOrder->id);
+            OrderDetail::query()->insert($details);
 
 
             // 当订单超过三十分钟未付款，自动取消订单
