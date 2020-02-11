@@ -83,11 +83,11 @@ class SeckillController extends PaymentController
             return responseJson(402, $e->getMessage());
         }
 
-        // 返回 0，代表之前已经设置过了，代表已经抢过
-        if (0 == Redis::hset($seckill->getUsersKey($userId), 'id', $userId)) {
-
-            return responseJson(403, '你已经抢购过了');
-        }
+//        // 返回 0，代表之前已经设置过了，代表已经抢过
+//        if (0 == Redis::hset($seckill->getUsersKey($userId), 'id', $userId)) {
+//
+//            return responseJson(403, '你已经抢购过了');
+//        }
 
         // 开始抢购逻辑,如果从队列中读取不到了，代表已经抢购完成
         if (is_null(Redis::lpop($seckill->getRedisQueueKey()))) {
@@ -117,6 +117,7 @@ class SeckillController extends PaymentController
             // 创建一个秒杀主表订单和明细表订单，默认数量一个
             $masterOrder = ($orderUtil = new OrderUtil([['product' => $product]]))->make($user->id, $address);
             $masterOrder->type = OrderTypeEnum::SEC_KILL;
+            $masterOrder->amount = $redisSeckill->price;
             $masterOrder->save();
 
             // 创建订单明细
