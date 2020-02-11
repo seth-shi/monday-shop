@@ -46,7 +46,7 @@ class Seckill extends Model
         'price' => 'double'
     ];
 
-    protected $fillable = ['id'];
+    protected $guarded = [];
 
     /**
      * 一个商品可以同时有多个商品同时秒杀，

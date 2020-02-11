@@ -117,7 +117,7 @@ class SeckillController extends Controller
              ->default($now->format('Y-m-d H:00:00'));
         $form->datetime('end_at', '结束时间')
              ->default($now->addHour(1)->format('Y-m-d H:00:00'))
-             ->rules('required|date|after_or_equal:start_at');;
+             ->rules('required|date|after_or_equal:start_at');
 
         return $form;
     }
@@ -141,8 +141,10 @@ class SeckillController extends Controller
 
         try {
 
+            $attributes = $request->only(['category_id', 'product_id', 'price', 'number', 'start_at', 'end_at']);
+            Seckill::create($attributes);
+
             // 减去库存数量
-            $response = $this->form()->store();
             $product->decrement('count', $number);
 
         } catch (\Exception $e) {
@@ -153,7 +155,8 @@ class SeckillController extends Controller
 
         DB::commit();
 
-        return $response;
+        admin_toastr('添加成功');
+        return back();
     }
 
     /**
