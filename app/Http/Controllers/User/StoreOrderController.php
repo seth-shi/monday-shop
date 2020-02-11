@@ -9,15 +9,17 @@ use App\Exceptions\OrderException;
 use App\Http\Controllers\Controller;
 use App\Jobs\CancelUnPayOrder;
 use App\Models\Address;
+use App\Models\Car;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
-use App\Models\Setting;
 use App\Models\User;
-use App\Models\UserHasCoupon;
+use App\Utils\OrderUtil;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class StoreOrderController extends Controller
 {
@@ -79,13 +81,89 @@ class StoreOrderController extends Controller
 
     public function store(Request $request)
     {
+        if (($response = $this->validateRequest($request)) instanceof Response) {
+
+            return $response;
+        }
+
+
+        list($ids, $numbers, $productMap, $address, $couponModel) = $response;
+
+        // 构建出订单所需的详情
+        $detailsData = Collection::make($ids)->map(function ($id, $index) use ($numbers, $productMap) {
+
+            return [
+                'number' => $numbers[$index],
+                'product' => $productMap[$id]
+            ];
+        });
+
+
+        DB::beginTransaction();
+
+        try {
+
+
+            $masterOrder = ($orderUtil = new OrderUtil($detailsData))->make(auth()->id(), $address);
+
+            if (! is_null($couponModel) && $masterOrder->amount < $couponModel->full_amount) {
+
+                throw new \Exception('优惠券门槛金额为 ' . $couponModel->full_amount);
+            }
+
+            // 订单价格等于原价 - 优惠价格
+            if (! is_null($couponModel)) {
+
+                $masterOrder->amount = $masterOrder->amount > $couponModel->amount ?
+                    ($masterOrder->amount - $couponModel->amount) : 0.01;
+
+                $couponModel->used_at = Carbon::now()->toDateTimeString();
+                $couponModel->save();
+
+                $masterOrder->coupon_id = $couponModel->id;
+                $masterOrder->coupon_amount = $couponModel->amount;
+            }
+
+            $masterOrder->save();
+
+            // 创建订单明细
+            $details = $orderUtil->getDetails();
+            data_set($details, '*.order_id', $masterOrder->id);
+            OrderDetail::query()->insert($details);
+
+            // 如果存在购物车，把购物车删除
+            $cars = $request->input('cars');
+            if (is_array($cars) && ! empty($cars)) {
+
+                Car::query()->where('user_id', auth()->id())->where('id', $cars)->delete();
+            }
+
+            // 当订单超过三十分钟未付款，自动取消订单
+            $settingKey = new SettingKeyEnum(SettingKeyEnum::UN_PAY_CANCEL_TIME);
+            $delay = Carbon::now()->addMinute(setting($settingKey, 30));
+            CancelUnPayOrder::dispatch($masterOrder)->delay($delay);
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return responseJsonAsBadRequest($e->getMessage());
+        }
+
+        return responseJson(200, '创建订单成功', ['order_id' => $masterOrder->id]);
+    }
+
+
+
+    private function validateRequest(Request $request)
+    {
         /**
          * @var $user User
          * @var $address Address
          */
         $user = auth()->user();
 
-        $cars = $request->input('cars', []);
         $ids = $request->input('ids');
         $numbers = $request->input('numbers');
 
@@ -94,8 +172,11 @@ class StoreOrderController extends Controller
             return responseJsonAsBadRequest('无效的商品');
         }
 
-        $products = Product::query()->whereIn('uuid', $ids)->get();
-        if ($products->count() === 0 || $products->count() !== count($numbers)) {
+        $productMap = Product::query()->whereIn('uuid', $ids)->get()->mapWithKeys(function (Product $product) {
+
+            return [$product->uuid => $product];
+        });
+        if (count($productMap) === 0 || count($productMap) !== count($numbers)) {
 
             return responseJsonAsBadRequest('无效的商品.');
         }
@@ -132,123 +213,6 @@ class StoreOrderController extends Controller
             }
         }
 
-
-        DB::beginTransaction();
-
-        try {
-
-            $originAmount = 0;
-            // 订单名字，用于支付
-            $orderName = '';
-            $details = $products->map(function (Product $product, $i) use ($numbers, &$originAmount, &$orderName) {
-
-                $number = $numbers[$i];
-
-                // 此处库存，是查询出来的库存
-                if ($number > $product->count) {
-                    throw new OrderException("{$product->name} 库存数量不足");
-                }
-
-                // 这里，由于库存的减少会带来超卖的问题
-                // 所以我们使用乐观锁解决这个问题
-                $updated = Product::query()
-                                  ->whereKey($product->id)
-                                  ->where('count', '>=', $number)
-                                  ->update([
-                                      'count' => DB::raw("count-{$number}"),
-                                      'sale_count' => DB::raw("sale_count+{$number}"),
-                                  ]);
-                if ($updated === 0) {
-
-                    throw new \Exception("{$product->name}商品库存不足");
-                }
-
-                $attribute =  [
-                    'product_id' => $product->id,
-                    'number' => $number
-                ];
-                $attribute['price'] = $product->price;
-                $attribute['total'] = ceilTwoPrice($attribute['price'] * $attribute['number']);
-
-                $originAmount += $attribute['total'];
-
-                $tmpName = "{$product->name}*{$number}";
-                if (strlen($orderName) + strlen($tmpName) <= 50) {
-                    $orderName .= $tmpName;
-                }
-
-                return $attribute;
-            });
-
-            if (strlen($orderName) === 0) {
-                $orderName = '商城订单';
-            }
-
-
-            // 增加运费
-            $postAmount = \setting(new SettingKeyEnum(SettingKeyEnum::POST_AMOUNT));
-            $originAmount += $postAmount;
-
-            if (! is_null($couponModel) && $originAmount < $couponModel->full_amount) {
-
-                throw new \Exception('优惠券门槛金额为 ' . $couponModel->full_amount);
-            }
-
-            $order = new Order();
-            $order->consignee_name = $address->name;
-            $order->consignee_phone = $address->phone;
-            $order->consignee_address = $address->format();
-            $order->user_id = $user->id;
-            $order->type = OrderTypeEnum::COMMON;
-            $order->status = OrderStatusEnum::UN_PAY;
-            $order->name = $orderName;
-
-            $order->post_amount = $postAmount;
-            $order->origin_amount = $originAmount;
-
-            // 订单价格等于原价 - 优惠价格
-            $totalAmount = $originAmount;
-            if (! is_null($couponModel)) {
-
-                $totalAmount -= $couponModel->amount;
-                $couponModel->used_at = Carbon::now()->toDateTimeString();
-                $couponModel->save();
-
-                if ($totalAmount <= 0) {
-
-                    $totalAmount = 0.01;
-                }
-
-                $order->coupon_id = $couponModel->id;
-                $order->coupon_amount = $originAmount - $totalAmount;
-            }
-            $order->amount = $totalAmount;
-            $order->save();
-
-            // 创建订单明细
-            $details = $details->all();
-            data_set($details, '*.order_id', $order->id);
-            OrderDetail::query()->insert($details);
-
-            // 如果存在购物车，把购物车删除
-            if (is_array($cars) && ! empty($cars)) {
-
-                $user->cars()->whereIn('id', $cars)->delete();
-            }
-
-            // 当订单超过三十分钟未付款，自动取消订单
-            $settingKey = new SettingKeyEnum(SettingKeyEnum::UN_PAY_CANCEL_TIME);
-            $delay = Carbon::now()->addMinute(setting($settingKey, 30));
-            CancelUnPayOrder::dispatch($order)->delay($delay);
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-            return responseJsonAsBadRequest($e->getMessage());
-        }
-
-        return responseJson(200, '创建订单成功', ['order_id' => $order->id]);
+        return [$ids, $numbers, $productMap, $address, $couponModel];
     }
 }

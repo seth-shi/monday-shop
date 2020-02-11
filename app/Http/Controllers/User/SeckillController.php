@@ -61,37 +61,37 @@ class SeckillController extends PaymentController
         $auth = auth('web');
         $userId = session()->get($auth->getName());
 
-        try {
-
-            if (! $request->has('address_id')) {
-
-                throw new \Exception('必须选择一个地址');
-            }
-
-            // 验证是否有这个秒杀
-            // 验证秒杀活动是否已经结束
-            $redisSeckill = $this->redisSeckill = $this->getSeckill($seckill);
-
-            if (! $redisSeckill->is_start) {
-                throw new \Exception('秒杀未开始');
-            }
-
-        } catch (\Exception $e) {
-
-            return responseJson(402, $e->getMessage());
-        }
-
-        // 返回 0，代表之前已经设置过了，代表已经抢过
-        if (0 == Redis::hset($seckill->getUsersKey($userId), 'id', $userId)) {
-
-            return responseJson(403, '你已经抢购过了');
-        }
-
-        // 开始抢购逻辑,如果从队列中读取不到了，代表已经抢购完成
-        if (is_null(Redis::lpop($seckill->getRedisQueueKey()))) {
-
-            return responseJson(403, '已经抢购完了');
-        }
+//        try {
+//
+//            if (! $request->has('address_id')) {
+//
+//                throw new \Exception('必须选择一个地址');
+//            }
+//
+//            // 验证是否有这个秒杀
+//            // 验证秒杀活动是否已经结束
+//            $redisSeckill = $this->redisSeckill = $this->getSeckill($seckill);
+//
+//            if (! $redisSeckill->is_start) {
+//                throw new \Exception('秒杀未开始');
+//            }
+//
+//        } catch (\Exception $e) {
+//
+//            return responseJson(402, $e->getMessage());
+//        }
+//
+//        // 返回 0，代表之前已经设置过了，代表已经抢过
+//        if (0 == Redis::hset($seckill->getUsersKey($userId), 'id', $userId)) {
+//
+//            return responseJson(403, '你已经抢购过了');
+//        }
+//
+//        // 开始抢购逻辑,如果从队列中读取不到了，代表已经抢购完成
+//        if (is_null(Redis::lpop($seckill->getRedisQueueKey()))) {
+//
+//            return responseJson(403, '已经抢购完了');
+//        }
 
 
         DB::beginTransaction();
