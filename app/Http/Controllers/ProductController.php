@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatusEnum;
+use App\Models\Node;
 use App\Models\Product;
 use App\Models\ProductPinYin;
 use App\Models\User;
 use App\Services\ScoreLogServe;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -52,7 +54,32 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('keyword', '');
-        $products = Product::query()->withCount('users')->where('name', 'like', "%{$keyword}%")->paginate(10);
+        $page = abs((int)$request->get('page', 1));
+        $limit = (int)$request->get('limit', 20);
+        $offset = (int) ($page - 1) * $limit;
+        
+        // 全文索引
+        try {
+    
+            $parameters = [
+                'multi_match' => [
+                    'query' => $keyword,
+                    'fields' => ['title', 'body'],
+                ]
+            ];
+            
+            $count = Product::searchCount($parameters);
+            $searchCount = $count['count'] ?? 0;
+            $searchResult = Product::search($parameters, $limit, $offset);
+            $filterIds = Collection::make($searchResult['hits']['hits'] ?? [])->pluck('_source.id');
+            $models = Product::query()->findMany($filterIds);
+    
+            $products = new LengthAwarePaginator($models, $searchCount, $limit, $page);
+            
+        } catch (\Exception $e) {
+    
+            $products = Product::query()->withCount('users')->where('name', 'like', "%{$keyword}%")->paginate($limit);
+        }
 
         return view('products.search', compact('products'));
     }

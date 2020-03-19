@@ -83,6 +83,7 @@ class AddShopToEsSearchCommand extends Command
                 $title = $product->name . ' ' . $product->title;
                 $text = str_replace(["\t", "\r", "\n"], ['', '', ''], strip_tags($product->detail->content ?? ''));
                 $product->addToIndex([
+                    'id' => $product->id,
                     'title' => $title,
                     'body' => $text . ' ' . $categoryName
                 ]);

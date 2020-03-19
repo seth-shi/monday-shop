@@ -82,6 +82,7 @@
     * 登录之后同时显示本地购物车和数据库购物车数量
     * 用户登录之后会询问是否需要持久化到数据库
 - [x] **商品搜索**
+    * 使用**ElasticSearch**全文索引
     * 支持拼音首字母
     * `AJAX`无刷新显示
 - [x] **订阅模块**
@@ -142,6 +143,7 @@ php artisan moon:install
 | 命令  | 一句话描述 |
 | ----- | --- |
 |`php artisan moon:install`|安装应用程序|
+|`php artisan add:shop-to-search`|生成全文索引|
 |`php artisan moon:uninstall`|卸载网站(清空数据库，缓存，路由)|
 |`php artisan moon:cache`|执行缓存（缓存配置，路由，类映射）|
 |`php artisan moon:clear`|清除缓存|
