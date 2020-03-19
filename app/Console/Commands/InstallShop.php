@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 
+use App\Models\Product;
+
 class InstallShop extends BaseCommand
 {
     /**
@@ -41,8 +43,10 @@ class InstallShop extends BaseCommand
         $this->call('migrate:reset');
         // 删除上一次保留的文件
         $this->call('moon:delete');
-
-
+    
+    
+        Product::$addToSearch = false;
+    
         /****************************************
          * 1. 迁移数据表
          * 2. 数据库迁移
