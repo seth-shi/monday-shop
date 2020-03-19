@@ -71,6 +71,8 @@ use Ramsey\Uuid\Uuid;
 class Product extends Model
 {
     use SoftDeletes, ElasticSearchTrait;
+    
+    public static $addToSearch = true;
 
     protected $fillable = [
         'category_id', 'name', 'price', 'original_price',
@@ -170,18 +172,14 @@ class Product extends Model
                 ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
             }
             
-            try {
+            if (self::$addToSearch) {
+                try {
     
-                $categoryName = $model->category->title ?? '';
-                $title = $model->name . ' ' . $model->title;
-                $text = str_replace(["\t", "\r", "\n"], ['', '', ''], strip_tags($model->detail->content ?? ''));
-                $model->addToIndex([
-                    'id' => $model->id,
-                    'title' => $title,
-                    'body' => $text . ' ' . $categoryName
-                ]);
-            } catch (\Exception $e) {
-            
+                    $model->addToIndex($model->getSearchData());
+                } catch (\Exception $e) {
+        
+                    dump('error');
+                }
             }
             
         });
@@ -193,21 +191,45 @@ class Product extends Model
                 ProductPinYin::query()->where('pinyin', $model->first_pinyin)->delete();
             }
     
-            try {
+            if (self::$addToSearch) {
+                try {
         
-                $model->removeFromIndex();
-            } catch (\Exception $e) {
+                    $model->removeFromIndex();
+                } catch (\Exception $e) {
         
+                }
             }
         });
 
 
         // 从软删除中恢复
-        static::restored(function ($model) {
+        static::restored(function (Product $model) {
 
             // 建立拼音表
             ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
+    
+            if (self::$addToSearch) {
+                try {
+                    
+                    $model->addToIndex($this->getSearchData());
+                } catch (\Exception $e) {
+            
+                }
+            }
         });
+    }
+    
+    public function getSearchData()
+    {
+        $categoryName = $this->category->title ?? '';
+        $title = $this->name . ' ' . $this->title;
+        $text = str_replace(["\t", "\r", "\n"], ['', '', ''], strip_tags($this->detail->content ?? ''));
+        
+        return [
+            'id' => $this->id,
+            'title' => $title,
+            'body' => $text . ' ' . $categoryName
+        ];
     }
     
     

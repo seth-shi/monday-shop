@@ -73,20 +73,12 @@ class AddShopToEsSearchCommand extends Command
         
         $count = $query->count();
         $handle = 0;
-    
+        
         $query->with('category')->chunk(1000, function (Collection $models) use ($count, &$handle) {
             
             $models->map(function (Product $product) use ($count, &$handle) {
                 
-                $categoryName = $product->category->title ?? '';
-                
-                $title = $product->name . ' ' . $product->title;
-                $text = str_replace(["\t", "\r", "\n"], ['', '', ''], strip_tags($product->detail->content ?? ''));
-                $product->addToIndex([
-                    'id' => $product->id,
-                    'title' => $title,
-                    'body' => $text . ' ' . $categoryName
-                ]);
+                $product->addToIndex($product->getSearchData());
                 
                 ++ $handle;
                 echo "\r {$handle}/$count";
