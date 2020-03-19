@@ -56,9 +56,9 @@ class InstallShop extends BaseCommand
 
         // 更新首页数据,防止上一次遗留
         $this->call('moon:update-home');
-
-        // 生成 jwt
-        $this->call('jwt:secret');
+    
+        // 生成全文索引
+        $this->call('add:shop-to-search');
 
         // 直接开启监听队列
         // $this->info('queue starting please don`t close cmd windows!!!');

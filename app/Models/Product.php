@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\SearchAble\ElasticSearchTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -69,7 +70,7 @@ use Ramsey\Uuid\Uuid;
  */
 class Product extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, ElasticSearchTrait;
 
     protected $fillable = [
         'category_id', 'name', 'price', 'original_price',
@@ -185,5 +186,23 @@ class Product extends Model
             // 建立拼音表
             ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
         });
+    }
+    
+    
+    public function getIndexName()
+    {
+        return 'product';
+    }
+    
+    public function getMappingProperties()
+    {
+        return [
+            'title' => [
+                'type' => 'text',
+            ],
+            'body' => [
+                'type' => 'text'
+            ]
+        ];
     }
 }
