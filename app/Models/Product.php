@@ -146,7 +146,7 @@ class Product extends Model
 
 
         // 自动生成商品的 uuid， 拼音
-        static::saving(function (Model $model) {
+        static::saving(function (Product $model) {
 
             if (is_null($model->uuid)) {
                 $model->uuid = Uuid::uuid4()->toString();
@@ -169,13 +169,35 @@ class Product extends Model
                 // 建立拼音表
                 ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
             }
+            
+            try {
+    
+                $categoryName = $model->category->title ?? '';
+                $title = $model->name . ' ' . $model->title;
+                $text = str_replace(["\t", "\r", "\n"], ['', '', ''], strip_tags($model->detail->content ?? ''));
+                $model->addToIndex([
+                    'id' => $model->id,
+                    'title' => $title,
+                    'body' => $text . ' ' . $categoryName
+                ]);
+            } catch (\Exception $e) {
+            
+            }
+            
         });
 
-        static::deleted(function ($model) {
+        static::deleted(function (Product $model) {
 
             // 没有这个拼音了，删去
             if (Product::query()->where('first_pinyin', $model->first_pinyin)->doesntExist()) {
                 ProductPinYin::query()->where('pinyin', $model->first_pinyin)->delete();
+            }
+    
+            try {
+        
+                $model->removeFromIndex();
+            } catch (\Exception $e) {
+        
             }
         });
 
