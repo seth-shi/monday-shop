@@ -77,7 +77,7 @@
                                 <button class="oauth_button" type="button" disabled>
                                     <i class="fa fa-github" style="color: #00aced;"></i>&nbsp;{{ $user->github_name }}
                                 </button>
-                                <a href="/auth/oauth/unbind?driver=github" style="color: #009a61;text-decoration: underline;">
+                                <a href="/auth/oauth/unbind/github" style="color: #009a61;text-decoration: underline;">
                                     解绑
                                 </a>
                             @else
@@ -96,7 +96,7 @@
                                 <button class="oauth_button" type="button" disabled>
                                     <i class="fa fa-qq" style="color: #00aced;"></i>&nbsp;{{ $user->qq_name }}
                                 </button>
-                                <a href="/auth/oauth/unbind?driver=qq" style="color: #009a61;text-decoration: underline;">
+                                <a href="/auth/oauth/unbind/qq" style="color: #009a61;text-decoration: underline;">
                                     解绑
                                 </a>
                             @else
@@ -115,7 +115,7 @@
                                 <button class="oauth_button" type="button" disabled>
                                     <i class="fa fa-weibo" style="color: #dd4b39;"></i>&nbsp;{{ $user->weibo_name }}
                                 </button>
-                                <a href="/auth/oauth/unbind?driver=weibo" style="color: #009a61;text-decoration: underline;">
+                                <a href="/auth/oauth/unbind/weibo" style="color: #009a61;text-decoration: underline;">
                                     解绑
                                 </a>
                             @else

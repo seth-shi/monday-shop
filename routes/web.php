@@ -141,9 +141,9 @@ Route::namespace('Auth')->group(function(){
     /****************************************
      * 互联登录的路由，包括 github, QQ， 微博 登录
      ****************************************/
-    Route::get('auth/oauth', 'AuthLoginController@redirectToAuth');
-    Route::get('auth/oauth/callback', 'AuthLoginController@handleCallback');
-    Route::get('/auth/oauth/unbind', 'AuthLoginController@unBind');
+    Route::get('auth/oauth/{type}', 'AuthLoginController@redirectToAuth');
+    Route::get('auth/oauth/callback/{type}', 'AuthLoginController@handleCallback');
+    Route::get('/auth/oauth/unbind/{type}', 'AuthLoginController@unBind');
 });
 
 // 支付通知的接口

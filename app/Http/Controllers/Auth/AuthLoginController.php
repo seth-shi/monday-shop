@@ -12,17 +12,15 @@ use Overtrue\Socialite\SocialiteManager;
 class AuthLoginController extends Controller
 {
     protected $allow = ['github', 'qq', 'weibo'];
-
+    
     /**
      * 第三方授权登录跳转
      *
-     * @param Request $request
+     * @param $driver
      * @return mixed
      */
-    public function redirectToAuth(Request $request)
+    public function redirectToAuth($driver)
     {
-        $driver = $request->input('driver');
-
         if (! in_array($driver, $this->allow) || ! config()->has("socialite.{$driver}")) {
 
             abort(403, '未知的第三方登录');
@@ -32,17 +30,16 @@ class AuthLoginController extends Controller
 
         return $socialite->driver($driver)->redirect();
     }
-
-
+    
+    
     /**
      * 第三方授权认证回调
      *
-     * @param Request $request
+     * @param $driver
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function handleCallback(Request $request)
+    public function handleCallback($driver)
     {
-        $driver = $request->input('driver');
 
         if (! in_array($driver, $this->allow) || ! config()->has("socialite.{$driver}")) {
 
@@ -132,18 +129,17 @@ class AuthLoginController extends Controller
 
         return $user;
     }
-
-
+    
+    
     /**
      * 解绑第三方账号
      *
+     * @param $driver
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function unBind(Request $request)
+    public function unBind($driver, Request $request)
     {
-        $driver = $request->input('driver');
-
         if (! in_array($driver, $this->allow) || ! config()->has("socialite.{$driver}")) {
 
             return back()->withErrors(['msg' => '未知的第三方登录']);
