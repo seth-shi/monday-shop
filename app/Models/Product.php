@@ -197,6 +197,9 @@ class Product extends Model
     public function getMappingProperties()
     {
         return [
+            'id' => [
+                'type' => 'integer'
+            ],
             'title' => [
                 'type' => 'text',
             ],
