@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Controllers\AuthController as BaseAuthController;
+use Encore\Admin\Facades\Admin;
+use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
@@ -65,5 +67,21 @@ class AuthController extends BaseAuthController
 
         $user->login_ip = $ip;
         $user->save();
+    }
+    
+    public function putSetting()
+    {
+        $form = $this->settingForm();
+        
+        $form->submitted(function (Form $form) {
+    
+            if (app()->environment('dev')) {
+        
+                admin_toastr('开发环境不允许操作', 'error');
+                return back()->withInput();
+            }
+        });
+        
+        return $form->update(Admin::user()->id);
     }
 }

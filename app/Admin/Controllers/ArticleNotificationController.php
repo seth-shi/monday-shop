@@ -75,6 +75,24 @@ class ArticleNotificationController extends AdminController
 
         $form->text('title', __('Title'))->help('请再三确认再发布，不可修改');
         $form->kindeditor('content', __('Content'));
+    
+        $form->saving(function (Form $form) {
+        
+            if (app()->environment('dev')) {
+            
+                admin_toastr('开发环境不允许操作', 'error');
+                return back()->withInput();
+            }
+        });
+    
+        $form->deleting(function (Form $form) {
+        
+            if (app()->environment('dev')) {
+            
+                admin_toastr('开发环境不允许操作', 'error');
+                return back()->withInput();
+            }
+        });
 
         return $form;
     }

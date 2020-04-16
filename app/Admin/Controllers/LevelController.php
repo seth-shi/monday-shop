@@ -142,6 +142,16 @@ class LevelController extends Controller
         $form->text('name', '名字');
         $form->number('level', '等级');
         $form->number('min_score', '积分');
+    
+        $form->saving(function (Form $form) {
+        
+            if (app()->environment('dev')) {
+            
+                admin_toastr('开发环境不允许操作', 'error');
+                return back()->withInput();
+            }
+        });
+        
 
         return $form;
     }
