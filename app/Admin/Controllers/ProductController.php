@@ -208,6 +208,15 @@ class ProductController extends Controller
         $form->multipleImage('pictures', '轮播图')->uniqueName()->move('products/lists');
 
         $form->editor('detail.content', '详情')->rules('required');
+    
+        $form->saving(function (Form $form) {
+        
+            if (app()->environment('dev')) {
+            
+                admin_toastr('开发环境不允许操作', 'error');
+                return back()->withInput();
+            }
+        });
 
         return $form;
     }
@@ -216,6 +225,12 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::query()->withTrashed()->findOrFail($id);
+    
+        if (app()->environment('dev')) {
+        
+            admin_toastr('开发环境不允许操作', 'error');
+            return back()->withInput();
+        }
 
         if ($product->forceDelete()) {
             $data = [

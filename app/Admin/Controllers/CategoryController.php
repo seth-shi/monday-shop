@@ -128,6 +128,16 @@ class CategoryController extends Controller
         $form->icon('icon', '图标');
         $form->image('thumb', '缩略图');
         $form->text('description', '描述');
+    
+        $form->saving(function (Form $form) {
+        
+            if (app()->environment('dev')) {
+            
+                admin_toastr('开发环境不允许操作', 'error');
+                return back()->withInput();
+            }
+        });
+    
 
         return $form;
     }
@@ -141,6 +151,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        if (app()->environment('dev')) {
+        
+            return response()->json(['status' => false, 'message' => '开发环境不允许操作']);
+        }
         /**
          * @var $category Category
          */
