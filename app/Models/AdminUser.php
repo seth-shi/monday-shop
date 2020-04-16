@@ -12,15 +12,16 @@ class AdminUser extends Administrator
     {
         parent::boot();;
     
-        self::saving(function (Form $form) {
+        self::saving(function () {
         
             if (app()->environment('dev')) {
     
-                throw new \Exception('开发环境不允许操作');
+               throw new \Exception('开发环境不允许操作');
             }
         });
     
-        self::deleting(function (Form $form) {
+    
+        self::deleting(function () {
         
             if (app()->environment('dev')) {
             
