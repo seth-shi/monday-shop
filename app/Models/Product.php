@@ -71,7 +71,7 @@ use Ramsey\Uuid\Uuid;
 class Product extends Model
 {
     use SoftDeletes, ElasticSearchTrait;
-    
+
     public static $addToSearch = true;
 
     protected $fillable = [
@@ -171,17 +171,17 @@ class Product extends Model
                 // 建立拼音表
                 ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
             }
-            
+
             if (self::$addToSearch) {
                 try {
-    
+
                     $model->addToIndex($model->getSearchData());
                 } catch (\Exception $e) {
-        
+
                     dump('error');
                 }
             }
-            
+
         });
 
         static::deleted(function (Product $model) {
@@ -190,13 +190,13 @@ class Product extends Model
             if (Product::query()->where('first_pinyin', $model->first_pinyin)->doesntExist()) {
                 ProductPinYin::query()->where('pinyin', $model->first_pinyin)->delete();
             }
-    
+
             if (self::$addToSearch) {
                 try {
-        
+
                     $model->removeFromIndex();
                 } catch (\Exception $e) {
-        
+
                 }
             }
         });
@@ -207,37 +207,37 @@ class Product extends Model
 
             // 建立拼音表
             ProductPinYin::query()->firstOrCreate(['pinyin' => $model->first_pinyin]);
-    
+
             if (self::$addToSearch) {
                 try {
-                    
+
                     $model->addToIndex($this->getSearchData());
                 } catch (\Exception $e) {
-            
+
                 }
             }
         });
     }
-    
+
     public function getSearchData()
     {
         $categoryName = $this->category->title ?? '';
         $title = $this->name . ' ' . $this->title;
         $text = str_replace(["\t", "\r", "\n"], ['', '', ''], strip_tags($this->detail->content ?? ''));
-        
+
         return [
             'id' => $this->id,
             'title' => $title,
             'body' => $text . ' ' . $categoryName
         ];
     }
-    
-    
+
+
     public function getIndexName()
     {
         return 'product';
     }
-    
+
     public function getMappingProperties()
     {
         return [
@@ -246,9 +246,15 @@ class Product extends Model
             ],
             'title' => [
                 'type' => 'text',
+                'analyzer' => 'ik_max_word',
+                'search_analyzer' => 'ik_smart',
+                'index' => true,
             ],
             'body' => [
-                'type' => 'text'
+                'type' => 'text',
+                'analyzer' => 'ik_max_word',
+                'search_analyzer' => 'ik_smart',
+                'index' => true,
             ]
         ];
     }
