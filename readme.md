@@ -1,4 +1,4 @@
-# DavidNineRoc/monday-shop
+# seth-shi/monday-shop
 ## TODO
 * 再来一单
 * 查看物流
@@ -107,10 +107,10 @@
 
 ## Installation
 1. 获取源代码
-* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/DavidNineRoc/monday-shop/archive/master.zip)
+* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/seth-shi/monday-shop/archive/master.zip)
 * 或者`git`克隆源代码
 ```shell
-git clone git@github.com:DavidNineRoc/monday-shop.git
+git clone git@github.com:seth-shi/monday-shop.git
 ```
 2. 安装依赖扩展包
 ```shell
