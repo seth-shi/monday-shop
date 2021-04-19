@@ -1,4 +1,6 @@
 # seth-shi/monday-shop
+## QQ 群
+* `584453488`
 ## TODO
 * 再来一单
 * 查看物流
