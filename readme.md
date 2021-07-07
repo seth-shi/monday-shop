@@ -1,11 +1,23 @@
 # seth-shi/monday-shop
 ## QQ 群
 * `584453488`
-## TODO
-* 再来一单
-* 查看物流
-* 数据分析
-* API 接口开发,具体看文目录 API
+
+## `composer install`失败
+* 更换中国镜像源
+* 如果使用的`composer 2`降级版本
+```shell script
+C:\Users\seth-shi>composer --version
+Composer version 2.0.11 2021-02-24 14:57:23
+
+C:\Users\seth-shi>composer self-update --1
+Warning: You forced the install of 1.10.22 via --1, but 2.1.3 is the latest stable version. Updating to it via composer self-update --stable is recommended.
+Upgrading to version 1.10.22 (1.x channel).
+
+Use composer self-update --rollback to return to version 2.0.11
+
+C:\Users\seth-shi>composer --version
+Composer version 1.10.22 2021-04-27 13:10:45
+```
 ## 目录说明
 * [演示地址](#演示地址)
 * [页面展示](#页面展示)
