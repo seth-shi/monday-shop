@@ -112,11 +112,11 @@ class SeckillController extends Controller
              ->default(1)
              ->help('保证商品的库存数量大于此数量，会从库存中减去');
 
-        $now = Carbon::now()->addHour(1);
+        $now = Carbon::now();
         $form->datetime('start_at', '开始时间')
              ->default($now->format('Y-m-d H:00:00'));
         $form->datetime('end_at', '结束时间')
-             ->default($now->addHour(1)->format('Y-m-d H:00:00'))
+             ->default($now->addHour(2)->format('Y-m-d H:00:00'))
              ->rules('required|date|after_or_equal:start_at');
 
         return $form;
@@ -137,11 +137,6 @@ class SeckillController extends Controller
             return back()->withInput()->withErrors(['number' => '秒杀数量不能大于库存数量']);
         }
 
-        if (Product::query()->whereKey($request->input('product_id'))->doesntExist()) {
-
-            return back()->withInput()->withErrors(['product_id' => '无效的商品']);
-        }
-
         DB::beginTransaction();
 
         try {
@@ -152,7 +147,7 @@ class SeckillController extends Controller
             // 减去库存数量
             $product->decrement('count', $number);
 
-        } catch (\Exception $e) {
+        } catch (\Error $e) {
 
             DB::rollBack();
             return back()->withInput()->withErrors(['category_id' => $e->getMessage()]);
