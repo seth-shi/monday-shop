@@ -6,6 +6,8 @@ use App\Enums\HomeCacheEnum;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
+use App\Utils\HomeCacheDataUtil;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
@@ -42,15 +44,12 @@ class UpdateCacheHomeData extends Command
      */
     public function handle()
     {
-        $categories = Category::query()->withCount('products')->orderBy('order')->take(9)->get();
-        $hotProducts = Product::query()->withCount('users')->orderBy('sale_count', 'desc')->take(3)->get();
-        $latestProducts = Product::query()->withCount('users')->latest()->take(9)->get();
-        $users = User::query()->orderBy('login_count', 'desc')->take(10)->get(['avatar', 'name']);
+        // 每分钟有定时任务更新
+        $ttl = 60 * 2;
 
-        // 更换成枚举
-        Cache::forever(HomeCacheEnum::CATEGORIES, $categories);
-        Cache::forever(HomeCacheEnum::HOTTEST, $hotProducts);
-        Cache::forever(HomeCacheEnum::LATEST, $latestProducts);
-        Cache::forever(HomeCacheEnum::USERS, $users);
+        HomeCacheDataUtil::categories($ttl, true);
+        HomeCacheDataUtil::hotProducts($ttl, true);
+        HomeCacheDataUtil::latestProducts($ttl, true);
+        HomeCacheDataUtil::users($ttl, true);
     }
 }
