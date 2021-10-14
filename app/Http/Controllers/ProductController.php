@@ -134,7 +134,7 @@ class ProductController extends Controller
             (new ScoreLogServe)->visitedProductAddScore($user, $product);
         }
 
-        return view('products.show', compact('product', 'addresses', 'recommendProducts'));
+        return view('products.show', compact('product', 'recommendProducts'));
     }
 
     /**
