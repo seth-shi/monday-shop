@@ -81,7 +81,7 @@
                                     解绑
                                 </a>
                             @else
-                                <a href="/auth/oauth?driver=github">
+                                <a href="/auth/oauth/github">
                                     <button class="oauth_button" type="button">
                                         <i class="fa fa-github" style="color: #3b5999;"></i>&nbsp;Github
                                     </button>
@@ -100,7 +100,7 @@
                                     解绑
                                 </a>
                             @else
-                                <a href="/auth/oauth?driver=qq">
+                                <a href="/auth/oauth/qq">
                                     <button class="oauth_button" type="button">
                                         <i class="fa fa-qq" style="color: #00aced;"></i>&nbsp;QQ
                                     </button>
@@ -119,7 +119,7 @@
                                     解绑
                                 </a>
                             @else
-                                <a href="/auth/oauth?driver=weibo">
+                                <a href="/auth/oauth/weibo">
                                     <button class="oauth_button" type="button">
                                         <i class="fa fa-weibo" style="color: #dd4b39;"></i>&nbsp;微博
                                     </button>
