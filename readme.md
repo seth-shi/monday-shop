@@ -8,10 +8,7 @@
 1. 配置好数据库连接信息
 2. 构建镜像
     * `docker build . -t monday-shop`
-
-* 构建镜像
-    * `docker build . -t monday-shop`
-* 运行
+3. 运行
     * `-p 80:5200`, `80`代表本机的端口,`5200`写死是`swoole`服务运行的端口
     * `docker run -d -p 80:5200 monday-shop --name monday-shop-service`
 
