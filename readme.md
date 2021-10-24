@@ -2,22 +2,19 @@
 ## QQ 群
 * `584453488`
 
-## `composer install`失败
-* 更换中国镜像源
-* 如果使用的`composer 2`降级版本
-```shell script
-C:\Users\seth-shi>composer --version
-Composer version 2.0.11 2021-02-24 14:57:23
+## 部署(新新新)
+* !!! 非`Docker`运行请使用`v3.0.2`[https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2](https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2)
 
-C:\Users\seth-shi>composer self-update --1
-Warning: You forced the install of 1.10.22 via --1, but 2.1.3 is the latest stable version. Updating to it via composer self-update --stable is recommended.
-Upgrading to version 1.10.22 (1.x channel).
+1. 配置好数据库连接信息
+2. 构建镜像
+    * `docker build . -t monday-shop`
 
-Use composer self-update --rollback to return to version 2.0.11
+* 构建镜像
+    * `docker build . -t monday-shop`
+* 运行
+    * `-p 80:5200`, `80`代表本机的端口,`5200`写死是`swoole`服务运行的端口
+    * `docker run -d -p 80:5200 monday-shop --name monday-shop-service`
 
-C:\Users\seth-shi>composer --version
-Composer version 1.10.22 2021-04-27 13:10:45
-```
 ## 目录说明
 * [演示地址](#演示地址)
 * [页面展示](#页面展示)
@@ -119,7 +116,7 @@ Composer version 1.10.22 2021-04-27 13:10:45
 - [ ] 全文搜索
 - [x] **响应式网站**
 
-## Installation
+## Installation (手动安装, 需要依赖`swoole`扩展, 如未安装请下载`v3.0.2`版本)
 1. 获取源代码
 * 直接下载压缩包或者[monday-shop.zip下载](https://github.com/seth-shi/monday-shop/archive/master.zip)
 * 或者`git`克隆源代码
