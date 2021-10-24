@@ -12,6 +12,7 @@
         "fideloper/proxy": "~3.3",
         "gregwar/captcha": "1.*",
         "guzzlehttp/guzzle": "^6.3",
+        "hhxsv5/laravel-s": "~3.7.0",
         "intervention/image": "^2.4",
         "jenssegers/agent": "^2.6",
         "laravel/framework": "5.5.*",
