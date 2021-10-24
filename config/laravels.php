@@ -21,7 +21,7 @@ return [
     |
     */
 
-    'listen_ip' => env('LARAVELS_LISTEN_IP', '127.0.0.1'),
+    'listen_ip' => env('LARAVELS_LISTEN_IP', '0.0.0.0'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'handle_static' => env('LARAVELS_HANDLE_STATIC', false),
+    'handle_static' => env('LARAVELS_HANDLE_STATIC', true),
 
     /*
     |--------------------------------------------------------------------------
