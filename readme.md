@@ -3,12 +3,16 @@
 * `584453488`
 
 ## 部署(新新新)
-* !!! 非`Docker`运行请使用`v3.0.2`[https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2](https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2)
+* !!! 非`Docker`运行请使用`v3.0.2`[https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2](https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2) (**新版本部署请勿下载压缩包, 仅作提醒**)
 
-1. 配置好数据库连接信息
-2. 构建镜像
+1. 下载源码(也可直接下载压缩包, 然后解压)
+    * `git clone https://github.com/seth-shi/monday-shop.git`
+2. 修改配置
+    * `cp .env.example .env`
+    * 修改`.env`文件中数据库,域名等配置信息
+3. 构建镜像
     * `docker build . -t monday-shop`
-3. 运行
+4. 运行
     * `-p 80:5200`, `80`代表本机的端口,`5200`写死是`swoole`服务运行的端口
     * `docker run -d -p 80:5200 --name monday-shop-service monday-shop`
 
