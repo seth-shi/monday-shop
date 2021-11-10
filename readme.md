@@ -1,10 +1,11 @@
 # seth-shi/monday-shop
+
+* !!! 非`Docker`运行请使用`v3.0.2`[https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2](https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2) (**新版本部署请勿下载压缩包, 仅作提醒**)
+
 ## QQ 群
 * `584453488`
 
 ## 部署(新新新)
-* !!! 非`Docker`运行请使用`v3.0.2`[https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2](https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2) (**新版本部署请勿下载压缩包, 仅作提醒**)
-
 1. 下载源码(也可直接下载压缩包, 然后解压)
     * `git clone https://github.com/seth-shi/monday-shop.git`
 2. 修改配置
