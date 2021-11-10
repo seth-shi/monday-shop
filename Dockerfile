@@ -1,5 +1,8 @@
 FROM phpswoole/swoole:php7.4-alpine
 
+# 修改中国镜像源
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && cat /etc/apk/repositories
+
 # 快速安装 PHP 扩展
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
