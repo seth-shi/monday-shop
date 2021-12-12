@@ -30,7 +30,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-       $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout');
     }
 
 
@@ -45,7 +45,7 @@ class LoginController extends Controller
 
 
         // 记录上一次的 url，用于登录之后的回跳
-        if (! str_is($this->except, $lastUrl)) {
+        if (!str_is($this->except, $lastUrl)) {
 
             session()->put('url.intended', $lastUrl);
         }
@@ -66,7 +66,7 @@ class LoginController extends Controller
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
-           $this->sendLockoutResponse($request);
+            $this->sendLockoutResponse($request);
         }
 
         /**
@@ -75,21 +75,21 @@ class LoginController extends Controller
         $credentials = $this->credentials($request);
         $user = User::query()->where($credentials)->first();
 
-        if ($user instanceof User  && \Hash::check($request->input('password'), $user->password)) {
+        if ($user instanceof User && \Hash::check($request->input('password'), $user->password)) {
 
             // 如果用户没有激活
             if ($user->is_active == UserStatusEnum::UN_ACTIVE) {
 
                 // 显示 再次发送激活链接
                 return redirect('login')->withInput()
-                                        ->withErrors([
-                                            $this->username() => $userService->getActiveLink($user)
-                                        ]);
+                    ->withErrors([
+                        $this->username() => $userService->getActiveLink($user)
+                    ]);
             }
 
             // 登录用户
             auth()->login($user, $request->has('remember'));
-
+            $user->increment('login_count');
             return $this->sendLoginResponse($request);
         }
 
@@ -101,26 +101,6 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
-    /**
-     * 登录之后增加登录次数
-     *
-     * @param $user
-     */
-    protected function authenticated($user)
-    {
-        $user->increment('login_count');
-    }
-
-
-    protected function sendLoginResponse(Request $request)
-    {
-        $request->session()->regenerate();
-
-        $this->clearLoginAttempts($request);
-
-        return $this->authenticated($request->user())
-            ?: redirect()->intended($this->redirectPath());
-    }
 
     protected function sendFailedLoginResponse(Request $request)
     {
@@ -159,7 +139,7 @@ class LoginController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)
