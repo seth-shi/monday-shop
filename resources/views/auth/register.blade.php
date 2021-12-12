@@ -21,7 +21,7 @@
                     </h3>
                     <div class="row row-rl-0">
                         <div class="col-sm-6 col-md-7 col-left">
-                            <form class="p-40" id="register_form" method="post" action="{{ route('register') }}">
+                            <form class="p-40" id="register_form" method="post" action="/register">
 
                                 {{ csrf_field() }}
 
