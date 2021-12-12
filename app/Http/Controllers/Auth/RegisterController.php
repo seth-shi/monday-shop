@@ -66,8 +66,8 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath())->with('status', '注册成功');
+        $this->registered($request, $user)
+        return redirect('/login')->with('status', '注册成功');
     }
 
     /**
