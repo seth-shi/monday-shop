@@ -252,11 +252,7 @@ return [
     'cleaners' => [
         Hhxsv5\LaravelS\Illuminate\Cleaners\SessionCleaner::class,
         Hhxsv5\LaravelS\Illuminate\Cleaners\AuthCleaner::class,
-        Hhxsv5\LaravelS\Illuminate\Cleaners\SessionCleaner::class,
-        Hhxsv5\LaravelS\Illuminate\Cleaners\AuthCleaner::class,
         Hhxsv5\LaravelS\Illuminate\Cleaners\JWTCleaner::class,
-        Hhxsv5\LaravelS\Illuminate\Cleaners\SessionCleaner::class,
-        Hhxsv5\LaravelS\Illuminate\Cleaners\AuthCleaner::class,
         Hhxsv5\LaravelS\Illuminate\Cleaners\LaravelAdminCleaner::class,
     ],
 
