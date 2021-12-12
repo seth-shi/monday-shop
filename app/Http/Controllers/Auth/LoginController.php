@@ -109,6 +109,14 @@ class LoginController extends Controller
         ]);
     }
 
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return redirect()->intended($this->redirectPath());
+    }
     /**
      * 登录使用用户名还是邮箱
      * @param Request $request
