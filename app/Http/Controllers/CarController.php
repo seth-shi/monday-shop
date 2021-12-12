@@ -31,7 +31,7 @@ class CarController extends Controller
             $cars = $user->cars()->with('product')->get();
         }
 
-        return view('cars.index', compact('cars', 'addresses'));
+        return view('cars.index', compact('cars'));
     }
 
     /**

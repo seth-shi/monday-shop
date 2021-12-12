@@ -26,7 +26,7 @@ class AuthLoginController extends Controller
             abort(403, '未知的第三方登录');
         }
 
-        $socialite = new SocialiteManager(config('socialite'));
+        $socialite = new SocialiteManager(config('socialite'), request());
 
         return $socialite->driver($driver)->redirect();
     }
@@ -48,7 +48,7 @@ class AuthLoginController extends Controller
 
         try {
 
-            $socialite = new SocialiteManager(config('socialite'));
+            $socialite = new SocialiteManager(config('socialite'), request());
             $socialiteUser = $socialite->driver($driver)->user();
         } catch (AuthorizeFailedException $e) {
 
