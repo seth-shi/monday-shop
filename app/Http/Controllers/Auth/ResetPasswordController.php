@@ -71,4 +71,9 @@ class ResetPasswordController extends Controller
     {
         return 'password/reset';
     }
+
+    protected function guard()
+    {
+        return auth()->guard();
+    }
 }
