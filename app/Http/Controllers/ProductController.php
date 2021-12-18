@@ -142,6 +142,6 @@ class ProductController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard();
+        return auth()->guard();
     }
 }

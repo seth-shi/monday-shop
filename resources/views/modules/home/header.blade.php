@@ -18,7 +18,7 @@
                         </li>
                         @auth
                             <li>
-                                <a href="/user"><i class="fa fa-user"></i>{{ Auth::user()->name }}</a>
+                                <a href="/user"><i class="fa fa-user"></i>{{ auth()->user()->name }}</a>
                             </li>
                             <li>
                                 <a href="javascript:;" onclick="event.preventDefault();
