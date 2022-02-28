@@ -10,11 +10,16 @@ RUN install-php-extensions pcntl redis pdo_mysql gd
 
 WORKDIR /var/www
 COPY . .
-RUN chmod -R 0777 storage && chmod -R 0777 bootstrap/cache && composer install
-
-RUN php artisan migrate && php artisan storage:link && php artisan moon:copy
-
-RUN php artisan laravels publish --no-interaction
+RUN chmod -R 0777 storage && \
+    chmod -R 0777 bootstrap/cache && \
+    composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ && \
+    composer install --optimize-autoloader --no-dev && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan migrate && \
+    php artisan storage:link && \
+    php artisan moon:copy && \
+    php artisan laravels publish --no-interaction
 
 
 # this copies pyroscope binary from pyroscope image to your image:
