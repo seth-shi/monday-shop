@@ -14,7 +14,5 @@ RUN chmod -R 0777 storage && chmod -R 0777 bootstrap/cache && composer install
 
 RUN php artisan migrate && php artisan storage:link && php artisan moon:copy
 
-RUN php artisan laravels publish --no-interaction
-
 
 CMD ["php", "bin/laravels", "start", "--env=product"]

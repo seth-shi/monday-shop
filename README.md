@@ -7,16 +7,17 @@
 
 ## 部署(新新新)
 1. 下载源码(也可直接下载压缩包, 然后解压)
-    * `git clone https://github.com/seth-shi/monday-shop.git`
-2. 修改配置
+    * `git clone https://github.com/seth-shi/monday-shop.git && cd monday-shop`
+2. 修改配置`.env`文件中数据库,域名等配置信息
     * `cp .env.example .env`
-    * 修改`.env`文件中数据库,域名等配置信息
 3. 构建镜像
     * `docker build . -t monday-shop`
 4. 运行
     * `-p 80:5200`, `80`代表本机的端口,`5200`写死是`swoole`服务运行的端口
     * `docker run -d -p 80:5200 --name monday-shop-service monday-shop`
-
+5. 开发时容器运行方式(把`/mnt/d/monday-shop`修改成你的项目根目录)
+    * `docker run -d -p 8080:5200 -v /mnt/d/monday-shop:/var/www --name monday-shop
+       -service monday-shop`
 ## 目录说明
 * [演示地址](#演示地址)
 * [页面展示](#页面展示)

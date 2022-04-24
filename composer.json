@@ -9,7 +9,7 @@
         "barryvdh/laravel-cors": "^0.11.3",
         "elasticsearch/elasticsearch": "^7.6",
         "encore/laravel-admin": "^1.7",
-        "fideloper/proxy": "~3.3",
+        "fideloper/proxy": "^4.0",
         "gregwar/captcha": "1.*",
         "guzzlehttp/guzzle": "^6.3",
         "hhxsv5/laravel-s": "~3.7.0",
