@@ -1,6 +1,6 @@
 # seth-shi/monday-shop
 
-* !!! 非`Docker`运行请使用`v3.0.2`[https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2](https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2) (**新版本部署请勿下载压缩包, 仅作提醒**)
+* !!! 非`Docker`版本运行请参考`v1.0`[https://github.com/seth-shi/monday-shop/tree/1.0](https://github.com/seth-shi/monday-shop/tree/1.0)
 
 ## QQ 群
 * `584453488`
@@ -18,6 +18,10 @@
 5. 开发时容器运行方式(把`/mnt/d/monday-shop`修改成你的项目根目录)
     * `docker run -d -p 8080:5200 -v /mnt/d/monday-shop:/var/www --name monday-shop
        -service monday-shop`
+
+* (!注) 如果使用[pyroscope](https://pyroscope.io/), 需要`docker run -d --cap-add=sys_ptrace --env PYROSCOPE_SERVER_ADDRESS=xx --env PYROSCOPE_APPLICATION_NAME=xx --env PYROSCOPE_AUTH_TOKEN=xx -p 80:5200 --name monday-shop-service monday-shop`
+
+>>>>>>> master
 ## 目录说明
 * [演示地址](#演示地址)
 * [页面展示](#页面展示)
@@ -118,40 +122,6 @@
     * 每天晚上一点进行站点数据统计
 - [ ] 全文搜索
 - [x] **响应式网站**
-
-## Installation (手动安装, 需要依赖`swoole`扩展, 如未安装请下载`v3.0.2`版本)
-1. 获取源代码
-* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/seth-shi/monday-shop/archive/master.zip)
-* 或者`git`克隆源代码
-```shell
-git clone git@github.com:seth-shi/monday-shop.git
-```
-2. 安装依赖扩展包
-```shell
-composer install
-```
-3. 生成配置文件(修改其中的配置选项:数据库的一定要修改)
-```shell
-cp .env.example .env
-```
-4. 开启秒杀功能
-    * 安装前可以把`database/seeds/SettingsTablesSeeder.php`中的秒杀开启设置为`1`
-    * 安装之后可以直接通过后台管理系统设置中的配置设置管理
-5. 使用安装命令(会执行执行数据库迁移，填充，等)
-```shell
-php artisan moon:install
-```
-* 任务调度(订阅推荐，数据统计！！！)
-    * windows
-        * [windows下使用laravel任务调度](http://blog.csdn.net/forlightway/article/details/77943539)
-    * Linux
-        * `* * * * * php /你的项目根目录/artisan schedule:run >> /dev/null 2>&1`
-        * [linux 详情请去看官网](https://laravel.com/docs/5.5/scheduling)
-* 运行队列处理器(发送订阅邮件，自动取消订单)
-    * `Linux`系统: 
-        * `nohup php artisan queue:work --tries=3 &`
-    * `windows`系统直接打开一个命令行窗口，运行命令，不要关闭窗口即可
-        * `php artisan queue:work --tries=3`
 
 ## Commands
 | 命令  | 一句话描述 |
