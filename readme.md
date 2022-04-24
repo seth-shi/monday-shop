@@ -121,7 +121,7 @@ Composer version 1.10.22 2021-04-27 13:10:45
 
 ## Installation
 1. 获取源代码
-* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/seth-shi/monday-shop/archive/master.zip)
+* 直接下载压缩包或者[monday-shop.zip下载](https://github.com/seth-shi/monday-shop/archive/refs/heads/1.0.zip)
 * 或者`git`克隆源代码
 ```shell
 git clone git@github.com:seth-shi/monday-shop.git
