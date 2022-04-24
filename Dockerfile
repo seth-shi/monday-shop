@@ -18,8 +18,7 @@ RUN chmod -R 0777 storage && \
     php artisan route:cache && \
     php artisan migrate && \
     php artisan storage:link && \
-    php artisan moon:copy && \
-    php artisan laravels publish --no-interaction
+    php artisan moon:copy
 
 
 # this copies pyroscope binary from pyroscope image to your image:
