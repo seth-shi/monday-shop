@@ -33,4 +33,3 @@ COPY --from=pyroscope/pyroscope:latest /usr/bin/pyroscope /usr/bin/pyroscope
 
 CMD ["pyroscope", "exec", "php", "bin/laravels", "start", "--env=product"]
 #CMD ["php", "bin/laravels", "start", "--env=product"]
->>>>>>> master

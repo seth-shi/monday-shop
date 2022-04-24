@@ -21,7 +21,6 @@
 
 * (!注) 如果使用[pyroscope](https://pyroscope.io/), 需要`docker run -d --cap-add=sys_ptrace --env PYROSCOPE_SERVER_ADDRESS=xx --env PYROSCOPE_APPLICATION_NAME=xx --env PYROSCOPE_AUTH_TOKEN=xx -p 80:5200 --name monday-shop-service monday-shop`
 
->>>>>>> master
 ## 目录说明
 * [演示地址](#演示地址)
 * [页面展示](#页面展示)
