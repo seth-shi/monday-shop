@@ -1,6 +1,6 @@
 # seth-shi/monday-shop
 
-* !!! 非`Docker`运行请使用`v3.0.2`[https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2](https://github.com/seth-shi/monday-shop/releases/tag/v3.0.2) (**新版本部署请勿下载压缩包, 仅作提醒**)
+* !!! 非`Docker`版本运行请参考`v1.0`[https://github.com/seth-shi/monday-shop/tree/1.0](https://github.com/seth-shi/monday-shop/tree/1.0)
 
 ## QQ 群
 * `584453488`
