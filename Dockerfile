@@ -22,13 +22,14 @@ RUN chmod -R 0777 storage && \
 
 
 # this copies pyroscope binary from pyroscope image to your image:
-COPY --from=pyroscope/pyroscope:latest /usr/bin/pyroscope /usr/bin/pyroscope
 
 ## 建议在 docker run --env 注入环境变量
 #ENV PYROSCOPE_SERVER_ADDRESS=
 #ENV PYROSCOPE_APPLICATION_NAME=
 #ENV PYROSCOPE_AUTH_TOKEN=
 ## docker run -d --cap-add=sys_ptrace --env PYROSCOPE_SERVER_ADDRESS=xx --env PYROSCOPE_APPLICATION_NAME=xx --env PYROSCOPE_AUTH_TOKEN=xx -p 80:5200 --name monday-shop-service monday-shop
+## 如果需要使用 pyroscope 分析性能, 注释掉下一行, 并打开最后两行注释
+CMD ["php", "bin/laravels", "start", "--env=product"]
 
-CMD ["pyroscope", "exec", "php", "bin/laravels", "start", "--env=product"]
-#CMD ["php", "bin/laravels", "start", "--env=product"]
+# COPY --from=pyroscope/pyroscope:latest /usr/bin/pyroscope /usr/bin/pyroscope
+# CMD ["pyroscope", "exec", "php", "bin/laravels", "start", "--env=product"]
