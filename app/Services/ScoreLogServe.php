@@ -29,16 +29,14 @@ class ScoreLogServe
          * 每天都有一个登录用户的 key,通过定时任务删除
          * 如果这个用户已经记录过了,那么可以跳过
          */
-        $cacheKey = $this->loginKey($today->toDateString());
+        $bitKey = $this->loginKey($today->toDateString());
 
-        $ids = Cache::get($cacheKey, collect());
-        // 使用哈希, 而不是 contains, 数量多了哈希速度远远快于 contains
-        if ($ids->has($user->id)) {
+        // 使用 bitmap 计算是否登录
+        // setbit 返回原来的值, 如果返回 1, 那么代表之前设置过了
+        $bitVal = $this->store()->setBit($bitKey, $user->id, 1);
+        if ($bitVal > 0) {
             return false;
         }
-
-        $ids->put($user->id, null);
-        Cache::put($cacheKey, $ids, 60*24);
 
         // 每次登录总是送这么多积分
         $rule = ScoreRule::query()->where('index_code', ScoreRuleIndexEnum::LOGIN)->firstOrFail();
@@ -100,35 +98,21 @@ class ScoreLogServe
         $today = Carbon::today();
 
         /**
-         * @var $visitedProducts Collection
-         * @var $userVisitedProducts Collection
          * 每天都有一个登录用户的 key,通过定时任务删除
          * 如果这个用户已经记录过了,那么可以跳过
          */
-        $cacheKey = $this->visitedKey($today->toDateString());
+        $bitKey = $this->visitedKey($today->toDateString(), $user->id);
 
-        // 浏览的格式如下
-        // ['user1_id' => [1, 2, 3, 4]]
-        $visitedProducts = Cache::get($cacheKey, collect());
-
-        $userVisitedProducts = $visitedProducts->get($user->id, collect());
-
-        // 如果用户今天已经浏览过了这个商品,那么就不会再记录
-        if ($userVisitedProducts->has($product->id)) {
+        // 使用 bitmap 计算是否登录
+        // setbit 返回原来的值, 如果返回 1, 那么代表之前设置过了
+        $bitVal = $this->store()->setBit($bitKey, $product->id, 1);
+        if ($bitVal > 0) {
             return;
         }
 
-        $visitedProducts->put($user->id, $userVisitedProducts->put($product->id, null));
-        Cache::put($cacheKey, $visitedProducts, 60*24);
-
-
+        $userViewCount = $this->store()->bitCount($bitKey);
         // 查询是否达到增加积分
-        $rule = ScoreRule::query()
-                         ->where('index_code', ScoreRuleIndexEnum::VISITED_PRODUCT)
-                         ->where('times', $userVisitedProducts->count())
-                         ->first();
-
-
+        $rule = ScoreRule::getByCode(ScoreRuleIndexEnum::VISITED_PRODUCT, $userViewCount);
         if ($rule) {
 
             $user->score_all += $rule->score;
@@ -188,23 +172,26 @@ class ScoreLogServe
      */
     public function getUserVisitedNumber($date, $userId)
     {
-        /**
-         * @var $visitedProducts Collection
-         * @var $userVisitedProducts Collection
-         */
-        $visitedProducts = Cache::get($this->visitedKey($date), collect());
-        $userVisitedProducts = $visitedProducts->get($userId, collect());
+        $bitKey = $this->visitedKey($date, $userId);
 
-        return $userVisitedProducts->count();
+        return (int)$this->store()->bitCount($bitKey);
     }
 
     public function loginKey($date)
     {
-        return "{$date}_login_users";
+        return "{$date}_login_bit_users";
     }
 
-    public function visitedKey($date)
+    public function visitedKey($date, $userId)
     {
-        return "{$date}_visited_products";
+        return "{$date}_visited_products:{$userId}";
+    }
+
+    /**
+     * @return \Redis
+     */
+    protected function store()
+    {
+        return app('redis');
     }
 }
