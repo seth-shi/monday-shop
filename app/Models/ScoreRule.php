@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ScoreRuleIndexEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -41,6 +42,30 @@ class ScoreRule extends Model
     ];
 
 
+    public static function getByCode($code, $times)
+    {
+        $allRules = Cache::remember(
+            "score_rules:{$code}",
+            Carbon::now()->addMinutes(5),
+            function () use ($code) {
+                return ScoreRule::query()
+                    ->where('index_code', $code)
+                    ->orderByDesc('times')
+                    ->get();
+            }
+        );
+
+        /**
+         * @var $rule ScoreRule
+         */
+        foreach ($allRules as $rule) {
+            if ($times == $rule->times) {
+                return $rule;
+            }
+        }
+
+        return null;
+    }
 
     public static function boot()
     {
