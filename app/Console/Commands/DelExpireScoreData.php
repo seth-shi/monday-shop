@@ -47,7 +47,6 @@ class DelExpireScoreData extends Command
         $serve = new ScoreLogServe();
 
         Cache::delete($serve->loginKey($yesterday));
-        Cache::delete($serve->visitedKey($yesterday));
 
         createSystemLog("系统删除{$yesterday}过期积分统计数据", ['date' => $yesterday]);
     }
