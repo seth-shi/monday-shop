@@ -285,7 +285,7 @@ function request(_method, _url, _param, _func) {
 |[acelaya/doctrine-enum-type](https://github.com/acelaya/doctrine-enum-type)|枚举|优化代码中的映射|
 
 ## Reference
-* [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
+* [Laravel 的中大型專案架構](https://old-oomusou.goodjack.tw/laravel/architecture/)
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
 * [十个 Laravel 5 程序优化技巧](http://www.ruanyifeng.com/blog/2018/10/restful-api-best-practices.html)
 * [服务器做了两个优化 CPU 使用率减低 40%(使用缓存优化访问量不写数据库)](https://learnku.com/articles/13366/the-server-has-made-two-optimization-and-the-cpu-utilization-rate-has-been-reduced-by-40)
