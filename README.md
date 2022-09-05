@@ -19,8 +19,6 @@
 5. 执行命令迁移
     * `docker exec monday-shop-service php artisan migrate`
 
-* (!注) 如果使用[pyroscope](https://pyroscope.io/), 需要`docker run -d --cap-add=sys_ptrace --env PYROSCOPE_SERVER_ADDRESS=xx --env PYROSCOPE_APPLICATION_NAME=xx --env PYROSCOPE_AUTH_TOKEN=xx -p 80:5200 --name monday-shop-service monday-shop`
-
 ## 目录说明
 * [演示地址](#演示地址)
 * [页面展示](#页面展示)
@@ -289,7 +287,7 @@ function request(_method, _url, _param, _func) {
 |[acelaya/doctrine-enum-type](https://github.com/acelaya/doctrine-enum-type)|枚举|优化代码中的映射|
 
 ## Reference
-* [Laravel 的中大型專案架構](http://oomusou.io/laravel/laravel-architecture/)
+* [Laravel 的中大型專案架構](https://old-oomusou.goodjack.tw/laravel/architecture/)
 * [十个 Laravel 5 程序优化技巧](https://laravel-china.org/articles/2020/ten-laravel-5-program-optimization-techniques)
 * [十个 Laravel 5 程序优化技巧](http://www.ruanyifeng.com/blog/2018/10/restful-api-best-practices.html)
 * [服务器做了两个优化 CPU 使用率减低 40%(使用缓存优化访问量不写数据库)](https://learnku.com/articles/13366/the-server-has-made-two-optimization-and-the-cpu-utilization-rate-has-been-reduced-by-40)
