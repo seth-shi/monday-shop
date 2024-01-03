@@ -10,6 +10,7 @@ return [
     | Chinese https://github.com/hhxsv5/laravel-s/blob/master/Settings-CN.md#laravels-%E9%85%8D%E7%BD%AE%E9%A1%B9
     |
     */
+    'ignore_check_pid' => true,
 
     /*
     |--------------------------------------------------------------------------
