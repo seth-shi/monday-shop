@@ -20,9 +20,31 @@ http:
     supervisor:
       max_worker_memory: 256
       exec_ttl: 60s
+## 这里注意如果要输出标准输出必须在 channels 才会写 stdout
 logs:
   mode: production
   level: debug
-  encoding: json
+  encoding: console
+  output: stderr
+  err_output: stderr
+  channels:
+    http:
+      mode: production
+      level: panic
+      encoding: console
+      output: stdout
+      err_output: stderr
+    server:
+      mode: production
+      level: info
+      encoding: json
+      output: stdout
+      err_output: stdout
+    rpc:
+      mode: production
+      level: debug
+      encoding: console
+      output: stderr
+      err_output: stdout
 status:
     address: localhost:2114
