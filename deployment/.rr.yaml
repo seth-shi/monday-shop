@@ -1,0 +1,28 @@
+version: '3'
+rpc:
+  listen: 'tcp://127.0.0.1:6001'
+server:
+  command: ""
+  relay: pipes
+http:
+  middleware: [ "static", "gzip", "headers" ]
+  max_request_size: 20
+  access_logs: false
+  static:
+    dir: "public"
+    forbid: [ ".php", ".htaccess" ]
+  uploads:
+    forbid: [".php", ".exe", ".bat", ".sh"]
+  address: "0.0.0.0:2114"
+  pool:
+    allocate_timeout: 10s
+    destroy_timeout: 10s
+    supervisor:
+      max_worker_memory: 256
+      exec_ttl: 60s
+logs:
+  mode: production
+  level: debug
+  encoding: json
+status:
+    address: localhost:2114

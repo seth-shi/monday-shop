@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -e
+
+container_mode=${CONTAINER_MODE:-http}
+octane_server=${OCTANE_SERVER}
+echo "Container mode: $container_mode"
+
+initialStuff() {
+    php artisan config:cache;
+}
+
+if [ "$1" != "" ]; then
+    exec "$@"
+elif [ ${container_mode} = "http" ]; then
+    echo "Octane Server: $octane_server"
+    initialStuff
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.roadrunner.conf
+elif [ ${container_mode} = "scheduler" ]; then
+    initialStuff
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.scheduler.conf
+elif [ ${container_mode} = "worker" ]; then
+    initialStuff
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.worker.conf
+else
+    echo "Container mode mismatched."
+    exit 1
+fi

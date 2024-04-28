@@ -14,6 +14,7 @@
         "jenssegers/agent": "^2.6",
         "laravel/framework": "^10.10",
         "laravel/helpers": "^1.7",
+        "laravel/octane": "^2.3",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.5",
@@ -22,6 +23,8 @@
         "overtrue/socialite": "^4.10",
         "predis/predis": "^1.1",
         "ramsey/uuid": "^4.7",
+        "spiral/roadrunner-cli": "2.6.0",
+        "spiral/roadrunner-http": "3.3.0",
         "tymon/jwt-auth": "^2.1",
         "yansongda/pay": "^3.6",
         "yxx/kindeditor": "^1.0"
