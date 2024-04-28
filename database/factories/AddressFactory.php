@@ -1,7 +1,11 @@
 <?php
 
+namespace Database\Factories;
+
+
 use App\Models\Address;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -14,14 +18,16 @@ use Illuminate\Support\Facades\DB;
 | model instances for testing / seeding your application's database.
 |
 */
-
-$factory->define(Address::class, function (Faker $faker) {
-
-    return [
-        'name' => $faker->name,
-        'phone' => $faker->phoneNumber,
-        'province_id' => DB::table('provinces')->inRandomOrder()->first()->id,
-        'city_id' => DB::table('cities')->inRandomOrder()->first()->id,
-        'detail_address' => $faker->address,
-    ];
-});
+class AddressFactory extends Factory
+{
+    public function definition(): array
+    {
+        return [
+            'name' => $this->withFaker()->name,
+            'phone' => $this->withFaker()->phoneNumber,
+            'province_id' => DB::table('provinces')->inRandomOrder()->first()->id,
+            'city_id' => DB::table('cities')->inRandomOrder()->first()->id,
+            'detail_address' => $this->withFaker()->address,
+        ];
+    }
+}

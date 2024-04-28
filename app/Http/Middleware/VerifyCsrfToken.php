@@ -9,14 +9,9 @@ class VerifyCsrfToken extends Middleware
     /**
      * The URIs that should be excluded from CSRF verification.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $except = [
-        '/admin/products/upload/*',
-        '/user/upload/avatar',
-        '/user/pay/*',
-        '/user/comments',
-        // 支付回调
-        '/pay/notify'
+        //
     ];
 }

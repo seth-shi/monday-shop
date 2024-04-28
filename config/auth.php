@@ -97,4 +97,6 @@ return [
         ],
     ],
 
+    'password_timeout' => 10800,
+
 ];

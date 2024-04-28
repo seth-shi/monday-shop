@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Enums\SettingKeyEnum;
 use App\Models\Setting;
 use Encore\Admin\Auth\Database\Administrator;

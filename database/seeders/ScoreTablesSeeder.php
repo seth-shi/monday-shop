@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+
 use App\Enums\ScoreRuleIndexEnum;
 use App\Models\Level;
 use App\Models\ScoreRule;

@@ -1,9 +1,12 @@
 <?php
 
+namespace Database\Factories;
+
+
 use App\Models\Car;
 use App\Models\Product;
 use App\Models\User;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +18,18 @@ use Faker\Generator as Faker;
 | model instances for testing / seeding your application's database.
 |
 */
+class CarsFactory extends Factory
+{
+    protected $model = Car::class;
 
-$factory->define(Car::class, function (Faker $faker) {
-
-    return [
-        'user_id' => User::inRandomOrder()->first()->id,
-        'product_id' => Product::inRandomOrder()->first()->id,
-        'number' => mt_rand(1, 5),
-        'created_at' => time(),
-        'updated_at' => time()
-    ];
-});
+    public function definition(): array
+    {
+        return [
+            'user_id' => User::inRandomOrder()->first()->id,
+            'product_id' => Product::inRandomOrder()->first()->id,
+            'number' => mt_rand(1, 5),
+            'created_at' => time(),
+            'updated_at' => time()
+        ];
+    }
+}

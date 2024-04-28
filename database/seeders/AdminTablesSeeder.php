@@ -1,5 +1,8 @@
 <?php
 
+namespace Database\Seeders;
+
+
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Auth\Database\Menu;
 use Encore\Admin\Auth\Database\Permission;
