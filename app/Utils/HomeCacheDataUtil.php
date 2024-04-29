@@ -52,12 +52,15 @@ class HomeCacheDataUtil
                         ->get();
 
 
-                    $pipeline = Redis::connection()->pipeline();
-                    $secKills->each(function (Seckill $seckill) use ($pipeline) {
-                        $pipeline->get($seckill->getRedisModelKey());
-                    });
+                    $res = Redis::connection()
+                        ->pipeline(function ($pipe) use ($secKills) {
+                            $secKills->each(function (Seckill $s) use ($pipe) {
+                                $pipe->get($s->getRedisModelKey());
+                            });
+                        });
 
-                    return  collect($pipeline->execute())->map(function ($item) {
+
+                    return  collect($res)->map(function ($item) {
 
                         if (! $item) {
                             return null;
