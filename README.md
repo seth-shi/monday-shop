@@ -14,10 +14,9 @@
 3. 构建镜像
     * `docker build . -t monday-shop`
 4. 运行
-    * `-p 80:5200`, `80`代表本机的端口,`5200`写死是`swoole`服务运行的端口
-    * `docker run -d -p 80:5200 --name monday-shop-service monday-shop`
-5. 执行命令迁移
-    * `docker exec monday-shop-service php artisan migrate`
+    * `docker run -d --net=host --name monday-shop-service monday-shop`
+5. 执行安装命令
+    * `docker exec monday-shop-service php artisan moon:install`
 
 ## 目录说明
 * [演示地址](#演示地址)
