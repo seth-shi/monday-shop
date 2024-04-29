@@ -8,6 +8,7 @@
         "php": "^8.1",
         "elasticsearch/elasticsearch": "^7.6",
         "encore/laravel-admin": "^1.7",
+        "fakerphp/faker": "^1.23",
         "gregwar/captcha": "1.*",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.4",
@@ -30,7 +31,6 @@
         "yxx/kindeditor": "^1.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.23.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",

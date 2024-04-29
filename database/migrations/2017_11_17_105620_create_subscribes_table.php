@@ -23,9 +23,6 @@ class CreateSubscribesTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `subscribes` comment'订阅表，用于邮件推送'");
-
     }
 
     /**

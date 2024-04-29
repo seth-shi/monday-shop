@@ -23,8 +23,6 @@ class CreateScoreLogsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `score_logs` comment'用户积分获取记录表'");
     }
 
     /**

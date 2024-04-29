@@ -32,9 +32,6 @@ class CreateSeckillsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `seckills` comment'秒杀表'");
-
     }
 
     /**

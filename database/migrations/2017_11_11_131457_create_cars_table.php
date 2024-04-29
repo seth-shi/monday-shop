@@ -24,9 +24,6 @@ class CreateCarsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `cars` comment'购物车表'");
-
     }
 
     /**

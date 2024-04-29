@@ -21,8 +21,6 @@ class CreateArticleNotificationsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `article_notifications` comment '通知文章表'");
     }
 
     /**

@@ -20,9 +20,6 @@ class CreateProvincesTable extends Migration
 
             $table->primary('id');
         });
-
-        DB::statement("ALTER TABLE `provinces` comment'省份表'");
-
     }
 
     /**

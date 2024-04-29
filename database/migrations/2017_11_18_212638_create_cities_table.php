@@ -22,9 +22,6 @@ class CreateCitiesTable extends Migration
 
             $table->primary('id');
         });
-
-        DB::statement("ALTER TABLE `cities` comment'城市表'");
-
     }
 
     /**

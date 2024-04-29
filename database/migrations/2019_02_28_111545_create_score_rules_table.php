@@ -25,8 +25,6 @@ class CreateScoreRulesTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `score_rules` comment'积分获取规则表'");
     }
 
     /**

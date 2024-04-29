@@ -21,8 +21,6 @@ class CreateSettingsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `settings` comment'配置的表'");
     }
 
     /**

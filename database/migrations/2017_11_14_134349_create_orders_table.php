@@ -56,9 +56,6 @@ class CreateOrdersTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `orders` comment'订单表'");
-
     }
 
     /**

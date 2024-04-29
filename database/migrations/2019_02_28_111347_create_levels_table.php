@@ -24,8 +24,6 @@ class CreateLevelsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `levels` comment'用户积分等级表'");
     }
 
     /**

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Kalnoy\Nestedset\NestedSet;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCategoriesTable extends Migration {
 
@@ -27,10 +27,6 @@ class CreateCategoriesTable extends Migration {
 
         $table->timestamps();
     });
-
-
-      DB::statement("ALTER TABLE `categories` comment'商品分类表'");
-
   }
 
   /**

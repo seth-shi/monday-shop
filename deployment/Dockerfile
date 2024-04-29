@@ -70,6 +70,7 @@ COPY deployment/start-container /usr/local/bin/start-container
 ## 安装依赖
 ################################################################################################
 COPY --from=vendor /usr/bin/composer /usr/bin/composer
+RUN touch database/database.sqlite
 RUN composer install \
   --no-dev \
   --no-interaction \

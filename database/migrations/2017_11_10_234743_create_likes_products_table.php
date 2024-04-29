@@ -22,9 +22,6 @@ class CreateLikesProductsTable extends Migration
 
             $table->primary(['user_id', 'product_id']);
         });
-
-        DB::statement("ALTER TABLE `likes_products` comment'用户收藏的商品关联表'");
-
     }
 
     /**

@@ -29,8 +29,6 @@ class CreateUserHasCouponsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `user_has_coupons` comment'用户拥有的优惠券表'");
     }
 
     /**

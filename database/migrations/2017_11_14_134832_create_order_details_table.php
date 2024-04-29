@@ -27,9 +27,6 @@ class CreateOrderDetailsTable extends Migration
             $table->boolean('is_commented')->default(false)->comment('订单是否评论过');
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `order_details` comment'订单明细表'");
-
     }
 
     /**

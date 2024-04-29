@@ -31,9 +31,6 @@ class CreateSiteCountsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `site_counts` comment'站点统计表'");
-
     }
 
     /**

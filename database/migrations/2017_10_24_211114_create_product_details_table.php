@@ -24,8 +24,6 @@ class CreateProductDetailsTable extends Migration
             $table->timestamps();
         });
 
-        DB::statement("ALTER TABLE `product_details` comment'商品明细表'");
-
     }
 
     /**

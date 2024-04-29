@@ -27,8 +27,6 @@ class CreateCouponTemplatesTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE `coupon_templates` comment'优惠券模板表'");
     }
 
     /**
