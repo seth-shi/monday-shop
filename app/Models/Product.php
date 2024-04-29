@@ -178,7 +178,6 @@ class Product extends Model
                     $model->addToIndex($model->getSearchData());
                 } catch (\Exception $e) {
 
-                    dump('error');
                 }
             }
 
