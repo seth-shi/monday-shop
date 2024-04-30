@@ -56,16 +56,6 @@
             "Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "dont-discover": [
-                "jenssegers/agent",
-                "intervention/image",
-                "encore/laravel-admin",
-                "yxx/kindeditor"
-            ]
-        }
-    },
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
