@@ -4,76 +4,45 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
-
-    use ResetsPasswords;
-
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    public function validationErrorMessages()
+    public function showResetForm(Request $request, string $token)
     {
-        return [
-            'token.required' => '重置密码的token不是对应这个邮箱',
-            'email.required' => '邮件地址不正确',
-            'email.email' => '邮件地址不正确',
-            'password.required' => '密码不能为空',
-            'password.confirmed' => '两次密码不一致',
-            'password.min' => '密码不能少于六位数',
-        ];
+        return view('auth.passwords.reset', [
+            'token' => $token,
+            'email' => $request->query('email'),
+        ]);
     }
 
-    /**
-     * rewrite Illuminate\Foundation\Auth\ResetsPasswords::resetPassword not login
-     * @param $user
-     * @param $password
-     */
-    public function resetPassword($user, $password)
+    public function reset(Request $request)
     {
-        $user->password = Hash::make($password);
-        $user->setRememberToken(Str::random(60));
-        $user->save();
+        $validated = $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
 
-        // event(new PasswordReset($user));
-        // $this->guard()->login($user);
-    }
+        $status = Password::reset($validated, function ($user, string $password): void {
+            $user->forceFill([
+                'password' => Hash::make($password),
+                'remember_token' => Str::random(60),
+            ])->save();
 
-    public function redirectTo()
-    {
-        return 'password/reset';
-    }
+            event(new PasswordReset($user));
+        });
 
-    protected function guard()
-    {
-        return auth()->guard();
+        return $status === Password::PasswordReset
+            ? redirect()->route('login')->with('status', trans($status))
+            : back()->withInput($request->only('email'))->withErrors(['email' => trans($status)]);
     }
 }

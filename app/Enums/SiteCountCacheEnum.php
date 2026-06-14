@@ -3,7 +3,6 @@
 namespace App\Enums;
 
 
-use MyCLabs\Enum\Enum;
 
 class SiteCountCacheEnum extends Enum
 {

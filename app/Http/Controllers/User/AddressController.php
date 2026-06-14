@@ -101,7 +101,7 @@ class AddressController extends Controller
 
         if ($address->save()) {
 
-            return responseJson(0, '设置成功');
+            return responseJson(200, '设置成功');
         }
 
         return responseJson(400, '请稍后再试！');

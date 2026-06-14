@@ -1,159 +1,25 @@
-@extends('layouts.shop')
+@extends('layouts.modern')
 
+@section('title', '搜索商品 · Monday Shop')
 
 @section('main')
-    <main id="mainContent" class="main-content">
-        <div class="page-container ptb-10">
-            <div class="container">
+<section class="shop-container py-14">
+    <div class="rounded-[2rem] bg-slate-950 px-6 py-12 text-white sm:px-10">
+        <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-500">Search</p>
+        <h1 class="mt-3 text-4xl font-black">寻找你的下一件好物</h1>
+        <form action="{{ url('/products/search') }}" method="get" class="mt-7 flex max-w-2xl gap-3">
+            <input name="keyword" value="{{ request('keyword') }}" placeholder="输入商品名称" class="min-w-0 flex-1 rounded-full border-0 bg-white px-5 py-3 text-sm text-slate-900 outline-none">
+            <button class="rounded-full bg-brand-500 px-6 py-3 text-sm font-bold text-white">搜索</button>
+        </form>
+    </div>
 
-                <section class="section deals-area ptb-30">
+    <div class="mt-12 flex items-end justify-between"><div><p class="text-sm text-slate-500">关键词：{{ request('keyword', '全部') }}</p><h2 class="mt-2 text-2xl font-black">找到 {{ $products->total() }} 件商品</h2></div><a href="{{ url('/categories') }}" class="text-sm font-bold text-brand-700">浏览分类 →</a></div>
 
-                    <!-- Page Control -->
-                    <header class="page-control panel ptb-15 prl-20 pos-r mb-30">
-
-                        <!-- List Control View -->
-                        <ul class="list-control-view list-inline">
-                            <li><a href="/categories"><i class="fa fa-reply"></i></a>
-                            </li>
-                        </ul>
-                        <!-- End List Control View -->
-                        <div class="right-10 pos-tb-center">
-                            <select class="form-control input-sm">
-                                <option>排序</option>
-                                <option>最新的</option>
-                                <option>最受欢迎</option>
-                                <option>价格</option>
-                            </select>
-                        </div>
-                    </header>
-                    <!-- End Page Control -->
-                    <div class="row row-masnory row-tb-20">
-
-                        @forelse($products as $product)
-                            <div class="col-xs-12">
-                                <div class="deal-single panel">
-                                    <div class="row row-rl-0 row-sm-cell">
-                                        <div class="col-sm-5">
-                                            <a href="/products/{{ $product->uuid }}">
-                                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="{{ $product->thumb }}">
-                                                    <div class="label-discount left-20 top-15">
-                                                        {{ intval(($product->original_price - $product->price)/$product->original_price * 100) }}%
-                                                    </div>
-                                                    <ul class="deal-actions top-15 right-20">
-                                                        <li  class="like-deal" data-id="{{ $product->uuid }}">
-                                                            <span>
-                                                                <i class="fa fa-heart"></i>
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </figure>
-                                            </a>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="bg-white pt-20 pl-20 pr-15">
-                                                <div class="pr-md-10">
-                                                    <div class="rating mb-10">
-                                                        <div class="mb-10">
-                                                            收藏人数 <span class="rating-count rating">{{ $product->users_count }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <h3 class="deal-title mb-10">
-                                                        <a href="/products/{{ $product->uuid }}">
-                                                            {{ $product->name }}
-                                                        </a>
-                                                    </h3>
-                                                    <p class="text-muted mb-20">
-                                                        {!! $product->title !!}
-                                                    </p>
-                                                </div>
-                                                <div class="deal-price pos-r mb-15">
-                                                    <h3 class="price ptb-5 text-right">
-                                                                <span class="price-sale">
-                                                                    {{ $product->original_price }}
-                                                                </span>
-                                                        ￥ {{ $product->price }}
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="col-xs-12">
-                                <div class="deal-single panel">
-                                    <div class="row row-rl-0 row-sm-cell">
-                                        <div class="col-sm-5">
-                                            <a href="#">
-                                                <figure class="deal-thumbnail embed-responsive embed-responsive-16by9 col-absolute-cell" data-bg-img="">
-                                                    <div class="label-discount left-20 top-15">0</div>
-                                                    <ul class="deal-actions top-15 right-20">
-                                                        <li  class="like-deal">
-                                                            <span>
-                                                                <i class="fa fa-heart"></i>
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </figure>
-                                            </a>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="bg-white pt-20 pl-20 pr-15">
-                                                <div class="pr-md-10">
-                                                    <div class="rating mb-10">
-
-                                                    </div>
-                                                    <h3 class="deal-title mb-10">
-                                                        <a href="#">
-                                                            没有找到你想要的商品
-                                                        </a>
-                                                    </h3>
-                                                    <p class="text-muted mb-20">
-                                                        换个关键字再找找吧
-                                                    </p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforelse
-                    </div>
-
-                    <!-- Page Pagination -->
-                    <div class="page-pagination text-center mt-30 p-10 panel">
-                        <nav>
-                            {{ $products->appends(request()->only('keyword'))->links() }}
-                        </nav>
-                    </div>
-                    <!-- End Page Pagination -->
-
-                </section>
-
-            </div>
-        </div>
-
-
-    </main>
-@endsection
-
-
-@section('script')
-    <script>
-        $('.like-deal').click(function(){
-            let id = $(this).data('id');
-
-            alert('收藏商品ID ' + id);
-
-            // 不传递父级点击事件
-            return false;
-        });
-
-        $('.like-deal').hover(function(){
-            $(this).find('i').css('color', 'red');
-        }, function(){
-            $(this).find('i').css('color', '#fff');
-        });
-    </script>
+    @if($products->isEmpty())
+        <div class="mt-8 rounded-3xl border border-dashed border-slate-300 bg-white py-20 text-center"><div class="text-4xl">⌕</div><h2 class="mt-4 text-xl font-black">没有找到匹配商品</h2><p class="mt-2 text-sm text-slate-500">换一个更简短的关键词试试。</p></div>
+    @else
+        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">@foreach($products as $product)<x-product-card :product="$product" />@endforeach</div>
+        <div class="mt-10">{{ $products->appends(request()->only('keyword'))->links() }}</div>
+    @endif
+</section>
 @endsection

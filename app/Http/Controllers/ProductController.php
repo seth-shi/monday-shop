@@ -39,7 +39,7 @@ class ProductController extends Controller
      */
     public function getProductsByPinyin($pinyin)
     {
-        $products = Product::query()->where('first_pinyin', $pinyin)->get(['id', 'name'])->split(3);
+        $products = Product::query()->where('first_pinyin', $pinyin)->get(['uuid', 'name'])->split(3);
 
         return $products;
     }

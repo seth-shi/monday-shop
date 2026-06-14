@@ -1,74 +1,37 @@
-@extends('layouts.shop')
+@extends('layouts.account')
 
-@section('main')
-    <main id="mainContent" class="main-content">
-        <div class="page-container ptb-20">
-            <div class="container">
-                <section class="wishlist-area ptb-30">
-                    <div class="container">
-                        <div class="wishlist-wrapper">
-                            <h3 class="h-title mb-40 t-uppercase">我的收藏列表</h3>
-                            <table id="cart_list" class="wishlist">
-                                <tbody>
-                                @foreach ($likesProducts as $product)
-                                    <tr class="panel alert">
-                                    <td class="col-sm-8 col-md-9">
-                                        <div class="media-left is-hidden-sm-down">
-                                            <figure class="product-thumb">
-                                                <img src="{{ $product->thumb }}" alt="{{ $product->name }}">
-                                            </figure>
-                                        </div>
-                                        <div class="media-body valign-middle">
-                                            <h5 class="title mb-5 t-uppercase"><a href="/products/{{ $product->uuid }}">{{ $product->name }}</a></h5>
-                                            <div class="rating mb-10">
-                                                <span class="rating-reviews">
-				                        		( <span class="rating-count">{{ $product->users_count }}</span> 收藏 )</span>
-                                            </div>
-                                            <h4 class="price color-green"><span class="price-sale">￥{{ $product->original_price }}</span>￥{{ $product->price }}</h4>
-                                        </div>
-                                    </td>
-                                    <td class="col-sm-1">
-                                        <button type="button" class="close pr-xs-0 pr-sm-10" data-id="{{ $product->uuid }}" class="de_likes_btn">
-                                            <i class="fa fa-trash-o"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+@section('title', '我的收藏 - Monday Shop')
 
-                {{ $likesProducts->links() }}
-            </div>
+@section('account')
+<div><span class="shop-kicker">Wishlist</span><h1 class="mt-2 text-3xl font-black">我的收藏</h1></div>
+<div id="like-message" class="mt-6 hidden rounded-2xl px-4 py-3 text-sm font-semibold"></div>
+<div class="mt-7 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+    @forelse($likesProducts as $product)
+        <div class="relative" data-like-card="{{ $product->uuid }}">
+            <x-product-card :product="$product" />
+            <button type="button" data-unlike="{{ $product->uuid }}" class="absolute right-3 top-3 grid size-10 place-items-center rounded-full bg-white/95 text-lg text-slate-500 shadow hover:text-rose-600" aria-label="取消收藏">×</button>
         </div>
-
-
-    </main>
+    @empty
+        <div class="shop-card col-span-full p-12 text-center"><p class="text-slate-500">收藏夹还是空的。</p><a href="{{ url('/products') }}" class="shop-button-primary mt-5">去逛逛</a></div>
+    @endforelse
+</div>
+<div class="mt-8">{{ $likesProducts->links() }}</div>
 @endsection
 
-@section('script')
-    <script src="/assets/user/layer/2.4/layer.js"></script>
-    <script>
-
-        let _url = "/user/likes/";
-        let token = "{{ csrf_token() }}";
-
-        $('.de_likes_btn').click(function(){
-            let that = $(this);
-            let product_id = $(this).data('id');
-            let url = _url + product_id;
-
-            $.post(url, {_token:token,_method:'DELETE'}, function(res){
-                layer.msg(res.msg);
-
-                if (res.code == 301) {
-                    return;
-                }
-
-                that.parent().parent().remove();
-            });
-        });
-    </script>
-@endsection
+@push('scripts')
+<script>
+document.querySelectorAll('[data-unlike]').forEach((button) => button.addEventListener('click', async () => {
+    const message = document.querySelector('#like-message');
+    try {
+        const { data } = await axios.delete(`/user/likes/${button.dataset.unlike}`);
+        if (![0, 200].includes(Number(data.code))) throw new Error(data.msg || '操作失败');
+        document.querySelector(`[data-like-card="${button.dataset.unlike}"]`)?.remove();
+        message.textContent = data.msg || '已取消收藏';
+        message.className = 'mt-6 rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700';
+    } catch (error) {
+        message.textContent = error.response?.data?.msg || error.message || '操作失败';
+        message.className = 'mt-6 rounded-2xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700';
+    }
+}));
+</script>
+@endpush

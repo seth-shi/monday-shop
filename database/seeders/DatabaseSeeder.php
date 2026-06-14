@@ -6,14 +6,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    public function __construct()
-    {
-        if (! function_exists('ceilTwoPrice')) {
-
-            require admin_path('helpers.php');
-        }
-    }
-
     public function run()
     {
         // 配置的填充

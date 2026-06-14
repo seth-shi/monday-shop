@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Car;
 use App\Models\Product;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -14,91 +12,51 @@ class CarController extends Controller
         $this->middleware('user.auth')->only('store', 'destroy');
     }
 
-    /**
-     * 购物车列表
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function index()
     {
-        $cars = collect();
-
-        /**
-         * @var $user User
-         */
-        if ($user = \auth()->user()) {
-            // 直接获取当前登录用户的购物车
-            $cars = $user->cars()->with('product')->get();
-        }
+        $cars = auth()->user()
+            ? auth()->user()->cars()->with('product')->get()
+            : collect();
 
         return view('cars.index', compact('cars'));
     }
 
-    /**
-     * 添加购物车
-     * @param Request $request
-     * @return array
-     */
     public function store(Request $request)
     {
-        /**
-         * @var $car Car
-         * @var $product Product
-         * @var $user User
-         */
-        $product = Product::query()->where('uuid', $request->input('product_id'))->firstOrFail();
-
-        $user = auth()->user();
-        $car = $user->cars()->firstOrNew([
-            'user_id' => \auth()->id(),
-            'product_id' => $product->id
+        $validated = $request->validate([
+            'product_id' => ['required', 'string'],
+            'number' => ['required', 'integer', 'min:1', 'max:999'],
+            'action' => ['nullable', 'in:sync'],
         ]);
 
+        $product = Product::query()->where('uuid', $validated['product_id'])->firstOrFail();
+        $car = $request->user()->cars()->firstOrNew([
+            'user_id' => $request->user()->getKey(),
+            'product_id' => $product->getKey(),
+        ]);
 
-        // 如果是同步，则只是赋值，如果是添加购物车则是添加
-        $change = 0;
-        $number = $request->input('number', 1);
+        $currentNumber = (int) ($car->number ?? 0);
+        $number = $validated['number'];
+        $isSync = ($validated['action'] ?? null) === 'sync';
+        $newNumber = $isSync ? $number : $currentNumber + $number;
 
-        if ($request->input('action') == 'sync') {
-
-            $change = $number - $car->number;
-            $car->number = $number;
-        } else {
-
-            $car->number += $number;
-        }
-
-        if ($car->number > $product->count) {
-
+        if ($newNumber > $product->count) {
             return responseJson(403, '库存不足');
         }
 
-
+        $car->number = $newNumber;
         $car->save();
 
-        return responseJson(200, '加入购物车成功', compact('change'));
+        return responseJson(200, '购物车已更新', [
+            'change' => $newNumber - $currentNumber,
+            'number' => $newNumber,
+        ]);
     }
 
-
-    /**
-     * @param $id
-     * @return array
-     */
-    public function destroy($id)
+    public function destroy(Request $request, int $id)
     {
-        try {
-            /**
-             * @var $user User
-             */
-            $user = auth()->user();
-            $car = $user->cars()->whereKey($id)->firstOrFail();
-            $car->delete();
-
-        } catch (\Exception $e) {
-
-            dd($e);
-            return responseJson(500, '服务器异常，请稍后再试');
-        }
+        $car = $request->user()->cars()->whereKey($id)->firstOrFail();
+        $car->delete();
 
         return responseJson(200, '删除成功');
     }

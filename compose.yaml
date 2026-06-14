@@ -1,0 +1,33 @@
+name: monday-shop
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:${APP_PORT:-8080}
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+      CACHE_STORE: file
+      CACHE_DRIVER: file
+      SESSION_DRIVER: file
+      QUEUE_CONNECTION: sync
+      RUN_MIGRATIONS: "true"
+      DB_SEEDER_CLASS: ${DB_SEEDER_CLASS:-Database\Seeders\DatabaseSeeder}
+    volumes:
+      - ./database:/var/www/html/database
+      - storage:/var/www/html/storage
+    command: php artisan serve --host=0.0.0.0 --port=8080
+    restart: unless-stopped
+
+volumes:
+  storage:

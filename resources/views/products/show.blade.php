@@ -1,437 +1,85 @@
-@extends('layouts.product')
+@extends('layouts.modern')
 
-@section('style')
-    <style>
-        .iteminfo_freprice {
-            display: inline-block;
-        }
-        .pay span {
-            line-height: 40px;
-        }
-        .pay li, .pay .pay-opt {
-            height: 40px;
-        }
-        .tb-btn a {
-            height: 40px;
-            line-height: 40px;
-        }
-    </style>
-@endsection
+@section('title', $product->name.' · Monday Shop')
 
 @section('main')
-    <div class="listMain">
-        <!--放大镜-->
+@php($gallery = collect($product->pictures ?? [])->prepend($product->thumb)->filter()->unique()->values())
+<section class="shop-container py-10 lg:py-16">
+    <nav class="mb-7 flex items-center gap-2 text-xs font-medium text-slate-400"><a href="{{ url('/') }}">首页</a><span>/</span><a href="{{ url('/categories/'.$product->category_id) }}">商品分类</a><span>/</span><span class="text-slate-700">{{ $product->name }}</span></nav>
 
-        <div class="item-inform">
-            <div class="clearfixLeft" id="clearcontent">
-
-                <div class="box">
-                    <script type="text/javascript">
-                        $(document).ready(function() {
-                            $(".jqzoom").imagezoom();
-                            $("#thumblist li a").click(function() {
-                                $(this).parents("li").addClass("tb-selected").siblings().removeClass("tb-selected");
-                                $("#jqzoom").attr('src', $(this).find("img").attr("src"));
-                            });
-                        });
-                    </script>
-
-                    <div class="tb-booth tb-pic tb-s310">
-                        <img src="{{ $product->thumb }}" alt="{{ $product->name }}" id="jqzoom" />
-                    </div>
-                    <ul class="tb-thumb" id="thumblist">
-                        @foreach ($product->pictures as $key => $image)
-                            <li class="{{ $key == 0 ? 'tb-selected' : '' }}">
-                                <div class="tb-pic tb-s40">
-                                    <a href="javascript:;">
-                                        <img src="{{ assertUrl($image) }}">
-                                    </a>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <div class="clear"></div>
-            </div>
-
-            <div class="clearfixRight">
-
-                <!--规格属性-->
-                <!--名称-->
-                <div class="tb-detail-hd">
-                    <h1>
-                        {{ $product->name }}
-                    </h1>
-                </div>
-                <div class="tb-detail-list">
-                    <!--价格-->
-                    <div class="tb-detail-price">
-                        <li class="price iteminfo_price">
-                            <dt>促销价</dt>
-                            <dd><em>¥</em><b class="sys_item_price">{{ $product->price }}</b>  </dd>
-                        </li>
-                        <li class="price iteminfo_mktprice">
-                            <dt>原价</dt>
-                            <dd><em>¥</em><b class="sys_item_mktprice">{{ $product->original_price }}</b></dd>
-                        </li>
-                        <div class="clear"></div>
-                    </div>
-
-                    @include('hint.fail')
-                    @include('hint.validate_errors')
-                    @include('hint.status')
-
-
-                    <div class="clear"></div>
-
-                    <!--销量-->
-                    <ul class="tm-ind-panel">
-                        <li class="tm-ind-item tm-ind-sumCount canClick">
-                            <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{ $product->sale_count }}</span></div>
-                            <br>
-                            <div class="tm-indcon"><span class="tm-label">总浏览数</span><span class="tm-count">{{ $product->view_count }}</span></div>
-                        </li>
-                        <li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
-                            <div title="滑动到下方收藏的用户查看"  class="tm-indcon"><span class="tm-label">累计收藏</span><span class="tm-count" id="likes_count">{{ $product->users->count() }}</span></div>
-                        </li>
-                    </ul>
-                    <div class="clear"></div>
-
-                    <!--各种规格-->
-                    <dl class="iteminfo_parameter sys_item_specpara">
-                        <dd>
-                            <!--操作页面-->
-
-                            <div class="theme-popover-mask"></div>
-
-                            <div class="theme-popover">
-                                <div class="theme-span"></div>
-                                <div class="theme-poptit">
-                                    <a href="javascript:;" title="关闭" class="close">×</a>
-                                </div>
-                                <div class="theme-popbod dform">
-                                    <form class="theme-signin" name="" action="" method="post">
-
-                                        <div class="theme-signin-left">
-                                            <div class="theme-options">
-                                                <div class="cart-title number">数量</div>
-                        <dd>
-                            <input id="min" class="am-btn am-btn-default" type="button" value="-" />
-                            <input id="text_box" name="number" type="text" value="1" style="width:30px;" />
-                            <input id="add" class="am-btn am-btn-default"  type="button" value="+" />
-                            <span id="Stock" class="tb-hidden">库存<span class="stock">{{ $product->count }}</span>件</span>
-                        </dd>
-                    </dl>
-
-
-                </div>
-                <div class="clear"></div>
-
-                <!--按钮	-->
-                <div class="pay">
-                    <div class="pay-opt" style="display: inline-block">
-                        <a href="/"><span class="am-icon-home am-icon-fw">首页</span></a>
-                        @auth
-                            @if ($product->userIsLike)
-                                <a href="javascript:;" id="likes_btn"><span class="am-icon-heart am-icon-fw color-green" >已收藏</span></a>
-                            @else
-                                <a href="javascript:;" id="likes_btn"><span class="am-icon-heart am-icon-fw color-blue" >收藏</span></a>
-                            @endif
-                        @endauth
-
-                        @guest
-                            <a href="/login"><span class="am-icon-heart am-icon-fw">收藏</span></a>
-                        @endguest
-                    </div>
-                    <ul>
-                        <li>
-                            <div class="clearfix tb-btn">
-                                @auth
-                                    <a id="nowBug" href="javascript:;" >立即购买</a>
-                                @endauth
-                                @guest
-                                    <a href="/login">立即购买</a>
-                                @endguest
-
-                            </div>
-                        </li>
-                        <li>
-                            <div class="clearfix tb-btn tb-btn-basket">
-                                <a  title="加入购物车" href="javascript:;"  id="addCar"><i></i>加入购物车</a>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="clear"></div>
-                </div>
-                <input type="hidden" name="product_id" value="{{ $product->uuid }}">
-
-            </div>
-
-
-            </form>
-        </div>
-    </div>
-
-    <div class="clear"></div>
-
-
-
-
-    <!-- introduce-->
-
-    <div class="introduce">
-        <div class="browse">
-            <div class="mc">
-                <ul>
-                    <div class="mt">
-                        <h2>推荐</h2>
-                    </div>
-
-                    @foreach ($recommendProducts as $recommendProduct)
-                        <li class="first">
-                            <div class="p-img">
-                                <a href="/products/{{ $recommendProduct->uuid }}">
-                                    <img class="media-object" src="{{ $recommendProduct->thumb }}" alt="{{ $recommendProduct->name }}" width="80">
-                                </a>
-                            </div>
-                            <div class="p-name"><a href="/products/{{ $recommendProduct->uuid }}">
-                                    {{ $recommendProduct->name }}
-                                </a>
-                            </div>
-                            <div class="p-price"><strong>
-                                    ￥ {{ $recommendProduct->price }}
-                                </strong></div>
-                        </li>
-                    @endforeach
-
-                </ul>
-            </div>
-        </div>
-        <div class="introduceMain">
-            <div class="am-tabs" data-am-tabs>
-                <ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs">
-
-                    <li class="am-active">
-                        <a href="#"><span class="index-needs-dt-txt">商品评论</span></a>
-                    </li>
-
-                    <li>
-                        <a href="#"><span class="index-needs-dt-txt">宝贝详情</span></a>
-                    </li>
-
-                    <li>
-                        <a href="#"><span class="index-needs-dt-txt">收藏的用户</span></a>
-                    </li>
-                </ul>
-
-                <div class="am-tabs-bd">
-
-
-                    <div class="am-tab-panel am-fade am-in am-active">
-                        <div class="posted-review panel p-30">
-                            <h3 class="h-title">{{ $product->comments->count() }} 评论</h3>
-                            @foreach ($product->comments as $comment)
-                                <div class="review-single pt-30">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img class="media-object mr-10 radius-4" src="{{ $comment->user->avatar }}" width="90" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="review-wrapper clearfix">
-                                                <ul class="list-inline">
-                                                    <li>
-                                                        <span class="review-holder-name h5">{{ $comment->user->name }}</span>
-                                                    </li>
-                                                    <li>
-                                                        <div class="rating">
-                                                            <span class="rating-stars" data-rating="5">
-                                                                {!! str_repeat('<i class="fa fa-star-o"></i>', 5 - $comment->score) !!}
-                                                                {!! str_repeat('<i class="fa fa-star-o star-active"></i>', $comment->score) !!}
-										                    </span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                                <p class="review-date mb-5">{{ $comment->created_at }}</p>
-                                                <p class="copy">{{ $comment->content }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <div class="clear"></div>
-                    </div>
-
-                    <div class="am-tab-panel am-fade">
-                        <div class="details">
-                            <div class="attr-list-hd after-market-hd">
-                                <h4>商品细节</h4>
-                            </div>
-                            <div class="twlistNews">
-                                {!! $product->detail->content !!}
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-
-                    </div>
-
-
-                    <div class="am-tab-panel am-fade">
-
-                        <ul class="am-comments-list am-comments-list-flip">
-                            @foreach ($product->users as $user)
-                                <li class="am-comment">
-                                    <a href="">
-                                        <img class="am-comment-avatar" src="{{ $user->avatar }}" alt="{{ $user->name }}" />
-                                    </a>
-
-                                    <div class="am-comment-main">
-                                        <header class="am-comment-hd">
-                                            <div class="am-comment-meta">
-                                                <a href="#" class="am-comment-author">{{ $user->name }}</a>
-                                            </div>
-                                        </header>
-
-                                        <!-- 评论内容 -->
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-
-                        <div class="clear"></div>
-
-
-                        <div class="tb-reviewsft">
-                            <div class="tb-rate-alert type-attention">购买前请查看该商品的 <a href="#" target="_blank">购物保障</a>，明确您的售后保障权益。</div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="clear"></div>
-
-            <div class="footer">
-                <div class="footer-hd">
-                    <p>
-                        <a href="#">星期一商城</a>
-                        <b>|</b>
-                        <a href="#">商城首页</a>
-                        <b>|</b>
-                        <a href="#">支付宝</a>
-                        <b>|</b>
-                        <a href="#">物流</a>
-                    </p>
-                </div>
-                @include('modules.home.footer')
-            </div>
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div>
+            <div class="aspect-square overflow-hidden rounded-[2rem] bg-white ring-1 ring-slate-200"><img id="product-image" src="{{ $gallery->first() }}" alt="{{ $product->name }}" class="h-full w-full object-contain p-4"></div>
+            @if($gallery->count() > 1)
+                <div class="mt-4 grid grid-cols-5 gap-3">@foreach($gallery as $image)<button type="button" data-gallery-image="{{ assertUrl($image) }}" class="aspect-square overflow-hidden rounded-2xl border border-slate-200 bg-white p-1 transition hover:border-brand-500"><img src="{{ assertUrl($image) }}" alt="" class="h-full w-full rounded-xl object-cover"></button>@endforeach</div>
+            @endif
         </div>
 
-    </div>
+        <div class="lg:pt-5">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-600">In stock · 库存 {{ $product->count }}</p>
+            <h1 class="mt-4 text-4xl font-black leading-tight tracking-tight sm:text-5xl">{{ $product->name }}</h1>
+            <p class="mt-5 text-base leading-7 text-slate-500">{{ strip_tags($product->title) }}</p>
+            <div class="mt-7 flex items-end gap-3"><strong class="text-4xl font-black">¥{{ number_format($product->price, 2) }}</strong>@if($product->original_price > $product->price)<del class="pb-1 text-sm text-slate-400">¥{{ number_format($product->original_price, 2) }}</del><span class="mb-1 rounded-full bg-rose-50 px-2 py-1 text-xs font-bold text-rose-600">立省 ¥{{ number_format($product->original_price - $product->price, 2) }}</span>@endif</div>
 
-    <form id="pay_form" action="/user/pay/store" method="post">
-        {{ csrf_field() }}
-    </form>
-@endsection
+            <dl class="mt-8 grid grid-cols-3 divide-x divide-slate-200 rounded-2xl border border-slate-200 bg-white py-5 text-center"><div><dt class="text-xl font-black">{{ $product->sale_count }}</dt><dd class="mt-1 text-xs text-slate-400">累计销量</dd></div><div><dt class="text-xl font-black">{{ $product->view_count }}</dt><dd class="mt-1 text-xs text-slate-400">浏览次数</dd></div><div><dt id="likes-count" class="text-xl font-black">{{ $product->users->count() }}</dt><dd class="mt-1 text-xs text-slate-400">收藏人数</dd></div></dl>
 
-@section('script')
-    <script src="/assets/user/layer/2.4/layer.js"></script>
-    <script src="/js/jquery-addShopping.js"></script>
-    <script>
-        let product_id = $('input[name=product_id]').val();
-        let _url = "/user/likes/" + product_id;
-        let token = "{{ csrf_token() }}";
-        let likes_nums = $('#likes_count');
+            @include('hint.fail')
+            @include('hint.validate_errors')
+            @include('hint.status')
 
-        // 收藏
-        $('#likes_btn').click(function(){
-            let that = $(this);
+            <div class="mt-8"><label for="quantity" class="text-sm font-bold">购买数量</label><div class="mt-3 inline-flex items-center rounded-full border border-slate-300 bg-white p-1"><button id="quantity-minus" type="button" class="grid size-10 place-items-center rounded-full text-lg hover:bg-slate-100">−</button><input id="quantity" type="number" min="1" max="{{ $product->count }}" value="1" class="w-14 border-0 bg-transparent text-center font-bold outline-none"><button id="quantity-plus" type="button" class="grid size-10 place-items-center rounded-full text-lg hover:bg-slate-100">+</button></div></div>
 
-            $.post(_url, {_token:token, _method: 'PUT'}, function(res){
-                layer.msg(res.msg);
-
-                if (res.code == 301) {
-                    return;
-                }
-
-                // 收藏成功
-                if (res.code == 201) {
-
-                    that.find('span').text('已收藏');
-                    that.find('span').removeClass('color-blue').addClass('color-green');
-                    likes_nums.text(parseInt(likes_nums.text()) + 1);
-                } else {
-
-                    // 已收藏
-                    that.find('span').text('收藏');
-                    that.find('span').removeClass('color-green').addClass('color-blue');
-                    likes_nums.text(parseInt(likes_nums.text()) - 1);
-                }
-            });
-        });
-
-        // 加入购物车
-        $('#addCar').shoping({
-            endElement:"#car_icon",
-            iconCSS: "",
-            iconImg: $('#jqzoom').attr('src'),
-            endFunction:function(element){
-
-                let number = $("input[name=number]").val();
-
-
+            <div class="mt-8 grid gap-3 sm:grid-cols-2">
                 @auth
-                    let data = {product_id: product_id,_token:token, number:number};
-                    $.post("/cars", data, function(res){
-
-                        if (res.code != 200) {
-                            layer.msg(res.msg, {icon: 2});
-                            return;
-                        }
-
-                        // 更新购物车显示数量
-                        renderIncrementCar(number, false);
-                        layer.msg(res.msg, {icon: 1});
-                    });
+                    <button id="buy-now" type="button" class="shop-button">立即购买</button>
+                    <button id="add-cart" type="button" class="shop-button-secondary">加入购物车</button>
+                @else
+                    <a href="{{ url('/login') }}" class="shop-button">登录后购买</a>
+                    <a href="{{ url('/login') }}" class="shop-button-secondary">登录后加入购物车</a>
                 @endauth
-                @guest
-                    LocalCar.increment("{{ $product->uuid }}", "{{ $product->name }}", "{{ $product->thumb }}", number, {{ $product->price }});
-                    // 更新购物车显示数量
-                    renderIncrementCar(number, true);
-                    layer.msg('加入本地购物车成功', {icon: 1});
-                @endguest
-            }
-        });
+            </div>
+            <div class="mt-4 flex items-center justify-between"><p id="product-message" class="text-sm font-medium text-brand-700" aria-live="polite"></p>@auth<button id="like-product" type="button" class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-rose-600"><span>{{ $product->userIsLike ? '♥' : '♡' }}</span><span>{{ $product->userIsLike ? '已收藏' : '收藏商品' }}</span></button>@else<a href="{{ url('/login') }}" class="text-sm font-bold text-slate-600">♡ 收藏商品</a>@endauth</div>
 
-        // 现在购买
-        $('#nowBug').click(function(){
-            let _number = $('input[name=number]').val();
+            <div class="mt-8 grid gap-3 border-t border-slate-200 pt-6 text-sm text-slate-500 sm:grid-cols-3"><span>✓ 安全支付</span><span>✓ 正品保障</span><span>✓ 售后支持</span></div>
+        </div>
+    </div>
+</section>
 
-            window.location.href = "/user/comment/orders/create?ids[]=" + product_id + "&numbers[]=" + _number;
-        });
-
-
-        // 增加和减少按钮
-        $('#min').click(function () {
-
-            let val = $('input[name=number]').val();
-            val = parseInt(val);
-
-            if (val == 1) {
-                layer.msg('不能再减少了');
-                return;
-            }
-
-            $('input[name=number]').val(val - 1);
-        });
-        $('#add').click(function () {
-            let val = $('input[name=number]').val();
-
-            $('input[name=number]').val(parseInt(val) + 1);
-        });
-    </script>
+<section class="shop-container py-12">
+    <div class="grid gap-10 lg:grid-cols-[1fr_320px]">
+        <div class="space-y-8">
+            <article class="rounded-[2rem] border border-slate-200 bg-white p-6 sm:p-9"><h2 class="text-2xl font-black">商品详情</h2><div class="prose prose-slate mt-6 max-w-none overflow-hidden leading-8 text-slate-600">{!! $product->detail?->content ?: '<p>暂无更多商品详情。</p>' !!}</div></article>
+            <article class="rounded-[2rem] border border-slate-200 bg-white p-6 sm:p-9"><div class="flex items-end justify-between"><h2 class="text-2xl font-black">用户评价</h2><span class="text-sm text-slate-400">{{ $product->comments->count() }} 条</span></div><div class="mt-7 divide-y divide-slate-100">@forelse($product->comments as $comment)<div class="flex gap-4 py-6 first:pt-0"><img src="{{ $comment->user->avatar }}" alt="" class="size-11 rounded-full object-cover"><div class="min-w-0 flex-1"><div class="flex flex-wrap items-center justify-between gap-2"><strong class="text-sm">{{ $comment->user->name }}</strong><span class="text-xs text-slate-400">{{ $comment->created_at }}</span></div><p class="mt-1 text-amber-500">{{ str_repeat('★', $comment->score) }}<span class="text-slate-200">{{ str_repeat('★', 5 - $comment->score) }}</span></p><p class="mt-3 text-sm leading-6 text-slate-600">{{ $comment->content }}</p></div></div>@empty<p class="py-8 text-sm text-slate-500">还没有评价，购买后欢迎分享体验。</p>@endforelse</div></article>
+        </div>
+        <aside><div class="sticky top-28"><h2 class="text-xl font-black">相关推荐</h2><div class="mt-5 grid gap-4">@foreach($recommendProducts as $recommendProduct)<a href="{{ url('/products/'.$recommendProduct->uuid) }}" class="flex gap-4 rounded-2xl border border-slate-200 bg-white p-3 transition hover:border-brand-300"><img src="{{ $recommendProduct->thumb }}" alt="{{ $recommendProduct->name }}" class="size-20 rounded-xl object-cover"><div class="min-w-0 py-1"><strong class="line-clamp-2 text-sm">{{ $recommendProduct->name }}</strong><span class="mt-3 block font-black">¥{{ number_format($recommendProduct->price, 2) }}</span></div></a>@endforeach</div></div></aside>
+    </div>
+</section>
 @endsection
+
+@push('scripts')
+<script>
+const quantity = document.querySelector('#quantity');
+const message = document.querySelector('#product-message');
+document.querySelector('#quantity-minus')?.addEventListener('click', () => quantity.value = Math.max(1, Number(quantity.value) - 1));
+document.querySelector('#quantity-plus')?.addEventListener('click', () => quantity.value = Math.min(Number(quantity.max), Number(quantity.value) + 1));
+document.querySelectorAll('[data-gallery-image]').forEach(button => button.addEventListener('click', () => document.querySelector('#product-image').src = button.dataset.galleryImage));
+
+@auth
+document.querySelector('#add-cart')?.addEventListener('click', async () => {
+    try {
+        const { data } = await window.axios.post('{{ url('/cars') }}', { product_id: '{{ $product->uuid }}', number: Number(quantity.value) });
+        message.textContent = data.msg;
+    } catch (error) { message.textContent = error.response?.data?.msg ?? '加入购物车失败'; }
+});
+document.querySelector('#buy-now')?.addEventListener('click', () => window.location.href = `{{ url('/user/comment/orders/create') }}?ids[]={{ $product->uuid }}&numbers[]=${quantity.value}`);
+document.querySelector('#like-product')?.addEventListener('click', async (event) => {
+    const { data } = await window.axios.put('{{ url('/user/likes/'.$product->uuid) }}');
+    const active = data.code === 201;
+    event.currentTarget.querySelector('span:first-child').textContent = active ? '♥' : '♡';
+    event.currentTarget.querySelector('span:last-child').textContent = active ? '已收藏' : '收藏商品';
+    document.querySelector('#likes-count').textContent = Math.max(0, Number(document.querySelector('#likes-count').textContent) + (active ? 1 : -1));
+    message.textContent = data.msg;
+});
+@endauth
+</script>
+@endpush

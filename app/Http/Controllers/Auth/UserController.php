@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\UserRegister;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -14,7 +15,7 @@ class UserController extends Controller
         if ($user = User::query()->where('active_token', $token)->first()) {
             $user->is_active = 1;
             // 重新生成激活token
-            $user->active_token = str_random(60);
+            $user->active_token = Str::random(60);
             $user->save();
 
             return view('hint.success', ['status' => "{$user->name} 账户激活成功！", 'url' => url('login')]);

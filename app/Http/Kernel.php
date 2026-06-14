@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AuthRefreshToken;
 use App\Http\Middleware\RecordUserLoginDays;
 use App\Http\Middleware\ShareCarSum;
 use App\Http\Middleware\UserAuth;
@@ -79,8 +78,7 @@ class Kernel extends HttpKernel
         // 用户购物车
         'user.cars' => ShareCarSum::class,
 
-        // api 刷新token
-        'auth.api.refresh' => AuthRefreshToken::class,
         'auth.login.score' => RecordUserLoginDays::class,
+        'admin.auth' => \App\Http\Middleware\AdminAuthenticate::class,
     ];
 }

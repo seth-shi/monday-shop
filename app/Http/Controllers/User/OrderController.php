@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Admin\Transforms\OrderShipStatusTransform;
-use App\Admin\Transforms\OrderStatusTransform;
 use App\Enums\OrderShipStatusEnum;
 use App\Enums\OrderStatusEnum;
 use App\Enums\ScoreRuleIndexEnum;
@@ -14,8 +12,8 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\ScoreRule;
 use App\Models\User;
-use App\Services\OrderStatusButtonServe;
 use App\Services\ScoreLogServe;
+use App\Support\OrderPresenter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yansongda\Pay\Pay;
@@ -61,51 +59,9 @@ class OrderController extends Controller
                         ->get()
                         ->map(
                             function (Order $order) use ($scoreRatio) {
-
-                                // 可以或得到的积分
-                                $order->score = ceil($order->amount*$scoreRatio);
-
-                                // 完成按钮必须是已经支付和确认收货
-                                $order->status_text = OrderStatusTransform::trans($order->status);
-                                // 如果订单是付款了则显示发货状态
-                                if ($order->status == OrderStatusEnum::PAID) {
-
-                                    // 如果发货了,则显示发货信息
-                                    $order->status_text = OrderShipStatusTransform::trans($order->ship_status);
-                                }
-
-                                $buttonServe = new OrderStatusButtonServe($order);
-                                switch ($order->status) {
-                                    // 未支付的
-                                    case OrderStatusEnum::UN_PAY:
-
-                                        $buttonServe->payButton()->cancelOrderButton();
-                                        break;
-                                    case OrderStatusEnum::PAID:
-                                        // 已经确认收获了
-                                        if ($order->ship_status == OrderShipStatusEnum::RECEIVED) {
-
-                                            $buttonServe->completeButton();
-                                        } elseif ($order->ship_status == OrderShipStatusEnum::DELIVERED) {
-
-                                            $buttonServe->shipButton();
-                                        } else {
-
-                                            $buttonServe->refundButton();
-                                        }
-                                        break;
-
-                                    // 手动取消的订单
-                                    // 已经完成的订单
-                                    // 超时取消的订单
-                                    case OrderStatusEnum::UN_PAY_CANCEL:
-                                    case OrderStatusEnum::COMPLETED:
-                                    case OrderStatusEnum::TIMEOUT_CANCEL:
-                                        $buttonServe->replyBuyButton()->deleteButton();
-                                        break;
-                                }
-
-                                $order->buttons = $buttonServe->getButtons();
+                                $order->score = (int) ceil($order->amount * $scoreRatio);
+                                $order->status_text = OrderPresenter::status($order);
+                                $order->actions = OrderPresenter::actions($order);
 
                                 return $order;
                             }
@@ -139,7 +95,7 @@ class OrderController extends Controller
             $order->ship_send = true;
         }
 
-        $order->completed = $order->status == OrderShipStatusEnum::RECEIVED;
+        $order->completed = (int) $order->status === OrderStatusEnum::COMPLETED;
 
         return view('user.orders.show', compact('order'));
     }

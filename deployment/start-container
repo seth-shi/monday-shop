@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -e
-
-echo "Octane Server start"
-php artisan config:cache;
-exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.roadrunner.conf

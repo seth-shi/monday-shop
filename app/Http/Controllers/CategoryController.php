@@ -32,6 +32,9 @@ class CategoryController extends Controller
     public function show(Request $request, Category $category)
     {
         $orderBy = $request->input('orderBy', 'created_at');
+        if (! in_array($orderBy, ['created_at', 'updated_at', 'sale_count', 'price'], true)) {
+            $orderBy = 'created_at';
+        }
         $categoryProducts = $category->products()->withCount('users')->orderBy($orderBy, 'desc')->paginate(10);
 
 

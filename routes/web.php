@@ -1,5 +1,30 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('login', [AdminAuthController::class, 'create'])->name('login');
+    Route::post('login', [AdminAuthController::class, 'store'])->name('login.store');
+
+    Route::middleware('admin.auth')->group(function () {
+        Route::get('/', AdminDashboardController::class)->name('dashboard');
+        Route::post('logout', [AdminAuthController::class, 'destroy'])->name('logout');
+        Route::get('products', [AdminProductController::class, 'index'])->name('products.index');
+        Route::get('products/{id}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
+        Route::put('products/{id}', [AdminProductController::class, 'update'])->name('products.update');
+        Route::patch('products/{id}/toggle', [AdminProductController::class, 'toggle'])->name('products.toggle');
+        Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::patch('users/{user}/toggle', [AdminUserController::class, 'toggle'])->name('users.toggle');
+        Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::patch('orders/{order}/ship', [AdminOrderController::class, 'ship'])->name('orders.ship');
+    });
+});
+
 /****************************************
  * 商城前台路由组
  ****************************************/
@@ -17,7 +42,7 @@ Route::middleware('user.cars')->group(function () {
     // 3. 购物车的资源路由
     Route::resource('categories', 'CategoryController')->only('index', 'show');
     Route::resource('products', 'ProductController')->only('index', 'show');
-    Route::resource('cars', 'CarController');
+    Route::resource('cars', 'CarController')->only('index', 'store', 'destroy');
 
     // 优惠券兑换模板
     Route::get('coupon_templates', 'CouponTemplateController@index');
@@ -74,6 +99,7 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
      ****************************************/
     Route::get('likes', 'LikesController@index');
     Route::put('likes/{id}', 'LikesController@toggle');
+    Route::delete('likes/{id}', 'LikesController@toggle');
     Route::resource('orders', 'OrderController')->only('index', 'show', 'destroy');
 
     // 确认收货
@@ -123,7 +149,19 @@ Route::middleware('user.auth')->prefix('user')->namespace('User')->group(functio
 /****************************************
  * 互联登录的路由，包括 github, QQ， 微博 登录
  ****************************************/
-Auth::routes();
+Route::namespace('Auth')->group(function () {
+    Route::get('login', 'LoginController@showLoginForm')->name('login');
+    Route::post('login', 'LoginController@login');
+    Route::post('logout', 'LoginController@logout')->name('logout');
+
+    Route::get('register', 'RegisterController@showRegistrationForm')->name('register');
+    Route::post('register', 'RegisterController@register');
+
+    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
+});
 
 Route::namespace('Auth')->group(function(){
 

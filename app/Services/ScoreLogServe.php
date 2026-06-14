@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Cache;
 
 class ScoreLogServe
 {
+    protected function hasRedis(): bool
+    {
+        return extension_loaded('redis') && class_exists('Redis');
+    }
+
+    protected function store()
+    {
+        if (!$this->hasRedis()) {
+            return null;
+        }
+        return app('redis');
+    }
+
     /**
      * 登录
      * @param User $user
@@ -24,21 +37,16 @@ class ScoreLogServe
         $now = Carbon::now();
         $today = Carbon::today();
 
-        /**
-         * @var $ids Collection
-         * 每天都有一个登录用户的 key,通过定时任务删除
-         * 如果这个用户已经记录过了,那么可以跳过
-         */
         $bitKey = $this->loginKey($today->toDateString());
 
-        // 使用 bitmap 计算是否登录
-        // setbit 返回原来的值, 如果返回 1, 那么代表之前设置过了
-        $bitVal = $this->store()->setBit($bitKey, $user->id, 1);
-        if ($bitVal > 0) {
-            return false;
+        $store = $this->store();
+        if ($store) {
+            $bitVal = $store->setBit($bitKey, $user->id, 1);
+            if ($bitVal > 0) {
+                return false;
+            }
         }
 
-        // 每次登录总是送这么多积分
         $rule = ScoreRule::query()->where('index_code', ScoreRuleIndexEnum::LOGIN)->firstOrFail();
 
         $user->score_all += $rule->score;
@@ -51,19 +59,14 @@ class ScoreLogServe
         $scoreLog->description = str_replace(':time', $now->toDateTimeString(), $rule->replace_text);
         $scoreLog->save();
 
-        // 看是否达到连续登录的条件
         $lastLoginDate = Carbon::make($user->last_login_date);
-        // 如果是连续登录,那么久就加多一天,否则重置为一天
         $user->login_days = $today->copy()->subDay()->eq($lastLoginDate) ? $user->login_days + 1 : 1;
         $user->last_login_date = $today->toDateString();
 
-
-        // 看是否能达到连续登录送积分
         $continueLoginRule = ScoreRule::query()
                                       ->where('index_code', ScoreRuleIndexEnum::CONTINUE_LOGIN)
                                       ->where('times', $user->login_days)
                                       ->first();
-        // 如果满足了连续登录的要求
         if ($continueLoginRule) {
 
             $firstDay = $today->copy()->subDay($continueLoginRule->times)->toDateString();
@@ -95,23 +98,21 @@ class ScoreLogServe
      */
     public function visitedProductAddScore(User $user, Product $product)
     {
+        $store = $this->store();
+        if (!$store) {
+            return;
+        }
+
         $today = Carbon::today();
 
-        /**
-         * 每天都有一个登录用户的 key,通过定时任务删除
-         * 如果这个用户已经记录过了,那么可以跳过
-         */
         $bitKey = $this->visitedKey($today->toDateString(), $user->id);
 
-        // 使用 bitmap 计算是否登录
-        // setbit 返回原来的值, 如果返回 1, 那么代表之前设置过了
-        $bitVal = $this->store()->setBit($bitKey, $product->id, 1);
+        $bitVal = $store->setBit($bitKey, $product->id, 1);
         if ($bitVal > 0) {
             return;
         }
 
-        $userViewCount = $this->store()->bitCount($bitKey);
-        // 查询是否达到增加积分
+        $userViewCount = $store->bitCount($bitKey);
         $rule = ScoreRule::getByCode(ScoreRuleIndexEnum::VISITED_PRODUCT, $userViewCount);
         if ($rule) {
 
@@ -139,12 +140,10 @@ class ScoreLogServe
      */
     public function completeOrderAddScore(Order $order)
     {
-        // 订单完成增加积分
         $rule = ScoreRule::query()
                          ->where('index_code', ScoreRuleIndexEnum::COMPLETE_ORDER)
                          ->firstOrFail();
 
-        // 计算积分和钱的比例
         $addScore = ceil($order->amount * $rule->score);
 
         $user = $order->user;
@@ -172,9 +171,14 @@ class ScoreLogServe
      */
     public function getUserVisitedNumber($date, $userId)
     {
+        $store = $this->store();
+        if (!$store) {
+            return 0;
+        }
+
         $bitKey = $this->visitedKey($date, $userId);
 
-        return (int)$this->store()->bitCount($bitKey);
+        return (int)$store->bitCount($bitKey);
     }
 
     public function loginKey($date)
@@ -185,13 +189,5 @@ class ScoreLogServe
     public function visitedKey($date, $userId)
     {
         return "{$date}_visited_products:{$userId}";
-    }
-
-    /**
-     * @return \Redis
-     */
-    protected function store()
-    {
-        return app('redis');
     }
 }

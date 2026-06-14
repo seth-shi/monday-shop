@@ -4,10 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\SettingKeyEnum;
 use App\Models\Setting;
-use Encore\Admin\Auth\Database\Administrator;
-use Encore\Admin\Auth\Database\Menu;
-use Encore\Admin\Auth\Database\Permission;
-use Encore\Admin\Auth\Database\Role;
 use Illuminate\Database\Seeder;
 
 class SettingsTablesSeeder extends Seeder

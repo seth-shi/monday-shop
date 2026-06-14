@@ -1,59 +1,11 @@
-@extends('layouts.user')
+@extends('layouts.account')
 
+@section('title', '我的积分 - Monday Shop')
 
-@section('style')
-    <link href="/assets/user/css/score_personal.css" rel="stylesheet" type="text/css">
-@endsection
-
-@section('main')
-    <div class="main-wrap">
-        <div class="points">
-            <!--标题 -->
-            <div class="am-cf am-padding">
-                <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">我的积分</strong> / <small>My&nbsp;Point</small></div>
-            </div>
-            <hr/>
-            <div class="pointsTitle">
-                <div class="usable">总积分<span>{{ $user->score_all }}</span></div>
-                <div class="signIn"><i class="am-icon-calendar">可用积分: {{ $user->score_now }} </i></div>
-            </div>
-            <div class="pointlist" style="padding: 0px 10px;">
-                <div class="pointTitle">
-                    <span>积分规则</span>
-                </div>
-                @foreach ($rules as $rule)
-                    <div style="padding-top: 3px;">
-                        {{ $rule->description }} <span style="color: green;">+{{ $rule->score }}</span>
-                        <span class="pointNum">{{ $rule->completed_times }}/{{ $rule->times }}</span>
-                        <div class="am-progress am-progress-xs">
-                            <div class="am-progress-bar am-progress-bar-success" style="width: {{ $rule->plan }}%"></div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="pointlist" style="padding: 0px 10px;">
-                <div class="pointTitle">
-                    <span>积分明细</span>
-                </div>
-                <table>
-                    <tbody>
-                    @foreach ($logs as $log)
-                        <tr>
-                            <td class="pointType">{{ $log->description }}</td>
-                            @if ($log->score > 0)
-                                <td class="pointNum" style="color: green;">+ {{ $log->score }}</td>
-                            @else
-                                <td class="pointNum" style="color: red;">{{ $log->score }}</td>
-                            @endif
-                            <td class="pointTime">{{ $log->created_at }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-
-                {{ $logs->links() }}
-            </div>
-
-        </div>
-    </div>
+@section('account')
+<div><span class="shop-kicker">Points</span><h1 class="mt-2 text-3xl font-black">我的积分</h1></div>
+<div class="mt-7 grid gap-4 sm:grid-cols-2"><div class="rounded-[2rem] bg-slate-950 p-7 text-white"><p class="text-sm text-slate-400">累计积分</p><p class="mt-2 text-4xl font-black">{{ number_format($user->score_all) }}</p></div><div class="rounded-[2rem] bg-brand-600 p-7 text-white"><p class="text-sm text-brand-100">可用积分</p><p class="mt-2 text-4xl font-black">{{ number_format($user->score_now) }}</p></div></div>
+<section class="shop-card mt-6 p-6"><h2 class="text-lg font-black">积分任务</h2><div class="mt-5 grid gap-5">@foreach($rules as $rule)<div><div class="flex justify-between gap-4 text-sm"><span class="font-semibold">{{ $rule->description }} <b class="text-emerald-600">+{{ $rule->score }}</b></span><span class="text-slate-400">{{ $rule->completed_times }}/{{ $rule->times }}</span></div><div class="mt-2 h-2 overflow-hidden rounded-full bg-slate-100"><div class="h-full rounded-full bg-brand-500" style="width: {{ min(100, $rule->plan) }}%"></div></div></div>@endforeach</div></section>
+<section class="shop-card mt-6 overflow-hidden"><div class="border-b border-slate-100 p-6"><h2 class="text-lg font-black">积分明细</h2></div><div class="divide-y divide-slate-100">@forelse($logs as $log)<div class="flex items-center justify-between gap-4 p-5"><div><p class="font-semibold">{{ $log->description }}</p><p class="mt-1 text-xs text-slate-400">{{ $log->created_at }}</p></div><strong class="{{ $log->score > 0 ? 'text-emerald-600' : 'text-rose-600' }}">{{ $log->score > 0 ? '+' : '' }}{{ $log->score }}</strong></div>@empty<div class="p-10 text-center text-slate-500">暂无积分记录。</div>@endforelse</div></section>
+<div class="mt-8">{{ $logs->links() }}</div>
 @endsection
