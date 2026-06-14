@@ -26,7 +26,7 @@ class HomeController extends Controller
         $users = HomeCacheDataUtil::users($ttl);
 
         // 秒杀数据
-        $secKills = HomeCacheDataUtil::getSeckillData();
+        $secKills = HomeCacheDataUtil::getSeckillData() ?? collect();
 
         /**
          * 当前登录用户

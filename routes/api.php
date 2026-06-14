@@ -9,7 +9,7 @@ $attributes = [
 Route::group($attributes, function () {
 
     // 这里的接口都必须登录
-    Route::group(['middleware' => ['auth.api.refresh', 'auth.login.score']], function () {
+    Route::group(['middleware' => ['auth:sanctum', 'auth.login.score']], function () {
 
 
         // 获取分类

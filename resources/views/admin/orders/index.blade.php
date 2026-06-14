@@ -1,0 +1,6 @@
+@extends('layouts.admin')
+@section('title', '订单管理') @section('heading', '订单管理')
+@section('content')
+<form class="mb-6 flex gap-3"><input class="shop-input max-w-md" name="q" value="{{ request('q') }}" placeholder="搜索订单号"><button class="shop-button-primary">搜索</button></form>
+<section class="overflow-hidden rounded-3xl bg-white shadow-sm"><div class="overflow-x-auto"><table class="w-full min-w-[850px] text-left text-sm"><thead class="bg-slate-50 text-xs uppercase text-slate-400"><tr><th class="px-6 py-4">订单号</th><th class="px-6 py-4">用户</th><th class="px-6 py-4">金额</th><th class="px-6 py-4">状态</th><th class="px-6 py-4">创建时间</th><th class="px-6 py-4"></th></tr></thead><tbody class="divide-y divide-slate-100">@foreach($orders as $order)<tr><td class="px-6 py-4 font-bold">{{ $order->no }}</td><td class="px-6 py-4">{{ $order->user?->name ?: '用户已删除' }}</td><td class="px-6 py-4 font-bold">¥{{ number_format($order->amount,2) }}</td><td class="px-6 py-4"><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold">{{ $order->status_text }}</span></td><td class="px-6 py-4 text-slate-500">{{ $order->created_at }}</td><td class="px-6 py-4 text-right"><a href="{{ route('admin.orders.show',$order) }}" class="font-black text-brand-600">详情</a></td></tr>@endforeach</tbody></table></div></section><div class="mt-7">{{ $orders->links() }}</div>
+@endsection

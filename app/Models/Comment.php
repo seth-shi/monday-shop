@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Arr;
+
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -47,7 +49,7 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class)->withDefault(function () {
 
-            return new User(['avatar' => 'avatars/default/' . array_random(User::DEFAULT_AVATARS)]);
+            return new User(['avatar' => 'avatars/default/' . Arr::random(User::DEFAULT_AVATARS)]);
         });
     }
 }

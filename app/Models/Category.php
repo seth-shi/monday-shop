@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Encore\Admin\Traits\AdminBuilder;
-use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -38,8 +36,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
-    use ModelTree, AdminBuilder;
-
     protected $table = 'categories';
 
     protected $fillable = ['title', 'icon', 'parent_id', 'description', 'thumb'];
@@ -48,6 +44,16 @@ class Category extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id')->orderBy('order');
     }
 
 

@@ -8,10 +8,12 @@ use App\Enums\UserSourceEnum;
 use App\Enums\UserStatusEnum;
 use App\Mail\ResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * App\Models\User
@@ -87,9 +89,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereScoreAll($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereScoreNow($value)
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
 
     const DEFAULT_AVATARS = [
@@ -214,7 +216,7 @@ class User extends Authenticatable implements JWTSubject
         static::creating(function ($model) {
 
             if (! isset($model->attributes['avatar'])) {
-                $model->attributes['avatar'] = 'avatars/default/' . array_random(User::DEFAULT_AVATARS);
+                $model->attributes['avatar'] = 'avatars/default/' . Arr::random(User::DEFAULT_AVATARS);
             }
 
             if (! isset($model->attributes['password'])) {
@@ -252,13 +254,4 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
-
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
 }

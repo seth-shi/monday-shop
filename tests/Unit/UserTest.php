@@ -2,18 +2,15 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    public function test_name_is_masked_for_public_display(): void
     {
-        $this->assertTrue(true);
+        $user = new User(['name' => 'Monday']);
+
+        $this->assertSame('M*****', $user->hidden_name);
     }
 }

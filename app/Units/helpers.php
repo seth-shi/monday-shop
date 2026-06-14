@@ -37,7 +37,7 @@ function assertUrl($url, $disk = 'public')
         $driver = Storage::disk($disk);
     }
 
-    if (! starts_with($url, 'http')) {
+    if (! \Illuminate\Support\Str::startsWith($url, ['http://', 'https://'])) {
         $url = $driver->url($url);
     }
 
@@ -116,11 +116,9 @@ function setting(\App\Enums\SettingKeyEnum $settingEnum, $default = null)
  */
 function createSystemLog($description, $input = [])
 {
-    $operate = new \Encore\Admin\Auth\Database\OperationLog();
-    $operate->path = config('app.url');
-    $operate->method = 'GET';
-    $operate->ip = '127.0.0.1';
-    $operate->input = json_encode($input);
-    $operate->description = $description;
-    $operate->save();
+    \Illuminate\Support\Facades\Log::info($description, [
+        'path' => config('app.url'),
+        'input' => $input,
+        'source' => 'system',
+    ]);
 }

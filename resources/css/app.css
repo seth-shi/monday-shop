@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@source "../views/**/*.blade.php";
+@source "../js/**/*.js";
+
+@theme {
+    --color-brand-50: #f0fdfa;
+    --color-brand-100: #ccfbf1;
+    --color-brand-500: #14b8a6;
+    --color-brand-600: #0d9488;
+    --color-brand-700: #0f766e;
+    --font-sans: "Inter", "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    html { scroll-behavior: smooth; }
+    body { @apply bg-slate-50 text-slate-900 antialiased; }
+}
+
+@layer components {
+    .shop-container { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+    .shop-card { @apply rounded-3xl border border-slate-200/80 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl; }
+    .shop-button { @apply inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-600 focus:outline-none focus:ring-4 focus:ring-brand-100; }
+    .shop-button-primary { @apply inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-600 focus:outline-none focus:ring-4 focus:ring-brand-100 disabled:cursor-not-allowed disabled:opacity-50; }
+    .shop-button-secondary { @apply inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:border-brand-500 hover:text-brand-700; }
+    .shop-input { @apply w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-100; }
+    .shop-kicker { @apply text-xs font-black uppercase tracking-[0.24em] text-brand-600; }
+}

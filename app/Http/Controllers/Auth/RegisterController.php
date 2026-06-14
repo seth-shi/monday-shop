@@ -8,11 +8,11 @@ use App\Mail\UserRegister;
 use App\Models\User;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
@@ -27,8 +27,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -45,6 +43,11 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register');
     }
 
 
@@ -114,7 +117,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'sex' => $data['sex'],
             'password' => bcrypt($data['password']),
-            'active_token' => str_random(60),
+            'active_token' => Str::random(60),
             'is_active' => 1,
         ]);
 

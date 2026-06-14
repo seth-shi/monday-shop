@@ -2,31 +2,13 @@
 
 namespace App\Models;
 
-use Encore\Admin\Auth\Database\Administrator;
-use Encore\Admin\Form;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AdminUser extends Administrator
+class AdminUser extends Authenticatable
 {
-    public static function boot()
-    {
-        parent::boot();;
-    
-        self::saving(function () {
-        
-            if (app()->environment('dev')) {
-    
-               throw new \Exception('开发环境不允许操作');
-            }
-        });
-    
-    
-        self::deleting(function () {
-        
-            if (app()->environment('dev')) {
-            
-                throw new \Exception('开发环境不允许操作');
-            }
-        });
-    }
+    protected $table = 'admin_users';
+
+    protected $fillable = ['username', 'name', 'avatar', 'login_ip'];
+
+    protected $hidden = ['password', 'remember_token'];
 }

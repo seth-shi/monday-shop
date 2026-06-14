@@ -1,178 +1,50 @@
-@extends('layouts.user')
+@extends('layouts.account')
 
+@section('title', '账户设置 - Monday Shop')
 
+@section('account')
+<div><span class="shop-kicker">Profile</span><h1 class="mt-2 text-3xl font-black">账户设置</h1></div>
+@include('hint.status') @include('hint.validate_errors')
+<div id="profile-message" class="mt-6 hidden rounded-2xl px-4 py-3 text-sm font-semibold"></div>
 
-@section('style')
-    <link rel="stylesheet" href="/assets/admin/lib/layui/css/layui.css">
-    <link href="/assets/user/css/infstyle.css" rel="stylesheet" type="text/css">
-    <link href="/assets/shop/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <style>
-        .oauth_button {
-            padding: 5px 20px;
-            min-width: 150px;
-        }
-    </style>
-@endsection
-
-@section('main')
-    <div class="main-wrap">
-
-        <div class="user-info">
-            <!--标题 -->
-            <div class="am-cf am-padding">
-                <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料</strong> / <small>Personal&nbsp;information</small></div>
-            </div>
-            <hr/>
-
-            <!--头像 -->
-            <div class="user-infoPic">
-                <div class="filePic">
-                    <img style="cursor: pointer;width: 60px;height: 60px;" id="avatar_img" class="am-circle am-img-thumbnail" src="{{ $user->avatar }}" alt="{{ $user->name }}" />
-                </div>
-
-                <p class="am-form-help">头像</p>
-
-                <div class="info-m">
-                    <div><b>用户名：<i>{{ $user->name }}</i></b></div>
-                </div>
-            </div>
-
-            <!--个人信息 -->
-            <div class="info-main">
-                @include('hint.status')
-                @include('hint.validate_errors')
-
-                <form class="am-form am-form-horizontal" method="post" action="/user/update">
-
-                    {{ csrf_field() }}
-                    {{ method_field('PUT') }}
-
-                    <input type="hidden" name="avatar" value="{{ $user->avatar }}">
-
-                    <span style="color: #aaa">第三方账号注册的账户可以有一次机会更改用户名和邮箱</span>
-                    <div class="am-form-group">
-                        <label for="user-name2" class="am-form-label">用户名</label>
-                        <div class="am-form-content">
-                            <input type="text" id="user-name2" placeholder="用户名" name="name" value="{{ $user->name }}" {{ $user->is_init_name ? '' : 'disabled' }}>
-
-                        </div>
-                    </div>
-
-                    <div class="am-form-group">
-                        <label class="am-form-label">性别</label>
-                        <div class="am-form-content sex">
-                            <label class="am-radio-inline">
-                                <input type="radio" name="sex" value="1" {{ $user->sex == 1 ? 'checked' : '' }} data-am-ucheck> 男
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="sex" value="0"  {{ $user->sex == 0 ? 'checked' : '' }} data-am-ucheck> 女
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group">
-                        <label for="user-email" class="am-form-label">账号绑定</label>
-                        <div class="am-form-content">
-                            @if (! is_null($user->github_id))
-                                <button class="oauth_button" type="button" disabled>
-                                    <i class="fa fa-github" style="color: #00aced;"></i>&nbsp;{{ $user->github_name }}
-                                </button>
-                                <a href="/auth/oauth/unbind/github" style="color: #009a61;text-decoration: underline;">
-                                    解绑
-                                </a>
-                            @else
-                                <a href="/auth/oauth/github">
-                                    <button class="oauth_button" type="button">
-                                        <i class="fa fa-github" style="color: #3b5999;"></i>&nbsp;Github
-                                    </button>
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="am-form-group">
-                        <label for="user-email" class="am-form-label">账号绑定</label>
-                        <div class="am-form-content">
-                            @if (! is_null($user->qq_id))
-                                <button class="oauth_button" type="button" disabled>
-                                    <i class="fa fa-qq" style="color: #00aced;"></i>&nbsp;{{ $user->qq_name }}
-                                </button>
-                                <a href="/auth/oauth/unbind/qq" style="color: #009a61;text-decoration: underline;">
-                                    解绑
-                                </a>
-                            @else
-                                <a href="/auth/oauth/qq">
-                                    <button class="oauth_button" type="button">
-                                        <i class="fa fa-qq" style="color: #00aced;"></i>&nbsp;QQ
-                                    </button>
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="am-form-group">
-                        <label for="user-email" class="am-form-label">账号绑定</label>
-                        <div class="am-form-content">
-                            @if (! is_null($user->weibo_id))
-                                <button class="oauth_button" type="button" disabled>
-                                    <i class="fa fa-weibo" style="color: #dd4b39;"></i>&nbsp;{{ $user->weibo_name }}
-                                </button>
-                                <a href="/auth/oauth/unbind/weibo" style="color: #009a61;text-decoration: underline;">
-                                    解绑
-                                </a>
-                            @else
-                                <a href="/auth/oauth/weibo">
-                                    <button class="oauth_button" type="button">
-                                        <i class="fa fa-weibo" style="color: #dd4b39;"></i>&nbsp;微博
-                                    </button>
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="am-form-group">
-                        <label for="user-email" class="am-form-label">电子邮件</label>
-                        <div class="am-form-content">
-                            <input name="email" placeholder="Email" type="email" value="{{ $user->email }}" {{ $user->is_init_email ? '' : 'disabled' }}>
-
-                        </div>
-                    </div>
-
-                    <div class="info-btn">
-                        <button type="submit" class="am-btn am-btn-danger">保存修改</button>
-                    </div>
-
-                </form>
-            </div>
-
+<section class="shop-card mt-7 p-6 lg:p-8">
+    <form method="post" action="{{ url('/user/update') }}" class="grid gap-7">@csrf @method('PUT')
+        <div class="flex flex-wrap items-center gap-5"><img id="avatar-preview" src="{{ $user->avatar }}" alt="{{ $user->name }}" class="size-24 rounded-[2rem] object-cover ring-4 ring-slate-100"><div><label class="shop-button-secondary cursor-pointer">上传新头像<input id="avatar-file" type="file" accept="image/jpeg,image/png,image/gif,image/bmp" class="hidden"></label><p class="mt-2 text-xs text-slate-400">JPG、PNG、GIF 或 BMP，最大 5MB</p></div></div>
+        <input id="avatar-value" type="hidden" name="avatar" value="{{ $user->avatar }}">
+        <div class="grid gap-5 md:grid-cols-2">
+            <label class="grid gap-2 text-sm font-bold">用户名<input class="shop-input disabled:bg-slate-50 disabled:text-slate-400" name="name" value="{{ $user->name }}" @disabled(!$user->is_init_name)></label>
+            <label class="grid gap-2 text-sm font-bold">电子邮箱<input class="shop-input disabled:bg-slate-50 disabled:text-slate-400" type="email" name="email" value="{{ $user->email }}" @disabled(!$user->is_init_email)></label>
         </div>
+        <fieldset><legend class="text-sm font-bold">性别</legend><div class="mt-3 flex gap-5 text-sm"><label class="flex items-center gap-2"><input type="radio" name="sex" value="1" @checked((int) $user->sex === 1)> 男</label><label class="flex items-center gap-2"><input type="radio" name="sex" value="0" @checked((int) $user->sex === 0)> 女</label></div></fieldset>
+        <div><button class="shop-button-primary">保存资料</button></div>
+    </form>
+</section>
 
-    </div>
+<section class="shop-card mt-6 p-6 lg:p-8"><h2 class="text-xl font-black">第三方账户</h2><div class="mt-5 grid gap-3">
+    @foreach([['github', $user->github_id, $user->github_name, 'GitHub'], ['qq', $user->qq_id, $user->qq_name, 'QQ'], ['weibo', $user->weibo_id, $user->weibo_name, '微博']] as [$provider, $id, $name, $label])
+        <div class="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 p-4"><div><p class="font-bold">{{ $label }}</p><p class="mt-1 text-xs text-slate-400">{{ $id ? '已绑定 '.$name : '尚未绑定' }}</p></div><a href="{{ $id ? url('/auth/oauth/unbind/'.$provider) : url('/auth/oauth/'.$provider) }}" class="text-sm font-black {{ $id ? 'text-rose-600' : 'text-brand-600' }}">{{ $id ? '解除绑定' : '立即绑定' }}</a></div>
+    @endforeach
+</div></section>
 @endsection
 
-
-@section('script')
-    <script src="/assets/admin/lib/layui/layui.js"></script>
-    <script>
-        layui.use('upload', function() {
-            let $ = layui.jquery
-                ,upload = layui.upload;
-
-
-            upload.render({
-                elem: '#avatar_img'
-                ,method: 'post'
-                ,url: '/user/upload/avatar'
-                ,done: function(res){
-
-                    if (res.code == 0) {
-                        console.log(res.data.src);
-                        $('input[name=avatar]').val(res.data.src);
-                        $('#avatar_img').attr('src', res.data.link);
-                    }
-
-                    layer.msg(res.msg);
-                    console.log(res);
-                }
-            });
-        });
-    </script>
-@endsection
+@push('scripts')
+<script>
+document.querySelector('#avatar-file')?.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const message = document.querySelector('#profile-message');
+    const form = new FormData(); form.append('file', file);
+    try {
+        const { data } = await axios.post('/user/upload/avatar', form, { headers: { 'Content-Type': 'multipart/form-data' } });
+        if (Number(data.code) !== 0) throw new Error(data.msg || '上传失败');
+        document.querySelector('#avatar-value').value = data.data.src;
+        document.querySelector('#avatar-preview').src = data.data.link;
+        message.textContent = data.msg || '头像上传成功';
+        message.className = 'mt-6 rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700';
+    } catch (error) {
+        message.textContent = error.response?.data?.msg || error.message || '上传失败';
+        message.className = 'mt-6 rounded-2xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700';
+    }
+});
+</script>
+@endpush

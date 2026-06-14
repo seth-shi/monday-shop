@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin\Transforms\OrderPayTypeTransform;
 use App\Enums\OrderPayTypeEnum;
 use App\Enums\OrderStatusEnum;
 use App\Http\Controllers\User\PaymentController;

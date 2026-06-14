@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,9 @@ class UserFactory extends Factory
             'email' => $this->withFaker()->unique()->safeEmail,
             'sex' => random_int(0, 1),
             'password' => bcrypt('123456'),
-            'active_token' => str_random(60),
+            'active_token' => Str::random(60),
             'is_active' => 1,
-            'remember_token' => str_random(10),
+            'remember_token' => Str::random(10),
         ];
     }
 }

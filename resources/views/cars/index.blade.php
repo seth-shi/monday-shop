@@ -1,351 +1,71 @@
-@extends('layouts.shop')
+@extends('layouts.modern')
 
+@section('title', '购物车 · Monday Shop')
 
 @section('main')
-    <main id="mainContent" class="main-content">
-        <div class="page-container">
-            <div class="container">
-                <div class="cart-area ptb-60">
-                    <div class="container">
+<section class="shop-container py-14">
+    <div class="flex flex-wrap items-end justify-between gap-4"><div><p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-600">Your cart</p><h1 class="mt-3 text-4xl font-black">购物车</h1></div><a href="{{ url('/products') }}" class="text-sm font-bold text-brand-700">继续购物 →</a></div>
 
-                        <form action="/user/comment/orders/create" class="mb-30" method="get" id="create_form">
-
-                            <div class="cart-wrapper">
-                                <div class="cart-price">
-                                    <div class="t-right">
-                                        <!-- Checkout Area -->
-                                        <section class="section checkout-area panel prl-30 pt-20 pb-40">
-                                            <h2 class="h3 mb-20 h-title">支付信息</h2>
-                                            @include('hint.status')
-                                            @include('hint.fail')
-
-
-                                            <div class="row">
-
-
-                                            </div>
-                                            @auth
-                                                <button type="submit" class="btn btn-lg btn-rounded mr-10">下单</button>
-                                            @endauth
-                                            @guest
-                                                <a href="/login" class="btn btn-lg btn-rounded mr-10">下单</a>
-                                            @endguest
-                                        </section>
-                                    </div>
-                                </div>
-                                <h3 class="h-title mb-30 t-uppercase">我的购物车</h3>
-                                <table id="cart_list" class="cart-list mb-30">
-                                    <thead class="panel t-uppercase">
-                                    <tr>
-                                        <th>
-                                            <div class="custom-checkbox mb-20">
-                                                <input type="checkbox"  id="all_check">
-                                                <label class="color-mid" for="all_check"></label>
-                                            </div>
-                                        </th>
-                                        <th>商品名字</th>
-                                        <th>商品图片</th>
-                                        <th>商品价格</th>
-                                        <th>数量</th>
-                                        <th>删除</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="cars_data">
-                                    @foreach ($cars as $car)
-                                        <tr class="panel alert cars_td">
-                                            <input type="hidden" name="cars[]" value="{{ $car->id }}">
-                                            <td>
-                                                <div class="custom-checkbox mb-20">
-                                                    <input value="{{ $car->product->uuid }}" class="product_ids" type="checkbox" name="ids[]" id="cars_{{ $car->id }}">
-                                                    <label class="color-mid" for="cars_{{ $car->id }}"></label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="media-body valign-middle">
-                                                    <h6 class="title mb-15 t-uppercase">
-                                                        <a href="/products/{{ $car->product->uuid }}">
-                                                            {{ $car->product->name }}
-                                                        </a>
-                                                    </h6>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <img src="{{ $car->product->thumb }}" alt="">
-                                            </td>
-                                            <td class="prices">{{ $car->product->price }}</td>
-                                            <td>
-                                                <input
-                                                        style="border-bottom: 1px solid #ddd;"
-                                                        data-id="{{ $car->product->uuid }}"
-                                                       class="quantity-label car_number"
-                                                       type="number"
-                                                        name="numbers[]"
-                                                       value="{{ $car->number }}" id="{{ $car->product->uuid }}">
-                                            </td>
-
-                                            <td>
-                                                <button data-number="{{ $car->number }}"
-                                                        data-car="{{ $car->id }}"
-                                                        data-id="{{ $car->product->uuid }}" class="close delete_car"
-                                                        type="button">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-
-                            </div>
-
-                        </form>
+    @guest
+        <div class="mt-10 rounded-[2rem] border border-slate-200 bg-white py-20 text-center"><div class="mx-auto grid size-16 place-items-center rounded-full bg-slate-100"><svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l2.2 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L20 7H6"/></svg></div><h2 class="mt-5 text-xl font-black">登录后查看购物车</h2><p class="mt-2 text-sm text-slate-500">商品会安全地保存在你的账户中。</p><a href="{{ route('login') }}" class="shop-button mt-6">前往登录</a></div>
+    @else
+        @if($cars->isEmpty())
+            <div class="mt-10 rounded-[2rem] border border-dashed border-slate-300 bg-white py-20 text-center"><div class="text-4xl">◇</div><h2 class="mt-4 text-xl font-black">购物车还是空的</h2><p class="mt-2 text-sm text-slate-500">去挑一件喜欢的商品吧。</p><a href="{{ url('/products') }}" class="shop-button mt-6">浏览商品</a></div>
+        @else
+            <form action="{{ url('/user/comment/orders/create') }}" method="get" id="cart-form" class="mt-10 grid gap-8 lg:grid-cols-[1fr_340px]">
+                <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white">
+                    <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-7"><label class="flex items-center gap-3 text-sm font-bold"><input id="select-all" type="checkbox" checked class="size-4 rounded border-slate-300">全选</label><span class="text-xs text-slate-400">{{ $cars->count() }} 件商品</span></div>
+                    <div class="divide-y divide-slate-100" id="cart-items">
+                        @foreach($cars as $car)
+                            <article class="cart-item grid grid-cols-[auto_80px_1fr] gap-4 p-5 sm:grid-cols-[auto_96px_1fr_auto] sm:p-7" data-price="{{ $car->product->price }}">
+                                <input type="checkbox" name="ids[]" value="{{ $car->product->uuid }}" checked class="cart-check mt-9 size-4 rounded border-slate-300">
+                                <a href="{{ url('/products/'.$car->product->uuid) }}" class="size-20 overflow-hidden rounded-2xl bg-slate-100 sm:size-24"><img src="{{ $car->product->thumb }}" alt="{{ $car->product->name }}" class="h-full w-full object-cover"></a>
+                                <div class="min-w-0"><h2 class="line-clamp-2 font-black"><a href="{{ url('/products/'.$car->product->uuid) }}">{{ $car->product->name }}</a></h2><p class="mt-2 text-lg font-black">¥{{ number_format($car->product->price, 2) }}</p><div class="mt-4 inline-flex items-center rounded-full border border-slate-300 p-1"><button type="button" class="cart-minus grid size-8 place-items-center rounded-full hover:bg-slate-100">−</button><input name="numbers[]" value="{{ $car->number }}" min="1" max="{{ $car->product->count }}" data-product="{{ $car->product->uuid }}" class="cart-quantity w-12 border-0 bg-transparent text-center text-sm font-bold outline-none"><button type="button" class="cart-plus grid size-8 place-items-center rounded-full hover:bg-slate-100">+</button></div></div>
+                                <div class="col-start-3 flex items-center justify-between sm:col-start-auto sm:flex-col sm:items-end"><strong class="item-total">¥{{ number_format($car->product->price * $car->number, 2) }}</strong><button type="button" data-delete-cart="{{ $car->id }}" class="text-xs font-bold text-slate-400 hover:text-rose-600">删除</button></div>
+                            </article>
+                        @endforeach
                     </div>
                 </div>
-            </div>
-        </div>
-
-
-    </main>
+                <aside><div class="sticky top-28 rounded-[2rem] bg-slate-950 p-7 text-white"><h2 class="text-xl font-black">订单摘要</h2><dl class="mt-7 grid gap-4 text-sm"><div class="flex justify-between text-slate-400"><dt>已选商品</dt><dd id="selected-count">0 件</dd></div><div class="flex justify-between text-slate-400"><dt>运费</dt><dd>结算时计算</dd></div><div class="flex items-end justify-between border-t border-white/10 pt-5"><dt class="font-bold">商品合计</dt><dd id="cart-total" class="text-3xl font-black">¥0.00</dd></div></dl><button class="mt-7 w-full rounded-full bg-brand-500 px-5 py-3 text-sm font-bold transition hover:bg-brand-600">去结算</button><p id="cart-message" class="mt-4 text-center text-xs text-slate-400" aria-live="polite"></p></div></aside>
+            </form>
+        @endif
+    @endguest
+</section>
 @endsection
 
-@section('script')
-    <script src="/assets/user/layer/2.4/layer.js"></script>
-    <script>
-        let token = "{{ csrf_token() }}";
-
-
-        @auth
-        syncCarsToDatabase();
-
-        function syncCarsToDatabase() {
-            if (LocalCar.number() > 0) {
-                layer.confirm('是否同步本地购物车到本账户下', {
-                    btn: ['是', '放弃本地购物车']
-                }, function () {
-                    layer.closeAll();
-
-                    let cars = LocalCar.all();
-                    for (let i in cars) {
-
-                        let product = cars[i];
-
-                        let data = {product_id: product.id, number: product.number, _token: token};
-                        let url = "/cars";
-
-                        $.post(url, data, function (res) {
-
-                            if (res.code != 200) {
-
-                                layer.msg(res.msg, {icon: 2});
-                                return;
-                            }
-
-                            // 更新 DOM，如果已经有了这个元素，那么加数量，
-                            // 如果是没有的，新增加 DOM
-                            let dom = $('#' + product.id);
-                            if (dom.length > 0) {
-                                dom.val(parseInt(dom.val()) + product.number);
-                            } else {
-                                // 增加 DOM
-                                let html = buildCarDom(product.id, product.name, product.thumb, product.number, product.price);
-                                $('#cars_data').append(html);
-                            }
-
-                            layer.msg('同步 [' + product.name + '] 商品到购物车成功');
-                        });
-                    }
-
-                    localDom.text(0);
-                    LocalCar.flush();
-
-                }, function () {
-
-                    LocalCar.flush();
-                    localDom.text(0);
-                    layer.msg('清除本地购物车成功');
-                });
-            }
-        }
-
-                @endauth
-
-                @guest
-        let localCars = LocalCar.all();
-        let dom = '';
-
-        for (let i in localCars) {
-
-            let product = localCars[i];
-            dom += buildCarDom(product.id, product.name, product.thumb, product.number, product.price);
-        }
-
-        $('#cars_data').append(dom);
-        getTotal();
-
-        @endguest
-
-
-        // 删除购物车
-        $("#cart_list").on('click', '.delete_car', function () {
-
-            let that = $(this);
-            let id = that.data('id');
-            let carId = that.data('car');
-
-            @auth
-            let _url = "/cars/" + carId;
-            $.post(_url, {_token: token, _method: 'DELETE'}, function (res) {
-
-                if (res.code != 302 && res.code != 200) {
-
-                    layer.msg(res.msg, {icon: 2});
-                    return;
-                }
-
-                that.parent().parent().remove();
-                getTotal();
-                renderIncrementCar(-that.data('number'), false);
-            });
-            @endauth
-            @guest
-            LocalCar.delete(id);
-            that.parent().parent().remove();
-            getTotal();
-            renderIncrementCar(-that.data('number'), true);
-            @endguest
-
-        });
-
-
-        // 更改购物车数量
-        $('#cart_list').on('change', '.car_number', function () {
-
-            let id = $(this).data('id');
-            let number = $(this).val();
-
-
-                    @auth
-            let data = {product_id: id, _token: "{{ csrf_token() }}", number: number, action: "sync"};
-            $.post("/cars", data, function (res) {
-
-
-                if (res.code != 200) {
-
-                    layer.msg(res.msg, {icon: 2});
-                    return;
-                }
-
-                layer.msg(res.msg, {icon: 1});
-                renderIncrementCar(res.data.change, false);
-                getTotal();
-            });
-                    @endauth
-                    @guest
-            let change = LocalCar.syncNumber(id, number);
-            layer.msg('本地修改成功', {icon: 1});
-            renderIncrementCar(change, true);
-            getTotal();
-            @endguest
-
-
-
-
-        });
-
-        // 更新总价
-        getTotal();
-
-        function getTotal() {
-            let total = 0;
-            let total_number = 0;
-            $('.prices').each(function () {
-                let price = $(this).text();
-                let number = $(this).next().find('input').val();
-                number = parseInt(number);
-
-                total_number += number;
-                total += price * number;
-            });
-
-            $('#cars_price').text(total);
-        }
-
-        /**
-         * 构建购物车的 dom
-         */
-        function buildCarDom(id, name, thumb, number, price) {
-            return '<tr class="panel alert local-car">\
-                <td>\
-                     <div class="custom-checkbox mb-20">\
-                     <input type="checkbox" name="ids" id="cars_'+ id +'">\
-                     <label class="color-mid" for="cars_'+ id +'"></label>\
-                </div>\
-                </td>\
-                <td>\
-                <div class="media-body valign-middle">\
-                <h6 class="title mb-15 t-uppercase">\
-                <a href="/products/' + id + '">\
-                    ' + name + '\
-                </a>\
-                </h6>\
-                </div>\
-                </td>\
-                <td>\
-                    <img src="' + thumb + '" alt="">\
-                </td>\
-                <td  class="prices">' + price + '</td>\
-                <td>\
-                <input data-id="' + id + '" class="quantity-label car_number" type="number" value="' + number + '">\
-                </td>\
-                <td>\
-                <button type="button" class="close delete_car" data-number="' + price + '" data-id="' + id + '"  >\
-                <i class="fa fa-trash-o"></i>\
-                </button>\
-                </td>\
-                </tr>';
-        }
-    </script>
-    <script>
-        // 全选按钮
-        $('#all_check').change(function () {
-
-            var checked = $(this).prop('checked');
-
-            $('.product_ids').prop('checked', checked);
-        });
-
-        // 商品的选择
-        $('.product_ids').change(function () {
-
-            var checked = $(this).prop('checked');
-            // 只要不是选中，那么就把全选去掉
-            if (! checked) {
-                $('#all_check').prop('checked', false);
-                return;
-            }
-
-            var carsCount = $('.product_ids').length;
-            var selectCount = $('.product_ids:checked').length;
-            if (carsCount === selectCount) {
-
-                $('#all_check').prop('checked', true);
-            }
-        });
-
-        // 提交做处理
-        $('#create_form').submit(function () {
-
-            if ($('.product_ids:checked').length == 0) {
-
-                layer.alert('请至少选中一个购物车', {icon: 2})
-                return false;
-            }
-
-            // 移除掉没有选中的td提交
-            $('.product_ids:not(:checked)').parents('.cars_td').remove();
-
-            return true;
-        });
-
-    </script>
-@endsection
+@auth
+@push('scripts')
+<script>
+const refreshCart = () => {
+    let total = 0, count = 0;
+    document.querySelectorAll('.cart-item').forEach(item => {
+        const checkbox = item.querySelector('.cart-check');
+        const quantity = Number(item.querySelector('.cart-quantity').value);
+        const subtotal = Number(item.dataset.price) * quantity;
+        item.querySelector('.item-total').textContent = `¥${subtotal.toFixed(2)}`;
+        item.querySelector('.cart-quantity').disabled = !checkbox.checked;
+        if (checkbox.checked) { total += subtotal; count += quantity; }
+    });
+    document.querySelector('#cart-total').textContent = `¥${total.toFixed(2)}`;
+    document.querySelector('#selected-count').textContent = `${count} 件`;
+};
+const syncQuantity = async input => {
+    const { data } = await window.axios.post('{{ url('/cars') }}', { product_id: input.dataset.product, number: Number(input.value), action: 'sync' });
+    document.querySelector('#cart-message').textContent = data.msg;
+};
+document.querySelector('#select-all')?.addEventListener('change', event => { document.querySelectorAll('.cart-check').forEach(input => input.checked = event.target.checked); refreshCart(); });
+document.querySelector('#cart-items')?.addEventListener('change', async event => { if (event.target.matches('.cart-check')) refreshCart(); if (event.target.matches('.cart-quantity')) { await syncQuantity(event.target); refreshCart(); } });
+document.querySelector('#cart-items')?.addEventListener('click', async event => {
+    const item = event.target.closest('.cart-item'); if (!item) return;
+    const input = item.querySelector('.cart-quantity');
+    if (event.target.closest('.cart-minus')) { input.value = Math.max(1, Number(input.value) - 1); await syncQuantity(input); }
+    if (event.target.closest('.cart-plus')) { input.value = Math.min(Number(input.max), Number(input.value) + 1); await syncQuantity(input); }
+    const deleteButton = event.target.closest('[data-delete-cart]');
+    if (deleteButton) { await window.axios.delete(`/cars/${deleteButton.dataset.deleteCart}`); item.remove(); }
+    refreshCart();
+});
+document.querySelector('#cart-form')?.addEventListener('submit', event => { if (!document.querySelector('.cart-check:checked')) { event.preventDefault(); document.querySelector('#cart-message').textContent = '请至少选择一件商品'; } });
+refreshCart();
+</script>
+@endpush
+@endauth

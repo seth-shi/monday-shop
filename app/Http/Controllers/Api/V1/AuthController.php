@@ -48,9 +48,9 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        auth('api')->logout();
+        $request->user()->currentAccessToken()?->delete();
 
         return responseJsonAsDeleted('注销成功');
     }
@@ -73,7 +73,7 @@ class AuthController extends Controller
 
         $user = new User();
         $user->name = $username;
-        $user->password = $password;
+        $user->password = Hash::make($password);
         $user->sex = UserSexEnum::MAN;
         $user->is_init_email = 1;
         // api 注册的用户默认激活
@@ -96,7 +96,8 @@ class AuthController extends Controller
     {
         // 换取 token
         $prefix = 'Bearer';
-        $token = auth('api')->login($user);
+        $user->tokens()->where('name', 'api')->delete();
+        $token = $user->createToken('api')->plainTextToken;
         $me = new OwnResource($user);
 
         return compact('prefix', 'token', 'me');
